@@ -2478,7 +2478,7 @@
     }
     renderExpenses();
 
-    // 🧘 GÜNLÜK RUH HALİ & ZİHİN SKALASI MOTORU
+        // 🧘 GÜNLÜK RUH HALİ & ZİHİN SKALASI MOTORU (GÜNLÜK KİLİTLEME VE FİKSE ETİKETLİ)
     let currentMoodScore = parseInt(localStorage.getItem('daily_mood_score') || '5');
     let moodHistory = JSON.parse(localStorage.getItem('user_mood_history') || '[]');
     if (moodHistory.length === 0) {
@@ -2488,6 +2488,103 @@
         { id: 3, date: "Bugün", time: "22:30", score: currentMoodScore, label: "Muhteşem ✨", note: "Tüm sistemler aktif ve çalışıyor." }
       ];
       localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
+    }
+
+    function getTodayIsoDate() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+
+    function initTodayMoodState() {
+      const todayKey = getTodayIsoDate();
+      const savedDate = localStorage.getItem('mood_locked_today_key');
+      const savedScore = localStorage.getItem('mood_locked_score');
+      const savedLabel = localStorage.getItem('mood_locked_label');
+
+      const badge = document.getElementById('moodStatusBadge');
+
+      if (savedDate === todayKey && savedScore) {
+        currentMoodScore = parseInt(savedScore);
+        [1, 2, 3, 4, 5].forEach(s => {
+          const el = document.getElementById(`moodBtn${s}`);
+          if (el) {
+            el.classList.toggle('active', s === currentMoodScore);
+            if (s === currentMoodScore) {
+              el.style.border = "1px solid var(--te-green)";
+              el.style.background = "rgba(82, 183, 136, 0.18)";
+            } else {
+              el.style.border = "";
+              el.style.background = "";
+            }
+          }
+        });
+        if (badge) {
+          badge.innerText = `🔒 BUGÜNÜN MODU: ${savedLabel || currentMoodScore + '/5'} (KİLİTLİ)`;
+          badge.className = "hardware-tag active-green";
+        }
+      } else {
+        // Henüz bugün kaydedilmediyse
+        [1, 2, 3, 4, 5].forEach(s => {
+          const el = document.getElementById(`moodBtn${s}`);
+          if (el) el.classList.toggle('active', s === currentMoodScore);
+        });
+        if (badge) {
+          badge.innerText = "⏳ BUGÜNÜN RUH HALİNİ SEÇ";
+          badge.className = "hardware-tag active-orange";
+        }
+      }
+      renderMoodJournal();
+    }
+
+    function setDailyMood(score, label) {
+      currentMoodScore = score;
+      const todayKey = getTodayIsoDate();
+      
+      // Bugün için kalıcı olarak kilitle ve hafızaya sabitle
+      localStorage.setItem('mood_locked_today_key', todayKey);
+      localStorage.setItem('mood_locked_score', score.toString());
+      localStorage.setItem('mood_locked_label', label);
+      localStorage.setItem('daily_mood_score', score.toString());
+
+      [1, 2, 3, 4, 5].forEach(s => {
+        const el = document.getElementById(`moodBtn${s}`);
+        if (el) {
+          el.classList.toggle('active', s === score);
+          if (s === score) {
+            el.style.border = "1px solid var(--te-green)";
+            el.style.background = "rgba(82, 183, 136, 0.18)";
+          } else {
+            el.style.border = "";
+            el.style.background = "";
+          }
+        }
+      });
+
+      const badge = document.getElementById('moodStatusBadge');
+      if (badge) {
+        badge.innerText = `🔒 BUGÜNÜN MODU: ${label} (KİLİTLENDİ)`;
+        badge.className = "hardware-tag active-green";
+      }
+      
+      const timeStr = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      const todayStr = new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+      
+      // Eğer bugüne ait zaten bir girdi varsa güncelle, yoksa yeni ekle
+      const existingTodayIdx = moodHistory.findIndex(m => m.date === todayStr || m.date === "Bugün");
+      if (existingTodayIdx !== -1) {
+        moodHistory[existingTodayIdx].score = score;
+        moodHistory[existingTodayIdx].label = label;
+        moodHistory[existingTodayIdx].time = timeStr;
+      } else {
+        moodHistory.push({ id: Date.now(), date: todayStr, time: timeStr, score, label, note: 'Ruh hali kilitlendi.' });
+      }
+
+      localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
+
+      renderMoodJournal();
+      checkAchievements();
+      showToast(`🔒 Bugünün Ruh Hali Sabitlendi: ${label}`);
+      if (chartsInitialized) initAnalyticsCharts();
     }
 
     function renderMoodJournal() {
@@ -2510,28 +2607,6 @@
           <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dark); cursor: pointer; padding: 2px 4px;" onclick="deleteMoodEntry(${m.id || 0})">✕</span>
         </div>
       `).join('');
-    }
-
-    function setDailyMood(score, label) {
-      currentMoodScore = score;
-      localStorage.setItem('daily_mood_score', score.toString());
-      [1, 2, 3, 4, 5].forEach(s => {
-        const el = document.getElementById(`moodBtn${s}`);
-        if (el) el.classList.toggle('active', s === score);
-      });
-      const badge = document.getElementById('moodStatusBadge');
-      if (badge) badge.innerText = `KAYDEDİLDİ: ${score}/5`;
-      
-      const timeStr = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-      const todayStr = new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
-      
-      moodHistory.push({ id: Date.now(), date: todayStr, time: timeStr, score, label, note: 'Ruh hali kaydedildi.' });
-      localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
-
-      renderMoodJournal();
-      checkAchievements();
-      showToast(`Ruh Hali: ${label}`);
-      if (chartsInitialized) initAnalyticsCharts();
     }
 
     function handleMoodNoteSubmit(e) {
@@ -2566,7 +2641,8 @@
       renderMoodJournal();
       showToast("Not Silindi");
     }
-    renderMoodJournal();
+
+    initTodayMoodState();
 
     // 📝 KULLANICI NOT DEFTERİ MOTORU
     function renderUserNotes() {
