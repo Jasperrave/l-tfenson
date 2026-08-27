@@ -1085,14 +1085,27 @@
   <div id="toast">Komut İletildi ✨</div>
 
   <script>
-
-
+    // ====================================================
+    // 🌐 GLOBAL STATE & VERİ TABANI DEĞİŞKENLERİ (TOP LEVEL)
+    // ====================================================
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
     const FIREBASE_AUTH = "?auth=seDMOC3iMWa7SNERZxASLx4qZJVfbo81uoRSc7tJ";
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqZzhwE0Qg_GIR6U5DXR-K6pmsrjo-tCBN0w8Ymz0zhnMV8Aw2n2Ls34k48FkB5M5L/exec";
 
     let currentScreenMode = "auto";
     let googleEvents = [];
+    let currentAstroFilter = 'all';
+    let currentDynamicEvents = [];
+    let expandedAstroIndices = new Set([0]);
+    let dailyExpenses = JSON.parse(localStorage.getItem('daily_expenses') || '[]');
+    let userNotes = JSON.parse(localStorage.getItem('saved_user_notes') || '[]');
+    if (userNotes.length === 0) {
+      userNotes = [
+        { id: 1, text: "Masa istasyonu projesi 25 FPS çift çekirdek FreeRTOS ile harika oldu!", date: "27 Ağustos 2026", time: "19:40" }
+      ];
+      localStorage.setItem('saved_user_notes', JSON.stringify(userNotes));
+    }
+
 
     // 🎮 3 BUTONLU EKRAN MODU YÖNETİMİ
     async function setScreenMode(mode) {
@@ -1753,142 +1766,6 @@
     // ====================================================
     let chartTemp, chartLight, chartAir, chartDesk, chartExpenseCat, chartExpenseDaily;
 
-    function initAnalyticsCharts() {
-      // 24 Saatlik Etiketler
-      const hours = ["00:00", "03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "Şimdi"];
-      
-      // 1. Sıcaklık ve Nem Grafiği
-      const ctxTemp = document.getElementById('tempChart').getContext('2d');
-      chartTemp = new Chart(ctxTemp, {
-        type: 'line',
-        data: {
-          labels: hours,
-          datasets: [
-            {
-              label: 'Dış Sıcaklık (°C)',
-              data: [24, 22, 21, 26, 31, 33, 30, 27, 28],
-              borderColor: '#64b5f6',
-              backgroundColor: 'rgba(100, 181, 246, 0.15)',
-              fill: true,
-              tension: 0.4,
-              borderWidth: 2,
-              pointRadius: 3
-            },
-            {
-              label: 'Nem (%)',
-              data: [65, 70, 72, 55, 38, 32, 45, 58, 60],
-              borderColor: '#68a87c',
-              backgroundColor: 'rgba(104, 168, 124, 0.05)',
-              fill: false,
-              tension: 0.4,
-              borderWidth: 2,
-              borderDash: [4, 4],
-              pointRadius: 2
-            }
-          ]
-        },
-        options: getChartOptions('°C / %')
-      });
-
-      // 2. Bütçe: Kategori Dağılımı (Doughnut Chart)
-      const ctxCat = document.getElementById('expenseCategoryChart').getContext('2d');
-      chartExpenseCat = new Chart(ctxCat, {
-        type: 'doughnut',
-        data: {
-          labels: ['Kahve ☕', 'Yemek 🍔', 'Market 🛒', 'Ulaşım 🚗', 'Diğer 📦'],
-          datasets: [{
-            data: getCategorySpendingData(),
-            backgroundColor: ['#e6b15c', '#ff8a65', '#68a87c', '#64b5f6', '#95c4a5'],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          }
-        }
-      });
-
-      // 3. Bütçe: Ayın Günlerine Göre Günlük Harcama (Bar Chart)
-      const ctxDaily = document.getElementById('expenseDailyBarChart').getContext('2d');
-      const dayLabels = Array.from({ length: 15 }, (_, i) => `${i + 1} Ağu`);
-      chartExpenseDaily = new Chart(ctxDaily, {
-        type: 'bar',
-        data: {
-          labels: dayLabels,
-          datasets: [{
-            label: 'Harcama (TL)',
-            data: [120, 350, 0, 450, 200, 120, 600, 250, 180, 0, 420, 150, 280, 300, getTodayTotalExpense()],
-            backgroundColor: 'rgba(104, 168, 124, 0.75)',
-            borderColor: '#68a87c',
-            borderWidth: 1,
-            borderRadius: 4
-          }]
-        },
-        options: getChartOptions('TL')
-      });
-
-      // 4. Işık Seviyesi Grafiği
-      const ctxLight = document.getElementById('lightChart').getContext('2d');
-      chartLight = new Chart(ctxLight, {
-        type: 'line',
-        data: {
-          labels: hours,
-          datasets: [{
-            label: 'Oda Işığı (%)',
-            data: [0, 0, 15, 65, 85, 90, 70, 45, 55],
-            borderColor: '#e6b15c',
-            backgroundColor: 'rgba(230, 177, 92, 0.15)',
-            fill: true,
-            tension: 0.3,
-            borderWidth: 2,
-            pointRadius: 3
-          }]
-        },
-        options: getChartOptions('% Işık')
-      });
-
-      // 5. Hava Kalitesi Grafiği
-      const ctxAir = document.getElementById('airChart').getContext('2d');
-      chartAir = new Chart(ctxAir, {
-        type: 'line',
-        data: {
-          labels: hours,
-          datasets: [{
-            label: 'Hava Ağırlaşma Seviyesi (MQ-135)',
-            data: [600, 620, 650, 750, 920, 1100, 1250, 980, 850],
-            borderColor: '#95c4a5',
-            backgroundColor: 'rgba(149, 196, 165, 0.12)',
-            fill: true,
-            tension: 0.35,
-            borderWidth: 2,
-            pointRadius: 3
-          }]
-        },
-        options: getChartOptions('PPM')
-      });
-
-      // 6. Masada Odaklanma Saatleri
-      const ctxDesk = document.getElementById('deskTimeChart').getContext('2d');
-      chartDesk = new Chart(ctxDesk, {
-        type: 'bar',
-        data: {
-          labels: ["09:00", "11:00", "13:00", "15:00", "17:00", "19:00", "21:00"],
-          datasets: [{
-            label: 'Masa Odaklanma Süresi (Dakika)',
-            data: [45, 55, 30, 60, 50, 25, 40],
-            backgroundColor: 'rgba(100, 181, 246, 0.65)',
-            borderColor: '#64b5f6',
-            borderWidth: 1,
-            borderRadius: 6
-          }]
-        },
-        options: getChartOptions('Dk')
-      });
-    }
-
     function getChartOptions(yLabel) {
       return {
         responsive: true,
@@ -1914,9 +1791,156 @@
       };
     }
 
-    // ====================================================
+    function initAnalyticsCharts() {
+      try {
+        if (typeof Chart === 'undefined') return;
+        const hours = ["00:00", "03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "Şimdi"];
+        
+        // 1. Sıcaklık ve Nem Grafiği
+        const cTemp = document.getElementById('tempChart');
+        if (cTemp && cTemp.getContext) {
+          chartTemp = new Chart(cTemp.getContext('2d'), {
+            type: 'line',
+            data: {
+              labels: hours,
+              datasets: [
+                {
+                  label: 'Dış Sıcaklık (°C)',
+                  data: [24, 22, 21, 26, 31, 33, 30, 27, 28],
+                  borderColor: '#64b5f6',
+                  backgroundColor: 'rgba(100, 181, 246, 0.15)',
+                  fill: true,
+                  tension: 0.4,
+                  borderWidth: 2,
+                  pointRadius: 3
+                },
+                {
+                  label: 'Nem (%)',
+                  data: [65, 70, 72, 55, 38, 32, 45, 58, 60],
+                  borderColor: '#68a87c',
+                  backgroundColor: 'rgba(104, 168, 124, 0.05)',
+                  fill: false,
+                  tension: 0.4,
+                  borderWidth: 2,
+                  borderDash: [4, 4],
+                  pointRadius: 2
+                }
+              ]
+            },
+            options: getChartOptions('°C / %')
+          });
+        }
 
-    // ====================================================
+        // 2. Bütçe: Kategori Dağılımı
+        const cCat = document.getElementById('expenseCategoryChart');
+        if (cCat && cCat.getContext) {
+          chartExpenseCat = new Chart(cCat.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+              labels: ['Kahve ☕', 'Yemek 🍔', 'Market 🛒', 'Ulaşım 🚗', 'Diğer 📦'],
+              datasets: [{
+                data: getCategorySpendingData(),
+                backgroundColor: ['#e6b15c', '#ff8a65', '#68a87c', '#64b5f6', '#95c4a5'],
+                borderWidth: 0
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { display: false } }
+            }
+          });
+        }
+
+        // 3. Bütçe: Günlük Harcama
+        const cDaily = document.getElementById('expenseDailyBarChart');
+        if (cDaily && cDaily.getContext) {
+          const dayLabels = Array.from({ length: 15 }, (_, i) => `${i + 1} Ağu`);
+          chartExpenseDaily = new Chart(cDaily.getContext('2d'), {
+            type: 'bar',
+            data: {
+              labels: dayLabels,
+              datasets: [{
+                label: 'Harcama (TL)',
+                data: [120, 350, 0, 450, 200, 120, 600, 250, 180, 0, 420, 150, 280, 300, getTodayTotalExpense()],
+                backgroundColor: 'rgba(104, 168, 124, 0.75)',
+                borderColor: '#68a87c',
+                borderWidth: 1,
+                borderRadius: 4
+              }]
+            },
+            options: getChartOptions('TL')
+          });
+        }
+
+        // 4. Işık Seviyesi
+        const cLight = document.getElementById('lightChart');
+        if (cLight && cLight.getContext) {
+          chartLight = new Chart(cLight.getContext('2d'), {
+            type: 'line',
+            data: {
+              labels: hours,
+              datasets: [{
+                label: 'Oda Işığı (%)',
+                data: [0, 0, 15, 65, 85, 90, 70, 45, 55],
+                borderColor: '#e6b15c',
+                backgroundColor: 'rgba(230, 177, 92, 0.15)',
+                fill: true,
+                tension: 0.3,
+                borderWidth: 2,
+                pointRadius: 3
+              }]
+            },
+            options: getChartOptions('% Işık')
+          });
+        }
+
+        // 5. Hava Kalitesi
+        const cAir = document.getElementById('airChart');
+        if (cAir && cAir.getContext) {
+          chartAir = new Chart(cAir.getContext('2d'), {
+            type: 'line',
+            data: {
+              labels: hours,
+              datasets: [{
+                label: 'Hava Ağırlaşma Seviyesi (MQ-135)',
+                data: [600, 620, 650, 750, 920, 1100, 1250, 980, 850],
+                borderColor: '#95c4a5',
+                backgroundColor: 'rgba(149, 196, 165, 0.12)',
+                fill: true,
+                tension: 0.35,
+                borderWidth: 2,
+                pointRadius: 3
+              }]
+            },
+            options: getChartOptions('PPM')
+          });
+        }
+
+        // 6. Masada Odaklanma
+        const cDesk = document.getElementById('deskTimeChart');
+        if (cDesk && cDesk.getContext) {
+          chartDesk = new Chart(cDesk.getContext('2d'), {
+            type: 'bar',
+            data: {
+              labels: ["09:00", "11:00", "13:00", "15:00", "17:00", "19:00", "21:00"],
+              datasets: [{
+                label: 'Masa Odaklanma Süresi (Dakika)',
+                data: [45, 55, 30, 60, 50, 25, 40],
+                backgroundColor: 'rgba(100, 181, 246, 0.65)',
+                borderColor: '#64b5f6',
+                borderWidth: 1,
+                borderRadius: 6
+              }]
+            },
+            options: getChartOptions('Dk')
+          });
+        }
+      } catch (err) {
+        console.error("Charts init error:", err);
+      }
+    }
+
     // ⏱️ POMODORO SAYAÇ MOTORU
     // ====================================================
     let pomoDuration = 25 * 60;
@@ -2322,7 +2346,7 @@
         xpEl.style.color = isUnlocked ? "var(--success)" : "var(--warning)";
 
         box.style.display = "block";
-        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (box.scrollIntoView) box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
       showToast(`${badge.icon} ${badge.name}: ${badge.desc} (+${badge.xp} XP)`);
     }
@@ -2787,9 +2811,9 @@
       }
     ];
 
-    let currentAstroFilter = 'all';
-    let currentDynamicEvents = [];
-    let expandedAstroIndices = new Set([0]); // İlk kart varsayılan açık
+    // currentAstroFilter declared at top
+    // currentDynamicEvents declared at top
+    // expandedAstroIndices declared at top // İlk kart varsayılan açık
 
     function filterAstroEvents(type) {
       currentAstroFilter = type;
@@ -2955,7 +2979,7 @@
     // ====================================================
     // 💸 HIZLI HARCAMA & GÜNLÜK BÜTÇE MOTORU
     // ====================================================
-    let dailyExpenses = JSON.parse(localStorage.getItem('daily_expenses') || '[]');
+    // dailyExpenses declared at top
     if (dailyExpenses.length === 0) {
       const tStr = new Date().toISOString().slice(0, 10);
       dailyExpenses = [
@@ -3064,13 +3088,7 @@
     // ====================================================
     // 📝 FİKİR & NOT DEFTERİ ARŞİV MOTORU
     // ====================================================
-    let userNotes = JSON.parse(localStorage.getItem('saved_user_notes') || '[]');
-    if (userNotes.length === 0) {
-      userNotes = [
-        { id: 1, text: "Masa istasyonu projesi 25 FPS çift çekirdek FreeRTOS ile harika oldu!", date: "27 Ağustos 2026", time: "19:40" }
-      ];
-      localStorage.setItem('saved_user_notes', JSON.stringify(userNotes));
-    }
+// userNotes initialized at top
 
     function renderNotesArchive() {
       const listEl = document.getElementById('notesArchiveList');
@@ -3140,7 +3158,6 @@
     window.nextBookWisdom = nextBookWisdom;
     window.prevBookWisdom = prevBookWisdom;
     window.randomBookWisdom = randomBookWisdom;
-    window.selectBookByIndex = selectBookByIndex;
     window.filterAstroEvents = filterAstroEvents;
     window.toggleAstroAccordion = toggleAstroAccordion;
     window.openAstroModal = openAstroModal;
