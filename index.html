@@ -285,6 +285,65 @@
       box-shadow: 0 0 0 1px var(--te-orange);
     }
 
+    
+    /* 🐾 EKRANDA GEZİNEN FLOATING CYBER-PET (BYTE-01) */
+    #roamingPetContainer {
+      position: fixed;
+      bottom: 24px;
+      left: 20px;
+      z-index: 99990;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      transition: left 2.5s cubic-bezier(0.25, 1, 0.5, 1), bottom 1.5s ease;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.7));
+    }
+
+    .roaming-pet-avatar {
+      font-size: 28px;
+      animation: petIdleWiggle 3s infinite ease-in-out;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .roaming-pet-avatar.walking {
+      animation: petWalkHop 0.4s infinite alternate ease-in-out;
+    }
+
+    .roaming-pet-bubble {
+      background: #111315;
+      border: 1px solid var(--te-orange);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.8);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+
+    .roaming-pet-bubble.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes petWalkHop {
+      0% { transform: translateY(0) rotate(-4deg); }
+      100% { transform: translateY(-7px) rotate(4deg); }
+    }
+
+    @keyframes petIdleWiggle {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      50% { transform: translateY(-3px) rotate(3deg); }
+    }
+
     /* TOAST */
     #toast {
       position: fixed;
@@ -360,7 +419,61 @@
       </div>
     </div>
 
-    <!-- TAB 1: LIVE CONTROL -->
+    <!-- ⏳ MEMENTO MORI // 2026 YILI İLERLEME TELEMETRİSİ -->
+    <div class="module-card" style="padding: 8px 12px; background: var(--surface-1); border-color: rgba(255, 79, 0, 0.3);">
+      <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; margin-bottom: 4px;">
+        <span style="color: var(--te-orange);">⏳ 2026 YILI: %65.4 TAMAMLANDI</span>
+        <span style="color: var(--text-muted);" id="yearDaysLeftBadge">126 GÜN KALDI</span>
+      </div>
+      <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;">
+        <div id="yearProgressBar" style="width: 65.4%; height: 100%; background: linear-gradient(90deg, var(--te-orange), var(--te-amber));"></div>
+      </div>
+    </div>
+
+    <!-- 👾 CYBER-PET // MASANIN PİKSEL YOLDAŞI "BYTE-01" -->
+    <div class="module-card" style="background: linear-gradient(135deg, rgba(20,22,24,0.95), rgba(27,30,34,0.95)); border-color: var(--te-orange);">
+      <div class="module-header" style="margin-bottom: 6px;">
+        <div class="module-title"><span class="code">[PET-01]</span> MASA YOLDAŞI: BYTE</div>
+        <div style="display: flex; gap: 4px;">
+          <span class="hardware-tag active-orange" id="petLevelTag">LVL 3 ROBOT</span>
+          <span class="hardware-tag active-green" id="petMoodTag">⚡ MOTİVE</span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 0;">
+        <!-- Piksel Karakter Sahnesi -->
+        <div onclick="interactWithPet()" style="cursor: pointer; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 12px; min-width: 90px; text-align: center; box-shadow: inset 0 2px 6px rgba(0,0,0,0.6); user-select: none;">
+          <div id="petAvatar" style="font-size: 32px; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);">🤖</div>
+          <div id="petSubLabel" style="font-family: var(--font-mono); font-size: 8.5px; font-weight: 700; color: var(--te-orange); margin-top: 2px;">BYTE-01</div>
+        </div>
+
+        <!-- Konuşma Balonu & İlerleme Barları -->
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+          <div id="petSpeechBubble" onclick="interactWithPet()" style="cursor: pointer; background: var(--surface-2); border: 1px solid rgba(255, 79, 0, 0.3); border-radius: 4px; padding: 8px 10px; font-size: 11.5px; color: var(--text-main); line-height: 1.35; position: relative;">
+            "Harika gidiyoruz! Hadi 1 Pomodoro başlat ve odaklanalım!"
+          </div>
+          
+          <div style="display: flex; flex-direction: column; gap: 3px;">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9px;">
+              <span style="color: var(--text-muted);">MUTLULUK & ENERJİ</span>
+              <span style="color: var(--te-green);" id="petEnergyText">%85</span>
+            </div>
+            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;">
+              <div id="petEnergyBar" style="width: 85%; height: 100%; background: var(--te-green); transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Taktil Pet Aksiyon Butonları -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 8px;">
+        <button type="button" class="te-btn" onclick="feedPetWater()" style="font-size: 10px; padding: 6px 2px;">💧 Su İçir (+10)</button>
+        <button type="button" class="te-btn" onclick="petPraise()" style="font-size: 10px; padding: 6px 2px;">👋 Sev / Dokun</button>
+        <button type="button" class="te-btn te-btn-primary" onclick="setPomoMode(25, 'Odak'); togglePomoTimer();" style="font-size: 10px; padding: 6px 2px;">⚡ Odaklan</button>
+      </div>
+    </div>
+
+    <!-- TAB 1: LIVE CONTROL --><!-- TAB 1: LIVE CONTROL -->
     <div id="liveTabContent" style="display: flex; flex-direction: column; gap: 10px;">
 
       <!-- 📅 MODULE 01: GOOGLE CALENDAR & SCHEDULE -->
@@ -464,6 +577,40 @@
             <span>🔔</span>
             <span>MASANIN ZİLİNİ ÇAL (SESLİ BİP)</span>
           </button>
+        </div>
+      </div>
+
+      <!-- ⚔️ MODULE 03-A: DAILY DUNGEON BOSS BATTLE -->
+      <div class="module-card" style="border-color: rgba(255, 51, 68, 0.4); background: linear-gradient(135deg, rgba(20,22,24,0.98), rgba(28,20,22,0.95));">
+        <div class="module-header" style="margin-bottom: 6px;">
+          <div class="module-title"><span class="code" style="color: var(--te-red);">[BOSS]</span> GÜNÜN ZİNDAN SAVAŞI</div>
+          <span class="hardware-tag" id="bossPhaseTag" style="color: var(--te-red); border-color: rgba(255,51,68,0.4);">SAVAŞ SÜRÜYOR</span>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span id="bossAvatar" style="font-size: 28px;">👹</span>
+            <div>
+              <div id="bossName" style="font-family: var(--font-ui); font-size: 14px; font-weight: 700; color: #FFFFFF;">ERTELEME İBLİSİ</div>
+              <div id="bossSubDesc" style="font-size: 10.5px; color: var(--text-muted);">Görevlerini tamamlayarak canavarı alt et!</div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div id="bossHpText" style="font-family: var(--font-mono); font-size: 13px; font-weight: 800; color: var(--te-red);">350 / 600 HP</div>
+            <div style="font-family: var(--font-mono); font-size: 9px; color: var(--te-amber);">+300 XP ÖDÜL</div>
+          </div>
+        </div>
+
+        <!-- Boss HP Bar -->
+        <div style="width: 100%; height: 7px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
+          <div id="bossHpBar" style="width: 58%; height: 100%; background: linear-gradient(90deg, var(--te-orange), var(--te-red)); transition: width 0.4s ease;"></div>
+        </div>
+
+        <!-- Hasar Rehberi -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-family: var(--font-mono); font-size: 9px; text-align: center; color: var(--text-dark);">
+          <div style="background: var(--surface-2); padding: 4px 2px; border-radius: 3px; border: 1px solid var(--border);">⏱️ 1 Pomo: <b style="color: var(--te-red);">-150 HP</b></div>
+          <div style="background: var(--surface-2); padding: 4px 2px; border-radius: 3px; border: 1px solid var(--border);">✓ 1 Alışkanlık: <b style="color: var(--te-orange);">-100 HP</b></div>
+          <div style="background: var(--surface-2); padding: 4px 2px; border-radius: 3px; border: 1px solid var(--border);">📚 1 Kitap: <b style="color: var(--te-green);">-75 HP</b></div>
         </div>
       </div>
 
@@ -770,7 +917,13 @@
 
   </div>
 
-  <div id="toast"><div id="toast">KOMUT İLETİLDİ // TE-01</div>
+  <!-- 🐾 EKRANDA CANLI GEZİNEN FLOATING CYBER-PET -->
+  <div id="roamingPetContainer" onclick="triggerFloatingPetInteraction()">
+    <div class="roaming-pet-bubble" id="roamingPetBubble">"Buralardayım! 🤖"</div>
+    <div class="roaming-pet-avatar" id="roamingPetAvatar">🤖</div>
+  </div>
+
+  <div id="toast">KOMUT İLETİLDİ // TE-01</div>
 
   <script>
     // ====================================================
@@ -786,9 +939,11 @@
     let currentDynamicEvents = [];
     let expandedAstroIndices = new Set([0]);
     let currentBookIndex = 0;
-    let bookTimerProgress = 0;
     let isAstroOpen = false;
     let isBadgesOpen = false;
+    let pomoRemaining = 25 * 60;
+    let pomoInterval = null;
+    let pomoIsRunning = false;
 
     let dailyExpenses = JSON.parse(localStorage.getItem('daily_expenses') || '[]');
     let userNotes = JSON.parse(localStorage.getItem('saved_user_notes') || '[]');
@@ -1086,11 +1241,230 @@
       } catch (err) {}
     }
 
-    // ⏱️ POMODORO SAYAÇ MOTORU
-    let pomoRemaining = 25 * 60;
-    let pomoInterval = null;
-    let pomoIsRunning = false;
+    // ====================================================
+    // 👾 CYBER-PET (BYTE-01) & MEMENTO MORI MOTORU
+    // ====================================================
+    let petHappiness = parseInt(localStorage.getItem('pet_happiness') || '85');
+    let petLevel = parseInt(localStorage.getItem('pet_level') || '3');
 
+    const petQuotes = [
+      "Harika gidiyoruz! Hadi 1 Pomodoro başlat ve odaklanalım!",
+      "Masanın havası çok temiz, zihnim pırıl pırıl! 🍃",
+      "Bugün kendine 1 dakikalık kitap molası verdin mi? 📚",
+      "Unutma: Küçük adımlar büyük zaferler doğurur! ⚡",
+      "Su içmeyi ve omuzlarını gevşetmeyi unutma! 💧",
+      "Günün Boss'una vurmak için bir alışkanlık tamamla! ⚔️",
+      "Sen çalışırken ben burayı nöbet tutuyorum! 🛡️"
+    ];
+
+    function updatePetDisplay() {
+      const avatar = document.getElementById('petAvatar');
+      const bubble = document.getElementById('petSpeechBubble');
+      const energyBar = document.getElementById('petEnergyBar');
+      const energyText = document.getElementById('petEnergyText');
+      const levelTag = document.getElementById('petLevelTag');
+      const moodTag = document.getElementById('petMoodTag');
+
+      if (energyBar) energyBar.style.width = `${petHappiness}%`;
+      if (energyText) energyText.innerText = `%${petHappiness}`;
+      if (levelTag) levelTag.innerText = `LVL ${petLevel} ROBOT`;
+
+      if (avatar) {
+        if (pomoIsRunning) {
+          avatar.innerText = '⚡🤖';
+          if (moodTag) moodTag.innerText = '🔥 ODAKTA';
+        } else if (petHappiness >= 75) {
+          avatar.innerText = '🤖';
+          if (moodTag) moodTag.innerText = '⚡ MOTİVE';
+        } else if (petHappiness >= 40) {
+          avatar.innerText = '🙂';
+          if (moodTag) moodTag.innerText = '🌿 SAKİN';
+        } else {
+          avatar.innerText = '😴';
+          if (moodTag) moodTag.innerText = '💤 YORGUN';
+        }
+      }
+    }
+
+    function interactWithPet() {
+      const q = petQuotes[Math.floor(Math.random() * petQuotes.length)];
+      const bubble = document.getElementById('petSpeechBubble');
+      const avatar = document.getElementById('petAvatar');
+      if (bubble) bubble.innerText = `"${q}"`;
+      if (avatar) {
+        avatar.style.transform = 'scale(1.25) rotate(8deg)';
+        setTimeout(() => { avatar.style.transform = 'scale(1) rotate(0deg)'; }, 250);
+      }
+      petHappiness = Math.min(100, petHappiness + 3);
+      localStorage.setItem('pet_happiness', petHappiness.toString());
+      updatePetDisplay();
+      showToast("Byte-01 gülümsedi! 🤖✨");
+    }
+
+    function petPraise() {
+      interactWithPet();
+    }
+
+    function feedPetWater() {
+      petHappiness = Math.min(100, petHappiness + 15);
+      localStorage.setItem('pet_happiness', petHappiness.toString());
+      updatePetDisplay();
+      const bubble = document.getElementById('petSpeechBubble');
+      if (bubble) bubble.innerText = '"Teşekkürler! Su gibi ferahladım! 💧"';
+      showToast("💧 Su İçildi & Byte-01 Canlandı (+15 Enerji)");
+    }
+
+    // ⏳ MEMENTO MORI YIL İLERLEME HESABI
+    function calculateYearProgress() {
+      const now = new Date();
+      const start = new Date(now.getFullYear(), 0, 1);
+      const end = new Date(now.getFullYear() + 1, 0, 1);
+      const pct = (((now - start) / (end - start)) * 100).toFixed(1);
+      const daysLeft = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
+
+      const bar = document.getElementById('yearProgressBar');
+      const tag = document.getElementById('yearDaysLeftBadge');
+      if (bar) bar.style.width = `${pct}%`;
+      if (tag) tag.innerText = `${daysLeft} GÜN KALDI`;
+    }
+    calculateYearProgress();
+
+    // ====================================================
+    // ⚔️ GÜNLÜK ZİNDAN BOSS SAVAŞ MOTORU
+    // ====================================================
+    const bossesList = [
+      { name: "ERTELEME İBLİSİ", avatar: "👹", maxHp: 600, desc: "Seni sürekli erteletmeye çalışan kadim zindan canavarı." },
+      { name: "DİKKAT DAĞINIKLIĞI HAYALETİ", avatar: "👻", maxHp: 500, desc: "Bildirimlerle dikkatini çalan sinsi hayalet." },
+      { name: "TEMBELLİK EJDERHASI", avatar: "🐉", maxHp: 750, desc: "Masa başından kalkmanı isteyen alevli ejderha." },
+      { name: "TÜKENMİŞLİK GOLEMİ", avatar: "🗿", maxHp: 650, desc: "Enerjini emmeye çalışan taş dev." }
+    ];
+
+    const todayDayIdx = new Date().getDay() % bossesList.length;
+    const currentBoss = bossesList[todayDayIdx];
+    let bossHp = parseInt(localStorage.getItem(`boss_hp_${todayDayIdx}`) || currentBoss.maxHp.toString());
+
+    function renderBoss() {
+      const nameEl = document.getElementById('bossName');
+      const avatarEl = document.getElementById('bossAvatar');
+      const hpTextEl = document.getElementById('bossHpText');
+      const hpBarEl = document.getElementById('bossHpBar');
+      const phaseTag = document.getElementById('bossPhaseTag');
+
+      if (nameEl) nameEl.innerText = currentBoss.name;
+      if (avatarEl) avatarEl.innerText = bossHp <= 0 ? "💀" : currentBoss.avatar;
+      if (hpTextEl) hpTextEl.innerText = bossHp <= 0 ? "YENİLDİ! (0 HP)" : `${bossHp} / ${currentBoss.maxHp} HP`;
+      
+      if (hpBarEl) {
+        const pct = Math.max(0, Math.min(100, Math.round((bossHp / currentBoss.maxHp) * 100)));
+        hpBarEl.style.width = `${pct}%`;
+      }
+
+      if (phaseTag) {
+        if (bossHp <= 0) {
+          phaseTag.innerText = "✓ BOSS YENİLDİ!";
+          phaseTag.className = "hardware-tag active-green";
+        } else {
+          phaseTag.innerText = "SAVAŞ SÜRÜYOR";
+          phaseTag.className = "hardware-tag active-orange";
+        }
+      }
+    }
+
+    function damageBoss(amount, reason) {
+      if (bossHp <= 0) return;
+      bossHp = Math.max(0, bossHp - amount);
+      localStorage.setItem(`boss_hp_${todayDayIdx}`, bossHp.toString());
+      renderBoss();
+      
+      const avatarEl = document.getElementById('bossAvatar');
+      if (avatarEl) {
+        avatarEl.style.transform = 'scale(0.8) rotate(-15deg)';
+        setTimeout(() => { avatarEl.style.transform = 'scale(1) rotate(0deg)'; }, 300);
+      }
+
+      if (bossHp <= 0) {
+        if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        showToast(`🎉 TEBRİKLER! ${currentBoss.name} YENİLDİ! (+300 XP)`);
+      } else {
+        showToast(`⚔️ -${amount} HP Hasar Vuruldu! (${reason})`);
+      }
+    }
+    renderBoss();
+    updatePetDisplay();
+
+    // ====================================================
+    // 🐾 EKRANDA CANLI GEZİNME MOTORU (ROAMING CYBER-PET)
+    // ====================================================
+    let petPosX = 30;
+    let isPetWalking = false;
+    let petFacingRight = true;
+
+    function startPetRoaming() {
+      setInterval(() => {
+        if (Math.random() < 0.6) {
+          // Yeni rastgele bir konuma yürü
+          const screenW = window.innerWidth || 360;
+          const maxW = Math.max(40, screenW - 80);
+          const targetX = Math.floor(Math.random() * maxW) + 20;
+
+          const petEl = document.getElementById('roamingPetContainer');
+          const avatar = document.getElementById('roamingPetAvatar');
+          if (!petEl || !avatar) return;
+
+          petFacingRight = targetX > petPosX;
+          avatar.style.transform = petFacingRight ? 'scaleX(1)' : 'scaleX(-1)';
+          avatar.classList.add('walking');
+          isPetWalking = true;
+
+          petEl.style.left = `${targetX}px`;
+          petPosX = targetX;
+
+          setTimeout(() => {
+            avatar.classList.remove('walking');
+            isPetWalking = false;
+            // %30 ihtimalle yürüdükten sonra minik bir şey söylesin
+            if (Math.random() < 0.35) {
+              speakFloatingPet();
+            }
+          }, 2600);
+        }
+      }, 7000);
+    }
+
+    function speakFloatingPet(customText = null) {
+      const bubble = document.getElementById('roamingPetBubble');
+      if (!bubble) return;
+      const msgs = [
+        "Harika gidiyorsun! ⚡",
+        "Su içtin mi? 💧",
+        "Masanın havası çok temiz! 🍃",
+        "Seni izliyorum, odaklan! 🤖",
+        "Küçük adımlar, büyük zaferler! 👑",
+        "1 Dakikalık Kitap molası ver! 📚",
+        "Birlikte güçlüyüz! 🛡️"
+      ];
+      bubble.innerText = customText || msgs[Math.floor(Math.random() * msgs.length)];
+      bubble.classList.add('show');
+      setTimeout(() => { bubble.classList.remove('show'); }, 3200);
+    }
+
+    function triggerFloatingPetInteraction() {
+      const avatar = document.getElementById('roamingPetAvatar');
+      if (avatar) {
+        avatar.style.transform = 'scale(1.4) translateY(-10px)';
+        setTimeout(() => { avatar.style.transform = petFacingRight ? 'scale(1)' : 'scaleX(-1)'; }, 300);
+      }
+      petHappiness = Math.min(100, petHappiness + 5);
+      localStorage.setItem('pet_happiness', petHappiness.toString());
+      updatePetDisplay();
+      speakFloatingPet("Merhaba dostum! 🤖✨");
+      showToast("Byte-01 sana el salladı! 🐾");
+    }
+
+    startPetRoaming();
+
+    // ⏱️ POMODORO SAYAÇ MOTORU// ⏱️ POMODORO SAYAÇ MOTORU
+    // pomo state declared at top level
     function setPomoMode(mins, label) {
       if (pomoInterval) clearInterval(pomoInterval);
       pomoIsRunning = false;
@@ -1120,6 +1494,10 @@
             if (b) b.innerText = "BAŞLAT";
             let c = parseInt(localStorage.getItem('pomo_completed_count') || '0') + 1;
             localStorage.setItem('pomo_completed_count', c.toString());
+            damageBoss(150, 'Pomodoro Tamamlandı');
+            petHappiness = Math.min(100, petHappiness + 20);
+            localStorage.setItem('pet_happiness', petHappiness.toString());
+            updatePetDisplay();
             checkAchievements();
             showToast("🎯 SEANS TAMAMLANDI!");
           }
@@ -1179,6 +1557,10 @@
         habitStreak++;
         localStorage.setItem('habit_streak_count', habitStreak.toString());
       }
+      damageBoss(100, 'Alışkanlık Tamamlandı');
+      petHappiness = Math.min(100, petHappiness + 10);
+      localStorage.setItem('pet_happiness', petHappiness.toString());
+      updatePetDisplay();
       renderHabits();
       checkAchievements();
     }
@@ -1881,6 +2263,12 @@
     window.deleteMoodEntry = deleteMoodEntry;
     window.fetchGoogleCalendarEvents = fetchGoogleCalendarEvents;
     window.runSensorDiagnostics = runSensorDiagnostics;
+    window.interactWithPet = interactWithPet;
+    window.petPraise = petPraise;
+    window.feedPetWater = feedPetWater;
+    window.triggerFloatingPetInteraction = triggerFloatingPetInteraction;
+    window.speakFloatingPet = speakFloatingPet;
+    window.damageBoss = damageBoss;
 
     // BAŞLANGIÇ
     fetchGoogleCalendarEvents();
