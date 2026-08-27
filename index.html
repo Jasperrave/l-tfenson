@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="notranslate" translate="no">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#090A10">
+  <meta name="google" content="notranslate">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon.png">
   
@@ -815,25 +816,29 @@
         </div>
       </div>
 
-      <!-- 📚 1 DAKİKALIK KİTAP ÖZETİ (21 BAŞYAPIT KÜLLİYATI) -->
-      <div class="card">
+      <!-- 📚 1 DAKİKALIK KİTAP ÖZETİ (21 BAŞYAPIT MİKRO KÜLLİYATI) -->
+      <div class="card" style="border-color: rgba(99,102,241,0.3);">
         <div class="sec-header">
           <div class="sec-title" style="color: var(--primary);">📚 1 Dakikalık Kitap Özeti</div>
-          <span class="agenda-badge" id="bookIndexBadge" style="color: var(--primary); font-weight: 700;">1 / 21</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="agenda-badge" id="bookIndexBadge" style="color: var(--primary); font-weight: 700;">1 / 21</span>
+            <button type="button" class="btn-secondary" onclick="prevBookWisdom()" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 4px;">◀</button>
+            <button type="button" class="btn-primary" onclick="nextBookWisdom(true)" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 4px;">▶</button>
+          </div>
         </div>
 
-        <!-- Canlı İlerleme Çubuğu -->
-        <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 9999px; overflow: hidden; margin: 2px 0 12px 0;">
+        <!-- Canlı 12s Sayaç Çubuğu -->
+        <div style="width: 100%; height: 3px; background: rgba(255,255,255,0.06); border-radius: 9999px; overflow: hidden; margin: 4px 0 12px 0;">
           <div id="bookProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--primary), #818CF8); transition: width 0.1s linear;"></div>
         </div>
 
         <!-- Kitap İçerik Alanı -->
-        <div id="bookContentWrapper" style="transition: opacity 0.2s ease, transform 0.2s ease; min-height: 130px;">
+        <div id="bookContentWrapper" onclick="nextBookWisdom(true)" style="cursor: pointer; transition: opacity 0.15s ease, transform 0.15s ease; min-height: 120px;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div id="bookAuthor" style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--primary);">JAMES CLEAR</div>
+            <div id="bookAuthor" style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--primary); letter-spacing: 0.03em;">JAMES CLEAR</div>
             <span class="agenda-badge" id="bookTitleBadge" style="color: #ffffff; background: rgba(99,102,241,0.18); border-color: rgba(99,102,241,0.35);">ATOMİK ALIŞKANLIKLAR</span>
           </div>
-          <div id="bookQuote" style="font-family: var(--font-display); font-size: 15.5px; font-weight: 600; color: var(--text-primary); line-height: 1.45; margin: 10px 0 8px 0; letter-spacing: -0.01em;">
+          <div id="bookQuote" style="font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text-primary); line-height: 1.45; margin: 10px 0 8px 0; letter-spacing: -0.01em;">
             "Her gün sadece %1 daha iyi olmak, yıl sonunda sizi tam 37 kat daha ileriye taşır. Büyük hedeflere değil, her gün uyguladığınız küçük sistemlere odaklanın."
           </div>
           <div id="bookAction" style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.45; background: var(--surface-card); padding: 10px 12px; border-radius: 8px; border-left: 3px solid var(--primary); border: 1px solid var(--border); border-left-width: 3px;">
@@ -841,20 +846,13 @@
           </div>
         </div>
 
-        <!-- 🎮 BÜYÜK VE DOKUNMATİK GEÇİŞ BUTONLARI -->
-        <div style="display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border);">
-          <button type="button" class="btn-secondary" id="btnPrevBook" onclick="prevBookWisdom()" style="padding: 9px 8px; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px;">
-            <span>◀</span>
-            <span>Önceki</span>
-          </button>
-          <button type="button" class="btn-primary" id="btnNextBookAuto" onclick="nextBookWisdom(true)" style="padding: 9px 8px; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px;">
-            <span>Sonraki Kitap</span>
-            <span>▶</span>
-          </button>
-          <button type="button" class="btn-secondary" id="btnRandomBook" onclick="randomBookWisdom()" style="padding: 9px 6px; font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+        <!-- Alt Gezinme ve Rastgele Butonu -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05);">
+          <span style="font-size: 10.5px; color: var(--text-muted);">Kartın üzerine veya oklara dokunarak geçebilirsiniz</span>
+          <span onclick="randomBookWisdom()" style="font-size: 11px; color: var(--primary); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
             <span>🎲</span>
-            <span>Rastgele</span>
-          </button>
+            <span>Rastgele Kitap</span>
+          </span>
         </div>
       </div>
       <!-- 💸 HIZLI HARCAMA & GÜNLÜK BÜTÇE -->
@@ -2546,6 +2544,8 @@
 
     function renderDailyBookWisdom() {
       const b = microBooks[currentBookIndex];
+      if (!b) return;
+
       const titleBadge = document.getElementById('bookTitleBadge');
       const indexBadge = document.getElementById('bookIndexBadge');
       const authorEl = document.getElementById('bookAuthor');
@@ -2558,6 +2558,77 @@
       if (authorEl) authorEl.innerText = b.author;
       if (quoteEl) quoteEl.innerText = `"${b.quote}"`;
       if (actionEl) actionEl.innerHTML = b.action;
+
+      if (wrapper) {
+        wrapper.style.opacity = '0.3';
+        setTimeout(() => { wrapper.style.opacity = '1'; }, 70);
+      }
+    }
+
+    function prevBookWisdom() {
+      currentBookIndex = (currentBookIndex - 1 + microBooks.length) % microBooks.length;
+      bookTimerProgress = 0;
+      renderDailyBookWisdom();
+      if (navigator.vibrate) navigator.vibrate(20);
+      showToast(`📚 (${currentBookIndex + 1}/21) ${microBooks[currentBookIndex].title}`);
+    }
+
+    function nextBookWisdom(manual = false) {
+      currentBookIndex = (currentBookIndex + 1) % microBooks.length;
+      bookTimerProgress = 0;
+      renderDailyBookWisdom();
+      if (navigator.vibrate) navigator.vibrate(20);
+      if (manual) {
+        showToast(`📚 (${currentBookIndex + 1}/21) ${microBooks[currentBookIndex].title}`);
+      }
+    }
+
+    function randomBookWisdom() {
+      currentBookIndex = Math.floor(Math.random() * microBooks.length);
+      bookTimerProgress = 0;
+      renderDailyBookWisdom();
+      if (navigator.vibrate) navigator.vibrate(30);
+      showToast(`🎲 Rastgele: ${microBooks[currentBookIndex].title}`);
+    }
+
+    // 🔄 CANLI İLERLEME ÇUBUĞU VE OTOMATİK DÖNÜŞ MOTORU (100ms Tick)
+    setInterval(() => {
+      bookTimerProgress += 100;
+      const bar = document.getElementById('bookProgressBar');
+      if (bar) {
+        const pct = Math.min(100, Math.round((bookTimerProgress / BOOK_ROTATION_INTERVAL_MS) * 100));
+        bar.style.width = `${pct}%`;
+      }
+
+      if (bookTimerProgress >= BOOK_ROTATION_INTERVAL_MS) {
+        bookTimerProgress = 0;
+        nextBookWisdom(false);
+      }
+    }, 100);
+
+    renderDailyBookWisdom();
+      if (navigator.vibrate) navigator.vibrate(20);
+      showToast(`📚 (${currentBookIndex + 1}/21) ${microBooks[currentBookIndex].title}`);
+    }
+
+    function renderDailyBookWisdom() {
+      const b = microBooks[currentBookIndex];
+      if (!b) return;
+
+      const titleBadge = document.getElementById('bookTitleBadge');
+      const indexBadge = document.getElementById('bookIndexBadge');
+      const authorEl = document.getElementById('bookAuthor');
+      const quoteEl = document.getElementById('bookQuote');
+      const actionEl = document.getElementById('bookAction');
+      const wrapper = document.getElementById('bookContentWrapper');
+      const selector = document.getElementById('bookSelector');
+
+      if (titleBadge) titleBadge.innerText = b.title;
+      if (indexBadge) indexBadge.innerText = `${currentBookIndex + 1} / ${microBooks.length}`;
+      if (authorEl) authorEl.innerText = b.author;
+      if (quoteEl) quoteEl.innerText = `"${b.quote}"`;
+      if (actionEl) actionEl.innerHTML = b.action;
+      if (selector) selector.value = currentBookIndex.toString();
 
       if (wrapper) {
         wrapper.style.opacity = '0.4';
@@ -3132,8 +3203,33 @@
     setInterval(updateBriefing, 30000);
     setInterval(syncData, 2000);
     syncData();
-  
-  
+
+    // ====================================================
+    // 🌐 GLOBAL WINDOW ATTACHMENTS (TARAYICI UYUMLULUĞU)
+    // ====================================================
+    window.nextBookWisdom = nextBookWisdom;
+    window.prevBookWisdom = prevBookWisdom;
+    window.randomBookWisdom = randomBookWisdom;
+    window.selectBookByIndex = selectBookByIndex;
+    window.filterAstroEvents = filterAstroEvents;
+    window.toggleAstroAccordion = toggleAstroAccordion;
+    window.openAstroModal = openAstroModal;
+    window.showBadgeDetail = showBadgeDetail;
+    window.switchMainTab = switchMainTab;
+    window.selectDailyMood = selectDailyMood;
+    window.setScreenMode = setScreenMode;
+    window.ringChime = ringChime;
+    window.nextQuote = nextQuote;
+    window.toggleHabit = toggleHabit;
+    window.deleteHabit = deleteHabit;
+    window.togglePomoTimer = togglePomoTimer;
+    window.resetPomoTimer = resetPomoTimer;
+    window.setPomoMode = setPomoMode;
+    window.addQuickExpense = addQuickExpense;
+    window.deleteExpenseItem = deleteExpenseItem;
+    window.deleteNoteItem = deleteNoteItem;
+    window.clearAllExpenses = clearAllExpenses;
+
   </script>
 </body>
 </html>
