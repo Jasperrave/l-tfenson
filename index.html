@@ -329,6 +329,99 @@
       transform: translateY(0);
     }
 
+    
+    /* 🌌 DİNAMİK CELESTIAL GÖKYÜZÜ, YILDIZLAR & GÜN EVRELERİ */
+    #celestialSkyCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.85;
+      transition: background 3s ease, opacity 2s ease;
+    }
+
+    .celestial-star {
+      position: absolute;
+      background: #FFFFFF;
+      border-radius: 50%;
+      opacity: 0;
+      animation: starTwinkle var(--twinkle-duration, 3s) infinite alternate ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes starTwinkle {
+      0% { opacity: 0.1; transform: scale(0.8); }
+      100% { opacity: var(--star-max-opacity, 0.85); transform: scale(1.2); }
+    }
+
+    /* Gündoğumu / Günbatımı / Gece Gövde Temaları */
+    body.sky-dawn {
+      --bg-chassis: #121019;
+      --surface-1: #1a1724;
+      --border: #3d2c3e;
+      --te-orange: #ff7733;
+    }
+
+    body.sky-day {
+      --bg-chassis: #0C0D0E;
+      --surface-1: #151719;
+      --border: #22262B;
+      --te-orange: #FF4F00;
+    }
+
+    body.sky-golden {
+      --bg-chassis: #16120e;
+      --surface-1: #221a14;
+      --border: #4d3320;
+      --te-orange: #ff6600;
+    }
+
+    body.sky-dusk {
+      --bg-chassis: #0e101a;
+      --surface-1: #151828;
+      --border: #2a304d;
+      --te-orange: #ff5533;
+    }
+
+    body.sky-night {
+      --bg-chassis: #07080a;
+      --surface-1: #0e1014;
+      --border: #1a1e26;
+      --te-orange: #ff4400;
+    }
+
+    /* Canlı Güneş / Ay Yörünge Göstergesi */
+    .celestial-orbit-track {
+      position: relative;
+      width: 100%;
+      height: 48px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .celestial-orbit-curve {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-top: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 50% 50% 0 0;
+      transform: translateY(24px);
+    }
+
+    .celestial-body-sun, .celestial-body-moon {
+      position: absolute;
+      transition: left 2s ease, top 2s ease, transform 0.5s ease;
+      filter: drop-shadow(0 0 8px currentColor);
+    }
+
     /* TOAST */
     #toast {
       position: fixed;
@@ -386,6 +479,8 @@
   </style>
 </head>
 <body>
+  <!-- 🌌 CANLI CELESTIAL GÖKYÜZÜ, GECE YILDIZLARI & GÜNEŞ/AY ORBİTİ -->
+  <div id="celestialSkyCanvas"></div>
 
   <div class="station-chassis">
 
@@ -412,6 +507,52 @@
       </div>
       <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;">
         <div id="yearProgressBar" style="width: 65.4%; height: 100%; background: linear-gradient(90deg, var(--te-orange), var(--te-amber));"></div>
+      </div>
+    </div>
+
+    <!-- ☀️🌙 MODULE 00-B: GÖKSEL TELEMETRİ // GÜN DOĞUMU, GÜN BATIMI & AY EVRESİ -->
+    <div class="module-card" id="celestialModuleCard" style="border-color: var(--te-orange); background: linear-gradient(135deg, rgba(20,22,26,0.98), rgba(28,24,20,0.95)); margin-bottom: 12px;">
+      <div class="module-header" style="margin-bottom: 6px;">
+        <div class="module-title" id="celestialPhaseTitle"><span class="code" style="color: var(--te-amber);">[SOLAR-01]</span> GÖKSEL DÖNGÜ & GÜN EVRESİ</div>
+        <div style="display: flex; gap: 4px;">
+          <span class="hardware-tag active-orange" id="celestialTimePhaseTag">GÜNDÜZ</span>
+          <span class="hardware-tag active-green" id="lunarPhaseNameTag">🌔 ŞİŞKİN AY</span>
+        </div>
+      </div>
+
+      <!-- Canlı Gökyüzü Yayı & Güneş/Ay Konumu -->
+      <div class="celestial-orbit-track">
+        <div class="celestial-orbit-curve"></div>
+        <div id="orbitSun" class="celestial-body-sun" style="left: 45%; top: 8px; color: #FFB300; font-size: 16px; font-weight: bold;">☀️</div>
+        <div id="orbitMoon" class="celestial-body-moon" style="left: 85%; top: 32px; color: #E0E6ED; font-size: 15px;">🌔</div>
+        <div style="position: absolute; bottom: 3px; left: 8px; font-family: var(--font-mono); font-size: 8px; color: var(--text-dark);">DOĞU (GÜN DOĞUMU)</div>
+        <div style="position: absolute; bottom: 3px; right: 8px; font-family: var(--font-mono); font-size: 8px; color: var(--text-dark);">BATI (GÜN BATIMI)</div>
+      </div>
+
+      <!-- 4'lü Solar Telemetri Göstergesi -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; text-align: center;">
+        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 6px 2px;">
+          <div style="font-family: var(--font-mono); font-size: 8.5px; color: var(--text-muted);">🌅 GÜN DOĞUMU</div>
+          <div style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; color: #FFAA00;" id="solarSunriseText">06:42</div>
+        </div>
+        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 6px 2px;">
+          <div style="font-family: var(--font-mono); font-size: 8.5px; color: var(--text-muted);">☀️ ÖĞLE ZİRVESİ</div>
+          <div style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; color: var(--te-green);" id="solarNoonText">13:16</div>
+        </div>
+        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 6px 2px;">
+          <div style="font-family: var(--font-mono); font-size: 8.5px; color: var(--text-muted);">🌇 ALTIN SAAT</div>
+          <div style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; color: var(--te-orange);" id="solarGoldenText">19:15</div>
+        </div>
+        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 6px 2px;">
+          <div style="font-family: var(--font-mono); font-size: 8.5px; color: var(--text-muted);">🌆 GÜN BATIMI</div>
+          <div style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; color: #FF4477;" id="solarSunsetText">19:54</div>
+        </div>
+      </div>
+
+      <!-- Alt Açıklama & Kalan Süre -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-family: var(--font-mono); font-size: 9.5px;">
+        <span style="color: var(--text-muted);" id="celestialNextEventText">⏳ Gün Batımına: 2 Saat 15 Dk</span>
+        <span style="color: var(--te-cyan);" id="lunarIlluminationText">Ay Aydınlığı: %88</span>
       </div>
     </div>
 
@@ -826,9 +967,82 @@
         <div id="userNotesList" style="display: flex; flex-direction: column; gap: 6px; max-height: 160px; overflow-y: auto;"></div>
       </div>
 
+      <!-- 💡 MODULE 09: CURIOSITY ENGINE // BİLİM, EVREN & MERAK TERMİNALİ -->
+      <div class="module-card" style="border-color: rgba(0, 208, 255, 0.4); background: linear-gradient(135deg, rgba(20,22,24,0.98), rgba(20,26,32,0.95));">
+        <div class="module-header">
+          <div class="module-title"><span class="code" style="color: var(--te-cyan);">[09]</span> BİLİM, EVREN & MERAK TERMİNALİ</div>
+          <div style="display: flex; gap: 4px;">
+            <button type="button" class="hardware-tag active-orange" onclick="nextCuriosityFact()" style="cursor: pointer;">YENİ GERÇEK 🎲</button>
+            <span class="hardware-tag" id="curiosityIndexBadge">1 / 25</span>
+          </div>
+        </div>
+
+        <!-- Gerçek Kartı -->
+        <div id="curiosityBox" onclick="nextCuriosityFact()" style="cursor: pointer; background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 12px; transition: all 0.2s ease;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span class="hardware-tag" id="curiosityCategoryTag" style="color: var(--te-cyan); border-color: rgba(0,208,255,0.3);">🌌 EVREN & KOZMOLOJİ</span>
+            <span style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dark);">[DOKUN: DEĞİŞTİR]</span>
+          </div>
+          <div id="curiosityTitle" style="font-family: var(--font-ui); font-size: 15px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px; line-height: 1.35;">
+            Güneş Işığının İnanılmaz Yaşı
+          </div>
+          <div id="curiosityDesc" style="font-size: 12px; color: var(--text-muted); line-height: 1.45;">
+            Yüzünüze vuran güneş ışığı Güneş'in çekirdeğinde tam 100.000 yıl önce üretildi; oradan yüzeye çıkması 100 bin yıl, Dünya'ya ulaşması ise sadece 8 dakika 20 saniye sürdü.
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-family: var(--font-mono); font-size: 10px; color: var(--text-dark);">
+          <span>💡 Her tıkta evrenin gizli bir kuralını keşfedin.</span>
+          <span onclick="nextCuriosityFact()" style="color: var(--te-cyan); cursor: pointer; font-weight: 700;">BAŞKA GERÇEK ↻</span>
+        </div>
+      </div>
+
+      <!-- 🧮 MODULE 10: DESK CALCULATOR & FINANCIAL CONVERTER -->
+      <div class="module-card" style="border-color: rgba(255, 170, 0, 0.4);">
+        <div class="module-header">
+          <div class="module-title"><span class="code" style="color: var(--te-amber);">[10]</span> HIZLI HESAP & MATEMATİK TERMİNALİ</div>
+          <span class="hardware-tag active-orange" id="calcModeTag">KDV & YÜZDE</span>
+        </div>
+
+        <!-- Mod Seçici Butonlar -->
+        <div class="te-switch-group" style="margin-bottom: 10px;">
+          <div class="te-switch-item active" id="calcTabKdv" onclick="setCalcTab('kdv')">KDV & YÜZDE</div>
+          <div class="te-switch-item" id="calcTabDisc" onclick="setCalcTab('disc')">İNDİRİM</div>
+          <div class="te-switch-item" id="calcTabMath" onclick="setCalcTab('math')">SERBEST MATEMATİK</div>
+        </div>
+
+        <!-- Hesaplama Giriş Alanı -->
+        <div id="calcInputContainer" style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; gap: 6px;">
+            <input type="number" id="calcAmountInput" class="te-input" placeholder="Tutar girin (Örn: 1500)..." oninput="calculateDeskMath()">
+            <div style="display: flex; gap: 4px;" id="calcQuickPercentBtns">
+              <button type="button" class="hardware-tag" onclick="setCalcPercent(10)">%10</button>
+              <button type="button" class="hardware-tag active-orange" id="btnPct20" onclick="setCalcPercent(20)">%20</button>
+              <button type="button" class="hardware-tag" onclick="setCalcPercent(1)">%1</button>
+            </div>
+          </div>
+
+          <div id="calcMathInputWrapper" style="display: none;">
+            <input type="text" id="calcMathFormulaInput" class="te-input" placeholder="Formül yazın (Örn: (450 * 12) / 3)..." oninput="calculateDeskMath()">
+          </div>
+
+          <!-- Canlı LED Sonuç Paneli -->
+          <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dark); text-transform: uppercase;" id="calcResultLabel">HESAPLANAN TOPLAM TUTAR</div>
+              <div style="font-family: var(--font-mono); font-size: 20px; font-weight: 800; color: var(--te-green); letter-spacing: -0.02em;" id="calcResultDisplay">0.00 TL</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);" id="calcSubResult">Fark: 0.00 TL</div>
+              <button type="button" class="hardware-tag" onclick="copyCalcResult()" style="margin-top: 4px; cursor: pointer;">KOPYALA 📋</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- TAB 2:<!-- TAB 2: ANALYTICS & CHARTS -->
+    <!-- TAB 2:<!-- TAB 2:<!-- TAB 2:<!-- TAB 2: ANALYTICS & CHARTS -->
     <div id="analyticsTabContent" style="display: none; flex-direction: column; gap: 10px;">
       
       <!-- Zaman Aralığı Seçici (Günlük vs Aylık) -->
@@ -2407,6 +2621,461 @@
       } catch (err) {}
     }
 
+    // ====================================================
+    // 💡 BİLİM, EVREN & MERAK MOTORU (30+ BÜYÜLEYİCİ GERÇEK)
+    // ====================================================
+    const curiosityFacts = [
+      {
+        cat: "🌌 EVREN & KOZMOLOJİ",
+        title: "Güneş Işığının İnanılmaz Yaşı",
+        desc: "Yüzünüze vuran güneş ışığı Güneş'in çekirdeğinde tam 100.000 yıl önce nükleer füzyonla üretildi; fotonun çekirdekten yüzeye çıkması 100 bin yıl, uzay boşluğundan Dünya'ya ulaşması ise sadece 8 dakika 20 saniye sürdü."
+      },
+      {
+        cat: "⚛️ KUANTUM & FİZİK",
+        title: "Vücudumuzun %99.9999999'u Boşluktur",
+        desc: "Vücudunuzdaki tüm atomların içindeki atom altı boşluğu çıkarıp sadece saf kütleyi bir araya getirseydik, 8 milyarlık tüm insanlık tek bir küp şekere sığardı."
+      },
+      {
+        cat: "⏳ ZAMAN & GÖRELİLİK",
+        title: "Başınız Ayaklarınızdan Daha Hızlı Yaşlanır",
+        desc: "Einstein'ın Genel Görelilik kuramına göre, yerçekimi ne kadar güçlüyse zaman o kadar yavaş akar. Ayaklarınız Dünya'nın merkezine daha yakın olduğu için başınız ayaklarınızdan saniyede nanosaniyelerce daha hızlı yaşlanır."
+      },
+      {
+        cat: "🦈 BİYOLOJİ & EVRİM",
+        title: "Köpekbalıkları Ağaçlardan Daha Yaşlıdır",
+        desc: "Köpekbalıkları yaklaşık 400 milyon yıldır Dünya okyanuslarında yüzüyor. Ağaçlar ise yaklaşık 350 milyon yıl önce, Satürn'ün halkaları ise sadece 100 milyon yıl önce oluştu."
+      },
+      {
+        cat: "🪐 GEZEGENLER",
+        title: "Venüs'te 1 Gün, 1 Yıldan Daha Uzundur",
+        desc: "Venüs kendi ekseni etrafında o kadar yavaş döner ki, bir tam turunu 243 Dünya gününde tamamlar; Güneş etrafındaki 1 yılı ise 225 gündür. Yani Venüs'te 1 gün, 1 yıldan daha uzundur!"
+      },
+      {
+        cat: "🧬 GENETİK & YAŞAM",
+        title: "Muzlarla %50, Kedilerle %90 Aynıyız",
+        desc: "İnsan DNA'sı bir muz ile %50, evcil bir kedi (Yulaf!) ile %90, bir şempanze ile ise %98.8 oranında birebir aynı genetik koda ve biyolojik talimatlara sahiptir."
+      },
+      {
+        cat: "🧠 BEYİN & NÖROBİLİM",
+        title: "Evrendeki Yıldızlardan Fazla Bağlantı",
+        desc: "İnsan beyninde yaklaşık 86 milyar nöron ve 100 trilyondan fazla sinaptik bağlantı vardır. Bu sayı, Samanyolu galaksisindeki tüm yıldızların sayısından (yaklaşık 200-400 milyar) katbekat fazladır."
+      },
+      {
+        cat: "💎 ASTRONOMİ",
+        title: "Elmas Yağan Gezegenler",
+        desc: "Neptün ve Uranüs'ün atmosferindeki aşırı yüksek basınç ve sıcaklık, metan gazındaki karbonu doğrudan katı elmasa dönüştürür ve gezegenin çekirdeğine tonlarca devasa elmas yağmuru yağar."
+      },
+      {
+        cat: "🏛️ TARİHSEL PERSPEKTİF",
+        title: "Kleopatra ve Piramitler Yanılgısı",
+        desc: "Mısır Kraliçesi Kleopatra (M.Ö. 30), Giza Piramitleri'nin inşasına (M.Ö. 2500) değil; Ay'a ilk insanın inişine ve iPhone'un icadına zaman olarak çok daha yakındır."
+      },
+      {
+        cat: "⚡ NÜKLEER ASTROFİZİK",
+        title: "1 Çay Kaşığı Nötron Yıldızı = Everest Dağı",
+        desc: "Nötron yıldızları o kadar yoğundur ki, bir nötron yıldızından alacağınız sadece 1 çay kaşığı madde Dünya'da yaklaşık 6 milyar ton (Everest Dağı ağırlığında) çeker."
+      },
+      {
+        cat: "🌊 OKYANUSLAR",
+        title: "Mariana Çukuru ve Uzay Ziyaretleri",
+        desc: "Uzaya 600'den fazla insan, Ay'ın yüzeyine ise 12 insan ayak bastı; ancak Dünya'nın en derin noktası olan 11.000 metrelik Mariana Çukuru'na sadece birkaç insan inebildi."
+      },
+      {
+        cat: "✨ KOZMİK KİMYA",
+        title: "Yıldız Tozundan Yapıldık",
+        desc: "Vücudunuzdaki kalsiyum, kanınızdaki demir ve DNA'nızdaki karbon; milyarlarca yıl önce patlayan dev süpernova yıldızlarının çekirdeklerinde dövülmüştür. Hepimiz kelimenin tam anlamıyla yıldız tozuyuz."
+      },
+      {
+        cat: "❄️ FİZİK & TERMODİNAMİK",
+        title: "Sıcak Su Soğuk Sudan Daha Hızlı Donabilir",
+        desc: "Mpemba Etkisi olarak bilinen bu fiziksel fenomene göre, belirli koşullar altında sıcak su soğuk sudan daha hızlı donabilir. Nedeni su moleküllerinin hidrojen bağlarının ısındığında gerilip soğurken enerjiyi hızla salmasıdır."
+      },
+      {
+        cat: "🐝 DOĞA & EKOLOJİ",
+        title: "Bal Asla Bozulmaz",
+        desc: "Arkeologlar Mısır piramitlerindeki 3000 yıllık firavun mezarlarında bozulmamış, hala tamamen yenilebilir durumda bal kapları bulmuşlardır. Balın düşük nemi ve yüksek asiditesi bakteri üremesini imkansız kılar."
+      },
+      {
+        cat: "🚀 KOZMİK HIZ",
+        title: "Şu An Hangi Hızla Uçuyorsunuz?",
+        desc: "Masanızda hareketsiz oturuyor gibi görünseniz de; Dünya'nın dönüşüyle saatte 1670 km, Güneş etrafında saatte 108.000 km, Samanyolu Galaksisi ile birlikte ise uzayda saatte tam 792.000 km hızla uçuyorsunuz!"
+      }
+    ];
+
+    let currentCuriosityIndex = 0;
+
+    function renderCuriosityFact() {
+      const f = curiosityFacts[currentCuriosityIndex];
+      if (!f) return;
+
+      const catEl = document.getElementById('curiosityCategoryTag');
+      const titleEl = document.getElementById('curiosityTitle');
+      const descEl = document.getElementById('curiosityDesc');
+      const badgeEl = document.getElementById('curiosityIndexBadge');
+      const box = document.getElementById('curiosityBox');
+
+      if (catEl) catEl.innerText = f.cat;
+      if (titleEl) titleEl.innerText = f.title;
+      if (descEl) descEl.innerText = f.desc;
+      if (badgeEl) badgeEl.innerText = `${currentCuriosityIndex + 1} / ${curiosityFacts.length}`;
+
+      if (box) {
+        box.style.opacity = '0.3';
+        setTimeout(() => { box.style.opacity = '1'; }, 100);
+      }
+    }
+
+    function nextCuriosityFact() {
+      currentCuriosityIndex = (currentCuriosityIndex + 1) % curiosityFacts.length;
+      renderCuriosityFact();
+      showToast(`💡 (${currentCuriosityIndex + 1}/${curiosityFacts.length}) ${curiosityFacts[currentCuriosityIndex].title}`);
+    }
+    renderCuriosityFact();
+
+    // ====================================================
+    // 🧮 HIZLI MASA HESAP MAKİNESİ & FORMÜL MOTORU
+    // ====================================================
+    let currentCalcTab = 'kdv'; // 'kdv', 'disc', 'math'
+    let currentCalcPercent = 20;
+
+    function setCalcTab(tab) {
+      currentCalcTab = tab;
+      ['calcTabKdv', 'calcTabDisc', 'calcTabMath'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+      });
+
+      const activeEl = document.getElementById(tab === 'kdv' ? 'calcTabKdv' : (tab === 'disc' ? 'calcTabDisc' : 'calcTabMath'));
+      if (activeEl) activeEl.classList.add('active');
+
+      const modeTag = document.getElementById('calcModeTag');
+      if (modeTag) modeTag.innerText = tab === 'kdv' ? 'KDV & YÜZDE' : (tab === 'disc' ? 'İNDİRİM HESABI' : 'SERBEST FORMÜL');
+
+      const amtInput = document.getElementById('calcAmountInput');
+      const pctBtns = document.getElementById('calcQuickPercentBtns');
+      const mathWrap = document.getElementById('calcMathInputWrapper');
+
+      if (tab === 'math') {
+        if (amtInput) amtInput.style.display = 'none';
+        if (pctBtns) pctBtns.style.display = 'none';
+        if (mathWrap) mathWrap.style.display = 'block';
+      } else {
+        if (amtInput) amtInput.style.display = 'block';
+        if (pctBtns) pctBtns.style.display = 'flex';
+        if (mathWrap) mathWrap.style.display = 'none';
+      }
+
+      calculateDeskMath();
+    }
+
+    function setCalcPercent(pct) {
+      currentCalcPercent = pct;
+      calculateDeskMath();
+      showToast(`%${pct} Seçildi`);
+    }
+
+    function calculateDeskMath() {
+      const disp = document.getElementById('calcResultDisplay');
+      const sub = document.getElementById('calcSubResult');
+      const label = document.getElementById('calcResultLabel');
+      if (!disp || !sub || !label) return;
+
+      if (currentCalcTab === 'kdv') {
+        const amt = parseFloat(document.getElementById('calcAmountInput').value) || 0;
+        const kdvAmount = amt * (currentCalcPercent / 100);
+        const total = amt + kdvAmount;
+        label.innerText = `%${currentCalcPercent} KDV DAHİL TOPLAM`;
+        disp.innerText = total.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TL';
+        sub.innerText = `+KDV: ${kdvAmount.toFixed(2)} TL`;
+      } else if (currentCalcTab === 'disc') {
+        const amt = parseFloat(document.getElementById('calcAmountInput').value) || 0;
+        const discountAmount = amt * (currentCalcPercent / 100);
+        const total = Math.max(0, amt - discountAmount);
+        label.innerText = `%${currentCalcPercent} İNDİRİMLİ TUTAR`;
+        disp.innerText = total.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TL';
+        sub.innerText = `İndirim: -${discountAmount.toFixed(2)} TL`;
+      } else if (currentCalcTab === 'math') {
+        const formula = document.getElementById('calcMathFormulaInput').value.trim();
+        label.innerText = "MATEMATİKSEL SONUÇ";
+        if (!formula) {
+          disp.innerText = "0.00";
+          sub.innerText = "Formül bekleniyor";
+          return;
+        }
+        try {
+          // Safe mathematical evaluator
+          const cleanFormula = formula.replace(/[^0-9+\-*/().]/g, '');
+          const result = Function('"use strict";return (' + cleanFormula + ')')();
+          if (typeof result === 'number' && !isNaN(result)) {
+            disp.innerText = result.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            sub.innerText = "✓ Hesaplandı";
+          }
+        } catch (e) {
+          disp.innerText = "Hata";
+          sub.innerText = "Formülü kontrol edin";
+        }
+      }
+    }
+
+    function copyCalcResult() {
+      const disp = document.getElementById('calcResultDisplay');
+      if (!disp) return;
+      const text = disp.innerText;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+      }
+      showToast(`Kopyalandı: ${text} 📋`);
+    }
+
+    // ====================================================
+    // 🌌 ASTRONOMİK GÜNEŞ, AY & ATMOSFER MOTORU
+    // ====================================================
+    
+    // 1. Yıldızları Gökyüzü Tuvaline Oluştur
+    function createCelestialStars() {
+      const canvas = document.getElementById('celestialSkyCanvas');
+      if (!canvas) return;
+      canvas.innerHTML = '';
+      const starCount = 65;
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'celestial-star';
+        const size = Math.random() < 0.2 ? 2.5 : (Math.random() < 0.6 ? 1.5 : 1);
+        const top = Math.random() * 95;
+        const left = Math.random() * 98;
+        const duration = (Math.random() * 3 + 2).toFixed(1);
+        const maxOp = (Math.random() * 0.7 + 0.3).toFixed(2);
+        
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.top = `${top}%`;
+        star.style.left = `${left}%`;
+        star.style.setProperty('--twinkle-duration', `${duration}s`);
+        star.style.setProperty('--star-max-opacity', maxOp);
+        star.style.animationDelay = `${(Math.random() * 4).toFixed(1)}s`;
+        canvas.appendChild(star);
+      }
+    }
+
+    // 2. Ay Evresi Hesabı (Astronomik Sinodik Ay Döngüsü: 29.53059 Gün)
+    function calculateMoonPhase(date = new Date()) {
+      const knownNewMoon = new Date(2000, 0, 6, 18, 14); // Bilinen Yeni Ay referansı
+      const diffMs = date.getTime() - knownNewMoon.getTime();
+      const diffDays = diffMs / (1000 * 60 * 60 * 24);
+      const phase = (diffDays % 29.53058867) / 29.53058867;
+      
+      let phaseName = "";
+      let icon = "🌔";
+      let illumination = 0;
+
+      if (phase < 0.03 || phase > 0.97) {
+        phaseName = "YENİ AY";
+        icon = "🌑";
+        illumination = 1;
+      } else if (phase < 0.22) {
+        phaseName = "HİLAL (BÜYÜYEN)";
+        icon = "🌒";
+        illumination = Math.round(phase * 400);
+      } else if (phase < 0.28) {
+        phaseName = "İLK DÖRDÜN";
+        icon = "🌓";
+        illumination = 50;
+      } else if (phase < 0.47) {
+        phaseName = "ŞİŞKİN AY";
+        icon = "🌔";
+        illumination = Math.round(50 + (phase - 0.25) * 200);
+      } else if (phase < 0.53) {
+        phaseName = "DOLUNAY";
+        icon = "🌕";
+        illumination = 100;
+      } else if (phase < 0.72) {
+        phaseName = "ŞİŞKİN AY (KÜÇÜLEN)";
+        icon = "🌖";
+        illumination = Math.round(100 - (phase - 0.5) * 200);
+      } else if (phase < 0.78) {
+        phaseName = "SON DÖRDÜN";
+        icon = "🌗";
+        illumination = 50;
+      } else {
+        phaseName = "HİLAL (KÜÇÜLEN)";
+        icon = "🌘";
+        illumination = Math.round((1 - phase) * 400);
+      }
+
+      return { phase, phaseName, icon, illumination: Math.min(100, Math.max(1, illumination)) };
+    }
+
+    // 3. Gün Doğumu, Gün Batımı & Altın Saat Hesabı (İzmir/Türkiye Referansı: 38.4° N, 27.1° E)
+    function calculateSolarEphemeris() {
+      const now = new Date();
+      const startOfYear = new Date(now.getFullYear(), 0, 0);
+      const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
+
+      // Güneş sapma açısı (Declination)
+      const declination = 23.45 * Math.sin((360 / 365) * (dayOfYear - 81) * (Math.PI / 180));
+      const latRad = 38.4 * (Math.PI / 180);
+      const decRad = declination * (Math.PI / 180);
+
+      // Güneş doğuş/batış saat açısı (Saat olarak)
+      const cosHourAngle = -Math.tan(latRad) * Math.tan(decRad);
+      const hourAngle = Math.acos(Math.max(-1, Math.min(1, cosHourAngle))) * (180 / Math.PI) / 15;
+
+      const solarNoonHour = 13.25; // Türkiye saatiyle öğle ortalama ~13:15
+      const sunriseHour = solarNoonHour - hourAngle;
+      const sunsetHour = solarNoonHour + hourAngle;
+      const goldenHourStart = sunsetHour - 0.75; // Gün batımından 45 dk önce
+
+      return { sunriseHour, solarNoonHour, goldenHourStart, sunsetHour };
+    }
+
+    function formatDecimalTime(decHour) {
+      const h = Math.floor(decHour);
+      const m = Math.floor((decHour - h) * 60);
+      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    }
+
+    // 4. Atmosfer & Gökyüzü Canlı Güncelleyici
+    function updateCelestialAtmosphere() {
+      const now = new Date();
+      const currentDecHour = now.getHours() + (now.getMinutes() / 60) + (now.getSeconds() / 3600);
+      const { sunriseHour, solarNoonHour, goldenHourStart, sunsetHour } = calculateSolarEphemeris();
+      const moon = calculateMoonPhase(now);
+
+      const sunriseEl = document.getElementById('solarSunriseText');
+      const noonEl = document.getElementById('solarNoonText');
+      const goldenEl = document.getElementById('solarGoldenText');
+      const sunsetEl = document.getElementById('solarSunsetText');
+      const phaseTag = document.getElementById('celestialTimePhaseTag');
+      const moonTag = document.getElementById('lunarPhaseNameTag');
+      const nextEventEl = document.getElementById('celestialNextEventText');
+      const moonIllumEl = document.getElementById('lunarIlluminationText');
+      const sunOrb = document.getElementById('orbitSun');
+      const moonOrb = document.getElementById('orbitMoon');
+      const skyCanvas = document.getElementById('celestialSkyCanvas');
+
+      if (sunriseEl) sunriseEl.innerText = formatDecimalTime(sunriseHour);
+      if (noonEl) noonEl.innerText = formatDecimalTime(solarNoonHour);
+      if (goldenEl) goldenEl.innerText = formatDecimalTime(goldenHourStart);
+      if (sunsetEl) sunsetEl.innerText = formatDecimalTime(sunsetHour);
+      if (moonTag) moonTag.innerText = `${moon.icon} ${moon.phaseName}`;
+      if (moonIllumEl) moonIllumEl.innerText = `Ay Aydınlığı: %${moon.illumination}`;
+
+      // Gün Evresi ve Şasi Renk Teması
+      document.body.classList.remove('sky-dawn', 'sky-day', 'sky-golden', 'sky-dusk', 'sky-night');
+
+      let currentPhaseLabel = "GÜNDÜZ";
+      let starsVisible = false;
+
+      // Şafak (Dawn)
+      if (currentDecHour >= sunriseHour - 1 && currentDecHour < sunriseHour + 0.3) {
+        document.body.classList.add('sky-dawn');
+        currentPhaseLabel = "🌅 ŞAFAK & DOĞUŞ";
+        if (skyCanvas) skyCanvas.style.background = "radial-gradient(ellipse at 30% 90%, rgba(255, 119, 51, 0.22) 0%, rgba(18, 16, 25, 0.95) 75%)";
+      }
+      // Altın Saat (Golden Hour)
+      else if (currentDecHour >= goldenHourStart && currentDecHour < sunsetHour) {
+        document.body.classList.add('sky-golden');
+        currentPhaseLabel = "🌇 ALTIN SAAT";
+        if (skyCanvas) skyCanvas.style.background = "radial-gradient(ellipse at 70% 90%, rgba(255, 102, 0, 0.25) 0%, rgba(22, 18, 14, 0.95) 75%)";
+      }
+      // Alacakaranlık (Dusk)
+      else if (currentDecHour >= sunsetHour && currentDecHour < sunsetHour + 1.2) {
+        document.body.classList.add('sky-dusk');
+        currentPhaseLabel = "🌆 ALACAKARANLIK";
+        starsVisible = true;
+        if (skyCanvas) skyCanvas.style.background = "radial-gradient(ellipse at 80% 90%, rgba(90, 50, 140, 0.25) 0%, rgba(14, 16, 26, 0.98) 75%)";
+      }
+      // Gece (Night)
+      else if (currentDecHour >= sunsetHour + 1.2 || currentDecHour < sunriseHour - 1) {
+        document.body.classList.add('sky-night');
+        currentPhaseLabel = "🌌 YILDIZLI GECE";
+        starsVisible = true;
+        if (skyCanvas) skyCanvas.style.background = "radial-gradient(ellipse at 50% 30%, rgba(0, 229, 117, 0.03) 0%, rgba(7, 8, 10, 0.98) 90%)";
+      }
+      // Normal Gündüz
+      else {
+        document.body.classList.add('sky-day');
+        currentPhaseLabel = "☀️ GÜNDÜZ";
+        if (skyCanvas) skyCanvas.style.background = "radial-gradient(ellipse at 50% 10%, rgba(255, 79, 0, 0.04) 0%, rgba(12, 13, 14, 0.98) 85%)";
+      }
+
+      if (phaseTag) phaseTag.innerText = currentPhaseLabel;
+
+      // Yıldızların görünürlüğü
+      if (skyCanvas) {
+        const stars = skyCanvas.querySelectorAll('.celestial-star');
+        stars.forEach(s => {
+          s.style.display = starsVisible ? 'block' : 'none';
+        });
+      }
+
+      // Güneş ve Ay'ın Yörünge Pozisyonu (Orbit Arc)
+      // Güneş Yörüngesi: Doğu (%5) -> Zirve (%50) -> Batı (%95)
+      if (sunOrb) {
+        if (currentDecHour >= sunriseHour && currentDecHour <= sunsetHour) {
+          const sunProg = (currentDecHour - sunriseHour) / (sunsetHour - sunriseHour);
+          const sunX = Math.round(5 + sunProg * 88);
+          // Parabolik tepe hesabı (Ortada en yukarıda top: 4px, kenarlarda top: 28px)
+          const sunY = Math.round(28 - 24 * Math.sin(sunProg * Math.PI));
+          sunOrb.style.display = 'block';
+          sunOrb.style.left = `${sunX}%`;
+          sunOrb.style.top = `${sunY}px`;
+        } else {
+          sunOrb.style.display = 'none'; // Gece batmış durumda
+        }
+      }
+
+      // Ay Yörüngesi: Ay gece gökyüzünde yükselir
+      if (moonOrb) {
+        moonOrb.innerText = moon.icon;
+        let moonProg = 0;
+        let isMoonUp = false;
+
+        if (currentDecHour >= sunsetHour - 1) {
+          moonProg = (currentDecHour - (sunsetHour - 1)) / (24 - sunsetHour + sunriseHour + 1);
+          isMoonUp = true;
+        } else if (currentDecHour <= sunriseHour + 1) {
+          moonProg = ((24 - sunsetHour + 1) + currentDecHour) / (24 - sunsetHour + sunriseHour + 1);
+          isMoonUp = true;
+        }
+
+        if (isMoonUp) {
+          const moonX = Math.round(5 + moonProg * 88);
+          const moonY = Math.round(28 - 24 * Math.sin(Math.min(1, Math.max(0, moonProg)) * Math.PI));
+          moonOrb.style.display = 'block';
+          moonOrb.style.left = `${moonX}%`;
+          moonOrb.style.top = `${moonY}px`;
+        } else {
+          moonOrb.style.display = 'none';
+        }
+      }
+
+      // Kalan Süre Sayacı
+      if (nextEventEl) {
+        if (currentDecHour < sunriseHour) {
+          const diff = sunriseHour - currentDecHour;
+          const h = Math.floor(diff);
+          const m = Math.floor((diff - h) * 60);
+          nextEventEl.innerText = `⏳ Gün Doğumuna: ${h}s ${m}dk`;
+        } else if (currentDecHour < sunsetHour) {
+          const diff = sunsetHour - currentDecHour;
+          const h = Math.floor(diff);
+          const m = Math.floor((diff - h) * 60);
+          nextEventEl.innerText = `⏳ Gün Batımına: ${h}s ${m}dk`;
+        } else {
+          const diff = (24 - currentDecHour) + sunriseHour;
+          const h = Math.floor(diff);
+          const m = Math.floor((diff - h) * 60);
+          nextEventEl.innerText = `⏳ Gün Doğumuna: ${h}s ${m}dk`;
+        }
+      }
+    }
+
+    createCelestialStars();
+    updateCelestialAtmosphere();
+    setInterval(updateCelestialAtmosphere, 30000); // Her 30 saniyede bir canlı güncelle
+
+
     // 🌐 GLOBAL ATTACHMENTS
     window.setDailyMood = setDailyMood;
     window.setAnalyticsPeriod = setAnalyticsPeriod;
@@ -2429,6 +3098,12 @@
     window.setPomoMode = setPomoMode;
     window.addQuickExpense = addQuickExpense;
     window.deleteExpenseItem = deleteExpenseItem;
+    window.nextCuriosityFact = nextCuriosityFact;
+    window.setCalcTab = setCalcTab;
+    window.setCalcPercent = setCalcPercent;
+    window.calculateDeskMath = calculateDeskMath;
+    window.updateCelestialAtmosphere = updateCelestialAtmosphere;
+    window.copyCalcResult = copyCalcResult;
     window.handleAddUserNoteSubmit = handleAddUserNoteSubmit;
     window.deleteUserNote = deleteUserNote;
     window.handleMoodNoteSubmit = handleMoodNoteSubmit;
