@@ -528,15 +528,23 @@
             <div style="margin-top: 2px;">5 // MUHTEŞEM</div>
           </div>
         </div>
-      </div>
-      <!-- Günün Farkındalık Notu --><!-- Günün Farkındalık Notu -->
-        <div style="display: flex; gap: 6px;">
-          <input type="text" id="moodNoteInput" class="te-input" placeholder="Günün kısa hissi / zihin notu...">
-          <button type="button" class="te-btn te-btn-primary" onclick="saveMoodNote()">KAYDET</button>
+
+        <!-- Günün Farkındalık Notu Girişi -->
+        <form onsubmit="handleMoodNoteSubmit(event)" style="display: flex; gap: 6px; margin-bottom: 10px;">
+          <input type="text" id="moodNoteInput" class="te-input" placeholder="Günün kısa hissi / zihin notunu yaz...">
+          <button type="submit" class="te-btn te-btn-primary">KAYDET</button>
+        </form>
+
+        <!-- 📖 KAYDEDİLEN RUH HALİ & ZİHİN NOTLARI LİSTESİ -->
+        <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px;">
+          <div style="font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; text-transform: uppercase;">
+            KAYDEDİLEN RUH HALİ NOTLARI & GÜNLÜK
+          </div>
+          <div id="moodJournalList" style="display: flex; flex-direction: column; gap: 4px; max-height: 140px; overflow-y: auto;"></div>
         </div>
       </div>
 
-      <!-- 📚 MODULE 04:<!-- 📚 MODULE 04: 1-MINUTE MICRO-BOOK WISDOM (21 MASTERPIECES) -->
+      <!-- 📚 MODULE 04:<!-- 📚 MODULE 04:<!-- 📚 MODULE 04: 1-MINUTE MICRO-BOOK WISDOM (21 MASTERPIECES) -->
       <div class="module-card">
         <div class="module-header">
           <div class="module-title"><span class="code">[04]</span> 1 DAKİKALIK KİTAP ÖZETİ</div>
@@ -650,7 +658,7 @@
       <!-- 💸 MODULE 07: EXPENSES & NOTES TERMINAL -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-title"><span class="code">[07]</span> BÜTÇE & NOT TERMİNALİ</div>
+          <div class="module-title"><span class="code">[07]</span> BÜTÇE & HARCAMA TAKİBİ</div>
           <span class="hardware-tag" id="dailyExpenseBadge">BUGÜN: 0 TL</span>
         </div>
 
@@ -660,18 +668,35 @@
           <button type="button" class="te-btn" onclick="addQuickExpense(400, 'Market 🛒')" style="font-size: 10.5px; padding: 6px 2px;">+400 TL Market</button>
         </div>
 
-        <form onsubmit="handleCustomExpenseSubmit(event)" style="display: flex; gap: 6px; margin-bottom: 12px;">
+        <form onsubmit="handleCustomExpenseSubmit(event)" style="display: flex; gap: 6px; margin-bottom: 8px;">
           <input type="number" id="expenseAmountInput" class="te-input" placeholder="Tutar (TL)..." style="width: 100px;">
           <input type="text" id="expenseNoteInput" class="te-input" placeholder="Açıklama...">
           <button type="submit" class="te-btn te-btn-primary">KAYDET</button>
         </form>
 
-        <div id="expenseHistoryList" style="display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto;"></div>
+        <div id="expenseHistoryList" style="display: flex; flex-direction: column; gap: 4px; max-height: 110px; overflow-y: auto;"></div>
+      </div>
+
+      <!-- 📝 MODULE 08: USER NOTES & IDEA ARCHIVE -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-title"><span class="code">[08]</span> NOT DEFTERİ & FİKİR ARŞİVİ</div>
+          <span class="hardware-tag active-orange" id="userNotesCountBadge">1 NOT</span>
+        </div>
+
+        <!-- Hızlı Not Ekleme Formu -->
+        <form onsubmit="handleAddUserNoteSubmit(event)" style="display: flex; gap: 6px; margin-bottom: 10px;">
+          <input type="text" id="userNoteInput" class="te-input" placeholder="Yeni not veya fikir kaydet...">
+          <button type="submit" class="te-btn te-btn-primary">KAYDET</button>
+        </form>
+
+        <!-- Kaydedilen Notlar Listesi -->
+        <div id="userNotesList" style="display: flex; flex-direction: column; gap: 6px; max-height: 160px; overflow-y: auto;"></div>
       </div>
 
     </div>
 
-    <!-- TAB 2: ANALYTICS & CHARTS -->
+    <!-- TAB 2:<!-- TAB 2: ANALYTICS & CHARTS -->
     <div id="analyticsTabContent" style="display: none; flex-direction: column; gap: 10px;">
       
       <!-- Zaman Aralığı Seçici (Günlük vs Aylık) -->
@@ -1579,14 +1604,33 @@
     let moodHistory = JSON.parse(localStorage.getItem('user_mood_history') || '[]');
     if (moodHistory.length === 0) {
       moodHistory = [
-        { date: "22 Ağu", score: 4, label: "Mutlu" },
-        { date: "23 Ağu", score: 5, label: "Muhteşem" },
-        { date: "24 Ağu", score: 2, label: "Durgun" },
-        { date: "25 Ağu", score: 4, label: "Mutlu" },
-        { date: "26 Ağu", score: 5, label: "Muhteşem" },
-        { date: "Bugün", score: currentMoodScore, label: "Muhteşem" }
+        { id: 1, date: "25 Ağu", time: "18:30", score: 4, label: "Mutlu 😊", note: "Verimli ve sakin bir gündü." },
+        { id: 2, date: "26 Ağu", time: "21:15", score: 5, label: "Muhteşem ✨", note: "Masa istasyonu kodlarını tamamladım!" },
+        { id: 3, date: "Bugün", time: "22:30", score: currentMoodScore, label: "Muhteşem ✨", note: "Tüm sistemler aktif ve çalışıyor." }
       ];
       localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
+    }
+
+    function renderMoodJournal() {
+      const listEl = document.getElementById('moodJournalList');
+      if (!listEl) return;
+      if (moodHistory.length === 0) {
+        listEl.innerHTML = `<div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dark); text-align: center; padding: 6px;">[HENÜZ RUH HALİ NOTU YOK]</div>`;
+        return;
+      }
+
+      listEl.innerHTML = moodHistory.slice().reverse().map(m => `
+        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-2); padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border);">
+          <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--te-green);">${m.date} (${m.time || ''})</span>
+              <span class="hardware-tag" style="font-size: 8.5px; padding: 1px 4px;">${m.label || m.score + '/5'}</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-main); margin-top: 2px;">${m.note || 'Ruh hali kaydedildi.'}</div>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dark); cursor: pointer; padding: 2px 4px;" onclick="deleteMoodEntry(${m.id || 0})">✕</span>
+        </div>
+      `).join('');
     }
 
     function setDailyMood(score, label) {
@@ -1599,31 +1643,101 @@
       const badge = document.getElementById('moodStatusBadge');
       if (badge) badge.innerText = `KAYDEDİLDİ: ${score}/5`;
       
-      const todayStr = "Bugün";
-      const existingIdx = moodHistory.findIndex(m => m.date === todayStr);
-      if (existingIdx >= 0) moodHistory[existingIdx] = { date: todayStr, score, label };
-      else moodHistory.push({ date: todayStr, score, label });
+      const timeStr = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      const todayStr = new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+      
+      moodHistory.push({ id: Date.now(), date: todayStr, time: timeStr, score, label, note: 'Ruh hali kaydedildi.' });
       localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
 
+      renderMoodJournal();
       checkAchievements();
       showToast(`Ruh Hali: ${label}`);
       if (chartsInitialized) initAnalyticsCharts();
     }
 
-    function saveMoodNote() {
+    function handleMoodNoteSubmit(e) {
+      e.preventDefault();
       const input = document.getElementById('moodNoteInput');
       const text = input ? input.value.trim() : '';
-      if (!text) {
-        showToast("Ruh Hali Notu Giriniz");
-        return;
-      }
-      localStorage.setItem('daily_mood_note', text);
+      if (!text) return;
+
+      const timeStr = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      const todayStr = new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+      const moodLabels = { 1: "Yorgun 😴", 2: "Durgun ☁️", 3: "Dengeli 🌿", 4: "Mutlu 😊", 5: "Muhteşem ✨" };
+
+      moodHistory.push({
+        id: Date.now(),
+        date: todayStr,
+        time: timeStr,
+        score: currentMoodScore,
+        label: moodLabels[currentMoodScore] || "Muhteşem ✨",
+        note: text
+      });
+      localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
       input.value = '';
-      showToast("Zihin Notu Kaydedildi ✨");
+      renderMoodJournal();
       checkAchievements();
+      showToast("Zihin Notu Kaydedildi ✨");
+      if (chartsInitialized) initAnalyticsCharts();
     }
 
-    // 📑 SAYFA GEÇİŞİ VE PERİYOTLU GRAFİK MOTORU (GÜNLÜK / AYLIK)
+    function deleteMoodEntry(id) {
+      moodHistory = moodHistory.filter(m => m.id !== id);
+      localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
+      renderMoodJournal();
+      showToast("Not Silindi");
+    }
+    renderMoodJournal();
+
+    // 📝 KULLANICI NOT DEFTERİ MOTORU
+    function renderUserNotes() {
+      const listEl = document.getElementById('userNotesList');
+      const badgeEl = document.getElementById('userNotesCountBadge');
+      if (!listEl) return;
+      if (badgeEl) badgeEl.innerText = `${userNotes.length} NOT`;
+
+      if (userNotes.length === 0) {
+        listEl.innerHTML = `<div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dark); text-align: center; padding: 6px;">[NOT ARŞİVİ BOŞ]</div>`;
+        return;
+      }
+
+      listEl.innerHTML = userNotes.slice().reverse().map(n => `
+        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: flex-start;">
+          <div style="flex: 1;">
+            <div style="font-size: 12px; color: var(--text-main); font-weight: 500; line-height: 1.4;">${n.text}</div>
+            <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dark); margin-top: 4px;">📅 ${n.date || ''} ${n.time ? '• ' + n.time : ''}</div>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dark); cursor: pointer; padding: 0 4px;" onclick="deleteUserNote(${n.id})">✕</span>
+        </div>
+      `).join('');
+    }
+
+    function handleAddUserNoteSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('userNoteInput');
+      const text = input ? input.value.trim() : '';
+      if (!text) return;
+
+      const dateStr = new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+      const timeStr = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+      userNotes.push({ id: Date.now(), text, date: dateStr, time: timeStr });
+      localStorage.setItem('saved_user_notes', JSON.stringify(userNotes));
+      input.value = '';
+      renderUserNotes();
+      checkAchievements();
+      showToast("Not Arşive Eklendi 📝");
+    }
+
+    function deleteUserNote(id) {
+      userNotes = userNotes.filter(n => n.id !== id);
+      localStorage.setItem('saved_user_notes', JSON.stringify(userNotes));
+      renderUserNotes();
+      showToast("Not Silindi 🗑️");
+    }
+    renderUserNotes();
+
+    // 📑 SAYFA GEÇİŞİ VE PERİYOTLU GRAFİK MOTORU// 📑 SAYFA GEÇİŞİ VE PERİYOTLU GRAFİK MOTORU (GÜNLÜK / AYLIK)
     let activeMainTab = 'live';
     let currentAnalyticsPeriod = 'daily';
     let chartsInitialized = false;
@@ -1741,9 +1855,8 @@
 
     // 🌐 GLOBAL ATTACHMENTS
     window.setDailyMood = setDailyMood;
-    window.saveMoodNote = saveMoodNote;
     window.setAnalyticsPeriod = setAnalyticsPeriod;
-    window.nextBookWisdom = nextBookWisdom;window.nextBookWisdom = nextBookWisdom;
+    window.nextBookWisdom = nextBookWisdom;
     window.prevBookWisdom = prevBookWisdom;
     window.randomBookWisdom = randomBookWisdom;
     window.toggleAstroSection = toggleAstroSection;
@@ -1762,6 +1875,10 @@
     window.setPomoMode = setPomoMode;
     window.addQuickExpense = addQuickExpense;
     window.deleteExpenseItem = deleteExpenseItem;
+    window.handleAddUserNoteSubmit = handleAddUserNoteSubmit;
+    window.deleteUserNote = deleteUserNote;
+    window.handleMoodNoteSubmit = handleMoodNoteSubmit;
+    window.deleteMoodEntry = deleteMoodEntry;
     window.fetchGoogleCalendarEvents = fetchGoogleCalendarEvents;
     window.runSensorDiagnostics = runSensorDiagnostics;
 
