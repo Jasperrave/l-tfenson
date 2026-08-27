@@ -507,29 +507,29 @@
 
         <!-- 5 Seviyeli Taktil Mood Seçici -->
         <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 10px;">
-          <div class="te-switch-item" id="moodBtn1" onclick="setDailyMood(1, '🌧️ Düşük / Bunalmış')" style="font-size: 10px; padding: 8px 2px;">
-            <div style="font-size: 16px;">🌧️</div>
-            <div style="margin-top: 2px;">1 // DÜŞÜK</div>
+          <div class="te-switch-item" id="moodBtn1" onclick="setDailyMood(1, '😴 Yorgun / Bitkin')" style="font-size: 9.5px; padding: 8px 2px;">
+            <div style="font-size: 16px;">😴</div>
+            <div style="margin-top: 2px;">1 // YORGUN</div>
           </div>
-          <div class="te-switch-item" id="moodBtn2" onclick="setDailyMood(2, '☁️ Yorgun / Durgun')" style="font-size: 10px; padding: 8px 2px;">
+          <div class="te-switch-item" id="moodBtn2" onclick="setDailyMood(2, '☁️ Durgun / Keyifsiz')" style="font-size: 9.5px; padding: 8px 2px;">
             <div style="font-size: 16px;">☁️</div>
-            <div style="margin-top: 2px;">2 // YORGUN</div>
+            <div style="margin-top: 2px;">2 // DURGUN</div>
           </div>
-          <div class="te-switch-item" id="moodBtn3" onclick="setDailyMood(3, '⚖️ Dengeli / Nötr')" style="font-size: 10px; padding: 8px 2px;">
-            <div style="font-size: 16px;">⚖️</div>
+          <div class="te-switch-item" id="moodBtn3" onclick="setDailyMood(3, '🌿 Dengeli / Sakin')" style="font-size: 9.5px; padding: 8px 2px;">
+            <div style="font-size: 16px;">🌿</div>
             <div style="margin-top: 2px;">3 // DENGELİ</div>
           </div>
-          <div class="te-switch-item" id="moodBtn4" onclick="setDailyMood(4, '⚡ Odaklanmış / Verimli')" style="font-size: 10px; padding: 8px 2px;">
-            <div style="font-size: 16px;">⚡</div>
-            <div style="margin-top: 2px;">4 // ODAK</div>
+          <div class="te-switch-item" id="moodBtn4" onclick="setDailyMood(4, '😊 Mutlu / Keyifli')" style="font-size: 9.5px; padding: 8px 2px;">
+            <div style="font-size: 16px;">😊</div>
+            <div style="margin-top: 2px;">4 // MUTLU</div>
           </div>
-          <div class="te-switch-item active" id="moodBtn5" onclick="setDailyMood(5, '🔥 Zirve / Enerjik')" style="font-size: 10px; padding: 8px 2px;">
-            <div style="font-size: 16px;">🔥</div>
-            <div style="margin-top: 2px;">5 // ZİRVE</div>
+          <div class="te-switch-item active" id="moodBtn5" onclick="setDailyMood(5, '✨ Muhteşem / Enerjik')" style="font-size: 9.5px; padding: 8px 2px;">
+            <div style="font-size: 16px;">✨</div>
+            <div style="margin-top: 2px;">5 // MUHTEŞEM</div>
           </div>
         </div>
-
-        <!-- Günün Farkındalık Notu -->
+      </div>
+      <!-- Günün Farkındalık Notu --><!-- Günün Farkındalık Notu -->
         <div style="display: flex; gap: 6px;">
           <input type="text" id="moodNoteInput" class="te-input" placeholder="Günün kısa hissi / zihin notu...">
           <button type="button" class="te-btn te-btn-primary" onclick="saveMoodNote()">KAYDET</button>
@@ -567,7 +567,7 @@
         </div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 10px; font-family: var(--font-mono); color: var(--text-dark);">
-          <span>[DOKUN: SONRAKİ KİTAP]</span>
+          <span>[45 SN OKUMA SÜRESİ • DOKUN: SONRAKİ]</span>
           <span onclick="randomBookWisdom()" style="color: var(--te-orange); cursor: pointer; font-weight: 700;">RASTGELE KİTAP ↻</span>
         </div>
       </div>
@@ -1202,7 +1202,7 @@
       { title: "IKIGAI", author: "HÉCTOR GARCÍA", quote: "Tutkunuz ve yeteneğinizin kesiştiği nokta sizin İkigai'nizdir.", action: "💡 <b>Ders:</b> Heyecan veren tutkunu hatırla." }
     ];
 
-    const BOOK_ROTATION_INTERVAL_MS = 12000;
+    const BOOK_ROTATION_INTERVAL_MS = 45000; // 45 saniyede bir rahat okuma süresi
 
     function renderDailyBookWisdom() {
       const b = microBooks[currentBookIndex];
@@ -1579,12 +1579,12 @@
     let moodHistory = JSON.parse(localStorage.getItem('user_mood_history') || '[]');
     if (moodHistory.length === 0) {
       moodHistory = [
-        { date: "22 Ağu", score: 4, label: "Odaklı" },
-        { date: "23 Ağu", score: 5, label: "Zirve" },
-        { date: "24 Ağu", score: 3, label: "Dengeli" },
-        { date: "25 Ağu", score: 4, label: "Odaklı" },
-        { date: "26 Ağu", score: 5, label: "Zirve" },
-        { date: "Bugün", score: currentMoodScore, label: "Zirve" }
+        { date: "22 Ağu", score: 4, label: "Mutlu" },
+        { date: "23 Ağu", score: 5, label: "Muhteşem" },
+        { date: "24 Ağu", score: 2, label: "Durgun" },
+        { date: "25 Ağu", score: 4, label: "Mutlu" },
+        { date: "26 Ağu", score: 5, label: "Muhteşem" },
+        { date: "Bugün", score: currentMoodScore, label: "Muhteşem" }
       ];
       localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
     }
