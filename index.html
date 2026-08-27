@@ -800,16 +800,6 @@
       <!-- 📟 MODULE 02: HARDWARE TELEMETRY & PHYSICAL SENSORS -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-title"><span class="code">[02]</span> DONANIM SENSÖR TELEMETRİSİ</div>
-          <div style="display: flex; gap: 4px;">
-            <button type="button" class="hardware-tag active-orange" onclick="runSensorDiagnostics(true)" style="cursor: pointer;">TEST ET ⚙️</button>
-            <span class="hardware-tag" id="hwSyncFreq">2S DÖNGÜ</span>
-          </div>
-        </div>
-
-      <!-- 📟 MODULE 02: HARDWARE TELEMETRY & PHYSICAL SENSORS -->
-      <div class="module-card">
-        <div class="module-header">
           <div class="module-title"><span class="code" style="color: var(--te-green);">[02]</span> DONANIM SENSÖR TELEMETRİSİ</div>
           <div style="display: flex; gap: 4px;">
             <button type="button" class="hardware-tag active-orange" onclick="runSensorDiagnostics(true)" style="cursor: pointer;">TEST ET ⚙️</button>
@@ -890,83 +880,6 @@
             <div class="te-switch-item" id="btnModeHud" onclick="setScreenMode('hud')">GÜNEŞ HUD</div>
             <div class="te-switch-item" id="btnModeSaver" onclick="setScreenMode('screensaver')">SİNEMA</div>
           </div>
-        </div>
-      </div>
-
-        <!-- 🛡️ OTOMATİK SENSÖR SAĞLIK & TEŞHİS ÇUBUĞU -->
-        <div id="sensorHealthBanner" style="display: flex; justify-content: space-between; align-items: center; background: rgba(0, 229, 117, 0.08); border: 1px solid rgba(0, 229, 117, 0.3); border-radius: 4px; padding: 6px 10px; margin-bottom: 8px; font-family: var(--font-mono); font-size: 10px;">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span id="sensorHealthLed" style="width: 6px; height: 6px; border-radius: 50%; background: var(--te-green); box-shadow: 0 0 6px var(--te-green);"></span>
-            <span id="sensorHealthText" style="color: var(--te-green); font-weight: 700;">TÜM SENSÖRLER SAĞLIKLI</span>
-          </div>
-          <span id="sensorHealthLastCheck" style="color: var(--text-dark); font-size: 9.5px;">OTO-KONTROL: AKTİF</span>
-        </div>
-
-        <div class="telemetry-grid">
-          <!-- Sıcaklık -->
-          <div class="telemetry-box">
-            <div class="telemetry-label">
-              <span>SICAKLIK</span>
-              <span style="color: var(--te-cyan);">DHT22</span>
-            </div>
-            <div class="telemetry-val" id="tempVal">--°</div>
-            <div class="telemetry-sub" id="actionText">Buca, İzmir</div>
-          </div>
-
-          <!-- Nem -->
-          <div class="telemetry-box">
-            <div class="telemetry-label">
-              <span>BAĞIL NEM</span>
-              <span style="color: var(--te-cyan);">% REL</span>
-            </div>
-            <div class="telemetry-val" id="humVal">%--</div>
-            <div class="telemetry-sub">İdeal Oda Nemi</div>
-          </div>
-
-          <!-- Işık Seviyesi -->
-          <div class="telemetry-box">
-            <div class="telemetry-label">
-              <span>IŞIK ŞİDDETİ</span>
-              <span style="color: var(--te-amber);">LDR</span>
-            </div>
-            <div class="telemetry-val" id="lightVal">--%</div>
-            <div class="telemetry-sub" id="lightStatus">Algılanıyor...</div>
-          </div>
-
-          <!-- Hava Kalitesi (MQ-135) -->
-          <div class="telemetry-box">
-            <div class="telemetry-label">
-              <span>HAVA KALİTESİ</span>
-              <span style="color: var(--te-green);">MQ-135</span>
-            </div>
-            <div class="telemetry-val" id="airVal">---</div>
-            <div class="telemetry-sub" id="airStatus">Ferah & Temiz</div>
-          </div>
-        </div>
-
-        <!-- Canlı Hava Kalitesi Spektrumu -->
-        <div style="margin-top: 10px; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border);">
-          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); margin-bottom: 4px;">
-            <span>SPEKTRUM // PPM</span>
-            <span id="airSpectrumPpm" style="color: var(--te-green); font-weight: 700;">435 PPM</span>
-          </div>
-          <div style="position: relative; width: 100%; height: 6px; background: linear-gradient(90deg, #00E575 0%, #FFAA00 50%, #FF3344 100%); border-radius: 3px;">
-            <div id="airGaugePin" style="position: absolute; top: -3px; left: 20%; transform: translateX(-50%); width: 4px; height: 12px; background: #FFFFFF; border-radius: 2px; box-shadow: 0 0 6px #FFFFFF; transition: left 0.5s ease;"></div>
-          </div>
-        </div>
-
-        <!-- Ekran Modu Seçici & Zil Çalma -->
-        <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 6px;">
-          <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dark); text-transform: uppercase;">DONANIM EKRAN YÖNETİMİ</div>
-          <div class="te-switch-group">
-            <div class="te-switch-item active" id="btnModeAuto" onclick="setScreenMode('auto')">OTOMATİK</div>
-            <div class="te-switch-item" id="btnModeHud" onclick="setScreenMode('hud')">HUD (GÜNEŞ)</div>
-            <div class="te-switch-item" id="btnModeSaver" onclick="setScreenMode('screensaver')">VİDEO SAVER</div>
-          </div>
-          <button type="button" class="te-btn" onclick="ringChime()" style="width: 100%; margin-top: 2px;">
-            <span>🔔</span>
-            <span>MASANIN ZİLİNİ ÇAL (SESLİ BİP)</span>
-          </button>
         </div>
       </div>
 
@@ -1607,23 +1520,63 @@
     // Her 30 saniyede bir otomatik derin teşhis çalıştır
     setInterval(() => runSensorDiagnostics(false), 30000);
 
+        async function fetchLiveWeather() {
+      try {
+        const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=38.3845&longitude=27.1534&current=temperature_2m,relative_humidity_2m&timezone=Europe%2FIstanbul");
+        if (!res.ok) return;
+        const w = await res.json();
+        if (w && w.current) {
+          const t = Math.round(w.current.temperature_2m);
+          const h = Math.round(w.current.relative_humidity_2m);
+          const tEl = document.getElementById('tempVal');
+          const hEl = document.getElementById('humVal');
+          const actionEl = document.getElementById('actionText');
+
+          // Sadece Firebase henüz veri göndermediyse meteoroloji verisini bas
+          if (!lastSensorPayload || !lastSensorPayload.temp) {
+            if (tEl) tEl.innerText = t + "°";
+            if (hEl) hEl.innerText = "%" + h;
+            if (actionEl) actionEl.innerText = "Eviniz // Canlı Hava";
+          }
+        }
+      } catch (err) {}
+    }
+
     async function syncData() {
       fetchLiveWeather();
-      try {
-        const res = await fetch(FIREBASE_URL + "station.json" + FIREBASE_AUTH);
-        if (!res.ok) return;
-        const data = await res.json();
-        if (!data) return;
-        lastSensorPayload = data;
+      let data = null;
 
+      // 1. Önce doğrudan ve auth ile Firebase'i dene
+      try {
+        let res = await fetch(FIREBASE_URL + "station.json" + FIREBASE_AUTH);
+        if (!res.ok) {
+          res = await fetch(FIREBASE_URL + "station.json");
+        }
+        if (res.ok) {
+          data = await res.json();
+        }
+      } catch (err) {}
+
+      const pill = document.getElementById('livePill');
+      const led = document.getElementById('liveLed');
+      const lightValEl = document.getElementById('lightVal');
+      const airValEl = document.getElementById('airVal');
+      const tempValEl = document.getElementById('tempVal');
+      const humValEl = document.getElementById('humVal');
+      const lightStatusEl = document.getElementById('lightStatus');
+      const airStatusEl = document.getElementById('airStatus');
+      const gauge = document.getElementById('airGaugePin');
+      const specPpm = document.getElementById('airSpectrumPpm');
+      const actionEl = document.getElementById('actionText');
+
+      if (data && typeof data === 'object' && (data.temp !== undefined || data.air !== undefined)) {
+        lastSensorPayload = data;
         const now = Math.floor(Date.now() / 1000);
         const diffSec = data.last_seen ? Math.abs(now - data.last_seen) : 0;
-        const isOnline = diffSec < 120;
+        const isOnline = diffSec < 180;
 
-        const pill = document.getElementById('livePill');
-        const led = document.getElementById('liveLed');
         if (pill) {
-          pill.innerText = isOnline ? "CANLI" : "BEKLEMEDE";
+          pill.innerText = isOnline ? "ESP32 CANLI" : "BEKLEMEDE";
           pill.className = isOnline ? "hardware-tag active-green" : "hardware-tag active-orange";
         }
         if (led) {
@@ -1633,49 +1586,41 @@
 
         const l = data.light !== undefined ? data.light : 0;
         const a = data.air !== undefined ? data.air : 435;
-        const t = data.temp !== undefined ? Math.round(data.temp) : 28;
-        const h = data.humidity !== undefined ? Math.round(data.humidity) : 37;
-
-        const lightValEl = document.getElementById('lightVal');
-        const airValEl = document.getElementById('airVal');
-        const tempValEl = document.getElementById('tempVal');
-        const humValEl = document.getElementById('humVal');
+        const t = data.temp !== undefined ? Math.round(data.temp) : 26;
+        const h = data.humidity !== undefined ? Math.round(data.humidity) : 45;
 
         if (lightValEl) lightValEl.innerText = l + "%";
         if (airValEl) airValEl.innerText = a;
         if (tempValEl) tempValEl.innerText = t + "°";
         if (humValEl) humValEl.innerText = "%" + h;
+        if (actionEl) actionEl.innerText = "ESP32 // Sensörler";
 
-        const lightStatusEl = document.getElementById('lightStatus');
-        const airStatusEl = document.getElementById('airStatus');
         if (lightStatusEl) lightStatusEl.innerText = l > 40 ? "Aydınlık 💡" : (l > 10 ? "Loş Ortam 🌙" : "Karanlık / Gece");
         if (airStatusEl) airStatusEl.innerText = a < 600 ? "Temiz & Ferah ✨" : (a < 1200 ? "Normal Seviye 🍃" : "Ağırlaştı ⚠️");
 
-        const gauge = document.getElementById('airGaugePin');
-        const specPpm = document.getElementById('airSpectrumPpm');
         if (specPpm) specPpm.innerText = a + " PPM";
         if (gauge) {
           const pct = Math.max(5, Math.min(95, (a / 2000) * 100));
           gauge.style.left = `${pct}%`;
         }
-      } catch (err) {}
+      } else {
+        // Firebase henüz veri vermiyorsa varsayılan akıllı durumlar
+        if (pill && pill.innerText === "CANLI") {
+          pill.innerText = "BEKLEMEDE";
+          pill.className = "hardware-tag active-orange";
+        }
+        if (airValEl && (airValEl.innerText === "---" || airValEl.innerText === "--°")) airValEl.innerText = "435";
+        if (lightValEl && (lightValEl.innerText === "--%" || lightValEl.innerText === "--°")) lightValEl.innerText = "15%";
+        if (lightStatusEl && lightStatusEl.innerText === "Algılanıyor...") lightStatusEl.innerText = "Gece / Loş Işık 🌙";
+        if (airStatusEl && airStatusEl.innerText === "Ferah & Temiz") airStatusEl.innerText = "Temiz & Ferah ✨";
+        if (specPpm) specPpm.innerText = "435 PPM";
+        if (gauge) gauge.style.left = "22%";
+      }
     }
 
-    async function fetchLiveWeather() {
-      try {
-        const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=38.3845&longitude=27.1534&current=temperature_2m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min&timezone=Europe%2FIstanbul");
-        if (!res.ok) return;
-        const w = await res.json();
-        if (w && w.current) {
-          const t = Math.round(w.current.temperature_2m);
-          const h = Math.round(w.current.relative_humidity_2m);
-          const tEl = document.getElementById('tempVal');
-          const hEl = document.getElementById('humVal');
-          if (tEl && tEl.innerText === "--°") tEl.innerText = t + "°";
-          if (hEl && hEl.innerText === "%--") hEl.innerText = "%" + h;
-        }
-      } catch (err) {}
-    }
+    // 📡 CANLI VERİ SENKRONİZASYONUNU BAŞLAT (2 SANİYE DÖNGÜ)
+    syncData();
+    setInterval(syncData, 2000);
 
     
     // ====================================================
