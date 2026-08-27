@@ -807,6 +807,92 @@
           </div>
         </div>
 
+      <!-- 📟 MODULE 02: HARDWARE TELEMETRY & PHYSICAL SENSORS -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-title"><span class="code" style="color: var(--te-green);">[02]</span> DONANIM SENSÖR TELEMETRİSİ</div>
+          <div style="display: flex; gap: 4px;">
+            <button type="button" class="hardware-tag active-orange" onclick="runSensorDiagnostics(true)" style="cursor: pointer;">TEST ET ⚙️</button>
+            <span class="hardware-tag" id="hwSyncFreq">2S DÖNGÜ</span>
+          </div>
+        </div>
+
+        <!-- ⚙️ SENSÖR SAĞLIK & OTOMATİK KONTROL BANNERI -->
+        <div id="sensorHealthBanner" style="margin-bottom: 10px; padding: 6px 10px; background: rgba(82, 183, 136, 0.1); border: 1px solid rgba(82, 183, 136, 0.3); border-radius: 4px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 10px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="led" id="sensorHealthLed" style="width: 6px; height: 6px; background: var(--te-green); box-shadow: 0 0 6px var(--te-green);"></span>
+            <span id="sensorHealthText" style="color: var(--te-green); font-weight: 700;">✓ TÜM SENSÖRLER AKTİF & SAĞLIKLI</span>
+          </div>
+          <span style="color: var(--text-dark);" id="sensorHealthLastCheck">Az önce</span>
+        </div>
+
+        <div class="telemetry-grid">
+          <!-- Sıcaklık -->
+          <div class="telemetry-box">
+            <div class="telemetry-label">
+              <span>SICAKLIK</span>
+              <span style="color: var(--te-cyan);">DHT22</span>
+            </div>
+            <div class="telemetry-val" id="tempVal">--°</div>
+            <div class="telemetry-sub" id="actionText">Eviniz // İzmir</div>
+          </div>
+
+          <!-- Nem -->
+          <div class="telemetry-box">
+            <div class="telemetry-label">
+              <span>BAĞIL NEM</span>
+              <span style="color: var(--te-cyan);">% REL</span>
+            </div>
+            <div class="telemetry-val" id="humVal">%--</div>
+            <div class="telemetry-sub">İdeal Oda Nemi</div>
+          </div>
+
+          <!-- Işık Seviyesi -->
+          <div class="telemetry-box">
+            <div class="telemetry-label">
+              <span>IŞIK ŞİDDETİ</span>
+              <span style="color: var(--te-amber);">LDR</span>
+            </div>
+            <div class="telemetry-val" id="lightVal">--%</div>
+            <div class="telemetry-sub" id="lightStatus">Algılanıyor...</div>
+          </div>
+
+          <!-- Hava Kalitesi (MQ-135) -->
+          <div class="telemetry-box">
+            <div class="telemetry-label">
+              <span>HAVA KALİTESİ</span>
+              <span style="color: var(--te-green);">MQ-135</span>
+            </div>
+            <div class="telemetry-val" id="airVal">---</div>
+            <div class="telemetry-sub" id="airStatus">Ferah & Temiz</div>
+          </div>
+        </div>
+
+        <!-- Canlı Hava Kalitesi Spektrumu -->
+        <div style="margin-top: 10px; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border);">
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); margin-bottom: 4px;">
+            <span>SPEKTRUM // PPM</span>
+            <span id="airSpectrumPpm" style="color: var(--te-green); font-weight: 700;">435 PPM</span>
+          </div>
+          <div style="position: relative; width: 100%; height: 6px; background: linear-gradient(90deg, #52B788 0%, #DDA15E 50%, #E76F51 100%); border-radius: 3px;">
+            <div id="airGaugePin" style="position: absolute; top: -3px; left: 20%; transform: translateX(-50%); width: 4px; height: 12px; background: #FFFFFF; border-radius: 2px; box-shadow: 0 0 6px #FFFFFF; transition: left 0.5s ease;"></div>
+          </div>
+        </div>
+
+        <!-- Ekran Modu Seçici & Zil Çalma -->
+        <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 6px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dark);">DONANIM EKRAN MODU:</span>
+            <button type="button" class="te-btn" onclick="ringChime()" style="padding: 4px 8px; font-size: 10px;">🔔 ZİLİ ÇAL</button>
+          </div>
+          <div class="te-switch-group">
+            <div class="te-switch-item active" id="btnModeAuto" onclick="setScreenMode('auto')">OTOMATİK</div>
+            <div class="te-switch-item" id="btnModeHud" onclick="setScreenMode('hud')">GÜNEŞ HUD</div>
+            <div class="te-switch-item" id="btnModeSaver" onclick="setScreenMode('screensaver')">SİNEMA</div>
+          </div>
+        </div>
+      </div>
+
         <!-- 🛡️ OTOMATİK SENSÖR SAĞLIK & TEŞHİS ÇUBUĞU -->
         <div id="sensorHealthBanner" style="display: flex; justify-content: space-between; align-items: center; background: rgba(0, 229, 117, 0.08); border: 1px solid rgba(0, 229, 117, 0.3); border-radius: 4px; padding: 6px 10px; margin-bottom: 8px; font-family: var(--font-mono); font-size: 10px;">
           <div style="display: flex; align-items: center; gap: 6px;">
@@ -881,40 +967,6 @@
             <span>🔔</span>
             <span>MASANIN ZİLİNİ ÇAL (SESLİ BİP)</span>
           </button>
-        </div>
-      </div>
-
-      <!-- ⚔️ MODULE 03-A: DAILY DUNGEON BOSS BATTLE -->
-      <div class="module-card" style="border-color: rgba(255, 51, 68, 0.4); background: linear-gradient(135deg, rgba(20,22,24,0.98), rgba(28,20,22,0.95));">
-        <div class="module-header" style="margin-bottom: 6px;">
-          <div class="module-title"><span class="code" style="color: var(--te-red);">[BOSS]</span> GÜNÜN ZİNDAN SAVAŞI</div>
-          <span class="hardware-tag" id="bossPhaseTag" style="color: var(--te-red); border-color: rgba(255,51,68,0.4);">SAVAŞ SÜRÜYOR</span>
-        </div>
-
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span id="bossAvatar" style="font-size: 28px;">👹</span>
-            <div>
-              <div id="bossName" style="font-family: var(--font-ui); font-size: 14px; font-weight: 700; color: #FFFFFF;">ERTELEME İBLİSİ</div>
-              <div id="bossSubDesc" style="font-size: 10.5px; color: var(--text-muted);">Görevlerini tamamlayarak canavarı alt et!</div>
-            </div>
-          </div>
-          <div style="text-align: right;">
-            <div id="bossHpText" style="font-family: var(--font-mono); font-size: 13px; font-weight: 800; color: var(--te-red);">350 / 600 HP</div>
-            <div style="font-family: var(--font-mono); font-size: 9px; color: var(--te-amber);">+300 XP ÖDÜL</div>
-          </div>
-        </div>
-
-        <!-- Boss HP Bar -->
-        <div style="width: 100%; height: 7px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
-          <div id="bossHpBar" style="width: 58%; height: 100%; background: linear-gradient(90deg, var(--te-orange), var(--te-red)); transition: width 0.4s ease;"></div>
-        </div>
-
-        <!-- Hasar Rehberi -->
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-family: var(--font-mono); font-size: 9px; text-align: center; color: var(--text-dark);">
-          <div style="background: var(--surface-2); padding: 4px 2px; border-radius: 3px; border: 1px solid var(--border);">⏱️ 1 Pomo: <b style="color: var(--te-red);">-150 HP</b></div>
-          <div style="background: var(--surface-2); padding: 4px 2px; border-radius: 3px; border: 1px solid var(--border);">✓ 1 Alışkanlık: <b style="color: var(--te-orange);">-100 HP</b></div>
-          <div style="background: var(--surface-2); padding: 4px 2px; border-radius: 3px; border: 1px solid var(--border);">📚 1 Kitap: <b style="color: var(--te-green);">-75 HP</b></div>
         </div>
       </div>
 
@@ -1995,7 +2047,6 @@
             if (b) b.innerText = "BAŞLAT";
             let c = parseInt(localStorage.getItem('pomo_completed_count') || '0') + 1;
             localStorage.setItem('pomo_completed_count', c.toString());
-            damageBoss(150, 'Pomodoro Tamamlandı');
             petHappiness = Math.min(100, petHappiness + 20);
             localStorage.setItem('pet_happiness', petHappiness.toString());
             updatePetDisplay();
@@ -2059,7 +2110,6 @@
         habitStreak++;
         localStorage.setItem('habit_streak_count', habitStreak.toString());
       }
-      damageBoss(100, 'Alışkanlık Tamamlandı');
       petHappiness = Math.min(100, petHappiness + 10);
       localStorage.setItem('pet_happiness', petHappiness.toString());
       updatePetDisplay();
