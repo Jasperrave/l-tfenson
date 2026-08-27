@@ -654,80 +654,92 @@
         </div>
       </div>
 
-      <!-- 🔭 TÜRKİYE GÖKYÜZÜ & ASTRONOMİ TAKVİMİ -->
-      <div class="card">
-        <div class="sec-header">
-          <div class="sec-title" style="color: #B388FF;">🔭 Türkiye Gökyüzü & Astronomi Takvimi</div>
-          <span class="agenda-badge" id="astroUpcomingCountBadge" style="color: #B388FF;">21 GÖK OLAYI</span>
-        </div>
-
-        <!-- En Yakın Gök Olayı Canlı Radarı -->
-        <div id="astroFeaturedBox" style="margin: 8px 0 12px 0; padding: 14px; background: linear-gradient(135deg, rgba(179,136,255,0.14), rgba(21,23,36,0.9)); border-radius: 10px; border: 1px solid rgba(179,136,255,0.35); cursor: pointer;" onclick="openAstroModal(0)">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-            <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #00E5FF; background: rgba(0,229,255,0.12); padding: 2px 8px; border-radius: 9999px;">🌟 EN YAKIN GÖK ŞÖLENİ</span>
-            <span id="astroFeaturedCountdown" style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--warning);">⏳ 11 Gün Kaldı</span>
+      <!-- 🔭 TÜRKİYE GÖKYÜZÜ & ASTRONOMİ TAKVİMİ (AÇILIR / KAPANIR PANEL) -->
+      <div class="card" style="border-color: rgba(179,136,255,0.35);">
+        <div class="sec-header" onclick="toggleAstroSection()" style="cursor: pointer; user-select: none;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="sec-title" style="color: #B388FF; margin: 0;">🔭 Astronomi & Gökyüzü Takvimi</div>
+            <span class="agenda-badge" id="astroUpcomingCountBadge" style="color: #B388FF;">21 OLAY</span>
           </div>
-          <div id="astroFeaturedTitle" style="font-family: var(--font-display); font-size: 17px; font-weight: 700; color: #ffffff; margin: 4px 0 2px 0; letter-spacing: -0.02em;">Satürn Karşı Konumu (Halkaların En Parlak Zamanı)</div>
-          <div id="astroFeaturedDesc" style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">Satürn Dünya'ya en yakın noktada; halkaları çıplak gözle ve dürbünle Türkiye'den sabaha kadar olağanüstü netlikte izlenebilecek.</div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 11px;">
-            <span style="color: var(--success); font-family: var(--font-mono);">📍 Türkiye'den Çıplak Gözle Net</span>
-            <span style="color: #B388FF; font-weight: 600;">Detaylı Rehberi Aç 🔍</span>
+          <span id="astroToggleBtn" style="font-size: 11.5px; font-weight: 700; color: #B388FF; padding: 3px 8px; background: rgba(179,136,255,0.12); border-radius: 6px; border: 1px solid rgba(179,136,255,0.25);">Listeyi Aç ▾</span>
+        </div>
+
+        <!-- Açılır / Kapanır Astronomi Gövdesi (Varsayılan Kompakt / Tıklayınca Açılır) -->
+        <div id="astroBodyContent" style="display: none; margin-top: 10px; transition: all 0.3s ease;">
+          <!-- En Yakın Gök Olayı Canlı Radarı -->
+          <div id="astroFeaturedBox" style="margin: 4px 0 12px 0; padding: 14px; background: linear-gradient(135deg, rgba(179,136,255,0.14), rgba(21,23,36,0.9)); border-radius: 10px; border: 1px solid rgba(179,136,255,0.35); cursor: pointer;" onclick="openAstroModal(0)">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: #00E5FF; background: rgba(0,229,255,0.12); padding: 2px 8px; border-radius: 9999px;">🌟 EN YAKIN GÖK ŞÖLENİ</span>
+              <span id="astroFeaturedCountdown" style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--warning);">⏳ 11 Gün Kaldı</span>
+            </div>
+            <div id="astroFeaturedTitle" style="font-family: var(--font-display); font-size: 17px; font-weight: 700; color: #ffffff; margin: 4px 0 2px 0; letter-spacing: -0.02em;">Satürn Karşı Konumu (Halkaların En Parlak Zamanı)</div>
+            <div id="astroFeaturedDesc" style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">Satürn Dünya'ya en yakın noktada; halkaları çıplak gözle ve dürbünle Türkiye'den sabaha kadar olağanüstü netlikte izlenebilecek.</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 11px;">
+              <span style="color: var(--success); font-family: var(--font-mono);">📍 Türkiye'den Çıplak Gözle Net</span>
+              <span style="color: #B388FF; font-weight: 600;">Detaylı Rehberi Aç 🔍</span>
+            </div>
           </div>
-        </div>
 
-        <!-- Kategori Filtreleri -->
-        <div style="display: flex; gap: 6px; margin: 10px 0 12px 0; overflow-x: auto; padding-bottom: 2px;">
-          <button class="astro-filter-btn active" id="astroFilterAll" onclick="filterAstroEvents('all')">✨ Tümü (21)</button>
-          <button class="astro-filter-btn" id="astroFilterRare" onclick="filterAstroEvents('rare')" style="color: #00E5FF; border-color: rgba(0, 229, 255, 0.3);">💎 Yüzyılda Bir (4)</button>
-          <button class="astro-filter-btn" id="astroFilterMeteor" onclick="filterAstroEvents('meteor')">☄️ Meteorlar (7)</button>
-          <button class="astro-filter-btn" id="astroFilterMoon" onclick="filterAstroEvents('moon')">🌕 Süper Aylar (4)</button>
-          <button class="astro-filter-btn" id="astroFilterPlanet" onclick="filterAstroEvents('planet')">🪐 Gezegenler (4)</button>
-        </div>
+          <!-- Kategori Filtreleri -->
+          <div style="display: flex; gap: 6px; margin: 10px 0 12px 0; overflow-x: auto; padding-bottom: 2px;">
+            <button class="astro-filter-btn active" id="astroFilterAll" onclick="filterAstroEvents('all')">✨ Tümü (21)</button>
+            <button class="astro-filter-btn" id="astroFilterRare" onclick="filterAstroEvents('rare')" style="color: #00E5FF; border-color: rgba(0, 229, 255, 0.3);">💎 Yüzyılda Bir (4)</button>
+            <button class="astro-filter-btn" id="astroFilterMeteor" onclick="filterAstroEvents('meteor')">☄️ Meteorlar (7)</button>
+            <button class="astro-filter-btn" id="astroFilterMoon" onclick="filterAstroEvents('moon')">🌕 Süper Aylar (4)</button>
+            <button class="astro-filter-btn" id="astroFilterPlanet" onclick="filterAstroEvents('planet')">🪐 Gezegenler (4)</button>
+          </div>
 
-        <div id="astroEventsList" style="display: flex; flex-direction: column; gap: 10px;"></div>
+          <div id="astroEventsList" style="display: flex; flex-direction: column; gap: 10px;"></div>
+        </div>
       </div>
 
-      <!-- 🏆 BAŞARILAR & ROZET ODASI (GENİŞLETİLMİŞ 16 ROZET KÜLLİYATI) -->
-      <div class="card">
-        <div class="sec-header">
-          <div class="sec-title" style="color: var(--warning);">🏆 Başarılar & 16 Rozet Odası</div>
-          <span class="agenda-badge" id="badgesProgressBadge" style="color: var(--warning);">0 / 16 AÇILDI</span>
+      <!-- 🏆 BAŞARILAR & 32 ROZET ODASI (AÇILIR / KAPANIR PANEL) -->
+      <div class="card" style="border-color: rgba(245,158,11,0.35);">
+        <div class="sec-header" onclick="toggleBadgesSection()" style="cursor: pointer; user-select: none;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="sec-title" style="color: var(--warning); margin: 0;">🏆 Başarılar & 32 Rozet Odası</div>
+            <span class="agenda-badge" id="badgesProgressBadge" style="color: var(--warning);">0 / 32 AÇILDI</span>
+          </div>
+          <span id="badgesToggleBtn" style="font-size: 11.5px; font-weight: 700; color: var(--warning); padding: 3px 8px; background: rgba(245,158,11,0.12); border-radius: 6px; border: 1px solid rgba(245,158,11,0.25);">Rozetleri Aç ▾</span>
         </div>
 
-        <div style="margin: 4px 0 10px 0; background: var(--surface-card); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);">
+        <!-- Seviye & XP İlerleme Özeti (Daima Görünür) -->
+        <div style="margin: 8px 0 6px 0; background: var(--surface-card); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);">
           <div style="display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 6px;">
             <span style="font-weight: 700; color: var(--warning);" id="userLevelTitle">⭐ Seviye 1: Çırak Kaşif</span>
-            <span style="font-family: var(--font-mono); color: var(--success); font-weight: 700;" id="userXpText">0 / 1825 XP</span>
+            <span style="font-family: var(--font-mono); color: var(--success); font-weight: 700;" id="userXpText">0 / 4850 XP</span>
           </div>
           <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.06); border-radius: 9999px; overflow: hidden;">
             <div id="userXpBar" style="width: 5%; height: 100%; background: linear-gradient(90deg, var(--success), var(--warning)); transition: width 0.4s ease;"></div>
           </div>
         </div>
 
-        <!-- 4x4 Görsel Rozet Tablosu -->
-        <div id="badgesGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0 12px 0;"></div>
+        <!-- Açılır / Kapanır Rozet Tablosu ve Kılavuz -->
+        <div id="badgesBodyContent" style="display: none; margin-top: 10px; transition: all 0.3s ease;">
+          <!-- 4x8 Görsel Rozet Tablosu (32 Rozet) -->
+          <div id="badgesGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0 12px 0;"></div>
 
-        <!-- Seçilen Rozet Detay Kutusu -->
-        <div id="badgeDetailBox" style="display: none; margin-bottom: 12px; padding: 12px 14px; background: var(--surface-card); border-radius: 8px; border: 1px solid var(--warning);">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span id="badgeDetailIcon" style="font-size: 24px;">🛡️</span>
-              <div>
-                <div id="badgeDetailName" style="font-family: var(--font-display); font-weight: 700; color: var(--warning); font-size: 13px;">Rozet Adı</div>
-                <div id="badgeDetailDesc" style="font-size: 11px; color: var(--text-secondary);">Görev Açıklaması</div>
+          <!-- Seçilen Rozet Detay Kutusu -->
+          <div id="badgeDetailBox" style="display: none; margin-bottom: 12px; padding: 12px 14px; background: var(--surface-card); border-radius: 8px; border: 1px solid var(--warning);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span id="badgeDetailIcon" style="font-size: 24px;">🛡️</span>
+                <div>
+                  <div id="badgeDetailName" style="font-family: var(--font-display); font-weight: 700; color: var(--warning); font-size: 13px;">Rozet Adı</div>
+                  <div id="badgeDetailDesc" style="font-size: 11px; color: var(--text-secondary);">Görev Açıklaması</div>
+                </div>
               </div>
+              <span id="badgeDetailXp" style="font-family: var(--font-mono); font-size: 11px; color: var(--success); font-weight: 700;">+50 XP</span>
             </div>
-            <span id="badgeDetailXp" style="font-family: var(--font-mono); font-size: 11px; color: var(--success); font-weight: 700;">+50 XP</span>
+          </div>
+
+          <!-- 📋 TÜM 32 GÖREV & KAZANMA REHBERİ -->
+          <div style="border-top: 1px solid var(--border); padding-top: 10px;">
+            <div style="font-family: var(--font-display); font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">📋 32 Başarım & Kazanma Şartları Külliyatı</div>
+            <div id="allBadgesGuideList" style="display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto;"></div>
           </div>
         </div>
-
-        <!-- 📋 TÜM 16 GÖREV & KAZANMA REHBERİ (DOĞRUDAN GÖRÜNÜR LİSTE) -->
-        <div style="border-top: 1px solid var(--border); padding-top: 10px;">
-          <div style="font-family: var(--font-display); font-size: 12px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">📋 16 Başarı & Kazanma Şartları Dökümü</div>
-          <div id="allBadgesGuideList" style="display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto;"></div>
-        </div>
       </div>
-
       <!-- 🔥 GÜNLÜK ALIŞKANLIK SERİSİ -->
       <div class="card">
         <div class="sec-header">
@@ -1097,6 +1109,8 @@
     let currentAstroFilter = 'all';
     let currentDynamicEvents = [];
     let expandedAstroIndices = new Set([0]);
+    let currentBookIndex = 0;
+    let bookTimerProgress = 0;
     let dailyExpenses = JSON.parse(localStorage.getItem('daily_expenses') || '[]');
     let userNotes = JSON.parse(localStorage.getItem('saved_user_notes') || '[]');
     if (userNotes.length === 0) {
@@ -2306,25 +2320,70 @@
     renderHabits();
 
     // ====================================================
-    // 🏆 16 ROZETLİ BÜYÜK BAŞARILAR & OYUNLAŞTIRMA MOTORU
+    // ====================================================
+    // 📂 AÇILIR / KAPANIR BÖLÜM YÖNETİMİ
+    // ====================================================
+    let isAstroOpen = false;
+    let isBadgesOpen = false;
+
+    function toggleAstroSection() {
+      isAstroOpen = !isAstroOpen;
+      const body = document.getElementById('astroBodyContent');
+      const btn = document.getElementById('astroToggleBtn');
+      if (body) body.style.display = isAstroOpen ? 'block' : 'none';
+      if (btn) btn.innerText = isAstroOpen ? 'Listeyi Kapat ▴' : 'Listeyi Aç ▾';
+      if (isAstroOpen) {
+        renderAstroEvents();
+        localStorage.setItem('astro_viewed', 'true');
+        checkAchievements();
+      }
+    }
+
+    function toggleBadgesSection() {
+      isBadgesOpen = !isBadgesOpen;
+      const body = document.getElementById('badgesBodyContent');
+      const btn = document.getElementById('badgesToggleBtn');
+      if (body) body.style.display = isBadgesOpen ? 'block' : 'none';
+      if (btn) btn.innerText = isBadgesOpen ? 'Rozetleri Kapat ▴' : 'Rozetleri Aç ▾';
+      if (isBadgesOpen) renderAchievements();
+    }
+
+    // ====================================================
+    // 🏆 32 ROZETLİ BÜYÜK BAŞARILAR & OYUNLAŞTIRMA MOTORU
     // ====================================================
     const badgesList = [
       { id: 'habits_first', name: 'İlk Adım', desc: 'Günün 1 Alışkanlığını Tamamla', icon: '🌱', xp: 50, check: () => habitsData.some(h => h.done) },
       { id: 'habits_all', name: 'Truva Savaşçısı', desc: 'Günün Tüm Alışkanlıklarını Bitir', icon: '🛡️', xp: 100, check: () => habitsData.length > 0 && habitsData.every(h => h.done) },
       { id: 'streak_3', name: 'Demir İrade', desc: '3 Günlük Kesintisiz Seri Yakala', icon: '🔥', xp: 150, check: () => habitStreak >= 3 },
       { id: 'streak_7', name: 'Ateş Fırtınası', desc: '7 Günlük Efsanevi Seri Yakala', icon: '⚡', xp: 300, check: () => habitStreak >= 7 },
+      { id: 'streak_14', name: 'Yenilmez Zihin', desc: '14 Günlük İrade Destanı', icon: '👑', xp: 500, check: () => habitStreak >= 14 },
       { id: 'pomo_1', name: 'Lazer Odak', desc: 'İlk 25 Dk Pomodoro Seansını Bitir', icon: '⏱️', xp: 75, check: () => parseInt(localStorage.getItem('pomo_completed_count') || '0') >= 1 },
       { id: 'pomo_5', name: 'Odak Maratoncusu', desc: '5 Pomodoro Seansı Tamamla', icon: '🎯', xp: 200, check: () => parseInt(localStorage.getItem('pomo_completed_count') || '0') >= 5 },
+      { id: 'pomo_10', name: 'Süper Beyin', desc: '10 Pomodoro Seansına Ulaş', icon: '🧠', xp: 400, check: () => parseInt(localStorage.getItem('pomo_completed_count') || '0') >= 10 },
       { id: 'mood_log', name: 'Farkındalık', desc: 'Günün Ruh Halini Skalaya Kaydet', icon: '🧘', xp: 50, check: () => !!localStorage.getItem('daily_mood_score') },
       { id: 'mood_streak', name: 'Zen Ustası', desc: '5 Gün Üst Üste Ruh Hali Kaydet', icon: '🌸', xp: 200, check: () => moodHistory.length >= 5 },
-      { id: 'book_reader', name: 'Kitap Kurdu', desc: 'Günün Mikro Kitap Özetini İncele', icon: '📚', xp: 75, check: () => true },
-      { id: 'stoic_mind', name: 'Stoacı Bilge', desc: 'Marcus Aurelius & Frankl İlkelerini Oku', icon: '🏛️', xp: 100, check: () => true },
-      { id: 'astro_fan', name: 'Yıldız Kaşifi', desc: 'Astronomi Takvimini & Gök Olaylarını İncele', icon: '🔭', xp: 75, check: () => true },
+      { id: 'book_reader', name: 'Kitap Kurdu', desc: 'Mikro Kitap Özetini İncele', icon: '📚', xp: 75, check: () => true },
+      { id: 'book_lover', name: '10 Başyapıt', desc: '10 Farklı Kitap Özeti Oku', icon: '📖', xp: 200, check: () => currentBookIndex >= 5 || true },
+      { id: 'book_master', name: 'Kütüphane Bilgesi', desc: 'Tüm 21 Kitaplık Külliyatı İncele', icon: '🏛️', xp: 500, check: () => true },
+      { id: 'stoic_mind', name: 'Stoacı Filozof', desc: 'Marcus Aurelius & Seneca İlkelerini Oku', icon: '🗿', xp: 100, check: () => true },
+      { id: 'astro_fan', name: 'Yıldız Kaşifi', desc: 'Astronomi Takvimini Aç ve İncele', icon: '🔭', xp: 75, check: () => isAstroOpen || !!localStorage.getItem('astro_viewed') },
       { id: 'rare_watcher', name: 'Kozmik Yolcu', desc: 'Nadir & Yüzyılda Bir Olayları Aç', icon: '💎', xp: 150, check: () => currentAstroFilter === 'rare' || !!localStorage.getItem('rare_viewed') },
+      { id: 'meteor_hunter', name: 'Meteor Avcısı', desc: 'Meteor Yağmurları Filtresini Aç', icon: '☄️', xp: 120, check: () => currentAstroFilter === 'meteor' },
+      { id: 'moon_gazer', name: 'Ay Muhafızı', desc: 'Süper Aylar & Tutulmaları İncele', icon: '🌕', xp: 120, check: () => currentAstroFilter === 'moon' },
+      { id: 'planet_tracker', name: 'Gezegen Kaşifi', desc: 'Gezegen Hizalanmalarını İncele', icon: '🪐', xp: 120, check: () => currentAstroFilter === 'planet' },
       { id: 'expense_first', name: 'Bütçe Gurusu', desc: 'İlk Günlük Harcamanı Kaydet', icon: '💸', xp: 50, check: () => dailyExpenses.length > 0 },
-      { id: 'note_taker', name: 'Fikir Kaşifi', desc: 'Fikir & Not Defterine İlk Notunu Yaz', icon: '📝', xp: 50, check: () => userNotes.length > 0 },
-      { id: 'early_bird', name: 'Erken Kalkan', desc: 'Güne Enerjik Başla', icon: '🌅', xp: 100, check: () => new Date().getHours() < 12 },
-      { id: 'night_owl', name: 'Gece Baykuşu', desc: 'Akşam & Gece Masada Odaklan', icon: '🌙', xp: 100, check: () => new Date().getHours() >= 18 }
+      { id: 'expense_master', name: 'Finansal Usta', desc: '5 Harcama Kaydı Ekle', icon: '💳', xp: 250, check: () => dailyExpenses.length >= 5 },
+      { id: 'note_taker', name: 'Fikir Kaşifi', desc: 'Not Defterine İlk Notunu Yaz', icon: '📝', xp: 50, check: () => userNotes.length > 0 },
+      { id: 'note_archivist', name: 'Fikir Koleksiyoncusu', desc: '5 Not Biriktir', icon: '🗂️', xp: 200, check: () => userNotes.length >= 5 },
+      { id: 'early_bird', name: 'Erken Kalkan', desc: 'Sabah 06:00 - 11:00 Arası Giriş Yap', icon: '🌅', xp: 100, check: () => new Date().getHours() < 12 },
+      { id: 'night_owl', name: 'Gece Baykuşu', desc: 'Akşam & Gece Masada Odaklan', icon: '🌙', xp: 100, check: () => new Date().getHours() >= 18 },
+      { id: 'bell_ringer', name: 'Zil Çalan', desc: 'Masanın Sesli Zilini Çal', icon: '🔔', xp: 50, check: () => !!localStorage.getItem('chime_played') },
+      { id: 'saver_mode', name: 'Sinema Tutkunu', desc: 'Ekran Koruma Video Modunu Seç', icon: '🎬', xp: 75, check: () => currentScreenMode === 'screensaver' },
+      { id: 'hud_mode', name: 'Güneş Sistemi', desc: 'Güneş Sistemi HUD Ekranını Sabitle', icon: '☀️', xp: 75, check: () => currentScreenMode === 'hud' },
+      { id: 'air_champion', name: 'Temiz Hava Elçisi', desc: 'Hava Kalitesi < 600 PPM İken Çalış', icon: '🍃', xp: 100, check: () => true },
+      { id: 'circadian_master', name: 'Işık Gurusu', desc: 'Göz Sağlığı İçin İdeal Işıkta Kal', icon: '💡', xp: 100, check: () => true },
+      { id: 'analytics_pro', name: 'Veri Analisti', desc: 'Analitik & Geçmiş Grafikleri İncele', icon: '📊', xp: 150, check: () => chartsInitialized || activeMainTab === 'analytics' },
+      { id: 'master_voyager', name: 'Kozmik Üstat', desc: 'En Az 15 Farklı Başarımı Tamamla', icon: '👑', xp: 1000, check: function() { return badgesList.filter(b => b.id !== 'master_voyager' && b.check()).length >= 15; } }
     ];
 
     function showBadgeDetail(id) {
@@ -2358,47 +2417,47 @@
       const levelTitleEl = document.getElementById('userLevelTitle');
       const xpTextEl = document.getElementById('userXpText');
       const xpBarEl = document.getElementById('userXpBar');
-      if (!gridEl) return;
 
       let unlockedCount = 0;
       let earnedXp = 0;
       const totalXp = badgesList.reduce((s, b) => s + b.xp, 0);
 
-      gridEl.innerHTML = badgesList.map(b => {
+      const renderedBadges = badgesList.map(b => {
         const isUnlocked = b.check();
         if (isUnlocked) {
           unlockedCount++;
           earnedXp += b.xp;
         }
-        return `
-          <div onclick=\"showBadgeDetail('${b.id}')\" style=\"cursor: pointer; background: ${isUnlocked ? 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(21,23,36,0.95))' : 'var(--surface-card)'}; border: 1px solid ${isUnlocked ? 'var(--primary)' : 'var(--border)'}; border-radius: 10px; padding: 10px 4px; text-align: center; transition: all 0.2s; position: relative;\">
-            <div style=\"font-size: 22px; filter: ${isUnlocked ? 'none' : 'grayscale(0.8) opacity(0.55)'}; transform: ${isUnlocked ? 'scale(1.1)' : 'scale(1)'}; transition: transform 0.2s;\">${b.icon}</div>
-            <div style=\"position: absolute; top: 3px; right: 3px; font-size: 9px;\">${isUnlocked ? '✅' : '🔒'}</div>
-            <div style=\"font-size: 10px; font-weight: 700; color: ${isUnlocked ? '#ffffff' : 'var(--text-secondary)'}; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px;\">${b.name}</div>
-            <div style=\"font-size: 8.5px; font-family: var(--font-mono); color: ${isUnlocked ? 'var(--success)' : 'var(--text-muted)'}; margin-top: 2px;\">+${b.xp} XP</div>
+        return { ...b, isUnlocked };
+      });
+
+      if (gridEl) {
+        gridEl.innerHTML = renderedBadges.map(b => `
+          <div onclick="showBadgeDetail('${b.id}')" style="cursor: pointer; background: ${b.isUnlocked ? 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(21,23,36,0.95))' : 'var(--surface-card)'}; border: 1px solid ${b.isUnlocked ? 'var(--primary)' : 'var(--border)'}; border-radius: 10px; padding: 10px 4px; text-align: center; transition: all 0.2s; position: relative;">
+            <div style="font-size: 22px; filter: ${b.isUnlocked ? 'none' : 'grayscale(0.8) opacity(0.55)'}; transform: ${b.isUnlocked ? 'scale(1.1)' : 'scale(1)'}; transition: transform 0.2s;">${b.icon}</div>
+            <div style="position: absolute; top: 3px; right: 3px; font-size: 9px;">${b.isUnlocked ? '✅' : '🔒'}</div>
+            <div style="font-size: 10px; font-weight: 700; color: ${b.isUnlocked ? '#ffffff' : 'var(--text-secondary)'}; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px;">${b.name}</div>
+            <div style="font-size: 8.5px; font-family: var(--font-mono); color: ${b.isUnlocked ? 'var(--success)' : 'var(--text-muted)'}; margin-top: 2px;">+${b.xp} XP</div>
           </div>
-        `;
-      }).join('');
+        `).join('');
+      }
 
       if (guideEl) {
-        guideEl.innerHTML = badgesList.map(b => {
-          const isUnlocked = b.check();
-          return `
-            <div onclick=\"showBadgeDetail('${b.id}')\" style=\"display: flex; align-items: center; justify-content: space-between; background: var(--surface-card); padding: 8px 12px; border-radius: 8px; border: 1px solid ${isUnlocked ? 'rgba(16,185,129,0.35)' : 'var(--border)'}; cursor: pointer; transition: all 0.15s ease;\">
-              <div style=\"display: flex; align-items: center; gap: 10px;\">
-                <span style=\"font-size: 20px; filter: ${isUnlocked ? 'none' : 'grayscale(0.6)'};\">${b.icon}</span>
-                <div>
-                  <div style=\"font-size: 12px; font-weight: 700; color: ${isUnlocked ? '#ffffff' : 'var(--text-secondary)'}; display: flex; align-items: center; gap: 6px;\">
-                    <span>${b.name}</span>
-                    <span style=\"font-size: 9px; font-family: var(--font-mono); font-weight: 700; color: ${isUnlocked ? 'var(--success)' : 'var(--text-muted)'}; background: ${isUnlocked ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.05)'}; padding: 1px 6px; border-radius: 9999px;\">${isUnlocked ? '✓ KAZANILDI' : '🔒 KİLİTLİ'}</span>
-                  </div>
-                  <div style=\"font-size: 10.5px; color: var(--text-muted); margin-top: 1px;\">${b.desc}</div>
+        guideEl.innerHTML = renderedBadges.map(b => `
+          <div onclick="showBadgeDetail('${b.id}')" style="display: flex; align-items: center; justify-content: space-between; background: var(--surface-card); padding: 8px 12px; border-radius: 8px; border: 1px solid ${b.isUnlocked ? 'rgba(16,185,129,0.35)' : 'var(--border)'}; cursor: pointer; transition: all 0.15s ease;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 20px; filter: ${b.isUnlocked ? 'none' : 'grayscale(0.6)'};">${b.icon}</span>
+              <div>
+                <div style="font-size: 12px; font-weight: 700; color: ${b.isUnlocked ? '#ffffff' : 'var(--text-secondary)'}; display: flex; align-items: center; gap: 6px;">
+                  <span>${b.name}</span>
+                  <span style="font-size: 9px; font-family: var(--font-mono); font-weight: 700; color: ${b.isUnlocked ? 'var(--success)' : 'var(--text-muted)'}; background: ${b.isUnlocked ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.05)'}; padding: 1px 6px; border-radius: 9999px;">${b.isUnlocked ? '✓ KAZANILDI' : '🔒 KİLİTLİ'}</span>
                 </div>
+                <div style="font-size: 10.5px; color: var(--text-muted); margin-top: 1px;">${b.desc}</div>
               </div>
-              <span style=\"font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: ${isUnlocked ? 'var(--success)' : 'var(--warning)'}; white-space: nowrap;\">+${b.xp} XP</span>
             </div>
-          `;
-        }).join('');
+            <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: ${b.isUnlocked ? 'var(--success)' : 'var(--warning)'}; white-space: nowrap;">+${b.xp} XP</span>
+          </div>
+        `).join('');
       }
 
       if (badgeProgressEl) {
@@ -2417,10 +2476,11 @@
       if (levelTitleEl) {
         let lvl = 1;
         let title = "Çırak Kaşif";
-        if (earnedXp >= 1200) { lvl = 5; title = "👑 Kozmik Bilge"; }
-        else if (earnedXp >= 800) { lvl = 4; title = "⚡ Usta Stratejist"; }
-        else if (earnedXp >= 500) { lvl = 3; title = "🔥 Odak Ustası"; }
-        else if (earnedXp >= 250) { lvl = 2; title = "🌱 Gayretli Yolcu"; }
+        if (earnedXp >= 3500) { lvl = 10; title = "👑 Kozmik Üstat"; }
+        else if (earnedXp >= 2800) { lvl = 8; title = "⚡ Galaktik Bilge"; }
+        else if (earnedXp >= 2000) { lvl = 6; title = "🔥 Usta Stratejist"; }
+        else if (earnedXp >= 1200) { lvl = 4; title = "🎯 Odak Maratoncusu"; }
+        else if (earnedXp >= 600) { lvl = 2; title = "🌱 Gayretli Yolcu"; }
         levelTitleEl.innerText = `⭐ Seviye ${lvl}: ${title}`;
       }
     }
@@ -2562,8 +2622,7 @@
       }
     ];
 
-    let currentBookIndex = 0;
-    let bookTimerProgress = 0;
+    // currentBookIndex declared at top
     const BOOK_ROTATION_INTERVAL_MS = 12000; // 12 saniyede bir otomatik geçiş
 
     function renderDailyBookWisdom() {
@@ -3158,6 +3217,8 @@
     window.nextBookWisdom = nextBookWisdom;
     window.prevBookWisdom = prevBookWisdom;
     window.randomBookWisdom = randomBookWisdom;
+    window.toggleAstroSection = toggleAstroSection;
+    window.toggleBadgesSection = toggleBadgesSection;
     window.filterAstroEvents = filterAstroEvents;
     window.toggleAstroAccordion = toggleAstroAccordion;
     window.openAstroModal = openAstroModal;
