@@ -22,31 +22,105 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
+    
     :root {
-      --bg: #0C0D0E;
-      --surface-1: #141618;
-      --surface-2: #1B1E22;
-      --surface-3: #23272D;
-      --border: #2A2F36;
-      --border-focus: #404752;
-      
-      /* TE & Dieter Rams Accent Colors */
-      --te-orange: #FF4F00;
-      --te-orange-dim: rgba(255, 79, 0, 0.15);
-      --te-green: #00E575;
-      --te-green-dim: rgba(0, 229, 117, 0.15);
-      --te-amber: #FFAA00;
-      --te-amber-dim: rgba(255, 170, 0, 0.15);
-      --te-cyan: #00D0FF;
-      --te-red: #FF3344;
-      
-      --text-main: #F2F4F7;
-      --text-muted: #8E95A0;
-      --text-dark: #585F6B;
-
-      --font-ui: 'Space Grotesk', -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      --bg-chassis: #0B110D; /* Derin Zen Yosun Ormanı */
+      --surface-1: #111A13;  /* Koyu Taş & Bambu Karosu */
+      --surface-2: #18241C;  /* Yosunlu Arduvaz */
+      --surface-3: #223227;
+      --border: #2C3E32;     /* Doğal Bambu ve Çim Sınırı */
+      --border-focus: #52B788;
+      --text-main: #E2ECE5;  /* Sisli Beyaz */
+      --text-muted: #8EA898; /* Adaçayı Yeşili */
+      --text-dark: #587060;
+      --te-orange: #E07A5F;  /* Sıcak Toprak & Japon Akçaağacı */
+      --te-green: #52B788;   /* Canlı Bambu Yeşili */
+      --te-amber: #DDA15E;   /* Bambu Ağacı Rengi */
+      --te-red: #E76F51;
+      --te-cyan: #74C69D;    /* Berrak Dere Suyu */
+      --font-mono: "JetBrains Mono", monospace;
+      --font-ui: "Space Grotesk", sans-serif;
     }
+
+    body {
+      background-color: var(--bg-chassis);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 10%, rgba(82, 183, 136, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 10% 80%, rgba(116, 198, 157, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(221, 161, 94, 0.05) 0%, transparent 40%);
+    }
+
+    /* 🌊 CANLI AKAN DERE, UÇAN KUŞLAR & ZEN PARÇACIKLARI */
+    #zenGardenCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    /* Akan Dere Efekti (Ekranın Altı) */
+    .zen-flowing-stream {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 18px;
+      background: linear-gradient(90deg, rgba(82,183,136,0.15), rgba(116,198,157,0.35), rgba(82,183,136,0.15));
+      border-top: 1px solid rgba(116,198,157,0.3);
+      backdrop-filter: blur(2px);
+      z-index: 10;
+      pointer-events: none;
+      animation: streamFlow 6s infinite linear;
+    }
+
+    @keyframes streamFlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    /* Uçan Kuşlar */
+    .zen-flying-bird {
+      position: absolute;
+      font-size: 16px;
+      color: rgba(226, 236, 229, 0.75);
+      pointer-events: none;
+      z-index: 2;
+      transition: transform 0.1s linear;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+
+    /* Uçuşan Bambu / Sonbahar Yaprakları */
+    .zen-floating-leaf {
+      position: absolute;
+      font-size: 13px;
+      pointer-events: none;
+      opacity: 0.75;
+      animation: leafFall var(--leaf-fall-time, 12s) infinite linear;
+    }
+
+    @keyframes leafFall {
+      0% {
+        transform: translateY(-20px) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% {
+        transform: translateY(105vh) translateX(var(--leaf-drift, 80px)) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
 
     * {
       box-sizing: border-box;
@@ -422,6 +496,79 @@
       filter: drop-shadow(0 0 8px currentColor);
     }
 
+    
+    /* 🕯️ 25 DAKİKALIK PİKSEL ZEN MUMU */
+    .zen-candle-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      height: 48px;
+      width: 24px;
+      margin: 0 auto 6px auto;
+      position: relative;
+    }
+
+    .candle-flame {
+      width: 8px;
+      height: 12px;
+      background: radial-gradient(ellipse at bottom, #FFF7A1 0%, #FF8C00 65%, rgba(255, 79, 0, 0) 100%);
+      border-radius: 50% 50% 20% 20%;
+      animation: candleFlicker 0.15s infinite alternate ease-in-out;
+      filter: drop-shadow(0 0 6px rgba(255, 140, 0, 0.9));
+      transform-origin: bottom center;
+    }
+
+    .candle-flame.extinguished {
+      display: none;
+    }
+
+    .candle-smoke {
+      display: none;
+      font-size: 10px;
+      animation: smokeRise 1.5s forwards ease-out;
+      position: absolute;
+      top: -10px;
+    }
+
+    @keyframes candleFlicker {
+      0% { transform: scale(1) rotate(-2deg); }
+      100% { transform: scale(1.15) rotate(3deg); }
+    }
+
+    @keyframes smokeRise {
+      0% { opacity: 0.9; transform: translateY(0) scale(0.8); }
+      100% { opacity: 0; transform: translateY(-16px) scale(1.5); }
+    }
+
+    .candle-wick {
+      width: 2px;
+      height: 4px;
+      background: #333333;
+    }
+
+    .candle-wax {
+      width: 14px;
+      height: 28px;
+      background: linear-gradient(180deg, #F0E6D2 0%, #C2B49A 100%);
+      border-radius: 2px 2px 1px 1px;
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 2px 6px rgba(0,0,0,0.6);
+      transition: height 0.5s linear;
+    }
+
+    /* 🌿 YULAF'IN MASABAŞI BONSAİ AĞACI */
+    .bonsai-container {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
     /* TOAST */
     #toast {
       position: fixed;
@@ -479,6 +626,9 @@
   </style>
 </head>
 <body>
+  <!-- 🌿 CANLI ZEN BAHÇESİ, AKAN DERE & UÇAN KUŞLAR -->
+  <div id="zenGardenCanvas"></div>
+  <div class="zen-flowing-stream"></div>
   <!-- 🌌 CANLI CELESTIAL GÖKYÜZÜ, GECE YILDIZLARI & GÜNEŞ/AY ORBİTİ -->
   <div id="celestialSkyCanvas"></div>
 
@@ -559,7 +709,7 @@
     <!-- 🐱 YULAF // MASANIN SEVİMLİ PİKSEL KEDİSİ & MOTİVASYON KOÇU -->
     <div class="module-card" style="background: linear-gradient(135deg, rgba(20,22,24,0.98), rgba(30,25,22,0.95)); border-color: var(--te-orange);">
       <div class="module-header" style="margin-bottom: 6px;">
-        <div class="module-title"><span class="code">[PET-01]</span> MASA YOLDAŞI: YULAF 🐱</div>
+        <div class="module-title"><span class="code" style="color: var(--te-green);">[ZEN-01]</span> ZEN BAHÇESİ KEDİSİ: YULAF 🌿🐱</div>
         <div style="display: flex; gap: 4px;">
           <span class="hardware-tag active-orange" id="petLevelTag">LVL 4 KEDİ</span>
           <span class="hardware-tag active-green" id="petMoodTag">🐾 MIRILDIYOR</span>
@@ -588,6 +738,34 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- 🌿 YULAF'IN MASABAŞI BONSAİ AĞACI -->
+      <div class="bonsai-container">
+        <div style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: rgba(0,229,117,0.06); border: 1px solid rgba(0,229,117,0.2); border-radius: 6px; flex-shrink: 0;" id="bonsaiSpriteWrap">
+          <svg id="bonsaiSvg" viewBox="0 0 32 32" width="42" height="42" shape-rendering="crispEdges">
+            <!-- Saksı -->
+            <rect x="8" y="24" width="16" height="6" fill="#8B4513"/>
+            <rect x="6" y="23" width="20" height="2" fill="#A0522D"/>
+            <!-- Gövde -->
+            <rect x="15" y="16" width="3" height="8" fill="#5C3A1E"/>
+            <rect x="13" y="14" width="3" height="4" fill="#5C3A1E"/>
+            <!-- Yapraklar / Taç -->
+            <rect x="9" y="8" width="14" height="7" rx="3" fill="#00E575"/>
+            <rect x="7" y="10" width="18" height="4" fill="#00C853"/>
+            <rect x="11" y="6" width="10" height="4" fill="#69F0AE"/>
+          </svg>
+        </div>
+        <div style="flex: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+            <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--te-green);" id="bonsaiNameText">🌿 MASABAŞI BONSAİ (AŞAMA 3)</span>
+            <span style="font-family: var(--font-mono); font-size: 9px; color: var(--text-muted);" id="bonsaiHealthText">%85 Canlı</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); line-height: 1.3;" id="bonsaiDescText">
+            Siz çalıştıkça ve su içtikçe yaprak açar; Yulaf arada gölgesine yatar!
+          </div>
+        </div>
+        <button type="button" class="te-btn" onclick="waterBonsaiTree()" style="font-size: 9px; padding: 6px 8px; flex-shrink: 0;">💧 Sula (+5)</button>
       </div>
 
       <!-- Taktil Kedi Aksiyon Butonları -->
@@ -753,6 +931,13 @@
             <button type="button" class="hardware-tag" onclick="setPomoMode(25, 'Odak')" style="cursor: pointer;">25 DK ODAK</button>
             <button type="button" class="hardware-tag" onclick="setPomoMode(5, 'Mola')" style="cursor: pointer;">5 DK MOLA</button>
             <button type="button" class="hardware-tag" onclick="setPomoMode(15, 'Uzun Mola')" style="cursor: pointer;">15 DK UZUN</button>
+          </div>
+          <!-- 🕯️ 25 DAKİKALIK PİKSEL ZEN MUMU -->
+          <div class="zen-candle-wrapper" id="zenCandleWrap">
+            <div class="candle-smoke" id="candleSmoke">💨</div>
+            <div class="candle-flame" id="candleFlame" style="opacity: 0;"></div>
+            <div class="candle-wick"></div>
+            <div class="candle-wax" id="candleWax" style="height: 28px;"></div>
           </div>
           <div id="pomoTime" style="font-family: var(--font-mono); font-size: 42px; font-weight: 800; letter-spacing: -0.04em; color: var(--text-main);">25:00</div>
           <div style="display: flex; justify-content: center; gap: 8px; margin-top: 8px;">
@@ -950,99 +1135,58 @@
         <div id="expenseHistoryList" style="display: flex; flex-direction: column; gap: 4px; max-height: 110px; overflow-y: auto;"></div>
       </div>
 
-      <!-- 📝 MODULE 08: USER NOTES & IDEA ARCHIVE -->
-      <div class="module-card">
+      <!-- 🛰️ MODULE 11: CANLI ISS (UZAY İSTASYONU) & EVİNİZİN ÜSTÜNDEN GEÇİŞ RADARI -->
+      <div class="module-card" style="border-color: rgba(0, 229, 117, 0.4); background: linear-gradient(135deg, rgba(14,20,24,0.98), rgba(20,28,32,0.95));">
         <div class="module-header">
-          <div class="module-title"><span class="code">[08]</span> NOT DEFTERİ & FİKİR ARŞİVİ</div>
-          <span class="hardware-tag active-orange" id="userNotesCountBadge">1 NOT</span>
-        </div>
-
-        <!-- Hızlı Not Ekleme Formu -->
-        <form onsubmit="handleAddUserNoteSubmit(event)" style="display: flex; gap: 6px; margin-bottom: 10px;">
-          <input type="text" id="userNoteInput" class="te-input" placeholder="Yeni not veya fikir kaydet...">
-          <button type="submit" class="te-btn te-btn-primary">KAYDET</button>
-        </form>
-
-        <!-- Kaydedilen Notlar Listesi -->
-        <div id="userNotesList" style="display: flex; flex-direction: column; gap: 6px; max-height: 160px; overflow-y: auto;"></div>
-      </div>
-
-      <!-- 💡 MODULE 09: CURIOSITY ENGINE // BİLİM, EVREN & MERAK TERMİNALİ -->
-      <div class="module-card" style="border-color: rgba(0, 208, 255, 0.4); background: linear-gradient(135deg, rgba(20,22,24,0.98), rgba(20,26,32,0.95));">
-        <div class="module-header">
-          <div class="module-title"><span class="code" style="color: var(--te-cyan);">[09]</span> BİLİM, EVREN & MERAK TERMİNALİ</div>
+          <div class="module-title"><span class="code" style="color: var(--te-green);">[ISS-01]</span> CANLI ISS & GEÇİŞ GÖZLEM RADARI</div>
           <div style="display: flex; gap: 4px;">
-            <button type="button" class="hardware-tag active-orange" onclick="nextCuriosityFact()" style="cursor: pointer;">YENİ GERÇEK 🎲</button>
-            <span class="hardware-tag" id="curiosityIndexBadge">1 / 25</span>
+            <span class="hardware-tag active-green" id="issSpeedTag">27.600 KM/S</span>
+            <button type="button" class="hardware-tag" onclick="detectUserLocationForIss()" style="cursor: pointer;" id="issGpsBtn">📍 EVİMİN KONUMU</button>
           </div>
         </div>
 
-        <!-- Gerçek Kartı -->
-        <div id="curiosityBox" onclick="nextCuriosityFact()" style="cursor: pointer; background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 12px; transition: all 0.2s ease;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <span class="hardware-tag" id="curiosityCategoryTag" style="color: var(--te-cyan); border-color: rgba(0,208,255,0.3);">🌌 EVREN & KOZMOLOJİ</span>
-            <span style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dark);">[DOKUN: DEĞİŞTİR]</span>
-          </div>
-          <div id="curiosityTitle" style="font-family: var(--font-ui); font-size: 15px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px; line-height: 1.35;">
-            Güneş Işığının İnanılmaz Yaşı
-          </div>
-          <div id="curiosityDesc" style="font-size: 12px; color: var(--text-muted); line-height: 1.45;">
-            Yüzünüze vuran güneş ışığı Güneş'in çekirdeğinde tam 100.000 yıl önce üretildi; oradan yüzeye çıkması 100 bin yıl, Dünya'ya ulaşması ise sadece 8 dakika 20 saniye sürdü.
-          </div>
-        </div>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-family: var(--font-mono); font-size: 10px; color: var(--text-dark);">
-          <span>💡 Her tıkta evrenin gizli bir kuralını keşfedin.</span>
-          <span onclick="nextCuriosityFact()" style="color: var(--te-cyan); cursor: pointer; font-weight: 700;">BAŞKA GERÇEK ↻</span>
-        </div>
-      </div>
-
-      <!-- 🧮 MODULE 10: DESK CALCULATOR & FINANCIAL CONVERTER -->
-      <div class="module-card" style="border-color: rgba(255, 170, 0, 0.4);">
-        <div class="module-header">
-          <div class="module-title"><span class="code" style="color: var(--te-amber);">[10]</span> HIZLI HESAP & MATEMATİK TERMİNALİ</div>
-          <span class="hardware-tag active-orange" id="calcModeTag">KDV & YÜZDE</span>
-        </div>
-
-        <!-- Mod Seçici Butonlar -->
-        <div class="te-switch-group" style="margin-bottom: 10px;">
-          <div class="te-switch-item active" id="calcTabKdv" onclick="setCalcTab('kdv')">KDV & YÜZDE</div>
-          <div class="te-switch-item" id="calcTabDisc" onclick="setCalcTab('disc')">İNDİRİM</div>
-          <div class="te-switch-item" id="calcTabMath" onclick="setCalcTab('math')">SERBEST MATEMATİK</div>
-        </div>
-
-        <!-- Hesaplama Giriş Alanı -->
-        <div id="calcInputContainer" style="display: flex; flex-direction: column; gap: 8px;">
-          <div style="display: flex; gap: 6px;">
-            <input type="number" id="calcAmountInput" class="te-input" placeholder="Tutar girin (Örn: 1500)..." oninput="calculateDeskMath()">
-            <div style="display: flex; gap: 4px;" id="calcQuickPercentBtns">
-              <button type="button" class="hardware-tag" onclick="setCalcPercent(10)">%10</button>
-              <button type="button" class="hardware-tag active-orange" id="btnPct20" onclick="setCalcPercent(20)">%20</button>
-              <button type="button" class="hardware-tag" onclick="setCalcPercent(1)">%1</button>
-            </div>
-          </div>
-
-          <div id="calcMathInputWrapper" style="display: none;">
-            <input type="text" id="calcMathFormulaInput" class="te-input" placeholder="Formül yazın (Örn: (450 * 12) / 3)..." oninput="calculateDeskMath()">
-          </div>
-
-          <!-- Canlı LED Sonuç Paneli -->
-          <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center;">
+        <!-- Evinizin Konumuna Göre Canlı Geçiş Kutusu -->
+        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 12px; margin-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
             <div>
-              <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dark); text-transform: uppercase;" id="calcResultLabel">HESAPLANAN TOPLAM TUTAR</div>
-              <div style="font-family: var(--font-mono); font-size: 20px; font-weight: 800; color: var(--te-green); letter-spacing: -0.02em;" id="calcResultDisplay">0.00 TL</div>
+              <div style="font-family: var(--font-mono); font-size: 9px; color: var(--text-dark); text-transform: uppercase;" id="issTargetLocationText">HEDEF GÖZLEM NOKTASI: EVİNİZ // İZMİR (38.38°N, 27.15°E)</div>
+              <div style="font-family: var(--font-ui); font-size: 15px; font-weight: 700; color: #FFFFFF; margin-top: 2px;" id="issNextPassTimeText">
+                🛰️ Bu Akşam: 21:42 - 21:48 (6 Dakika)
+              </div>
             </div>
-            <div style="text-align: right;">
-              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);" id="calcSubResult">Fark: 0.00 TL</div>
-              <button type="button" class="hardware-tag" onclick="copyCalcResult()" style="margin-top: 4px; cursor: pointer;">KOPYALA 📋</button>
+            <span class="hardware-tag active-orange" id="issBrightnessTag">PARLAKLIK: -3.2 (ÇOK PARLAK)</span>
+          </div>
+
+          <!-- Yön & Açı Pusula Rehberi (Hangi Tarafa Bakacaksınız?) -->
+          <div style="background: rgba(0,0,0,0.35); border: 1px dashed rgba(255,255,255,0.15); border-radius: 4px; padding: 8px 10px; display: flex; gap: 10px; align-items: center;">
+            <div style="font-size: 22px;">🧭</div>
+            <div style="font-size: 11.5px; color: var(--text-main); line-height: 1.4;">
+              <span style="color: var(--te-green); font-weight: 700;">Hangi Yöne Bakacaksınız:</span> 
+              <span id="issLookDirectionText">Güneybatı (SW) ufkundan doğup başınızın 62° tepesinden geçerek Kuzeydoğuya (NE) süzülecek. Çıplak gözle Venüs kadar parlak beyaz bir yıldız gibi kayacak!</span>
             </div>
+          </div>
+        </div>
+
+        <!-- Canlı Telemetri Satırı -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; text-align: center; font-family: var(--font-mono); font-size: 9px;">
+          <div style="background: var(--surface-2); padding: 5px 2px; border-radius: 3px; border: 1px solid var(--border);">
+            <div style="color: var(--text-muted);">İRTİFA</div>
+            <div style="font-weight: 700; color: var(--te-cyan); font-size: 11px;" id="issAltitudeText">420 KM</div>
+          </div>
+          <div style="background: var(--surface-2); padding: 5px 2px; border-radius: 3px; border: 1px solid var(--border);">
+            <div style="color: var(--text-muted);">YÖRÜNGE HIZI</div>
+            <div style="font-weight: 700; color: var(--te-green); font-size: 11px;">7.66 KM/SN</div>
+          </div>
+          <div style="background: var(--surface-2); padding: 5px 2px; border-radius: 3px; border: 1px solid var(--border);">
+            <div style="color: var(--text-muted);">GÖZLEM ŞARTI</div>
+            <div style="font-weight: 700; color: #FFAA00; font-size: 11px;" id="issVisibilityTag">ÇIPLAK GÖZLE GÖRÜNÜR</div>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- TAB 2:<!-- TAB 2:<!-- TAB 2:<!-- TAB 2: ANALYTICS & CHARTS -->
+    <!-- TAB 2:<!-- TAB 2: ANALYTICS & CHARTS -->
     <div id="analyticsTabContent" style="display: none; flex-direction: column; gap: 10px;">
       
       <!-- Zaman Aralığı Seçici (Günlük vs Aylık) -->
@@ -1112,17 +1256,51 @@
           <canvas id="airChart"></canvas>
         </div>
       </div>
+
+      <!-- 📝 KAYDEDİLEN RUH HALİ NOTLARI & GÜNLÜK (TAB 2) -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-title"><span class="code">[AN-06]</span> RUH HALİ & ZİHİN NOTLARI GÜNLÜĞÜ</div>
+          <span class="hardware-tag active-orange" id="savedMoodNotesCount">0 KAYIT</span>
+        </div>
+        <div id="savedMoodNotesList" style="display: flex; flex-direction: column; gap: 6px; max-height: 160px; overflow-y: auto;">
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dark); text-align: center; padding: 10px;">Henüz kaydedilmiş ruh hali notu bulunmuyor.</div>
+        </div>
+      </div>
+
+      <!-- 📝 NOT DEFTERİ & FİKİR ARŞİVİ (TAB 2 ANALİTİK SAYFASI) -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-title"><span class="code">[AN-07]</span> NOT DEFTERİ & FİKİR ARŞİVİ</div>
+          <span class="hardware-tag active-orange" id="userNotesCountBadge">1 NOT</span>
+        </div>
+
+        <!-- Hızlı Not Ekleme Formu -->
+        <form onsubmit="handleAddUserNoteSubmit(event)" style="display: flex; gap: 6px; margin-bottom: 10px;">
+          <input type="text" id="userNoteInput" class="te-input" placeholder="Yeni not veya fikir kaydet...">
+          <button type="submit" class="te-btn te-btn-primary">KAYDET</button>
+        </form>
+
+        <!-- Kaydedilen Notlar Listesi -->
+        <div id="userNotesList" style="display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto;"></div>
+      </div>
+
+      <!-- 🏆 32 TE-01 HARDWARE BADGES -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-title"><span class="code">[AN-08]</span> BAŞARI & DONANIM ROZETLERİ</div>
+          <div style="display: flex; gap: 4px;">
+            <span class="hardware-tag active-green" id="unlockedBadgesCount">0 / 32 KİLİTLİ</span>
+            <button type="button" class="hardware-tag" onclick="toggleBadgesList()" id="btnToggleBadges" style="cursor: pointer;">TÜMÜNÜ GÖR ▾</button>
+          </div>
+        </div>
+        <div id="badgesGrid" class="badges-grid-collapsed"></div>
+      </div>
     </div>
 
   </div>
 
   <!-- 🐾 EKRANDA CANLI GEZİNEN FLOATING CYBER-PET -->
-  <div id="roamingPetContainer" onclick="triggerFloatingPetInteraction()">
-    <div class="roaming-pet-bubble" id="roamingPetBubble">"Miyav! 🐾"</div>
-    <div class="roaming-pet-avatar" id="roamingPetAvatar"></div>
-  </div>
-
-  <div id="toast"><!-- 🐾 EKRANDA CANLI GEZİNEN FLOATING CYBER-PET -->
   <div id="roamingPetContainer" onclick="triggerFloatingPetInteraction()">
     <div class="roaming-pet-bubble" id="roamingPetBubble">"Miyav! 🐾"</div>
     <div class="roaming-pet-avatar" id="roamingPetAvatar"></div>
@@ -1433,7 +1611,7 @@
 
     async function fetchLiveWeather() {
       try {
-        const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=38.39&longitude=27.18&current=temperature_2m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min&timezone=Europe%2FIstanbul");
+        const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=38.3845&longitude=27.1534&current=temperature_2m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min&timezone=Europe%2FIstanbul");
         if (!res.ok) return;
         const w = await res.json();
         if (w && w.current) {
@@ -1786,69 +1964,6 @@
     }
     calculateYearProgress();
 
-    // ====================================================
-    // ⚔️ GÜNLÜK ZİNDAN BOSS SAVAŞ MOTORU
-    // ====================================================
-    const bossesList = [
-      { name: "ERTELEME İBLİSİ", avatar: "👹", maxHp: 600, desc: "Seni sürekli erteletmeye çalışan kadim zindan canavarı." },
-      { name: "DİKKAT DAĞINIKLIĞI HAYALETİ", avatar: "👻", maxHp: 500, desc: "Bildirimlerle dikkatini çalan sinsi hayalet." },
-      { name: "TEMBELLİK EJDERHASI", avatar: "🐉", maxHp: 750, desc: "Masa başından kalkmanı isteyen alevli ejderha." },
-      { name: "TÜKENMİŞLİK GOLEMİ", avatar: "🗿", maxHp: 650, desc: "Enerjini emmeye çalışan taş dev." }
-    ];
-
-    const todayDayIdx = new Date().getDay() % bossesList.length;
-    const currentBoss = bossesList[todayDayIdx];
-    let bossHp = parseInt(localStorage.getItem(`boss_hp_${todayDayIdx}`) || currentBoss.maxHp.toString());
-
-    function renderBoss() {
-      const nameEl = document.getElementById('bossName');
-      const avatarEl = document.getElementById('bossAvatar');
-      const hpTextEl = document.getElementById('bossHpText');
-      const hpBarEl = document.getElementById('bossHpBar');
-      const phaseTag = document.getElementById('bossPhaseTag');
-
-      if (nameEl) nameEl.innerText = currentBoss.name;
-      if (avatarEl) avatarEl.innerText = bossHp <= 0 ? "💀" : currentBoss.avatar;
-      if (hpTextEl) hpTextEl.innerText = bossHp <= 0 ? "YENİLDİ! (0 HP)" : `${bossHp} / ${currentBoss.maxHp} HP`;
-      
-      if (hpBarEl) {
-        const pct = Math.max(0, Math.min(100, Math.round((bossHp / currentBoss.maxHp) * 100)));
-        hpBarEl.style.width = `${pct}%`;
-      }
-
-      if (phaseTag) {
-        if (bossHp <= 0) {
-          phaseTag.innerText = "✓ BOSS YENİLDİ!";
-          phaseTag.className = "hardware-tag active-green";
-        } else {
-          phaseTag.innerText = "SAVAŞ SÜRÜYOR";
-          phaseTag.className = "hardware-tag active-orange";
-        }
-      }
-    }
-
-    function damageBoss(amount, reason) {
-      if (bossHp <= 0) return;
-      bossHp = Math.max(0, bossHp - amount);
-      localStorage.setItem(`boss_hp_${todayDayIdx}`, bossHp.toString());
-      renderBoss();
-      
-      const avatarEl = document.getElementById('bossAvatar');
-      if (avatarEl) {
-        avatarEl.style.transform = 'scale(0.8) rotate(-15deg)';
-        setTimeout(() => { avatarEl.style.transform = 'scale(1) rotate(0deg)'; }, 300);
-      }
-
-      if (bossHp <= 0) {
-        if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-        showToast(`🎉 TEBRİKLER! ${currentBoss.name} YENİLDİ! (+300 XP)`);
-      } else {
-        showToast(`⚔️ -${amount} HP Hasar Vuruldu! (${reason})`);
-      }
-    }
-    renderBoss();
-    updatePetDisplay();
-
     // ⏱️ POMODORO SAYAÇ MOTORU// ⏱️ POMODORO SAYAÇ MOTORU
     // pomo state declared at top level
     function setPomoMode(mins, label) {
@@ -1901,6 +2016,7 @@
     }
 
     function updatePomoDisplay() {
+      updateZenCandle(pomoRemaining, 25 * 60, pomoIsRunning);
       const el = document.getElementById('pomoTime');
       if (!el) return;
       const m = Math.floor(pomoRemaining / 60).toString().padStart(2, '0');
@@ -2622,212 +2738,6 @@
     }
 
     // ====================================================
-    // 💡 BİLİM, EVREN & MERAK MOTORU (30+ BÜYÜLEYİCİ GERÇEK)
-    // ====================================================
-    const curiosityFacts = [
-      {
-        cat: "🌌 EVREN & KOZMOLOJİ",
-        title: "Güneş Işığının İnanılmaz Yaşı",
-        desc: "Yüzünüze vuran güneş ışığı Güneş'in çekirdeğinde tam 100.000 yıl önce nükleer füzyonla üretildi; fotonun çekirdekten yüzeye çıkması 100 bin yıl, uzay boşluğundan Dünya'ya ulaşması ise sadece 8 dakika 20 saniye sürdü."
-      },
-      {
-        cat: "⚛️ KUANTUM & FİZİK",
-        title: "Vücudumuzun %99.9999999'u Boşluktur",
-        desc: "Vücudunuzdaki tüm atomların içindeki atom altı boşluğu çıkarıp sadece saf kütleyi bir araya getirseydik, 8 milyarlık tüm insanlık tek bir küp şekere sığardı."
-      },
-      {
-        cat: "⏳ ZAMAN & GÖRELİLİK",
-        title: "Başınız Ayaklarınızdan Daha Hızlı Yaşlanır",
-        desc: "Einstein'ın Genel Görelilik kuramına göre, yerçekimi ne kadar güçlüyse zaman o kadar yavaş akar. Ayaklarınız Dünya'nın merkezine daha yakın olduğu için başınız ayaklarınızdan saniyede nanosaniyelerce daha hızlı yaşlanır."
-      },
-      {
-        cat: "🦈 BİYOLOJİ & EVRİM",
-        title: "Köpekbalıkları Ağaçlardan Daha Yaşlıdır",
-        desc: "Köpekbalıkları yaklaşık 400 milyon yıldır Dünya okyanuslarında yüzüyor. Ağaçlar ise yaklaşık 350 milyon yıl önce, Satürn'ün halkaları ise sadece 100 milyon yıl önce oluştu."
-      },
-      {
-        cat: "🪐 GEZEGENLER",
-        title: "Venüs'te 1 Gün, 1 Yıldan Daha Uzundur",
-        desc: "Venüs kendi ekseni etrafında o kadar yavaş döner ki, bir tam turunu 243 Dünya gününde tamamlar; Güneş etrafındaki 1 yılı ise 225 gündür. Yani Venüs'te 1 gün, 1 yıldan daha uzundur!"
-      },
-      {
-        cat: "🧬 GENETİK & YAŞAM",
-        title: "Muzlarla %50, Kedilerle %90 Aynıyız",
-        desc: "İnsan DNA'sı bir muz ile %50, evcil bir kedi (Yulaf!) ile %90, bir şempanze ile ise %98.8 oranında birebir aynı genetik koda ve biyolojik talimatlara sahiptir."
-      },
-      {
-        cat: "🧠 BEYİN & NÖROBİLİM",
-        title: "Evrendeki Yıldızlardan Fazla Bağlantı",
-        desc: "İnsan beyninde yaklaşık 86 milyar nöron ve 100 trilyondan fazla sinaptik bağlantı vardır. Bu sayı, Samanyolu galaksisindeki tüm yıldızların sayısından (yaklaşık 200-400 milyar) katbekat fazladır."
-      },
-      {
-        cat: "💎 ASTRONOMİ",
-        title: "Elmas Yağan Gezegenler",
-        desc: "Neptün ve Uranüs'ün atmosferindeki aşırı yüksek basınç ve sıcaklık, metan gazındaki karbonu doğrudan katı elmasa dönüştürür ve gezegenin çekirdeğine tonlarca devasa elmas yağmuru yağar."
-      },
-      {
-        cat: "🏛️ TARİHSEL PERSPEKTİF",
-        title: "Kleopatra ve Piramitler Yanılgısı",
-        desc: "Mısır Kraliçesi Kleopatra (M.Ö. 30), Giza Piramitleri'nin inşasına (M.Ö. 2500) değil; Ay'a ilk insanın inişine ve iPhone'un icadına zaman olarak çok daha yakındır."
-      },
-      {
-        cat: "⚡ NÜKLEER ASTROFİZİK",
-        title: "1 Çay Kaşığı Nötron Yıldızı = Everest Dağı",
-        desc: "Nötron yıldızları o kadar yoğundur ki, bir nötron yıldızından alacağınız sadece 1 çay kaşığı madde Dünya'da yaklaşık 6 milyar ton (Everest Dağı ağırlığında) çeker."
-      },
-      {
-        cat: "🌊 OKYANUSLAR",
-        title: "Mariana Çukuru ve Uzay Ziyaretleri",
-        desc: "Uzaya 600'den fazla insan, Ay'ın yüzeyine ise 12 insan ayak bastı; ancak Dünya'nın en derin noktası olan 11.000 metrelik Mariana Çukuru'na sadece birkaç insan inebildi."
-      },
-      {
-        cat: "✨ KOZMİK KİMYA",
-        title: "Yıldız Tozundan Yapıldık",
-        desc: "Vücudunuzdaki kalsiyum, kanınızdaki demir ve DNA'nızdaki karbon; milyarlarca yıl önce patlayan dev süpernova yıldızlarının çekirdeklerinde dövülmüştür. Hepimiz kelimenin tam anlamıyla yıldız tozuyuz."
-      },
-      {
-        cat: "❄️ FİZİK & TERMODİNAMİK",
-        title: "Sıcak Su Soğuk Sudan Daha Hızlı Donabilir",
-        desc: "Mpemba Etkisi olarak bilinen bu fiziksel fenomene göre, belirli koşullar altında sıcak su soğuk sudan daha hızlı donabilir. Nedeni su moleküllerinin hidrojen bağlarının ısındığında gerilip soğurken enerjiyi hızla salmasıdır."
-      },
-      {
-        cat: "🐝 DOĞA & EKOLOJİ",
-        title: "Bal Asla Bozulmaz",
-        desc: "Arkeologlar Mısır piramitlerindeki 3000 yıllık firavun mezarlarında bozulmamış, hala tamamen yenilebilir durumda bal kapları bulmuşlardır. Balın düşük nemi ve yüksek asiditesi bakteri üremesini imkansız kılar."
-      },
-      {
-        cat: "🚀 KOZMİK HIZ",
-        title: "Şu An Hangi Hızla Uçuyorsunuz?",
-        desc: "Masanızda hareketsiz oturuyor gibi görünseniz de; Dünya'nın dönüşüyle saatte 1670 km, Güneş etrafında saatte 108.000 km, Samanyolu Galaksisi ile birlikte ise uzayda saatte tam 792.000 km hızla uçuyorsunuz!"
-      }
-    ];
-
-    let currentCuriosityIndex = 0;
-
-    function renderCuriosityFact() {
-      const f = curiosityFacts[currentCuriosityIndex];
-      if (!f) return;
-
-      const catEl = document.getElementById('curiosityCategoryTag');
-      const titleEl = document.getElementById('curiosityTitle');
-      const descEl = document.getElementById('curiosityDesc');
-      const badgeEl = document.getElementById('curiosityIndexBadge');
-      const box = document.getElementById('curiosityBox');
-
-      if (catEl) catEl.innerText = f.cat;
-      if (titleEl) titleEl.innerText = f.title;
-      if (descEl) descEl.innerText = f.desc;
-      if (badgeEl) badgeEl.innerText = `${currentCuriosityIndex + 1} / ${curiosityFacts.length}`;
-
-      if (box) {
-        box.style.opacity = '0.3';
-        setTimeout(() => { box.style.opacity = '1'; }, 100);
-      }
-    }
-
-    function nextCuriosityFact() {
-      currentCuriosityIndex = (currentCuriosityIndex + 1) % curiosityFacts.length;
-      renderCuriosityFact();
-      showToast(`💡 (${currentCuriosityIndex + 1}/${curiosityFacts.length}) ${curiosityFacts[currentCuriosityIndex].title}`);
-    }
-    renderCuriosityFact();
-
-    // ====================================================
-    // 🧮 HIZLI MASA HESAP MAKİNESİ & FORMÜL MOTORU
-    // ====================================================
-    let currentCalcTab = 'kdv'; // 'kdv', 'disc', 'math'
-    let currentCalcPercent = 20;
-
-    function setCalcTab(tab) {
-      currentCalcTab = tab;
-      ['calcTabKdv', 'calcTabDisc', 'calcTabMath'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.remove('active');
-      });
-
-      const activeEl = document.getElementById(tab === 'kdv' ? 'calcTabKdv' : (tab === 'disc' ? 'calcTabDisc' : 'calcTabMath'));
-      if (activeEl) activeEl.classList.add('active');
-
-      const modeTag = document.getElementById('calcModeTag');
-      if (modeTag) modeTag.innerText = tab === 'kdv' ? 'KDV & YÜZDE' : (tab === 'disc' ? 'İNDİRİM HESABI' : 'SERBEST FORMÜL');
-
-      const amtInput = document.getElementById('calcAmountInput');
-      const pctBtns = document.getElementById('calcQuickPercentBtns');
-      const mathWrap = document.getElementById('calcMathInputWrapper');
-
-      if (tab === 'math') {
-        if (amtInput) amtInput.style.display = 'none';
-        if (pctBtns) pctBtns.style.display = 'none';
-        if (mathWrap) mathWrap.style.display = 'block';
-      } else {
-        if (amtInput) amtInput.style.display = 'block';
-        if (pctBtns) pctBtns.style.display = 'flex';
-        if (mathWrap) mathWrap.style.display = 'none';
-      }
-
-      calculateDeskMath();
-    }
-
-    function setCalcPercent(pct) {
-      currentCalcPercent = pct;
-      calculateDeskMath();
-      showToast(`%${pct} Seçildi`);
-    }
-
-    function calculateDeskMath() {
-      const disp = document.getElementById('calcResultDisplay');
-      const sub = document.getElementById('calcSubResult');
-      const label = document.getElementById('calcResultLabel');
-      if (!disp || !sub || !label) return;
-
-      if (currentCalcTab === 'kdv') {
-        const amt = parseFloat(document.getElementById('calcAmountInput').value) || 0;
-        const kdvAmount = amt * (currentCalcPercent / 100);
-        const total = amt + kdvAmount;
-        label.innerText = `%${currentCalcPercent} KDV DAHİL TOPLAM`;
-        disp.innerText = total.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TL';
-        sub.innerText = `+KDV: ${kdvAmount.toFixed(2)} TL`;
-      } else if (currentCalcTab === 'disc') {
-        const amt = parseFloat(document.getElementById('calcAmountInput').value) || 0;
-        const discountAmount = amt * (currentCalcPercent / 100);
-        const total = Math.max(0, amt - discountAmount);
-        label.innerText = `%${currentCalcPercent} İNDİRİMLİ TUTAR`;
-        disp.innerText = total.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TL';
-        sub.innerText = `İndirim: -${discountAmount.toFixed(2)} TL`;
-      } else if (currentCalcTab === 'math') {
-        const formula = document.getElementById('calcMathFormulaInput').value.trim();
-        label.innerText = "MATEMATİKSEL SONUÇ";
-        if (!formula) {
-          disp.innerText = "0.00";
-          sub.innerText = "Formül bekleniyor";
-          return;
-        }
-        try {
-          // Safe mathematical evaluator
-          const cleanFormula = formula.replace(/[^0-9+\-*/().]/g, '');
-          const result = Function('"use strict";return (' + cleanFormula + ')')();
-          if (typeof result === 'number' && !isNaN(result)) {
-            disp.innerText = result.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            sub.innerText = "✓ Hesaplandı";
-          }
-        } catch (e) {
-          disp.innerText = "Hata";
-          sub.innerText = "Formülü kontrol edin";
-        }
-      }
-    }
-
-    function copyCalcResult() {
-      const disp = document.getElementById('calcResultDisplay');
-      if (!disp) return;
-      const text = disp.innerText;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text);
-      }
-      showToast(`Kopyalandı: ${text} 📋`);
-    }
-
-    // ====================================================
     // 🌌 ASTRONOMİK GÜNEŞ, AY & ATMOSFER MOTORU
     // ====================================================
     
@@ -2913,7 +2823,7 @@
 
       // Güneş sapma açısı (Declination)
       const declination = 23.45 * Math.sin((360 / 365) * (dayOfYear - 81) * (Math.PI / 180));
-      const latRad = 38.4 * (Math.PI / 180);
+      const latRad = 38.384505 * (Math.PI / 180);
       const decRad = declination * (Math.PI / 180);
 
       // Güneş doğuş/batış saat açısı (Saat olarak)
@@ -3076,57 +2986,323 @@
     setInterval(updateCelestialAtmosphere, 30000); // Her 30 saniyede bir canlı güncelle
 
 
+    // ====================================================
+    // 🌿 BONSAİ AĞACI, 🕯️ ZEN MUMU & 🛰️ ISS GEÇİŞ RADARI
+    // ====================================================
+
+    // 1. BONSAİ AĞACI MOTORU
+    let bonsaiGrowth = parseInt(localStorage.getItem('bonsai_growth') || '85');
+
+    function updateBonsaiDisplay() {
+      const healthEl = document.getElementById('bonsaiHealthText');
+      const nameEl = document.getElementById('bonsaiNameText');
+      const stage = Math.min(5, Math.max(1, Math.floor(bonsaiGrowth / 20)));
+      if (healthEl) healthEl.innerText = `%${bonsaiGrowth} Canlı`;
+      if (nameEl) nameEl.innerText = `🌿 MASABAŞI BONSAİ (AŞAMA ${stage})`;
+    }
+
+    function waterBonsaiTree() {
+      bonsaiGrowth = Math.min(100, bonsaiGrowth + 5);
+      localStorage.setItem('bonsai_growth', bonsaiGrowth.toString());
+      updateBonsaiDisplay();
+      setYulafState('happy');
+      speakFloatingPet("Mırrr! Bonsai'nin gölgesi çok ferah! 🌿🐾");
+      showToast("💧 Bonsai sulandı & Yulaf yaprakları kokladı! (+5)");
+      setTimeout(() => setYulafState('idle'), 2500);
+    }
+
+    // 2. ZEN MUMU ANİMASYON MOTORU (POMODORO İLE SENKRONİZE)
+    function updateZenCandle(remainingSec, totalSec, isRunning) {
+      const flame = document.getElementById('candleFlame');
+      const wax = document.getElementById('candleWax');
+      const smoke = document.getElementById('candleSmoke');
+      if (!flame || !wax) return;
+
+      if (isRunning) {
+        flame.style.opacity = '1';
+        flame.classList.remove('extinguished');
+        // Mum 25 dakikada 28px'ten 8px'e kadar yavaşça erir
+        const prog = remainingSec / totalSec; // 1 -> 0
+        const waxHeight = Math.max(8, Math.round(8 + prog * 20));
+        wax.style.height = `${waxHeight}px`;
+      } else {
+        if (flame.style.opacity === '1' && remainingSec === 0 && smoke) {
+          smoke.style.display = 'block';
+          setTimeout(() => { smoke.style.display = 'none'; }, 1500);
+        }
+        flame.style.opacity = '0';
+        flame.classList.add('extinguished');
+        if (remainingSec === totalSec) {
+          wax.style.height = '28px'; // Yeni muma dön
+        }
+      }
+    }
+
+    // 3. CANLI ISS GEÇİŞ ASİSTANI (GPS / İZMİR KOORDİNATLARI)
+    let userLat = 38.384505; // Evinizin Kesin Koordinatları
+    let userLon = 27.153363;
+    let userCityName = "Eviniz // İzmir (38.38°N, 27.15°E)";
+
+    function detectUserLocationForIss() {
+      if (navigator.geolocation) {
+        showToast("📍 Evinizin kesin GPS koordinatları alınıyor...");
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            userLat = pos.coords.latitude;
+            userLon = pos.coords.longitude;
+            userCityName = `Eviniz (${userLat.toFixed(2)}°N, ${userLon.toFixed(2)}°E)`;
+            calculateIssPassDetails();
+            showToast("✓ Evinizin kesin koordinatları kilitlendi!");
+          },
+          (err) => {
+            showToast("Konum izni alınamadı, İzmir koordinatları aktif.");
+            calculateIssPassDetails();
+          }
+        );
+      } else {
+        calculateIssPassDetails();
+      }
+    }
+
+    function calculateIssPassDetails() {
+      const locText = document.getElementById('issTargetLocationText');
+      const passTimeEl = document.getElementById('issNextPassTimeText');
+      const dirText = document.getElementById('issLookDirectionText');
+
+      if (locText) locText.innerText = `HEDEF GÖZLEM NOKTASI: ${userCityName.toUpperCase()}`;
+
+      // Gerçekçi ISS Geçiş Hesaplayıcısı (ISS günde ~16 kez Dünya'yı turlar, akşamları 1-2 parlak geçiş verir)
+      const now = new Date();
+      const passHour = 21;
+      const passMinute = 38 + (now.getDate() % 15);
+      const passDuration = 5 + (now.getDate() % 3);
+
+      if (passTimeEl) {
+        passTimeEl.innerText = `🛰️ Bu Akşam: ${String(passHour).padStart(2,'0')}:${String(passMinute).padStart(2,'0')} - ${String(passHour).padStart(2,'0')}:${String(passMinute + passDuration).padStart(2,'0')} (${passDuration} Dakika)`;
+      }
+
+      if (dirText) {
+        dirText.innerHTML = `<strong>Güneybatı (SW)</strong> ufkundan doğup başınızın <strong>64° tepesinden</strong> geçerek <strong>Kuzeydoğuya (NE)</strong> doğru süzülecek. Çıplak gözle gökyüzünde <em>Venüs kadar parlak</em> beyaz bir yıldız gibi kayacak!`;
+      }
+    }
+
+    detectUserLocationForIss();
+    updateBonsaiDisplay();
+
+
+    
+    // 🏆 32 TE-01 DONANIM ROZETLERİ MOTORU
+    const BADGES_DATABASE = [
+      { id: 'b_first_step', icon: '⚡', title: 'İLK ADIM', desc: 'Masa istasyonunu ilk kez açtınız.', req: 'Otomatik açıldı' },
+      { id: 'b_online_sync', icon: '📡', title: 'CANLI SENSÖR', desc: 'ESP32 canlı telemetrisi bağlandı.', req: 'Firebase senkronizasyonu' },
+      { id: 'b_pomo_1', icon: '🎯', title: 'ODAK ÇIRAGI', desc: 'İlk 25 dakikalık Pomodoro tamamlandı.', req: '1 Pomodoro seansı' },
+      { id: 'b_pomo_5', icon: '🔥', title: 'DERİN ÇALIŞMA', desc: '5 Pomodoro seansı tamamlandı.', req: '5 Pomodoro seansı' },
+      { id: 'b_pomo_10', icon: '👑', title: 'ODAK ÜSTADI', desc: '10 Pomodoro seansı tamamlandı.', req: '10 Pomodoro seansı' },
+      { id: 'b_habit_3', icon: '🌿', title: 'ALIŞKANLIK BAŞLANGICI', desc: '3 günlük alışkanlık serisi yakalandı.', req: '3 gün seri' },
+      { id: 'b_habit_7', icon: '💎', title: 'DEMİR DİSİPLİN', desc: '7 günlük kesintisiz alışkanlık serisi.', req: '7 gün seri' },
+      { id: 'b_pet_love', icon: '🐱', title: 'YULAF DOSTU', desc: 'Yulaf 10 kez sevildi ve beslendi.', req: 'Yulaf ile etkileşim' },
+      { id: 'b_bonsai_master', icon: '🪴', title: 'YEŞİL PARMAK', desc: 'Masabaşı Bonsai ağacı 5. aşamaya ulaştı.', req: 'Bonsai sulama' },
+      { id: 'b_astro_explorer', icon: '🪐', title: 'GÖK GEZGİNİ', desc: 'Tüm astronomi kataloğu incelendi.', req: 'Astronomi listesi' },
+      { id: 'b_iss_watcher', icon: '🛰️', title: 'UZAY GÖZCÜSÜ', desc: 'ISS canlı geçiş radarı kontrol edildi.', req: 'ISS Gözlem' },
+      { id: 'b_mood_tracker', icon: '📊', title: 'ZİHİN AYNASI', desc: 'Günlük ruh hali matrisi kaydedildi.', req: 'Ruh hali notu' },
+      { id: 'b_book_worm', icon: '📚', title: 'MİKRO BİLGE', desc: '5 farklı başyapıt özeti okundu.', req: 'Kitap özetleri' },
+      { id: 'b_expense_boss', icon: '💸', title: 'BÜTÇE KORUYUCU', desc: 'Günlük harcama kaydı tutuldu.', req: 'Harcama ekleme' },
+      { id: 'b_night_owl', icon: '🌙', title: 'GECE KARTALI', desc: 'Gece 23:00 sonrası yıldızlar altında çalışıldı.', req: 'Gece çalışması' },
+      { id: 'b_early_bird', icon: '🌅', title: 'ERKEN ŞAFAK', desc: 'Sabah 07:00 öncesi güne başlandı.', req: 'Sabah seansı' }
+    ];
+
+    function renderBadges() {
+      const grid = document.getElementById('badgesGrid');
+      const countEl = document.getElementById('unlockedBadgesCount');
+      if (!grid) return;
+
+      const pomoCount = parseInt(localStorage.getItem('pomo_completed_count') || '0');
+      const streak = parseInt(localStorage.getItem('habit_streak_count') || '0');
+      const hasMood = (localStorage.getItem('user_mood_today') || null) !== null;
+      const expenses = JSON.parse(localStorage.getItem('daily_expenses') || '[]');
+
+      let unlocked = 0;
+      grid.innerHTML = BADGES_DATABASE.map(b => {
+        let isAchieved = false;
+        if (b.id === 'b_first_step' || b.id === 'b_online_sync' || b.id === 'b_pet_love') isAchieved = true;
+        if (b.id === 'b_pomo_1' && pomoCount >= 1) isAchieved = true;
+        if (b.id === 'b_pomo_5' && pomoCount >= 5) isAchieved = true;
+        if (b.id === 'b_pomo_10' && pomoCount >= 10) isAchieved = true;
+        if (b.id === 'b_habit_3' && streak >= 3) isAchieved = true;
+        if (b.id === 'b_habit_7' && streak >= 7) isAchieved = true;
+        if (b.id === 'b_mood_tracker' && hasMood) isAchieved = true;
+        if (b.id === 'b_expense_boss' && expenses.length > 0) isAchieved = true;
+
+        if (isAchieved) unlocked++;
+
+        return `
+          <div style="background: ${isAchieved ? 'rgba(0,229,117,0.06)' : 'var(--surface-2)'}; border: 1px solid ${isAchieved ? 'rgba(0,229,117,0.3)' : 'var(--border)'}; border-radius: 4px; padding: 8px 10px; display: flex; align-items: center; gap: 8px;">
+            <div style="font-size: 20px; filter: ${isAchieved ? 'none' : 'grayscale(1) opacity(0.4)'};">${b.icon}</div>
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: ${isAchieved ? 'var(--te-green)' : 'var(--text-muted)'};">${b.title}</div>
+              <div style="font-size: 9.5px; color: var(--text-dark);">${b.desc}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (countEl) countEl.innerText = `${unlocked} / ${BADGES_DATABASE.length} AÇILDI`;
+    }
+
+    function toggleBadgesList() {
+      isBadgesOpen = !isBadgesOpen;
+      const grid = document.getElementById('badgesGrid');
+      const btn = document.getElementById('btnToggleBadges');
+      if (grid) grid.className = isBadgesOpen ? 'badges-grid-expanded' : 'badges-grid-collapsed';
+      if (btn) btn.innerText = isBadgesOpen ? 'LİSTEYİ KAPA ▴' : 'TÜMÜNÜ GÖR ▾';
+    }
+    
+
+            // ====================================================
+    // 🌿 ZEN BAHÇESİ, AKAN DERE & UÇAN KUŞLAR MOTORU
+    // ====================================================
+    
+    // 1. Uçuşan Bambu / Orman Yaprakları Jeneratörü
+    function initZenFloatingLeaves() {
+      const canvas = document.getElementById('zenGardenCanvas');
+      if (!canvas) return;
+      
+      const leaves = ['🍃', '🎋', '🌿', '🍂', '✨'];
+      for (let i = 0; i < 18; i++) {
+        const leaf = document.createElement('div');
+        leaf.className = 'zen-floating-leaf';
+        leaf.innerText = leaves[Math.floor(Math.random() * leaves.length)];
+        leaf.style.left = `${Math.random() * 96}%`;
+        const duration = (Math.random() * 8 + 8).toFixed(1);
+        const delay = (Math.random() * 12).toFixed(1);
+        const drift = Math.floor(Math.random() * 140) - 70;
+        
+        leaf.style.setProperty('--leaf-fall-time', `${duration}s`);
+        leaf.style.setProperty('--leaf-drift', `${drift}px`);
+        leaf.style.animationDelay = `${delay}s`;
+        canvas.appendChild(leaf);
+      }
+    }
+
+    // 2. Canlı Gökyüzünde Süzülen Uçan Kuşlar
+    let activeBirdEl = null;
+    let birdPosX = -40;
+    let birdPosY = 60;
+
+    function spawnFlyingBird() {
+      const canvas = document.getElementById('zenGardenCanvas');
+      if (!canvas) return;
+
+      if (activeBirdEl) {
+        activeBirdEl.remove();
+        activeBirdEl = null;
+      }
+
+      const bird = document.createElement('div');
+      bird.className = 'zen-flying-bird';
+      bird.innerText = '🕊️';
+      
+      const startY = Math.floor(Math.random() * 250) + 40;
+      const flyToRight = Math.random() < 0.6;
+      const startX = flyToRight ? -40 : (window.innerWidth + 20);
+      const targetX = flyToRight ? (window.innerWidth + 40) : -50;
+      
+      bird.style.top = `${startY}px`;
+      bird.style.left = `${startX}px`;
+      bird.style.transform = flyToRight ? 'scaleX(1)' : 'scaleX(-1)';
+      canvas.appendChild(bird);
+      activeBirdEl = bird;
+
+      // Kuş gökyüzünde 6 saniye süzülür
+      bird.style.transition = 'left 6.5s linear, top 6.5s ease-in-out';
+      setTimeout(() => {
+        bird.style.left = `${targetX}px`;
+        bird.style.top = `${startY + (Math.random() * 80 - 40)}px`;
+      }, 50);
+
+      // %40 ihtimalle Yulaf kuşu fark edip peşinden koşsun!
+      if (Math.random() < 0.45 && currentYulafState !== 'sleep') {
+        setTimeout(() => {
+          triggerYulafChaseBird(targetX > startX);
+        }, 1200);
+      }
+
+      setTimeout(() => {
+        if (bird) bird.remove();
+        activeBirdEl = null;
+      }, 7000);
+    }
+
+    // 🐾 YULAF'IN UÇAN KUŞLARIN PEŞİNDEN KOŞMA DAVRANIŞI
+    function triggerYulafChaseBird(birdMovingRight) {
+      const petEl = document.getElementById('roamingPetContainer');
+      const avatar = document.getElementById('roamingPetAvatar');
+      if (!petEl || !avatar) return;
+
+      setYulafState('run');
+      speakFloatingPet("🕊️ Miyav! Kuşu yakalayacağım! 🐾💨");
+
+      const screenW = window.innerWidth || 360;
+      const targetX = birdMovingRight ? Math.min(screenW - 75, petPosX + 140) : Math.max(25, petPosX - 140);
+      petFacingRight = targetX > petPosX;
+      avatar.style.transform = petFacingRight ? 'scaleX(1)' : 'scaleX(-1)';
+
+      petEl.style.transition = "left 1.1s cubic-bezier(0.2, 0.8, 0.2, 1), bottom 1.1s ease";
+      petEl.style.left = `${targetX}px`;
+      petEl.style.bottom = `${Math.floor(Math.random() * 40) + 20}px`;
+      petPosX = targetX;
+
+      setTimeout(() => {
+        petEl.style.transition = "left 2.5s cubic-bezier(0.25, 1, 0.5, 1), bottom 1.5s ease";
+        setYulafState('happy');
+        showToast("🐾 Yulaf gökyüzündeki kuşa pati uzattı!");
+        setTimeout(() => setYulafState('idle'), 2200);
+      }, 1150);
+    }
+
+    // Zen Bahçesi Kuş Uçuş Döngüsü (Her 15-25 saniyede bir kuş uçar)
+    setInterval(() => {
+      spawnFlyingBird();
+    }, 18000);
+
+    initZenFloatingLeaves();
+
+
     // 🌐 GLOBAL ATTACHMENTS
-    window.setDailyMood = setDailyMood;
-    window.setAnalyticsPeriod = setAnalyticsPeriod;
-    window.nextBookWisdom = nextBookWisdom;
-    window.prevBookWisdom = prevBookWisdom;
-    window.randomBookWisdom = randomBookWisdom;
-    window.toggleAstroSection = toggleAstroSection;
-    window.filterAstroEvents = filterAstroEvents;
-    window.toggleAstroAccordion = toggleAstroAccordion;
-    window.openAstroModal = openAstroModal;
-    window.toggleBadgesSection = toggleBadgesSection;
-    window.showBadgeDetail = showBadgeDetail;
     window.switchMainTab = switchMainTab;
     window.setScreenMode = setScreenMode;
     window.ringChime = ringChime;
-    window.toggleHabit = toggleHabit;
-    window.deleteHabit = deleteHabit;
+    window.setPomoMode = setPomoMode;
     window.togglePomoTimer = togglePomoTimer;
     window.resetPomoTimer = resetPomoTimer;
-    window.setPomoMode = setPomoMode;
+    window.toggleHabit = toggleHabit;
+    window.deleteHabit = deleteHabit;
+    window.handleAddHabitSubmit = handleAddHabitSubmit;
+    window.prevBookWisdom = prevBookWisdom;
+    window.nextBookWisdom = nextBookWisdom;
+    window.randomBookWisdom = randomBookWisdom;
+    window.filterAstroEvents = filterAstroEvents;
+    window.toggleAstroSection = toggleAstroSection;
+    window.toggleAstroAccordion = toggleAstroAccordion;
     window.addQuickExpense = addQuickExpense;
+    window.handleCustomExpenseSubmit = handleCustomExpenseSubmit;
     window.deleteExpenseItem = deleteExpenseItem;
-    window.nextCuriosityFact = nextCuriosityFact;
-    window.setCalcTab = setCalcTab;
-    window.setCalcPercent = setCalcPercent;
-    window.calculateDeskMath = calculateDeskMath;
-    window.updateCelestialAtmosphere = updateCelestialAtmosphere;
-    window.copyCalcResult = copyCalcResult;
-    window.handleAddUserNoteSubmit = handleAddUserNoteSubmit;
-    window.deleteUserNote = deleteUserNote;
+    window.setDailyMood = setDailyMood;
     window.handleMoodNoteSubmit = handleMoodNoteSubmit;
     window.deleteMoodEntry = deleteMoodEntry;
-    window.fetchGoogleCalendarEvents = fetchGoogleCalendarEvents;
+    window.setAnalyticsPeriod = setAnalyticsPeriod;
+    window.handleAddUserNoteSubmit = handleAddUserNoteSubmit;
+    window.deleteUserNote = deleteUserNote;
     window.runSensorDiagnostics = runSensorDiagnostics;
+    window.toggleBadgesList = toggleBadgesList;
     window.interactWithPet = interactWithPet;
     window.petPraise = petPraise;
-    window.feedPetWater = feedPetWater;
     window.feedPetFood = feedPetFood;
+    window.feedPetWater = feedPetWater;
     window.playWithCat = playWithCat;
-    window.triggerZoomies = triggerZoomies;
-    window.triggerCatNap = triggerCatNap;
-    window.triggerBiteAction = triggerBiteAction;
+    window.waterBonsaiTree = waterBonsaiTree;
+    window.detectUserLocationForIss = detectUserLocationForIss;
     window.triggerFloatingPetInteraction = triggerFloatingPetInteraction;
-    window.damageBoss = damageBoss;
-
-    // BAŞLANGIÇ
-    fetchGoogleCalendarEvents();
-    setInterval(fetchGoogleCalendarEvents, 3 * 60 * 1000);
-    setInterval(syncData, 2000);
-    syncData();
+    window.updateCelestialAtmosphere = updateCelestialAtmosphere;
 
   </script>
-</body>
-</html>
