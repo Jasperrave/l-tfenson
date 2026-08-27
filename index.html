@@ -69,6 +69,126 @@
     }
 
     /* Akan Dere Efekti (Ekranın Altı) */
+    
+    /* 🌊 CANLI ZEN BAHÇESİ: DERELİ VE AĞAÇLI MANZARA SİSTEMİ */
+    #zenGardenCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    /* Sol & Sağ Arka Plan Bambu & Çam Ağacı Silüetleri */
+    .zen-forest-tree-left {
+      position: fixed;
+      bottom: 0;
+      left: -10px;
+      width: 70px;
+      height: 240px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.25;
+      background: linear-gradient(to top, rgba(44,62,50,0.8), transparent);
+      mask-image: linear-gradient(to top, black 60%, transparent 100%);
+    }
+
+    .zen-forest-tree-right {
+      position: fixed;
+      bottom: 0;
+      right: -10px;
+      width: 80px;
+      height: 260px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.22;
+      background: linear-gradient(to top, rgba(44,62,50,0.8), transparent);
+    }
+
+    /* 🌊 AKAN DERE, TAŞLAR & SU IŞILTILARI */
+    .zen-river-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 38px;
+      z-index: 5;
+      pointer-events: auto;
+      cursor: pointer;
+      background: linear-gradient(180deg, rgba(82,183,136,0.1) 0%, rgba(116,198,157,0.3) 50%, rgba(44,62,50,0.7) 100%);
+      border-top: 1.5px solid rgba(116,198,157,0.4);
+      backdrop-filter: blur(3px);
+      box-shadow: 0 -4px 14px rgba(82,183,136,0.15);
+      overflow: hidden;
+    }
+
+    .zen-river-ripples {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.15) 45px, transparent 50px);
+      animation: riverFlowAnim 4.5s linear infinite;
+    }
+
+    @keyframes riverFlowAnim {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .zen-river-stone {
+      position: absolute;
+      bottom: 4px;
+      background: #233127;
+      border: 1px solid #3d5243;
+      border-radius: 50% 50% 40% 40%;
+      box-shadow: inset 0 2px 3px rgba(255,255,255,0.1);
+    }
+
+    /* 🪴 CANLI MEVSİMSEL VE DEKORATİF MASABAŞI BONSAİ AĞACI */
+    #ambientBonsaiDecor {
+      position: fixed;
+      bottom: 22px;
+      right: 18px;
+      width: 72px;
+      height: 76px;
+      z-index: 12;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+      user-select: none;
+    }
+
+    #ambientBonsaiDecor:hover {
+      transform: scale(1.08) translateY(-2px);
+    }
+
+    #ambientBonsaiDecor:active {
+      transform: scale(0.95);
+    }
+
+    .bonsai-season-badge {
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--te-green);
+      background: rgba(11,17,13,0.85);
+      border: 1px solid var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
     .zen-flowing-stream {
       position: fixed;
       bottom: 0;
@@ -626,9 +746,27 @@
   </style>
 </head>
 <body>
-  <!-- 🌿 CANLI ZEN BAHÇESİ, AKAN DERE & UÇAN KUŞLAR -->
-  <div id="zenGardenCanvas"></div>
-  <div class="zen-flowing-stream"></div>
+    <!-- 🌿 CANLI ZEN BAHÇESİ, AKAN DERE, AĞAÇLAR & MEVSİMSEL BONSAİ DEKORU -->
+  <div id="zenGardenCanvas">
+    <div class="zen-forest-tree-left"></div>
+    <div class="zen-forest-tree-right"></div>
+  </div>
+
+  <!-- 🌊 AKAN DERE & DERE TAŞLARI -->
+  <div class="zen-river-container" onclick="triggerRiverInteraction()" title="Akan Zen Deresi - Tıklayarak Yulaf'ı su içmeye çağırın">
+    <div class="zen-river-ripples"></div>
+    <div class="zen-river-stone" style="left: 12%; width: 22px; height: 10px;"></div>
+    <div class="zen-river-stone" style="left: 28%; width: 16px; height: 8px;"></div>
+    <div class="zen-river-stone" style="left: 65%; width: 26px; height: 12px;"></div>
+    <div class="zen-river-stone" style="left: 82%; width: 18px; height: 9px;"></div>
+  </div>
+
+  <!-- 🪴 MEVSİME VE HAVAYA GÖRE DEĞİŞEN DOĞAL PİKSEL BONSAİ DEKORU -->
+  <div id="ambientBonsaiDecor" onclick="triggerBonsaiInteraction()" title="Zen Bonsai Ağacı (Mevsime Göre Değişir)">
+    <div id="ambientBonsaiSvgWrap"></div>
+    <div class="bonsai-season-badge" id="bonsaiSeasonBadge">YAZ // 🍃</div>
+  </div>
+
   <!-- 🌌 CANLI CELESTIAL GÖKYÜZÜ, GECE YILDIZLARI & GÜNEŞ/AY ORBİTİ -->
   <div id="celestialSkyCanvas"></div>
 
@@ -3339,6 +3477,154 @@
     initZenFloatingLeaves();
 
 
+    
+    // ====================================================
+    // 🪴 MEVSİMSEL VE HAVA DURUMUNA DUYARLI BONSAİ & DERE MOTORU
+    // ====================================================
+    
+    function renderSeasonalBonsaiDecor() {
+      const wrap = document.getElementById('ambientBonsaiSvgWrap');
+      const badge = document.getElementById('bonsaiSeasonBadge');
+      if (!wrap) return;
+
+      const now = new Date();
+      const month = now.getMonth(); // 0: Ocak ... 11: Aralık
+      
+      let seasonName = "YAZ // 🍃";
+      let leafColor1 = "#52B788"; // Yeşil
+      let leafColor2 = "#40916C";
+      let leafColor3 = "#74C69D";
+      let potColor = "#8B4513";
+      let detailIcon = "🍃";
+
+      // 🌸 İLKBAHAR (Mart, Nisan, Mayıs) -> Sakura Kiraz Çiçeği Bonsai
+      if (month >= 2 && month <= 4) {
+        seasonName = "İLKBAHAR // 🌸 SAKURA";
+        leafColor1 = "#FFB6C1"; // Açık pembe
+        leafColor2 = "#FF69B4"; // Canlı pembe
+        leafColor3 = "#FFF0F5"; // Beyaz taç yapraklar
+        potColor = "#4A5568";  // Seramik kase
+        detailIcon = "🌸";
+      }
+      // 🍃 YAZ (Haziran, Temmuz, Ağustos) -> Zümrüt Yeşili Bambu/Çam Bonsai
+      else if (month >= 5 && month <= 7) {
+        seasonName = "YAZ // 🍃 YEŞİL";
+        leafColor1 = "#00E575";
+        leafColor2 = "#00C853";
+        leafColor3 = "#69F0AE";
+        potColor = "#8B4513";
+        detailIcon = "🍃";
+      }
+      // 🍁 SONBAHAR (Eylül, Ekim, Kasım) -> Momiji Japon Akçaağacı
+      else if (month >= 8 && month <= 10) {
+        seasonName = "SONBAHAR // 🍁 MOMİJİ";
+        leafColor1 = "#E76F51"; // Kızıl
+        leafColor2 = "#DDA15E"; // Kehribar sarısı
+        leafColor3 = "#F4A261"; // Turuncu
+        potColor = "#5C3A1E";
+        detailIcon = "🍁";
+      }
+      // ❄️ KIŞ (Aralık, Ocak, Şubat) -> Karlı Kış Çamı Bonsai
+      else {
+        seasonName = "KIŞ // ❄️ KARLI ÇAM";
+        leafColor1 = "#A0C4FF"; // Buz mavisi
+        leafColor2 = "#2C3E32"; // Koyu çam iğnesi
+        leafColor3 = "#FFFFFF"; // Kar örtüsü
+        potColor = "#2D3748";
+        detailIcon = "❄️";
+      }
+
+      wrap.innerHTML = `
+        <svg viewBox="0 0 32 32" width="100%" height="100%" shape-rendering="crispEdges">
+          <!-- Seramik Saksı -->
+          <rect x="7" y="24" width="18" height="6" fill="${potColor}"/>
+          <rect x="5" y="23" width="22" height="2" fill="#2C3E32"/>
+          <rect x="10" y="28" width="2" height="2" fill="#1A202C"/>
+          <rect x="20" y="28" width="2" height="2" fill="#1A202C"/>
+
+          <!-- Kıvrımlı Yaşlı Gövde -->
+          <rect x="14" y="16" width="4" height="8" fill="#5C3A1E"/>
+          <rect x="12" y="13" width="4" height="4" fill="#6B4423"/>
+          <rect x="16" y="11" width="3" height="4" fill="#5C3A1E"/>
+          <rect x="9" y="12" width="4" height="2" fill="#6B4423"/>
+          <rect x="18" y="9" width="5" height="2" fill="#6B4423"/>
+
+          <!-- Katmanlı Yeşillik / Taç Yapraklar -->
+          <!-- Alt Katman -->
+          <rect x="5" y="10" width="10" height="4" rx="2" fill="${leafColor2}"/>
+          <rect x="17" y="8" width="11" height="4" rx="2" fill="${leafColor2}"/>
+          
+          <!-- Orta Katman -->
+          <rect x="6" y="8" width="9" height="4" fill="${leafColor1}"/>
+          <rect x="16" y="6" width="11" height="4" fill="${leafColor1}"/>
+          
+          <!-- Üst Zirve & Çiçek/Kar Işıltıları -->
+          <rect x="10" y="4" width="11" height="4" rx="2" fill="${leafColor3}"/>
+          <rect x="12" y="3" width="7" height="2" fill="${leafColor3}"/>
+        </svg>
+      `;
+
+      if (badge) badge.innerText = seasonName;
+    }
+
+    // 🐾 Yulaf'ın Bonsai Ağacıyla Etkileşimi
+    function triggerBonsaiInteraction() {
+      const petEl = document.getElementById('roamingPetContainer');
+      const avatar = document.getElementById('roamingPetAvatar');
+      if (!petEl || !avatar) return;
+
+      const screenW = window.innerWidth || 380;
+      const bonsaiX = screenW - 105;
+
+      setYulafState('run');
+      speakFloatingPet("🪴 Mırrr... Bonsai ağacının gölgesine koşuyorum! 🍃");
+
+      petFacingRight = true;
+      avatar.style.transform = 'scaleX(1)';
+      petEl.style.transition = "left 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), bottom 1.2s ease";
+      petEl.style.left = `${bonsaiX}px`;
+      petEl.style.bottom = "26px";
+      petPosX = bonsaiX;
+
+      setTimeout(() => {
+        setYulafState('sleep');
+        speakFloatingPet("🎋 Bonsai gölgesinde tatlı bir kedi uykusu... zZz");
+        showToast("🪴 Yulaf mevsimsel Bonsai'nin yanında uykuya daldı 💤");
+      }, 1250);
+    }
+
+    // 🌊 Yulaf'ın Dereden Su İçmesi
+    function triggerRiverInteraction() {
+      const petEl = document.getElementById('roamingPetContainer');
+      const avatar = document.getElementById('roamingPetAvatar');
+      if (!petEl || !avatar) return;
+
+      const targetX = Math.floor(Math.random() * (window.innerWidth - 120)) + 30;
+
+      setYulafState('run');
+      speakFloatingPet("🌊 Akan derenin sesini duydum, su içmeye geldim! 💧");
+
+      petFacingRight = targetX > petPosX;
+      avatar.style.transform = petFacingRight ? 'scaleX(1)' : 'scaleX(-1)';
+      petEl.style.transition = "left 1.1s cubic-bezier(0.2, 0.8, 0.2, 1), bottom 1.1s ease";
+      petEl.style.left = `${targetX}px`;
+      petEl.style.bottom = "12px";
+      petPosX = targetX;
+
+      setTimeout(() => {
+        setYulafState('happy');
+        speakFloatingPet("💧 Mırrrr... Buz gibi taze dere suyu çok iyi geldi! ✨");
+        showToast("🌊 Yulaf canlı dereden su içti (+10 Mutluluk)");
+        petHappiness = Math.min(100, petHappiness + 10);
+        localStorage.setItem('pet_happiness', petHappiness.toString());
+        updatePetDisplay();
+        setTimeout(() => setYulafState('idle'), 2500);
+      }, 1150);
+    }
+
+    renderSeasonalBonsaiDecor();
+
+
     // 🌐 GLOBAL ATTACHMENTS
     window.switchMainTab = switchMainTab;
     window.setScreenMode = setScreenMode;
@@ -3371,7 +3657,9 @@
     window.feedPetFood = feedPetFood;
     window.feedPetWater = feedPetWater;
     window.playWithCat = playWithCat;
-    window.waterBonsaiTree = waterBonsaiTree;
+    window.triggerBonsaiInteraction = triggerBonsaiInteraction;
+    window.triggerRiverInteraction = triggerRiverInteraction;
+    window.renderSeasonalBonsaiDecor = renderSeasonalBonsaiDecor;
     window.detectUserLocationForIss = detectUserLocationForIss;
     window.triggerFloatingPetInteraction = triggerFloatingPetInteraction;
     window.updateCelestialAtmosphere = updateCelestialAtmosphere;
