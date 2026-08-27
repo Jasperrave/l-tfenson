@@ -498,7 +498,45 @@
         </form>
       </div>
 
-      <!-- 📚 MODULE 04: 1-MINUTE MICRO-BOOK WISDOM (21 MASTERPIECES) -->
+      <!-- 🧘 MODULE 03-B: DAILY MOOD & MENTAL MATRIX -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-title"><span class="code">[03-B]</span> GÜNLÜK RUH HALİ & ZİHİN SKALASI</div>
+          <span class="hardware-tag active-green" id="moodStatusBadge">KAYDEDİLDİ: 5/5</span>
+        </div>
+
+        <!-- 5 Seviyeli Taktil Mood Seçici -->
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 10px;">
+          <div class="te-switch-item" id="moodBtn1" onclick="setDailyMood(1, '🌧️ Düşük / Bunalmış')" style="font-size: 10px; padding: 8px 2px;">
+            <div style="font-size: 16px;">🌧️</div>
+            <div style="margin-top: 2px;">1 // DÜŞÜK</div>
+          </div>
+          <div class="te-switch-item" id="moodBtn2" onclick="setDailyMood(2, '☁️ Yorgun / Durgun')" style="font-size: 10px; padding: 8px 2px;">
+            <div style="font-size: 16px;">☁️</div>
+            <div style="margin-top: 2px;">2 // YORGUN</div>
+          </div>
+          <div class="te-switch-item" id="moodBtn3" onclick="setDailyMood(3, '⚖️ Dengeli / Nötr')" style="font-size: 10px; padding: 8px 2px;">
+            <div style="font-size: 16px;">⚖️</div>
+            <div style="margin-top: 2px;">3 // DENGELİ</div>
+          </div>
+          <div class="te-switch-item" id="moodBtn4" onclick="setDailyMood(4, '⚡ Odaklanmış / Verimli')" style="font-size: 10px; padding: 8px 2px;">
+            <div style="font-size: 16px;">⚡</div>
+            <div style="margin-top: 2px;">4 // ODAK</div>
+          </div>
+          <div class="te-switch-item active" id="moodBtn5" onclick="setDailyMood(5, '🔥 Zirve / Enerjik')" style="font-size: 10px; padding: 8px 2px;">
+            <div style="font-size: 16px;">🔥</div>
+            <div style="margin-top: 2px;">5 // ZİRVE</div>
+          </div>
+        </div>
+
+        <!-- Günün Farkındalık Notu -->
+        <div style="display: flex; gap: 6px;">
+          <input type="text" id="moodNoteInput" class="te-input" placeholder="Günün kısa hissi / zihin notu...">
+          <button type="button" class="te-btn te-btn-primary" onclick="saveMoodNote()">KAYDET</button>
+        </div>
+      </div>
+
+      <!-- 📚 MODULE 04:<!-- 📚 MODULE 04: 1-MINUTE MICRO-BOOK WISDOM (21 MASTERPIECES) -->
       <div class="module-card">
         <div class="module-header">
           <div class="module-title"><span class="code">[04]</span> 1 DAKİKALIK KİTAP ÖZETİ</div>
@@ -635,36 +673,69 @@
 
     <!-- TAB 2: ANALYTICS & CHARTS -->
     <div id="analyticsTabContent" style="display: none; flex-direction: column; gap: 10px;">
+      
+      <!-- Zaman Aralığı Seçici (Günlük vs Aylık) -->
+      <div class="module-card" style="padding: 10px 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+            <span style="color: var(--te-orange);">[ZAMAN ARALIĞI]</span> TELEMETRİ PERİYODU
+          </div>
+          <div class="te-switch-group" style="min-width: 170px;">
+            <div class="te-switch-item active" id="periodBtnDaily" onclick="setAnalyticsPeriod('daily')">GÜNLÜK (24S)</div>
+            <div class="te-switch-item" id="periodBtnMonthly" onclick="setAnalyticsPeriod('monthly')">AYLIK (30G)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [AN-01] SICAKLIK & NEM EĞRİSİ -->
       <div class="module-card">
         <div class="module-header">
           <div class="module-title"><span class="code">[AN-01]</span> SICAKLIK & NEM EĞRİSİ</div>
+          <span class="hardware-tag" id="chartPeriodTag1">GÜNLÜK</span>
         </div>
         <div style="height: 180px; position: relative;">
           <canvas id="tempChart"></canvas>
         </div>
       </div>
 
+      <!-- [AN-02] RUH HALİ & ZİHİN SKALASI (MOOD MATRIX) -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-title"><span class="code">[AN-02]</span> HARCAMA KATEGORİ DAĞILIMI</div>
+          <div class="module-title"><span class="code">[AN-02]</span> RUH HALİ & ZİHİN PERFORMANSI</div>
+          <span class="hardware-tag active-green" id="chartPeriodTagMood">GÜNLÜK</span>
+        </div>
+        <div style="height: 180px; position: relative;">
+          <canvas id="moodChart"></canvas>
+        </div>
+      </div>
+
+      <!-- [AN-03] HARCAMA KATEGORİ DAĞILIMI -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-title"><span class="code">[AN-03]</span> HARCAMA KATEGORİ DAĞILIMI</div>
+          <span class="hardware-tag" id="chartPeriodTag2">GÜNLÜK</span>
         </div>
         <div style="height: 180px; position: relative;">
           <canvas id="expenseCategoryChart"></canvas>
         </div>
       </div>
 
+      <!-- [AN-04] IŞIK SEVİYESİ DAĞILIMI -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-title"><span class="code">[AN-03]</span> IŞIK SEVİYESİ DAĞILIMI</div>
+          <div class="module-title"><span class="code">[AN-04]</span> IŞIK SEVİYESİ DAĞILIMI</div>
+          <span class="hardware-tag" id="chartPeriodTag3">GÜNLÜK</span>
         </div>
         <div style="height: 180px; position: relative;">
           <canvas id="lightChart"></canvas>
         </div>
       </div>
 
+      <!-- [AN-05] HAVA KALİTESİ (MQ-135) -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-title"><span class="code">[AN-04]</span> HAVA KALİTESİ (MQ-135)</div>
+          <div class="module-title"><span class="code">[AN-05]</span> HAVA KALİTESİ (MQ-135)</div>
+          <span class="hardware-tag" id="chartPeriodTag4">GÜNLÜK</span>
         </div>
         <div style="height: 180px; position: relative;">
           <canvas id="airChart"></canvas>
@@ -674,7 +745,7 @@
 
   </div>
 
-  <div id="toast">KOMUT İLETİLDİ // TE-01</div>
+  <div id="toast"><div id="toast">KOMUT İLETİLDİ // TE-01</div>
 
   <script>
     // ====================================================
@@ -1503,9 +1574,60 @@
     }
     renderExpenses();
 
-    // 📑 SAYFA GEÇİŞİ VE GRAFİKLER
+    // 🧘 GÜNLÜK RUH HALİ & ZİHİN SKALASI MOTORU
+    let currentMoodScore = parseInt(localStorage.getItem('daily_mood_score') || '5');
+    let moodHistory = JSON.parse(localStorage.getItem('user_mood_history') || '[]');
+    if (moodHistory.length === 0) {
+      moodHistory = [
+        { date: "22 Ağu", score: 4, label: "Odaklı" },
+        { date: "23 Ağu", score: 5, label: "Zirve" },
+        { date: "24 Ağu", score: 3, label: "Dengeli" },
+        { date: "25 Ağu", score: 4, label: "Odaklı" },
+        { date: "26 Ağu", score: 5, label: "Zirve" },
+        { date: "Bugün", score: currentMoodScore, label: "Zirve" }
+      ];
+      localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
+    }
+
+    function setDailyMood(score, label) {
+      currentMoodScore = score;
+      localStorage.setItem('daily_mood_score', score.toString());
+      [1, 2, 3, 4, 5].forEach(s => {
+        const el = document.getElementById(`moodBtn${s}`);
+        if (el) el.classList.toggle('active', s === score);
+      });
+      const badge = document.getElementById('moodStatusBadge');
+      if (badge) badge.innerText = `KAYDEDİLDİ: ${score}/5`;
+      
+      const todayStr = "Bugün";
+      const existingIdx = moodHistory.findIndex(m => m.date === todayStr);
+      if (existingIdx >= 0) moodHistory[existingIdx] = { date: todayStr, score, label };
+      else moodHistory.push({ date: todayStr, score, label });
+      localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
+
+      checkAchievements();
+      showToast(`Ruh Hali: ${label}`);
+      if (chartsInitialized) initAnalyticsCharts();
+    }
+
+    function saveMoodNote() {
+      const input = document.getElementById('moodNoteInput');
+      const text = input ? input.value.trim() : '';
+      if (!text) {
+        showToast("Ruh Hali Notu Giriniz");
+        return;
+      }
+      localStorage.setItem('daily_mood_note', text);
+      input.value = '';
+      showToast("Zihin Notu Kaydedildi ✨");
+      checkAchievements();
+    }
+
+    // 📑 SAYFA GEÇİŞİ VE PERİYOTLU GRAFİK MOTORU (GÜNLÜK / AYLIK)
     let activeMainTab = 'live';
+    let currentAnalyticsPeriod = 'daily';
     let chartsInitialized = false;
+    let chartInstances = {};
 
     function switchMainTab(tab) {
       activeMainTab = tab;
@@ -1514,50 +1636,103 @@
       document.getElementById('liveTabContent').style.display = tab === 'live' ? 'flex' : 'none';
       document.getElementById('analyticsTabContent').style.display = tab === 'analytics' ? 'flex' : 'none';
 
-      if (tab === 'analytics' && !chartsInitialized) {
+      if (tab === 'analytics') {
         initAnalyticsCharts();
         chartsInitialized = true;
       }
     }
 
+    function setAnalyticsPeriod(period) {
+      currentAnalyticsPeriod = period;
+      document.getElementById('periodBtnDaily').classList.toggle('active', period === 'daily');
+      document.getElementById('periodBtnMonthly').classList.toggle('active', period === 'monthly');
+
+      const label = period === 'daily' ? 'GÜNLÜK (24S)' : 'AYLIK (30G)';
+      ['chartPeriodTag1', 'chartPeriodTag2', 'chartPeriodTag3', 'chartPeriodTag4', 'chartPeriodTagMood'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = label;
+      });
+
+      initAnalyticsCharts();
+      showToast(`ZAMAN ARALIĞI // ${period.toUpperCase()}`);
+    }
+
     function initAnalyticsCharts() {
       try {
         if (typeof Chart === 'undefined') return;
-        const hours = ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "Şimdi"];
-        const opts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
 
+        // Destroy previous instances to prevent canvas reuse errors
+        Object.keys(chartInstances).forEach(k => {
+          if (chartInstances[k]) chartInstances[k].destroy();
+        });
+        chartInstances = {};
+
+        const isDaily = currentAnalyticsPeriod === 'daily';
+        const labelsHours = ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "Şimdi"];
+        const labelsDays = ["1 Ağu", "6 Ağu", "11 Ağu", "16 Ağu", "21 Ağu", "26 Ağu", "Bugün"];
+        const timeLabels = isDaily ? labelsHours : labelsDays;
+
+        const opts = {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { font: { family: 'JetBrains Mono', size: 9 }, color: '#8E95A0' } },
+            y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { font: { family: 'JetBrains Mono', size: 9 }, color: '#8E95A0' } }
+          }
+        };
+
+        // [AN-01] Sıcaklık
         const c1 = document.getElementById('tempChart');
         if (c1 && c1.getContext) {
-          new Chart(c1.getContext('2d'), {
+          const tempData = isDaily ? [22, 21, 24, 30, 29, 27, 28] : [27, 28, 29, 31, 30, 28, 28];
+          chartInstances.temp = new Chart(c1.getContext('2d'), {
             type: 'line',
-            data: { labels: hours, datasets: [{ label: 'Sıcaklık', data: [22, 21, 24, 30, 29, 27, 28], borderColor: '#FF4F00', backgroundColor: 'rgba(255,79,0,0.1)', fill: true, tension: 0.4 }] },
+            data: { labels: timeLabels, datasets: [{ label: 'Sıcaklık (°C)', data: tempData, borderColor: '#FF4F00', backgroundColor: 'rgba(255,79,0,0.12)', fill: true, tension: 0.35, pointRadius: 3 }] },
             options: opts
           });
         }
 
+        // [AN-02] Ruh Hali (Mood Skalası)
+        const cMood = document.getElementById('moodChart');
+        if (cMood && cMood.getContext) {
+          const moodData = isDaily ? [4, 4, 5, 5, 4, 5, currentMoodScore] : [4, 5, 3, 4, 5, 4, currentMoodScore];
+          chartInstances.mood = new Chart(cMood.getContext('2d'), {
+            type: 'bar',
+            data: { labels: timeLabels, datasets: [{ label: 'Zihin Skoru (1-5)', data: moodData, backgroundColor: '#00E575', borderRadius: 4 }] },
+            options: { ...opts, scales: { ...opts.scales, y: { min: 1, max: 5, ticks: { stepSize: 1, color: '#8E95A0' } } } }
+          });
+        }
+
+        // [AN-03] Harcamalar
         const c2 = document.getElementById('expenseCategoryChart');
         if (c2 && c2.getContext) {
-          new Chart(c2.getContext('2d'), {
+          const expData = isDaily ? [120, 250, 400, 150] : [1450, 3200, 4800, 1950];
+          chartInstances.expense = new Chart(c2.getContext('2d'), {
             type: 'doughnut',
-            data: { labels: ['Kahve', 'Yemek', 'Market', 'Diğer'], datasets: [{ data: [120, 250, 400, 150], backgroundColor: ['#FF4F00', '#FFAA00', '#00E575', '#00D0FF'], borderWidth: 0 }] },
-            options: opts
+            data: { labels: ['Kahve', 'Yemek', 'Market', 'Diğer'], datasets: [{ data: expData, backgroundColor: ['#FF4F00', '#FFAA00', '#00E575', '#00D0FF'], borderWidth: 0 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Space Grotesk', size: 10 }, color: '#F2F4F7' } } } }
           });
         }
 
+        // [AN-04] Işık
         const c3 = document.getElementById('lightChart');
         if (c3 && c3.getContext) {
-          new Chart(c3.getContext('2d'), {
+          const lightData = isDaily ? [0, 0, 20, 85, 90, 45, 10] : [65, 70, 68, 75, 80, 72, 70];
+          chartInstances.light = new Chart(c3.getContext('2d'), {
             type: 'line',
-            data: { labels: hours, datasets: [{ label: 'Işık %', data: [0, 0, 20, 85, 90, 45, 10], borderColor: '#FFAA00', backgroundColor: 'rgba(255,170,0,0.1)', fill: true, tension: 0.3 }] },
+            data: { labels: timeLabels, datasets: [{ label: 'Işık %', data: lightData, borderColor: '#FFAA00', backgroundColor: 'rgba(255,170,0,0.12)', fill: true, tension: 0.35, pointRadius: 3 }] },
             options: opts
           });
         }
 
+        // [AN-05] Hava Kalitesi
         const c4 = document.getElementById('airChart');
         if (c4 && c4.getContext) {
-          new Chart(c4.getContext('2d'), {
+          const airData = isDaily ? [420, 430, 450, 600, 550, 480, 435] : [440, 460, 480, 510, 490, 450, 435];
+          chartInstances.air = new Chart(c4.getContext('2d'), {
             type: 'line',
-            data: { labels: hours, datasets: [{ label: 'Hava PPM', data: [420, 430, 450, 600, 550, 480, 435], borderColor: '#00E575', backgroundColor: 'rgba(0,229,117,0.1)', fill: true, tension: 0.3 }] },
+            data: { labels: timeLabels, datasets: [{ label: 'Hava PPM', data: airData, borderColor: '#00D0FF', backgroundColor: 'rgba(0,208,255,0.12)', fill: true, tension: 0.35, pointRadius: 3 }] },
             options: opts
           });
         }
@@ -1565,7 +1740,10 @@
     }
 
     // 🌐 GLOBAL ATTACHMENTS
-    window.nextBookWisdom = nextBookWisdom;
+    window.setDailyMood = setDailyMood;
+    window.saveMoodNote = saveMoodNote;
+    window.setAnalyticsPeriod = setAnalyticsPeriod;
+    window.nextBookWisdom = nextBookWisdom;window.nextBookWisdom = nextBookWisdom;
     window.prevBookWisdom = prevBookWisdom;
     window.randomBookWisdom = randomBookWisdom;
     window.toggleAstroSection = toggleAstroSection;
