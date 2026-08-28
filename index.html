@@ -157,7 +157,6 @@
       background: rgba(232, 158, 75, 0.1);
     }
 
-    /* 🟢 CANLI NABIZ ANİMASYONU */
     .live-pulse-dot {
       width: 6px;
       height: 6px;
@@ -173,7 +172,6 @@
       100% { transform: scale(0.9); opacity: 0.7; }
     }
 
-    /* ✨ SHIMMER EFECTİ (YENİLENME PARILTISI) */
     .sync-shimmer {
       animation: shimmerGlow 0.8s ease;
     }
@@ -382,7 +380,6 @@
       border-color: var(--brass-gold);
     }
 
-    /* 📖 AÇILIR KAPANIR SENSÖR REHBERİ (ACCORDION) */
     .guide-accordion {
       background: var(--felt-recess);
       border: 1px solid var(--wood-border);
@@ -487,7 +484,6 @@
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL VERİLER</div>
-          <!-- ⏱️ CANLI RÖLATİF ZAMAN SAYACI -->
           <span class="brass-tag" id="lastSyncTime">
             <span class="live-pulse-dot"></span>
             <span id="relativeTimeText">ŞİMDİ GÜNCEL</span>
@@ -536,10 +532,10 @@
           </div>
         </div>
 
-        <!-- Günün Mini Özet Şeridi -->
-        <div style="margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.15); border-radius: 4px; padding: 8px 10px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
-          <span>AKTİF SENSÖRLER: <b style="color: var(--sage-green);">MQ-135 + LDR + PIR</b></span>
-          <span>DONANIM DURUMU: <b style="color: var(--amber-glow);" id="hardwareStatusText">BME280 Yarın Eklenecek</b></span>
+        <!-- 🛡️ ODA MUHAFIZI & PIR DURUM ROZETİ -->
+        <div style="margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.15); border-radius: 4px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 10px;">
+          <span>🛡️ ODA MUHAFIZI (PIR D27):</span>
+          <b id="roomPresenceBadge" style="color: var(--sage-green);">🟢 ODADA YAŞAM VAR (Aktif)</b>
         </div>
       </div>
 
@@ -586,8 +582,8 @@
             • <b>>%85:</b> Parlak güneş (Yulaf güneş gözlüğü takar 🕶️).
           </div>
           <div class="guide-item">
-            <b style="color: var(--text-bright);">🚶 PIR Hareket Sensörü:</b><br>
-            Masanızda oturduğunuzu algılar. 35 saniye hareket olmazsa Yulaf enerji tasarrufu için uykuya dalar.
+            <b style="color: var(--text-bright);">🛡️ PIR Oda & Enerji Muhafızı (D27):</b><br>
+            Odada hareket varken ekranı canlı tutar. Odadan çıktığınızda 75 saniyede Yulaf uykuya geçer, 3 dakikada ekran kendini dinlendirip enerji tasarrufu yapar. Odaya girdiğiniz an kendiliğinden uyanır!
           </div>
         </div>
       </div>
@@ -703,7 +699,7 @@
         <div class="insight-card" style="border-left-color: var(--amber-glow);">
           <div class="insight-title" style="color: var(--amber-glow);"><span>🔬</span> <span>BAĞLI DONANIM TESPİTİ</span></div>
           <div class="insight-body" id="hardwareInsightText">
-            Şu anda istasyonunuzda <b>MQ-135 (Hava Kalitesi)</b>, <b>LDR (Işık Seviyesi)</b> ve <b>PIR (Hareket)</b> sensörleri aktif olarak ölçüm yapıyor. <b>BME280 Sıcaklık/Nem sensörü</b> henüz hatta takılı değildir (Yarın lehimlenecektir).
+            Şu anda istasyonunuzda <b>MQ-135 (Hava Kalitesi)</b>, <b>LDR (Işık Seviyesi)</b> ve <b>PIR (Oda Muhafızı)</b> sensörleri aktif olarak ölçüm yapıyor. <b>BME280 Sıcaklık/Nem sensörü</b> henüz hatta takılı değildir (Yarın lehimlenecektir).
           </div>
         </div>
 
@@ -1127,9 +1123,9 @@
       const hwEl = document.getElementById('hardwareInsightText');
       if (hwEl) {
         if (bmeConnected) {
-          hwEl.innerHTML = `Tüm sensörleriniz (<b>BME280 Sıcaklık/Nem</b>, <b>MQ-135 Hava</b>, <b>LDR Işık</b> ve <b>PIR Hareket</b>) bağlı ve donanım hattında tam kapasite çalışıyor!`;
+          hwEl.innerHTML = `Tüm sensörleriniz (<b>BME280 Sıcaklık/Nem</b>, <b>MQ-135 Hava</b>, <b>LDR Işık</b> ve <b>PIR Oda Muhafızı</b>) bağlı ve donanım hattında tam kapasite çalışıyor!`;
         } else {
-          hwEl.innerHTML = `Şu anda istasyonunuzda <b>MQ-135 (Hava Kalitesi)</b>, <b>LDR (Işık Seviyesi)</b> ve <b>PIR (Hareket)</b> sensörleri aktif olarak ölçüm yapıyor. <b>BME280 Sıcaklık/Nem sensörü</b> henüz hatta takılı değildir (Yarın lehimlenecektir).`;
+          hwEl.innerHTML = `Şu anda istasyonunuzda <b>MQ-135 (Hava Kalitesi)</b>, <b>LDR (Işık Seviyesi)</b> ve <b>PIR (Oda Muhafızı)</b> sensörleri aktif olarak ölçüm yapıyor. <b>BME280 Sıcaklık/Nem sensörü</b> henüz hatta takılı değildir (Yarın lehimlenecektir).`;
         }
       }
 
@@ -1200,7 +1196,6 @@
 
             const bmeTempBadge = document.getElementById('bmeTempBadge');
             const bmeHumBadge = document.getElementById('bmeHumBadge');
-            const hwStatus = document.getElementById('hardwareStatusText');
 
             if (bmeConnected) {
               liveTemp = parseFloat(data.temp);
@@ -1211,7 +1206,6 @@
               document.getElementById('humSub').innerText = "BME280 Canlı Ölçüm";
               if (bmeTempBadge) { bmeTempBadge.className = "brass-tag active-green"; bmeTempBadge.innerText = "● CANLI (0x76)"; }
               if (bmeHumBadge) { bmeHumBadge.className = "brass-tag active-green"; bmeHumBadge.innerText = "● CANLI (0x76)"; }
-              if (hwStatus) { hwStatus.innerText = "Tüm Sensörler Aktif"; hwStatus.style.color = "var(--sage-green)"; }
             } else {
               document.getElementById('tempVal').innerText = "BEKLEMEDE";
               document.getElementById('humVal').innerText = "BEKLEMEDE";
@@ -1219,7 +1213,6 @@
               document.getElementById('humSub').innerText = "Yarın Lehimlenecek ⏳";
               if (bmeTempBadge) { bmeTempBadge.className = "brass-tag pending-amber"; bmeTempBadge.innerText = "BEKLEMEDE ⏳"; }
               if (bmeHumBadge) { bmeHumBadge.className = "brass-tag pending-amber"; bmeHumBadge.innerText = "BEKLEMEDE ⏳"; }
-              if (hwStatus) { hwStatus.innerText = "BME280 Yarın Eklenecek"; hwStatus.style.color = "var(--amber-glow)"; }
             }
 
             if (data.air !== undefined) {
@@ -1237,6 +1230,18 @@
               const lightStatusEl = document.getElementById('lightStatus');
               if (lightStatusEl) {
                 lightStatusEl.innerText = liveLight > 84 ? "Aşırı Parlak / Güneşli 🕶️" : (liveLight > 35 ? "Aydınlık Çalışma Alanı 💡" : "Karanlık / Gece Ortamı 🌙");
+              }
+            }
+
+            // 🛡️ ODA MUHAFIZI ROZET GÜNCELLEMESİ
+            const roomBadge = document.getElementById('roomPresenceBadge');
+            if (roomBadge) {
+              if (data.user_present === true) {
+                roomBadge.innerHTML = "🟢 ODADA YAŞAM VAR (Aktif)";
+                roomBadge.style.color = "var(--sage-green)";
+              } else {
+                roomBadge.innerHTML = "⚪ ODA DİNLENMEDE (Enerji Tasarrufu)";
+                roomBadge.style.color = "var(--text-muted)";
               }
             }
 
