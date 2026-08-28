@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="google" content="notranslate">
-  <title>AGY-1976 // DESK TELEMETRY CONSOLE</title>
+  <title>AGY-1976 // ULTRA-REALISTIC DESK CONSOLE</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#060402">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- FONTS: DSEG7 (Real 7-Segment LED), JetBrains Mono, Space Grotesk -->
+  <!-- FONTS: DSEG7 (7-Segment LED), JetBrains Mono, Space Grotesk -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Space+Grotesk:wght@600;700;800&family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dseg@0.46.0/css/dseg.css">
 
   <!-- Chart.js CDN -->
@@ -22,31 +22,39 @@
 
   <style>
     :root {
-      /* 🎛️ 1970'LER ASKERİ & STUDER ANALOG ENSTRÜMAN ŞASİSİ */
-      --chassis-bg: #080604;
-      --panel-steel: #14110E;
-      --panel-border: #32251B;
-      --panel-highlight: #4A3828;
+      /* 🎛️ ULTRA-GERÇEKÇİ STUDER & TEKTRONIX RACK ŞASİSİ */
+      --chassis-bg: #070503;
+      --panel-face: #14100C;
+      --panel-edge-top: #4E3B2C;
+      --panel-edge-bottom: #040302;
+      --bezel-rim: #2B1E15;
       
-      --brass-metal: #C5A030;
+      --brass-bright: #FFE89E;
       --brass-gold: #D4AF37;
-      --brass-dim: #7A601C;
+      --brass-dark: #6E5316;
       
-      --led-red: #FF3838;
-      --led-red-glow: rgba(255, 56, 56, 0.5);
+      --led-red: #FF2A2A;
+      --led-red-glow: rgba(255, 42, 42, 0.6);
+      --led-red-ghost: #2A0808;
+
       --led-amber: #FF9F1A;
-      --led-amber-glow: rgba(255, 159, 26, 0.5);
+      --led-amber-glow: rgba(255, 159, 26, 0.6);
+      --led-amber-ghost: #2A1705;
+
       --led-green: #2ED573;
-      --led-green-glow: rgba(46, 213, 115, 0.5);
+      --led-green-glow: rgba(46, 213, 115, 0.6);
+      --led-green-ghost: #052611;
+
       --vfd-cyan: #00F0FF;
-      --vfd-cyan-glow: rgba(0, 240, 255, 0.45);
+      --vfd-cyan-glow: rgba(0, 240, 255, 0.55);
+      --vfd-cyan-ghost: #022024;
 
       --dial-cream: #EADDBB;
       --dial-glow: #FFF4D4;
       --dial-ink: #140E08;
-      --dial-danger: #C0392B;
+      --dial-red: #C0392B;
 
-      --font-dseg: "DSEG7-Classic", "VT323", monospace;
+      --font-dseg: "DSEG7-Classic", monospace;
       --font-mono: "JetBrains Mono", monospace;
       --font-din: "Space Grotesk", sans-serif;
     }
@@ -67,7 +75,7 @@
       justify-content: center;
       padding: 10px 8px calc(115px + env(safe-area-inset-bottom)) 8px;
       background-image: 
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 4px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 4px),
         linear-gradient(180deg, #18100A 0%, #060402 100%);
       background-attachment: fixed;
       overflow-x: hidden;
@@ -82,12 +90,64 @@
       position: relative;
     }
 
-    /* 🏷️ METALİK KAZIMA SERİ PLAKASI */
+    /* 📌 STICKY CONSOLE HEADER */
+    .sticky-console-header {
+      position: sticky;
+      top: 6px;
+      z-index: 1000;
+      background: linear-gradient(180deg, #221A14 0%, #120E0A 100%);
+      border: 1.5px solid var(--bezel-rim);
+      border-top: 1.5px solid rgba(255,255,255,0.2);
+      border-bottom: 2px solid #060402;
+      border-radius: 4px;
+      padding: 8px 12px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    /* 🎛️ ULTRA-GERÇEKÇİ RACK PANELİ */
+    .metal-rack-module {
+      background: 
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.008) 0px, rgba(255,255,255,0.008) 1px, transparent 1px, transparent 3px),
+        linear-gradient(180deg, #17110D 0%, #0D0906 100%);
+      border: 1.5px solid #2F2116;
+      border-top: 1.5px solid var(--panel-edge-top);
+      border-bottom: 2.5px solid var(--panel-edge-bottom);
+      border-radius: 4px;
+      padding: 12px;
+      position: relative;
+      box-shadow: 
+        inset 0 1px 1px rgba(255,255,255,0.08),
+        inset 0 -2px 6px rgba(0,0,0,0.9),
+        0 6px 18px rgba(0,0,0,0.85);
+    }
+
+    /* 🔩 ULTRA-GERÇEKÇİ İŞLENMİŞ METALİK VİDA SVG */
+    .ultra-screw-svg {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      pointer-events: none;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.9));
+    }
+    .ultra-screw-svg.tl { top: 4px; left: 4px; }
+    .ultra-screw-svg.tr { top: 4px; right: 4px; }
+    .ultra-screw-svg.bl { bottom: 4px; left: 4px; }
+    .ultra-screw-svg.br { bottom: 4px; right: 4px; }
+
+    .module-strip-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+      margin-bottom: 10px;
+    }
+
     .engraved-plate {
       font-family: var(--font-din);
-      font-size: 8.5px;
+      font-size: 9px;
       font-weight: 800;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--brass-gold);
       text-shadow: 0 -1px 0 #000, 0 1px 1px rgba(255,255,255,0.18);
@@ -112,108 +172,62 @@
       gap: 4px;
     }
 
-    /* 📌 STICKY CONSOLE HEADER */
-    .sticky-console-header {
-      position: sticky;
-      top: 6px;
-      z-index: 1000;
-      background: linear-gradient(180deg, #221A14 0%, #120E0A 100%);
-      border: 1.5px solid var(--panel-border);
-      border-top: 1px solid rgba(255,255,255,0.15);
-      border-radius: 4px;
-      padding: 8px 12px;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.1);
-    }
-
-    /* 🎛️ FIRÇALANMIŞ METAL ŞASİ MODÜLÜ */
-    .metal-rack-module {
-      background: linear-gradient(180deg, #18120E 0%, #0D0906 100%);
-      border: 1.5px solid #2F2218;
-      border-top: 1.5px solid #4D3828;
-      border-bottom: 2px solid #060402;
-      border-radius: 4px;
-      padding: 12px;
+    /* 📟 SMOKED PLEXIGLASS 7-SEGMENT LED PENCERESİ */
+    .seven-segment-frame {
+      background: #050302;
+      border: 2px solid #1C130D;
+      border-top: 2px solid #0A0704;
+      border-bottom: 2px solid #3A291D;
+      border-radius: 3px;
+      padding: 6px 10px;
       position: relative;
-      box-shadow: 
-        inset 0 1px 1px rgba(255,255,255,0.08),
-        inset 0 -2px 6px rgba(0,0,0,0.9),
-        0 6px 18px rgba(0,0,0,0.85);
+      overflow: hidden;
+      box-shadow: inset 0 3px 8px rgba(0,0,0,0.98), 0 1px 3px rgba(0,0,0,0.8);
     }
 
-    /* 🔩 ÇELİK TORK VİDALARI */
-    .machine-bolt {
-      position: absolute;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #D4AF37 0%, #755B2E 50%, #30220E 90%, #120C04 100%);
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.6), 0 0 0 1px #050302, 0 1px 3px rgba(0,0,0,0.95);
-      pointer-events: none;
-    }
-    .machine-bolt::after {
+    /* Cam Şişkinliği & Tarama Çizgisi */
+    .seven-segment-frame::before {
       content: "";
       position: absolute;
-      top: 4px;
-      left: 1.5px;
-      width: 6px;
-      height: 1px;
-      background: #0E0903;
-    }
-    .machine-bolt.tl { top: 5px; left: 5px; transform: rotate(40deg); }
-    .machine-bolt.tr { top: 5px; right: 5px; transform: rotate(125deg); }
-    .machine-bolt.bl { bottom: 5px; left: 5px; transform: rotate(80deg); }
-    .machine-bolt.br { bottom: 5px; right: 5px; transform: rotate(155deg); }
-
-    .module-strip-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 6px;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.18);
-      margin-bottom: 10px;
+      top: 0; left: 0; width: 100%; height: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 10;
     }
 
-    /* 📟 7-SEGMENT LED / VFD DİJİTAL GÖSTERGE YUVASI */
-    .seven-segment-bay {
-      background: #040302;
-      border: 1.5px solid #20160F;
-      border-radius: 3px;
-      padding: 8px 10px;
+    .segment-container {
       position: relative;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.95);
+      display: inline-block;
+      line-height: 1;
     }
 
-    .digit-readout-red {
+    /* Arka Plandaki Hayalet (Ghost) Segmentler */
+    .segment-ghost {
+      position: absolute;
+      top: 0; left: 0;
       font-family: var(--font-dseg);
-      font-size: 28px;
-      color: var(--led-red);
-      text-shadow: 0 0 12px var(--led-red-glow);
-      letter-spacing: 0.08em;
+      user-select: none;
+      pointer-events: none;
     }
 
-    .digit-readout-amber {
+    .segment-active {
+      position: relative;
       font-family: var(--font-dseg);
-      font-size: 28px;
-      color: var(--led-amber);
-      text-shadow: 0 0 12px var(--led-amber-glow);
-      letter-spacing: 0.08em;
+      z-index: 2;
     }
 
-    .digit-readout-green {
-      font-family: var(--font-dseg);
-      font-size: 28px;
-      color: var(--led-green);
-      text-shadow: 0 0 12px var(--led-green-glow);
-      letter-spacing: 0.08em;
-    }
+    /* RENK ÇEŞİTLERİ */
+    .red-led .segment-ghost { color: var(--led-red-ghost); }
+    .red-led .segment-active { color: var(--led-red); text-shadow: 0 0 12px var(--led-red-glow); }
 
-    .digit-readout-cyan {
-      font-family: var(--font-dseg);
-      font-size: 28px;
-      color: var(--vfd-cyan);
-      text-shadow: 0 0 12px var(--vfd-cyan-glow);
-      letter-spacing: 0.08em;
-    }
+    .amber-led .segment-ghost { color: var(--led-amber-ghost); }
+    .amber-led .segment-active { color: var(--led-amber); text-shadow: 0 0 12px var(--led-amber-glow); }
+
+    .green-led .segment-ghost { color: var(--led-green-ghost); }
+    .green-led .segment-active { color: var(--led-green); text-shadow: 0 0 12px var(--led-green-glow); }
+
+    .cyan-vfd .segment-ghost { color: var(--vfd-cyan-ghost); }
+    .cyan-vfd .segment-active { color: var(--vfd-cyan); text-shadow: 0 0 12px var(--vfd-cyan-glow); }
 
     /* 💎 PİLOT YAKUT / ZÜMRÜT DURUM LAMBASI */
     .pilot-led {
@@ -355,7 +369,7 @@
     .channel-selector-bar {
       display: flex;
       background: #0A0704;
-      border: 1px solid var(--panel-border);
+      border: 1px solid var(--bezel-rim);
       border-radius: 3px;
       padding: 2px;
       gap: 2px;
@@ -463,6 +477,30 @@
 </head>
 <body>
 
+  <!-- 🔩 SVG VİDA ŞABLONU TANIMI (REUSABLE) -->
+  <svg style="display: none;">
+    <defs>
+      <radialGradient id="screwMetalGrad" cx="32%" cy="32%" r="68%">
+        <stop offset="0%" stop-color="#FFF4D0" />
+        <stop offset="25%" stop-color="#D4AF37" />
+        <stop offset="60%" stop-color="#7A5813" />
+        <stop offset="90%" stop-color="#382504" />
+        <stop offset="100%" stop-color="#120A01" />
+      </radialGradient>
+      <g id="ultraMachinedScrew">
+        <circle cx="8" cy="8" r="7.5" fill="#060402" stroke="#2B1D12" stroke-width="0.8"/>
+        <circle cx="8" cy="8" r="6.2" fill="url(#screwMetalGrad)"/>
+        <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.4"/>
+        <!-- Slotted Machined Groove -->
+        <g transform="rotate(38 8 8)">
+          <rect x="2.5" y="6.8" width="11" height="2.4" rx="0.3" fill="#140D03"/>
+          <rect x="2.8" y="7.1" width="10.4" height="1.1" fill="#060301"/>
+          <line x1="2.8" y1="9.2" x2="13.2" y2="9.2" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+        </g>
+      </g>
+    </defs>
+  </svg>
+
   <div class="master-console">
 
     <!-- 📌 1. STICKY CONSOLE HEADER -->
@@ -483,18 +521,24 @@
 
     <!-- 👀 20-20-20 ERGONOMİ & DİK DURUŞ MODÜLÜ -->
     <div class="metal-rack-module">
-      <div class="machine-bolt tl"></div><div class="machine-bolt tr"></div><div class="machine-bolt bl"></div><div class="machine-bolt br"></div>
+      <svg class="ultra-screw-svg tl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew"/></svg>
+      <svg class="ultra-screw-svg tr" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(90 8 8)"/></svg>
+      <svg class="ultra-screw-svg bl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(45 8 8)"/></svg>
+      <svg class="ultra-screw-svg br" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(135 8 8)"/></svg>
       
       <div class="module-strip-header">
-        <div class="engraved-plate"><span>[CH-0] 20-20-20 ERGO MONITOR</span></div>
+        <div class="engraved-plate"><span>[CH-0] 20-20-20 ERGO INTERVAL</span></div>
         <span class="stamped-badge" style="color: #2ED573;" id="macLocationPill">LOC: HOME_DESK</span>
       </div>
 
-      <div class="seven-segment-bay">
+      <div class="seven-segment-frame amber-led">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
-            <div style="font-size: 8.5px; color: #8C7C6D; letter-spacing: 0.1em;">NEXT ERGO INTERVAL:</div>
-            <div class="digit-readout-amber" id="ergoCountdownText">12:33</div>
+            <div style="font-size: 8px; color: #8C7C6D; letter-spacing: 0.1em; margin-bottom: 2px;">COUNTDOWN TO BREAK:</div>
+            <div class="segment-container" style="font-size: 32px;">
+              <span class="segment-ghost">88:88</span>
+              <span class="segment-active" id="ergoCountdownText">12:33</span>
+            </div>
           </div>
           <button type="button" class="metal-switch" onclick="triggerPostureAlertTest()" style="padding: 4px 10px; font-size: 9px; border-color: var(--brass-gold); color: var(--brass-gold);">TEST 🔔</button>
         </div>
@@ -503,14 +547,17 @@
 
     <!-- 📍 TERAS & BUCA METEOROLOJİ TELEMETRİSİ -->
     <div class="metal-rack-module">
-      <div class="machine-bolt tl"></div><div class="machine-bolt tr"></div><div class="machine-bolt bl"></div><div class="machine-bolt br"></div>
+      <svg class="ultra-screw-svg tl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew"/></svg>
+      <svg class="ultra-screw-svg tr" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(90 8 8)"/></svg>
+      <svg class="ultra-screw-svg bl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(45 8 8)"/></svg>
+      <svg class="ultra-screw-svg br" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(135 8 8)"/></svg>
       
       <div class="module-strip-header">
         <div class="engraved-plate"><span>[ENV] BUCA METEOROLOGY // SHIRINYER</span></div>
         <span class="stamped-badge" style="color: var(--vfd-cyan);" id="outdoorWeatherPill">22°C // IMBAT</span>
       </div>
 
-      <div class="seven-segment-bay">
+      <div class="seven-segment-frame">
         <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px;">
           <span>TERRACE: <b style="color: var(--vfd-cyan);" id="outdoorCompareText">22.0°C</b></span>
           <span>ROOM: <b style="color: var(--led-amber);" id="indoorCompareText">26.4°C</b></span>
@@ -535,13 +582,17 @@
       
       <!-- 💻 SPOTIFY TUNER -->
       <div class="metal-rack-module">
-        <div class="machine-bolt tl"></div><div class="machine-bolt tr"></div><div class="machine-bolt bl"></div><div class="machine-bolt br"></div>
+        <svg class="ultra-screw-svg tl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew"/></svg>
+        <svg class="ultra-screw-svg tr" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(90 8 8)"/></svg>
+        <svg class="ultra-screw-svg bl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(45 8 8)"/></svg>
+        <svg class="ultra-screw-svg br" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(135 8 8)"/></svg>
+        
         <div class="module-strip-header">
           <div class="engraved-plate"><span>[AUDIO-01] SPOTIFY FM TUNER</span></div>
           <span class="stamped-badge" style="color: #2ED573;">ONLINE</span>
         </div>
 
-        <div class="seven-segment-bay">
+        <div class="seven-segment-frame green-led">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div style="overflow: hidden;">
               <div style="font-size: 12px; font-weight: 800; color: #2ED573; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="spotifyTrackText">WAITING FOR AUDIO...</div>
@@ -557,15 +608,22 @@
 
       <!-- 🎯 POMODORO VFD TIMER -->
       <div class="metal-rack-module">
-        <div class="machine-bolt tl"></div><div class="machine-bolt tr"></div><div class="machine-bolt bl"></div><div class="machine-bolt br"></div>
+        <svg class="ultra-screw-svg tl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew"/></svg>
+        <svg class="ultra-screw-svg tr" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(90 8 8)"/></svg>
+        <svg class="ultra-screw-svg bl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(45 8 8)"/></svg>
+        <svg class="ultra-screw-svg br" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(135 8 8)"/></svg>
+        
         <div class="module-strip-header">
           <div class="engraved-plate"><span>[TIMER-01] INTERVAL COUNTER</span></div>
           <span class="stamped-badge" id="pomoSessionBadge">LAP: 0</span>
         </div>
 
-        <div class="seven-segment-bay" style="text-align: center;">
+        <div class="seven-segment-frame red-led" style="text-align: center; padding: 10px;">
           <div style="font-size: 8.5px; color: #8C7C6D; letter-spacing: 0.1em;" id="pomoStatusText">STANDBY // READY</div>
-          <div class="digit-readout-red" id="pomoDisplay" style="font-size: 38px; margin: 2px 0;">25:00</div>
+          <div class="segment-container" style="font-size: 44px; margin: 4px 0;">
+            <span class="segment-ghost">88:88</span>
+            <span class="segment-active" id="pomoDisplay">25:00</span>
+          </div>
           
           <div style="display: flex; gap: 6px; justify-content: center; margin-top: 6px;">
             <button type="button" class="metal-switch metal-switch-gold" onclick="startPomodoro(25, 'FOCUS')">25M FOCUS</button>
@@ -577,7 +635,11 @@
 
       <!-- 📊 DUAL ANALOG VU METERS -->
       <div class="metal-rack-module">
-        <div class="machine-bolt tl"></div><div class="machine-bolt tr"></div><div class="machine-bolt bl"></div><div class="machine-bolt br"></div>
+        <svg class="ultra-screw-svg tl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew"/></svg>
+        <svg class="ultra-screw-svg tr" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(90 8 8)"/></svg>
+        <svg class="ultra-screw-svg bl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(45 8 8)"/></svg>
+        <svg class="ultra-screw-svg br" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(135 8 8)"/></svg>
+        
         <div class="module-strip-header">
           <div class="engraved-plate"><span>[METROLOGY] DUAL-CHANNEL VU</span></div>
           <span class="stamped-badge" id="lastSyncTime">LIVE</span>
@@ -645,17 +707,23 @@
           </div>
 
           <!-- SICAKLIK -->
-          <div class="seven-segment-bay">
+          <div class="seven-segment-frame amber-led">
             <div style="font-size: 8px; color: #8C7C6D;">TEMP [BME280]</div>
-            <div class="digit-readout-amber" id="tempVal" style="font-size: 22px;">--.-°C</div>
-            <div style="font-size: 8.5px; color: #8C7C6D;">PENDING SOLDER</div>
+            <div class="segment-container" style="font-size: 24px; margin-top: 2px;">
+              <span class="segment-ghost">88.8</span>
+              <span class="segment-active" id="tempVal">--.-</span>
+            </div>
+            <div style="font-size: 8px; color: #8C7C6D;">°C // PENDING</div>
           </div>
 
           <!-- BAĞIL NEM -->
-          <div class="seven-segment-bay">
+          <div class="seven-segment-frame amber-led">
             <div style="font-size: 8px; color: #8C7C6D;">HUMIDITY [BME280]</div>
-            <div class="digit-readout-amber" id="humVal" style="font-size: 22px;">--%</div>
-            <div style="font-size: 8.5px; color: #8C7C6D;">PENDING SOLDER</div>
+            <div class="segment-container" style="font-size: 24px; margin-top: 2px;">
+              <span class="segment-ghost">88</span>
+              <span class="segment-active" id="humVal">--</span>
+            </div>
+            <div style="font-size: 8px; color: #8C7C6D;">% // PENDING</div>
           </div>
         </div>
 
@@ -672,20 +740,32 @@
     <!-- ==================================================== -->
     <div id="channelProductivityLabContent" style="display: none; flex-direction: column; gap: 10px;">
       <div class="metal-rack-module">
-        <div class="machine-bolt tl"></div><div class="machine-bolt tr"></div><div class="machine-bolt bl"></div><div class="machine-bolt br"></div>
+        <svg class="ultra-screw-svg tl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew"/></svg>
+        <svg class="ultra-screw-svg tr" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(90 8 8)"/></svg>
+        <svg class="ultra-screw-svg bl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(45 8 8)"/></svg>
+        <svg class="ultra-screw-svg br" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(135 8 8)"/></svg>
+        
         <div class="module-strip-header">
           <div class="engraved-plate"><span>[LAB-01] COGNITIVE TELEMETRY</span></div>
           <span class="stamped-badge" style="color: #2ED573;">CALIBRATED</span>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 8px;">
-          <div class="seven-segment-bay">
+          <div class="seven-segment-frame green-led">
             <div style="font-size: 8px; color: #8C7C6D;">DEEP WORK RATIO</div>
-            <div class="digit-readout-green" id="labDeepWorkRatioText" style="font-size: 22px;">82%</div>
+            <div class="segment-container" style="font-size: 24px; margin-top: 2px;">
+              <span class="segment-ghost">88</span>
+              <span class="segment-active" id="labDeepWorkRatioText">82</span>
+            </div>
+            <div style="font-size: 8px; color: #8C7C6D;">% PRODUCTION</div>
           </div>
-          <div class="seven-segment-bay">
+          <div class="seven-segment-frame amber-led">
             <div style="font-size: 8px; color: #8C7C6D;">POSTURE CYCLE</div>
-            <div class="digit-readout-amber" style="font-size: 22px;">20:20</div>
+            <div class="segment-container" style="font-size: 24px; margin-top: 2px;">
+              <span class="segment-ghost">88:88</span>
+              <span class="segment-active">20:20</span>
+            </div>
+            <div style="font-size: 8px; color: #8C7C6D;">MIN:SEC</div>
           </div>
         </div>
 
@@ -700,21 +780,32 @@
     <!-- ==================================================== -->
     <div id="channelScreenTimeContent" style="display: none; flex-direction: column; gap: 10px;">
       <div class="metal-rack-module">
-        <div class="machine-bolt tl"></div><div class="machine-bolt tr"></div><div class="machine-bolt bl"></div><div class="machine-bolt br"></div>
+        <svg class="ultra-screw-svg tl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew"/></svg>
+        <svg class="ultra-screw-svg tr" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(90 8 8)"/></svg>
+        <svg class="ultra-screw-svg bl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(45 8 8)"/></svg>
+        <svg class="ultra-screw-svg br" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(135 8 8)"/></svg>
+        
         <div class="module-strip-header">
-          <div class="engraved-plate"><span>[MAC-DIRECT] IODISPLAY WRANGLER</span></div>
+          <div class="engraved-plate"><span>[MAC-DIRECT] IODISPLAY RUNTIME</span></div>
           <span class="stamped-badge" style="color: #2ED573;">ACTIVE</span>
         </div>
 
-        <div class="seven-segment-bay">
+        <div class="seven-segment-frame amber-led">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <div style="font-size: 8px; color: #8C7C6D;">ACTIVE MAC RUNTIME:</div>
-              <div class="digit-readout-amber" id="trueMacScreenTime" style="font-size: 26px;">01:37:00</div>
+              <div style="font-size: 8px; color: #8C7C6D;">ACTIVE RUNTIME:</div>
+              <div class="segment-container" style="font-size: 28px; margin-top: 2px;">
+                <span class="segment-ghost">88:88:88</span>
+                <span class="segment-active" id="trueMacScreenTime">01:37:00</span>
+              </div>
             </div>
             <div style="text-align: right;">
               <div style="font-size: 8px; color: #8C7C6D;">CONTINUOUS:</div>
-              <div class="digit-readout-amber" id="continuousWorkText" style="font-size: 18px;">57M</div>
+              <div class="segment-container" style="font-size: 20px;">
+                <span class="segment-ghost">88</span>
+                <span class="segment-active" id="continuousWorkText">57</span>
+              </div>
+              <div style="font-size: 8px; color: #8C7C6D;">MINUTES</div>
             </div>
           </div>
         </div>
@@ -727,17 +818,24 @@
       </div>
 
       <div class="metal-rack-module">
-        <div class="machine-bolt tl"></div><div class="machine-bolt tr"></div><div class="machine-bolt bl"></div><div class="machine-bolt br"></div>
+        <svg class="ultra-screw-svg tl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew"/></svg>
+        <svg class="ultra-screw-svg tr" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(90 8 8)"/></svg>
+        <svg class="ultra-screw-svg bl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(45 8 8)"/></svg>
+        <svg class="ultra-screw-svg br" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(135 8 8)"/></svg>
+        
         <div class="module-strip-header">
           <div class="engraved-plate"><span>[PHONE-DIRECT] SCREEN RUNTIME</span></div>
           <span class="stamped-badge" style="color: var(--vfd-cyan);">SYNC</span>
         </div>
 
-        <div class="seven-segment-bay">
+        <div class="seven-segment-frame cyan-vfd">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <div style="font-size: 8px; color: #8C7C6D;">PHONE RUNTIME:</div>
-              <div class="digit-readout-cyan" id="phoneScreenTimeVal" style="font-size: 26px;">02:05:00</div>
+              <div class="segment-container" style="font-size: 28px; margin-top: 2px;">
+                <span class="segment-ghost">88:88:88</span>
+                <span class="segment-active" id="phoneScreenTimeVal">02:05:00</span>
+              </div>
             </div>
             <div style="font-size: 9px; color: var(--vfd-cyan);" id="phoneModelSub">PHONE // 78%</div>
           </div>
@@ -750,7 +848,11 @@
     <!-- ==================================================== -->
     <div id="channelDailyContent" style="display: none; flex-direction: column; gap: 10px;">
       <div class="metal-rack-module">
-        <div class="machine-bolt tl"></div><div class="machine-bolt tr"></div><div class="machine-bolt bl"></div><div class="machine-bolt br"></div>
+        <svg class="ultra-screw-svg tl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew"/></svg>
+        <svg class="ultra-screw-svg tr" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(90 8 8)"/></svg>
+        <svg class="ultra-screw-svg bl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(45 8 8)"/></svg>
+        <svg class="ultra-screw-svg br" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(135 8 8)"/></svg>
+        
         <div class="module-strip-header">
           <div class="engraved-plate"><span>[CHART] SENSOR LOG CURVE</span></div>
           <button type="button" class="metal-switch" onclick="refreshDailyChart()" style="padding: 2px 6px; font-size: 9px;">REFRESH ↻</button>
@@ -767,12 +869,16 @@
     <!-- ==================================================== -->
     <div id="channelAnalysisContent" style="display: none; flex-direction: column; gap: 10px;">
       <div class="metal-rack-module">
-        <div class="machine-bolt tl"></div><div class="machine-bolt tr"></div><div class="machine-bolt bl"></div><div class="machine-bolt br"></div>
+        <svg class="ultra-screw-svg tl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew"/></svg>
+        <svg class="ultra-screw-svg tr" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(90 8 8)"/></svg>
+        <svg class="ultra-screw-svg bl" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(45 8 8)"/></svg>
+        <svg class="ultra-screw-svg br" viewBox="0 0 16 16"><use href="#ultraMachinedScrew" transform="rotate(135 8 8)"/></svg>
+        
         <div class="module-strip-header">
           <div class="engraved-plate"><span>[LOG] SYSTEM TELEMETRY</span></div>
         </div>
 
-        <div class="seven-segment-bay">
+        <div class="seven-segment-frame">
           <div style="font-size: 11px; color: #2ED573; line-height: 1.6;">
             > STATION: ONLINE (PORT 80)<br>
             > DUAL-CHANNEL ERGO: READY<br>
@@ -1064,8 +1170,8 @@
             if (bmeConnected) {
               liveTemp = parseFloat(data.temp);
               liveHum = parseInt(data.humidity);
-              document.getElementById('tempVal').innerText = liveTemp.toFixed(1) + "°C";
-              document.getElementById('humVal').innerText = liveHum + "%";
+              document.getElementById('tempVal').innerText = liveTemp.toFixed(1);
+              document.getElementById('humVal').innerText = liveHum.toString();
             }
             if (data.air !== undefined) {
               liveAir = parseInt(data.air);
@@ -1127,7 +1233,7 @@
             }
             if (contEl) {
               const cm = Math.floor(contSec / 60);
-              contEl.innerText = `${cm}M`;
+              contEl.innerText = `${cm < 10 ? '0' : ''}${cm}`;
             }
 
             if (ergoEl) {
