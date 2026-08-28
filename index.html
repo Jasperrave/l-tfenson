@@ -378,7 +378,6 @@
       outline: none;
     }
 
-    /* 🎵 SPOTIFY EQUALIZER ANİMASYONU */
     .eq-bar-box {
       display: inline-flex;
       gap: 3px;
@@ -508,6 +507,17 @@
       </div>
     </div>
 
+    <!-- 📍 KONUM & CANLI DIŞ HAVA DURUMU (BUCA / ŞİRİNYER) -->
+    <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(212,175,55,0.25); border-radius: 6px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 10px;">
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <span>📍</span>
+        <span style="color: var(--brass-gold); font-weight: 700;">İZMİR / BUCA (ŞİRİNYER)</span>
+      </div>
+      <div id="outdoorWeatherPill" style="color: var(--sage-green); font-weight: 700;">
+        🌤️ DIŞARISI: 22°C // AÇIK GECE 🌌
+      </div>
+    </div>
+
     <!-- 🎛️ ÇEKMECE RAFLARI ARASI GEÇİŞ -->
     <div class="shelf-tabs">
       <div class="shelf-tab-item active" id="tabSensors" onclick="switchShelf('sensors')">📊 METROLOJİ</div>
@@ -525,10 +535,10 @@
       <!-- 💻 1. SPOTIFY & MAC HUD BÖLMESİ -->
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[MAC-01]</span> MAC KOKPİT & SPOTIFY HUD</div>
+          <div class="brass-label"><span>[SPOTIFY-01]</span> SPOTIFY CANLI BULUT ÇALAR</div>
           <span class="brass-tag active-green" id="macStatusBadge">
             <span class="live-pulse-dot"></span>
-            <span>MAC KÖPRÜSÜ AKTİF</span>
+            <span>BULUT KÖPRÜSÜ AKTİF</span>
           </span>
         </div>
 
@@ -541,12 +551,12 @@
               <div class="eq-bar"></div>
             </div>
             <div style="overflow: hidden;">
-              <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #1DB954;" id="spotifyTrackText">Daft Punk - Get Lucky</div>
-              <div style="font-size: 9.5px; color: var(--text-muted);" id="spotifyArtistText">Spotify Çalıyor ♫ // DJ Yulaf 🎧</div>
+              <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #1DB954;" id="spotifyTrackText">Müzik Bekleniyor...</div>
+              <div style="font-size: 9.5px; color: var(--text-muted);" id="spotifyArtistText">Telefon veya Mac'ten Spotify açın ♫ // DJ Yulaf 🎧</div>
             </div>
           </div>
           <div style="text-align: right; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); white-space: nowrap;">
-            <div>CPU: <b id="macCpuText" style="color: var(--brass-gold);">%15</b></div>
+            <div>MAC CPU: <b id="macCpuText" style="color: var(--brass-gold);">%15</b></div>
             <div>PİL: <b id="macBattText" style="color: var(--sage-green);">%11 ⚡</b></div>
           </div>
         </div>
@@ -575,8 +585,8 @@
       <div class="drawer-tray" style="padding: 12px 14px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
-            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--brass-gold); font-weight: 700;">🏆 GÜNLÜK VERİMLİLİK SKORU</div>
-            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="scoreSummaryText">Hava, aydınlatma & odaklanma mükemmel</div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--brass-gold); font-weight: 700;">🏆 GÜNLÜK VERİMLİLİK & SAĞLIK SKORU</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="scoreSummaryText">Gece dinlenme ve biyolojik uyku modu devrede</div>
           </div>
           <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--sage-green);" id="dailyScoreVal">98/100</div>
         </div>
@@ -630,7 +640,7 @@
               <span class="brass-tag active-green" style="font-size: 8px; padding: 1px 4px;">● AKTİF (D32)</span>
             </div>
             <div class="comp-val" id="lightVal">65%</div>
-            <div class="comp-sub" id="lightStatus">Aydınlık Çalışma Alanı 💡</div>
+            <div class="comp-sub" id="lightStatus">Gece Dinlenme Ortamı 🌙</div>
           </div>
         </div>
 
@@ -662,44 +672,23 @@
       <!-- 📖 AÇILIR KAPANIR SENSÖR & ÇEVRE REHBERİ -->
       <div class="guide-accordion">
         <div class="guide-header" onclick="toggleGuide()">
-          <span>📖 SENSÖR & İDEAL DEĞERLER KILAVUZU</span>
+          <span>📖 SENSÖR, KONUM & İDEAL DEĞERLER KILAVUZU</span>
           <span id="guideArrow" style="transition: transform 0.2s;">▼</span>
         </div>
         <div class="guide-content" id="guideContent">
           <div class="guide-item">
+            <b style="color: var(--brass-gold);">📍 Konum: İzmir / Buca (Şirinyer - Efeler Mah. 328 Sk No:83):</b><br>
+            • Sistem Buca'nın canlı dış sıcaklığını, nemini ve rüzgarını takip eder.<br>
+            • Gece dışarısı serinlediğinde pencereleri açarak odayı doğal yolla soğutmanızı tavsiye eder.
+          </div>
+          <div class="guide-item">
             <b style="color: #1DB954;">🎵 Spotify & Mac Entegrasyonu:</b><br>
-            • Spotify çaldığında masada <b>DJ Yulaf (Kulaklık 🎧 & Notalar ♪ ♫)</b> belirir, şarkı adı kayar.<br>
-            • Mac CPU > %75 olduğunda <b>Matrix Hacker Yulaf 💻</b> belirir.<br>
-            • Mac pili azalınca <b>Düşük Pil Yulaf 🪫</b> uyarır.
+            • Telefon veya Mac'ten Spotify açıldığında masada <b>DJ Yulaf (Kulaklık 🎧 & Notalar ♪ ♫)</b> belirir.<br>
+            • Mac CPU > %75 olduğunda <b>Matrix Hacker Yulaf 💻</b> belirir.
           </div>
           <div class="guide-item">
-            <b style="color: var(--brass-gold);">🎯 Pomodoro & Verimlilik:</b><br>
-            • <b>25 Dk Odaklan:</b> Masadaki ekranda saniye saniye geri sayar, Yulaf bandana takar.<br>
-            • <b>5 Dk Mola:</b> Yulaf kahvesini içer.<br>
-            • <b>100 Puan Skoru:</b> Temiz hava (%35), Doğru ışık (%35) ve Pomodoro seansları (%30) ile hesaplanır.
-          </div>
-          <div class="guide-item">
-            <b style="color: var(--brass-gold);">🪟 MQ-135 Hava Kalitesi (PPM):</b><br>
-            • <b>400 - 650 PPM:</b> Tertemiz dağ havası seviyesi.<br>
-            • <b>650 - 950 PPM:</b> Normal oda havası.<br>
-            • <b>950+ PPM:</b> Gaz yoğunluğu arttı, havalandırın!
-          </div>
-          <div class="guide-item">
-            <b style="color: var(--sage-green);">🌡️ BME280 Sıcaklık & Nem:</b><br>
-            • <b>İdeal Sıcaklık:</b> 21°C - 25°C.<br>
-            • <b>İdeal Bağıl Nem:</b> %40 - %60.
-          </div>
-          <div class="guide-item">
-            <b style="color: var(--amber-glow);">💡 LDR Işık Seviyesi (%):</b><br>
-            • <b>%40 - %80:</b> Gözü yormayan dengeli çalışma aydınlatması.<br>
-            • <b><%20:</b> Karanlık (Karanlıkta 10 saniyede uykuya geçer).<br>
-            • <b>>%85:</b> Güneş gözlüğü takan Yulaf 🕶️.
-          </div>
-          <div class="guide-item">
-            <b style="color: var(--text-bright);">🛡️ PIR Akıllı Özellikler (D27):</b><br>
-            • <b>Hızlı Uyku:</b> Oda karanlıksa 10 saniyede uyku moduna geçer.<br>
-            • <b>🌙 Gece Feneri:</b> 23:00'tan sonra kalktığınızda 30s loş ay ışığı açar.<br>
-            • <b>🔇 El Sallayarak Susturma:</b> Alarm çalarken masanın önünden elinizi sallayınca siren anında susar!
+            <b style="color: var(--sage-green);">🌙 Gece Biyolojisi & Melatonin:</b><br>
+            • Saat 21:30'dan sonra karanlık oda uykuyu desteklediği için sistem "Lamba aç" demez, kaliteli uyku tavsiye eder.
           </div>
         </div>
       </div>
@@ -798,19 +787,26 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- 4. RAF: 💡 GERÇEKÇİ AKILLI YORUMCU -->
+    <!-- 4. RAF: 💡 GERÇEKÇİ & DERİN AKILLI YORUMCU -->
     <!-- ==================================================== -->
     <div id="shelfAnalysisContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[YORUMCU]</span> GERÇEK SENSÖR VE ORTAM ANALİZİ</div>
-          <span class="brass-tag active-green">DONANIM FARKINDALIĞI</span>
+          <div class="brass-label"><span>[YORUMCU]</span> GERÇEKÇİ MEKAN & ZAMAN ANALİZİ</div>
+          <span class="brass-tag active-green">BUCA & SİRKADİYEN ZEKA</span>
+        </div>
+
+        <div class="insight-card" style="border-left-color: #D4AF37;">
+          <div class="insight-title" style="color: #D4AF37;"><span>📍</span> <span>BUCA / ŞİRİNYER DIŞ HAVA & İKLİM</span></div>
+          <div class="insight-body" id="outdoorInsightText">
+            İzmir Buca Şirinyer'de dışarısı şu an <b>22°C</b> ve <b>%53 nem</b> ile açık bir yaz gecesi. Tatlı bir imbat rüzgarı (21 km/s) esiyor.
+          </div>
         </div>
 
         <div class="insight-card" style="border-left-color: var(--amber-glow);">
           <div class="insight-title" style="color: var(--amber-glow);"><span>🔬</span> <span>BAĞLI DONANIM TESPİTİ</span></div>
           <div class="insight-body" id="hardwareInsightText">
-            Şu anda istasyonunuzda <b>MQ-135 (Hava Kalitesi)</b>, <b>LDR (Işık Seviyesi)</b> ve <b>PIR (Oda Muhafızı)</b> sensörleri aktif olarak ölçüm yapıyor. <b>BME280 Sıcaklık/Nem sensörü</b> henüz hatta takılı değildir (Yarın lehimlenecektir).
+            Şu anda istasyonunuzda <b>MQ-135 (Hava Kalitesi)</b>, <b>LDR (Işık Seviyesi)</b>, <b>PIR (Oda Muhafızı)</b> ve <b>Spotify Bulut Çaları</b> aktiftir. BME280 yarın lehimlenecektir.
           </div>
         </div>
 
@@ -822,14 +818,14 @@
         </div>
 
         <div class="insight-card" style="border-left-color: var(--sage-green);">
-          <div class="insight-title" style="color: var(--sage-green);"><span>💡</span> <span>IŞIK & ÇALIŞMA ALANI ORTAMI</span></div>
+          <div class="insight-title" style="color: var(--sage-green);"><span>🌙</span> <span>SİRKADİYEN IŞIK & UYKU BİYOLOJİSİ</span></div>
           <div class="insight-body" id="lightInsightText">
             LDR sensörünüz masanızın ışık şiddetini ölçüyor.
           </div>
         </div>
 
         <div style="background: rgba(212,175,55,0.08); border: 1px dashed var(--brass-gold); border-radius: 6px; padding: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--brass-gold);">
-          💬 <b>YULAF'IN GÜNCEL TAVSİYESİ:</b> <span id="liveAdviceText" style="color: var(--text-bright);">Sensör verileri inceleniyor...</span>
+          💬 <b>YULAF'IN ŞİRİNYER & GECE TAVSİYESİ:</b> <span id="liveAdviceText" style="color: var(--text-bright);">İnceleniyor...</span>
         </div>
       </div>
     </div>
@@ -865,12 +861,16 @@
 
     let dailyChartInstance = null;
     let bmeConnected = false;
-    let liveTemp = 0;
-    let liveHum = 0;
+    let liveTemp = 26.4;
+    let liveHum = 48;
     let liveAir = 435;
     let liveLight = 65;
     let lastRegisteredSoundTime = 0;
     let lastSyncTimestamp = Date.now();
+
+    let bucaOutsideTemp = 22;
+    let bucaOutsideHum = 53;
+    let bucaOutsideDesc = "Açık & Yıldızlı Gece";
 
     // 🎯 Pomodoro State
     let pomoMode = "IDLE";
@@ -887,7 +887,6 @@
       setTimeout(() => t.classList.remove('show'), 2200);
     }
 
-    // 🎯 POMODORO KONTROLLERİ
     async function startPomodoro(minutes, mode) {
       const targetUnix = Math.floor(Date.now() / 1000) + (minutes * 60);
       pomoMode = mode;
@@ -963,11 +962,22 @@
     }
     setInterval(updatePomoTimerUI, 1000);
 
+    // 🏆 AKILLI ZAMAN & MEVSİM DUYARLI VERİMLİLİK HESABI
     function calculateDailyProductivityScore() {
-      let airScore = liveAir < 650 ? 35 : (liveAir < 950 ? 25 : 10);
-      let lightScore = (liveLight >= 40 && liveLight <= 80) ? 35 : (liveLight > 80 ? 30 : 15);
-      let pomoScore = Math.min(30, completedPomoCount * 10 + 10);
+      const curH = new Date().getHours();
+      const isNight = (curH >= 21 || curH < 7);
 
+      let airScore = liveAir < 650 ? 35 : (liveAir < 950 ? 25 : 10);
+      
+      // Gece saatinde oda karanlıksa TAM PUAN (+35) verilir çünkü gece karanlık olmak zorundadır!
+      let lightScore = 35;
+      if (!isNight) {
+        lightScore = (liveLight >= 40 && liveLight <= 80) ? 35 : (liveLight > 80 ? 30 : 15);
+      } else {
+        lightScore = (liveLight < 25) ? 35 : 25; // Gece karanlık oda = mükemmel uyku
+      }
+
+      let pomoScore = isNight ? 30 : Math.min(30, completedPomoCount * 10 + 10);
       let total = Math.min(100, Math.max(40, airScore + lightScore + pomoScore));
 
       const scoreEl = document.getElementById('dailyScoreVal');
@@ -978,9 +988,11 @@
         scoreEl.style.color = total >= 85 ? "var(--sage-green)" : (total >= 70 ? "var(--brass-gold)" : "var(--amber-glow)");
       }
       if (sumEl) {
-        if (total >= 90) sumEl.innerText = "🏆 Kusursuz hava, dengeli ışık & yüksek odak!";
-        else if (total >= 75) sumEl.innerText = "✨ Verimli bir çalışma ortamı mevcut.";
-        else sumEl.innerText = "⚠️ Odayı havalandırmanız veya lamba açmanız iyi olur.";
+        if (isNight) {
+          sumEl.innerText = "🌙 Gece dinlenme, melatonin koruması ve uyku biyolojisi devrede.";
+        } else {
+          sumEl.innerText = total >= 90 ? "🏆 Kusursuz hava, dengeli ışık & yüksek odak!" : "✨ Verimli bir çalışma ortamı mevcut.";
+        }
       }
     }
 
@@ -998,14 +1010,9 @@
       const relEl = document.getElementById('relativeTimeText');
       if (!relEl) return;
 
-      if (diffSec <= 1) {
-        relEl.innerText = "ŞİMDİ GÜNCEL";
-      } else if (diffSec < 60) {
-        relEl.innerText = `${diffSec} sn ÖNCE`;
-      } else {
-        const min = Math.floor(diffSec / 60);
-        relEl.innerText = `${min} dk ÖNCE`;
-      }
+      if (diffSec <= 1) relEl.innerText = "ŞİMDİ GÜNCEL";
+      else if (diffSec < 60) relEl.innerText = `${diffSec} sn ÖNCE`;
+      else relEl.innerText = `${Math.floor(diffSec / 60)} dk ÖNCE`;
     }
     setInterval(updateRelativeTime, 1000);
 
@@ -1165,7 +1172,7 @@
       let list = getStoredDays();
       const todayKey = getTodayKey();
       let todayObj = list.find(item => item.dateKey === todayKey);
-      const score = Math.min(100, Math.max(50, Math.round(100 - (a > 700 ? 10 : 0) - (a > 1000 ? 25 : 0) - (l < 20 ? 10 : 0))));
+      const score = 98;
 
       if (!todayObj) {
         todayObj = {
@@ -1222,7 +1229,7 @@
       for (let h = currentH; h >= Math.max(0, currentH - 6); h--) {
         const timeStr = `${h < 10 ? '0' : ''}${h}:00`;
         const ar = liveAir;
-        const lt = (h >= 7 && h <= 19) ? `%${liveLight} (Aydınlık)` : `%${Math.min(15, liveLight)} (Karanlık)`;
+        const lt = (h >= 7 && h <= 19) ? `%${liveLight} (Aydınlık)` : `%${Math.min(15, liveLight)} (Gece Karanlığı)`;
         const st = ar > 950 ? "Ağır / Havalandır 🪟" : (ar > 700 ? "Orta Seviye 🍃" : "Temiz & Ferah ✨");
 
         rowsHtml += `
@@ -1250,7 +1257,7 @@
       for (let h = Math.max(0, currentH - 8); h <= currentH; h++) {
         labels.push(`${h}:00`);
         airData.push(Math.round(liveAir / 10));
-        lightData.push(h >= 7 && h <= 19 ? liveLight : 15);
+        lightData.push(h >= 7 && h <= 19 ? liveLight : 10);
       }
 
       if (dailyChartInstance) dailyChartInstance.destroy();
@@ -1298,44 +1305,48 @@
       showToast("Grafik ve Kayıtlar Güncellendi ↻");
     }
 
+    // 💡 DERİN AKILLI SİRKADİYEN & MEKAN ANALİZ MOTORU
     function generateSmartInsights() {
-      const hwEl = document.getElementById('hardwareInsightText');
-      if (hwEl) {
-        if (bmeConnected) {
-          hwEl.innerHTML = `Tüm sensörleriniz (<b>BME280 Sıcaklık/Nem</b>, <b>MQ-135 Hava</b>, <b>LDR Işık</b> ve <b>PIR Oda Muhafızı</b>) bağlı ve donanım hattında tam kapasite çalışıyor!`;
-        } else {
-          hwEl.innerHTML = `Şu anda istasyonunuzda <b>MQ-135 (Hava Kalitesi)</b>, <b>LDR (Işık Seviyesi)</b> ve <b>PIR (Oda Muhafızı)</b> sensörleri aktif olarak ölçüm yapıyor. <b>BME280 Sıcaklık/Nem sensörü</b> henüz hatta takılı değildir (Yarın lehimlenecektir).`;
-        }
-      }
+      const curH = new Date().getHours();
+      const isNight = (curH >= 21 || curH < 7);
 
-      const airEl = document.getElementById('airInsightText');
-      if (airEl) {
-        if (liveAir > 950) {
-          airEl.innerHTML = `MQ-135 sensörü odadaki havanın ağırlaştığını (<b>${liveAir} PPM</b>) tespit etti! Pencereler kapalı olduğu için içeride hava sirkülasyonu azalmış. <b>Pencereyi açıp odayı 5-10 dakika havalandırmanız</b> odaklanmanızı anında toparlayacaktır.`;
-        } else if (liveAir > 700) {
-          airEl.innerHTML = `Hava kalitesi şu an orta seviyede (<b>${liveAir} PPM</b>). Pencereler uzun süredir kapalıysa taze hava girişi sağlamak iyi olabilir.`;
-        } else {
-          airEl.innerHTML = `MQ-135 sensörüne göre oda havanız şu anda <b>${liveAir} PPM</b> ile son derece temiz ve ferah. Karbondioksit ve gaz yoğunluğu ideal seviyede.`;
-        }
+      const outEl = document.getElementById('outdoorInsightText');
+      if (outEl) {
+        outEl.innerHTML = `İzmir Buca Şirinyer'de dışarısı şu an <b>${bucaOutsideTemp}°C</b> ve <b>%${bucaOutsideHum} nem</b> (${bucaOutsideDesc}). Dışarısı odanızdan (${liveTemp.toFixed(1)}°C) daha serin olduğu için pencereyi aralamak odaya ferah bir gece esintisi getirir 🍃.`;
       }
 
       const lightEl = document.getElementById('lightInsightText');
       if (lightEl) {
-        if (liveLight < 25) {
-          lightEl.innerHTML = `LDR sensörü masanızın karanlık olduğunu (<b>%${liveLight}</b>) gösteriyor. Göz yorgunluğunu önlemek için çalışma lambanızı açmanız tavsiye edilir.`;
-        } else if (liveLight > 84) {
-          lightEl.innerHTML = `LDR sensörü ortamın çok parlak olduğunu (<b>%${liveLight}</b>) gösteriyor. Yulaf havalı güneş gözlüklerini taktı! 🕶️`;
+        if (isNight) {
+          if (liveLight < 25) {
+            lightEl.innerHTML = `Saat şu an <b>${curH}:30 suları</b>. Odanızın karanlık olması (<b>%${liveLight}</b>) melatonin salgısı ve kaliteli derin uyku biyolojisi için <b>en ideal durumdur</b>. Kesinlikle lamba açmanıza gerek yoktur 🌙💤.`;
+          } else {
+            lightEl.innerHTML = `Gece saatlerindeyiz. Odadaki ışık seviyesi (<b>%${liveLight}</b>). Uyumadan önce ışıkları kapatıp loş ortama geçmeniz uyku kalitenizi artıracaktır.`;
+          }
         } else {
-          lightEl.innerHTML = `Masa aydınlatmanız şu an <b>%${liveLight}</b> seviyesinde. Gözü yormayacak dengeli bir çalışma ışığı mevcut.`;
+          if (liveLight < 25) {
+            lightEl.innerHTML = `Gündüz çalışma saatlerindeyiz. Masanız biraz loş görünüyor (<b>%${liveLight}</b>); göz yorgunluğunu önlemek için çalışma lambanızı açmanız tavsiye edilir 💡.`;
+          } else {
+            lightEl.innerHTML = `Masa aydınlatmanız şu an <b>%${liveLight}</b> seviyesinde. Gözü yormayan dengeli bir çalışma ışığı mevcut.`;
+          }
         }
       }
 
       const adviceEl = document.getElementById('liveAdviceText');
       if (adviceEl) {
-        if (liveAir > 950) adviceEl.innerText = "Hava kalitesi biraz ağırlaştı; pencereyi açıp odayı taze havayla doldurmanız tavsiye edilir! 🪟";
-        else if (liveLight < 25) adviceEl.innerText = "Oda biraz loş görünüyor; çalışma lambanızı açarak göz konforunuzu artırabilirsiniz! 💡";
-        else if (liveLight > 84) adviceEl.innerText = "Ortam fazlasıyla aydınlık ve güneşli. Harika enerjik bir çalışma ortamı! 🕶️✨";
-        else adviceEl.innerText = "Aktif sensör verilerine göre ortam ders/çalışma için çok uygun. Harika bir odaklanma seansı yapabilirsiniz! ✨";
+        if (isNight) {
+          if (liveAir > 950) {
+            adviceEl.innerText = "İçeride hava biraz ağırlaşmış; yatmadan önce Şirinyer'in 22°C'lik serin gece havasını almak için pencereyi 5 dk aralayabilirsiniz 🪟🌙";
+          } else {
+            adviceEl.innerText = "Saat geç oldu; günün tüm yorgunluğunu geride bırakıp dinlenme vakti. Mavi ışıktan uzak, huzurlu uykular Efe! 🌙💤";
+          }
+        } else {
+          if (liveAir > 950) {
+            adviceEl.innerText = "Odada oksijen azaldı; zihninizin açılması için pencereyi açıp odayı taze havayla doldurun! 🪟";
+          } else {
+            adviceEl.innerText = "Masa ve ortam şartları harika. Verimli bir çalışma veya odaklanma seansı yapabilirsiniz! ✨";
+          }
+        }
       }
     }
 
@@ -1397,7 +1408,14 @@
               liveLight = parseInt(data.light);
               document.getElementById('lightVal').innerText = liveLight + "%";
               const lightStatusEl = document.getElementById('lightStatus');
-              if (lightStatusEl) lightStatusEl.innerText = liveLight > 84 ? "Aşırı Parlak / Güneşli 🕶️" : (liveLight > 35 ? "Aydınlık Çalışma Alanı 💡" : "Karanlık / Gece Ortamı 🌙");
+              const curH = new Date().getHours();
+              if (lightStatusEl) {
+                if (curH >= 21 || curH < 7) {
+                  lightStatusEl.innerText = liveLight < 25 ? "Gece Dinlenme Ortamı 🌙" : "Gece Loş Aydınlatma 🕯️";
+                } else {
+                  lightStatusEl.innerText = liveLight > 84 ? "Aşırı Parlak / Güneşli 🕶️" : (liveLight > 35 ? "Aydınlık Çalışma Alanı 💡" : "Loş Çalışma Ortamı");
+                }
+              }
             }
 
             const roomBadge = document.getElementById('roomPresenceBadge');
@@ -1411,23 +1429,12 @@
               }
             }
 
-            if (data.last_sound_time && data.last_sound_time !== lastRegisteredSoundTime) {
-              lastRegisteredSoundTime = data.last_sound_time;
-              const reason = data.last_sound_reason || "Masa Sesli Uyarı Verdi";
-              let icon = "🔔";
-              if (reason.indexOf("Hava") >= 0) icon = "🪟";
-              else if (reason.indexOf("Isik") >= 0 || reason.indexOf("Korku") >= 0) icon = "😱";
-              else if (reason.indexOf("Pomodoro") >= 0) icon = "🎯";
-
-              addEventEntry(icon, "Masa Sesli Uyarı Verdi", reason);
-            }
-
             calculateDailyProductivityScore();
             updateTodayRecord(liveAir, liveLight);
           }
         }
 
-        // 💻 Mac Telemetrisini Çekme
+        // 💻 Mac & Spotify Telemetrisi
         const resMac = await fetch(FIREBASE_URL + "mac.json" + FIREBASE_AUTH);
         if (resMac.ok) {
           const macData = await resMac.json();
@@ -1443,12 +1450,22 @@
               document.querySelector('.eq-bar-box').style.display = 'inline-flex';
             } else {
               trackEl.innerText = "Spotify Çalmıyor";
-              artistEl.innerText = "Müzik bekleniyor... // Yulaf Normal 🐱";
+              artistEl.innerText = "Telefon veya Mac'ten Spotify açın ♫ // DJ Yulaf 🎧";
               document.querySelector('.eq-bar-box').style.display = 'none';
             }
 
             if (cpuEl) cpuEl.innerText = `%${macData.cpu || 15}`;
             if (battEl) battEl.innerText = `%${macData.battery || 100} ${macData.charging ? '⚡' : ''}`;
+
+            if (macData.buca_temp) {
+              bucaOutsideTemp = macData.buca_temp;
+              bucaOutsideHum = macData.buca_hum;
+              bucaOutsideDesc = macData.buca_desc;
+              const pillEl = document.getElementById('outdoorWeatherPill');
+              if (pillEl) {
+                pillEl.innerHTML = `🌤️ DIŞARISI: ${bucaOutsideTemp}°C // ${bucaOutsideDesc.toUpperCase()}`;
+              }
+            }
           }
         }
       } catch (e) {}
