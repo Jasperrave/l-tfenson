@@ -1240,7 +1240,102 @@
       }
     }
 
-        // 📅 GOOGLE TAKVİM & KİŞİSEL PLAN MOTORU (KALICI & SİLİNMEZ)
+            // 📅 TÜRKÇE DOĞAL DİL TARİH AYRIŞTIRICI & CANLI ALARM MOTORU
+    function parseTurkishNaturalPlanDate(text) {
+      const lower = text.toLowerCase();
+      let target = new Date();
+      let hasParsedDate = false;
+      let hasParsedTime = false;
+
+      // 1. Hafta hesabı ("2 hafta sonra", "1 hafta sonra", "3 hafta sonra")
+      const weekMatch = lower.match(/(\d+)\s*hafta\s*sonra/);
+      if (weekMatch) {
+        const weeks = parseInt(weekMatch[1]);
+        target.setDate(target.getDate() + (weeks * 7));
+        hasParsedDate = true;
+      } else if (lower.includes("haftaya") || lower.includes("gelecek hafta")) {
+        target.setDate(target.getDate() + 7);
+        hasParsedDate = true;
+      }
+
+      // 2. Gün hesabı ("3 gün sonra", "5 gun sonra")
+      const dayMatch = lower.match(/(\d+)\s*g[üu]n\s*sonra/);
+      if (dayMatch && !hasParsedDate) {
+        const days = parseInt(dayMatch[1]);
+        target.setDate(target.getDate() + days);
+        hasParsedDate = true;
+      } else if (lower.includes("yarın") || lower.includes("yarin")) {
+        target.setDate(target.getDate() + 1);
+        hasParsedDate = true;
+      } else if (lower.includes("öbür gün") || lower.includes("obur gun")) {
+        target.setDate(target.getDate() + 2);
+        hasParsedDate = true;
+      }
+
+      // 3. Ay hesabı ("1 ay sonra", "2 ay sonra")
+      const monthMatch = lower.match(/(\d+)\s*ay\s*sonra/);
+      if (monthMatch && !hasParsedDate) {
+        const months = parseInt(monthMatch[1]);
+        target.setMonth(target.getMonth() + months);
+        hasParsedDate = true;
+      }
+
+      // 4. Gün adı hesabı ("pazartesi", "salı", "çarşamba", "perşembe", "cuma", "cumartesi", "pazar")
+      const daysOfWeek = ['pazar', 'pazartesi', 'salı', 'çarşamba', 'perşembe', 'cuma', 'cumartesi'];
+      for (let i = 0; i < daysOfWeek.length; i++) {
+        const dayName = daysOfWeek[i];
+        if (lower.includes(dayName) && !hasParsedDate) {
+          const currentDay = target.getDay();
+          let diff = i - currentDay;
+          if (diff <= 0) diff += 7;
+          target.setDate(target.getDate() + diff);
+          hasParsedDate = true;
+          break;
+        }
+      }
+
+      // 5. Saat hesabı ("saat 14:30", "saat 9 gibi", "09:00", "sabah 9", "akşam 8", "öğleden sonra 3")
+      const timeMatch = lower.match(/(?:saat\s*)?(\d{1,2})[:.](\d{2})/);
+      const hourWordMatch = lower.match(/(?:saat\s*|sabah\s*|akşam\s*|aksam\s*|öğlen\s*|oglen\s*)(\d{1,2})(?:\s*gibi|\s*sularında|\s*da|\s*de|\s*te|\s*ta)?/);
+      
+      if (timeMatch) {
+        target.setHours(parseInt(timeMatch[1]), parseInt(timeMatch[2]), 0, 0);
+        hasParsedTime = true;
+      } else if (hourWordMatch) {
+        let hr = parseInt(hourWordMatch[1]);
+        if ((lower.includes('akşam') || lower.includes('aksam') || lower.includes('gece')) && hr < 12) hr += 12;
+        if ((lower.includes('öğleden sonra') || lower.includes('ogleden sonra')) && hr < 12) hr += 12;
+        target.setHours(hr, 0, 0, 0);
+        hasParsedTime = true;
+      } else {
+        if (hasParsedDate) {
+          target.setHours(9, 0, 0, 0);
+        }
+      }
+
+      if (!hasParsedDate && !hasParsedTime) {
+        target = new Date(Date.now() + 3600000);
+      }
+
+      const diffMs = target.getTime() - Date.now();
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      
+      const dateStr = target.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+      const timeStr = target.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+      let badgeStr = "";
+      if (diffDays > 1) badgeStr = `🎯 ${dateStr}, ${timeStr} (${diffDays} Gün Kaldı)`;
+      else if (diffDays === 1) badgeStr = `⏳ Yarın ${timeStr}`;
+      else if (diffDays === 0) badgeStr = `⚡ Bugün ${timeStr}`;
+      else badgeStr = `📅 ${dateStr}, ${timeStr}`;
+
+      return {
+        targetDate: target,
+        targetTimestamp: target.getTime(),
+        displayStr: badgeStr
+      };
+    }
+
     function getStoredUserPlans() {
       try {
         return JSON.parse(localStorage.getItem('custom_user_plans') || '[]');
@@ -1253,13 +1348,39 @@
       localStorage.setItem('custom_user_plans', JSON.stringify(plans));
     }
 
-    let defaultSeedEvents = [
-      { id: "default-bitpazari-01", title: "yarın sabah 9 gibi bit pazarına gidiş 🛒", timeStr: "28 Ağustos 09:00", date: "2026-08-28", startTimeMs: Date.now() + 1800000 }
-    ];
-
+    // İlk varsayılan örnekler
     let userStoredPlans = getStoredUserPlans();
     if (userStoredPlans.length === 0) {
-      userStoredPlans = defaultSeedEvents;
+      const bitPazariParsed = parseTurkishNaturalPlanDate("yarın sabah 9 gibi bit pazarına gidiş");
+      const feslegenParsed = parseTurkishNaturalPlanDate("2 hafta sonra bugün fesleğeni gübrele");
+
+      userStoredPlans = [
+        {
+          id: "plan-feslegen",
+          title: "2 hafta sonra bugün fesleğeni gübrele 🌿",
+          timeStr: feslegenParsed.displayStr,
+          targetTimestamp: feslegenParsed.targetTimestamp,
+          notified: false
+        },
+        {
+          id: "plan-bitpazari",
+          title: "yarın sabah 9 gibi bit pazarına gidiş 🛒",
+          timeStr: bitPazariParsed.displayStr,
+          targetTimestamp: bitPazariParsed.targetTimestamp,
+          notified: false
+        }
+      ];
+      saveStoredUserPlans(userStoredPlans);
+    } else {
+      userStoredPlans = userStoredPlans.map(p => {
+        if (!p.targetTimestamp) {
+          const parsed = parseTurkishNaturalPlanDate(p.title);
+          p.timeStr = parsed.displayStr;
+          p.targetTimestamp = parsed.targetTimestamp;
+          p.notified = false;
+        }
+        return p;
+      });
       saveStoredUserPlans(userStoredPlans);
     }
     googleEvents = [...userStoredPlans];
@@ -1278,7 +1399,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border);">
           <div>
             <div style="font-size: 13px; font-weight: 700; color: var(--text-main);">${e.title}</div>
-            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">${e.timeStr}</div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: ${e.notified ? 'var(--te-green)' : 'var(--te-amber)'};">${e.timeStr} ${e.notified ? '✓ (BİLDİRİLDİ)' : ''}</div>
           </div>
           <span class="hardware-tag" style="cursor: pointer; color: var(--te-red); font-weight: bold;" onclick="deleteGoogleEvent('${e.id}')">SİL ✕</span>
         </div>
@@ -1296,7 +1417,6 @@
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           const currentLocal = getStoredUserPlans();
-          // Merge local plans and Google script events uniquely
           const merged = [...currentLocal];
           data.forEach(ext => {
             if (!merged.some(m => m.id === ext.id || m.title === ext.title)) {
@@ -1317,15 +1437,14 @@
       const text = input.value.trim();
       if (!text) return;
 
-      const now = new Date();
-      const timeStr = now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }) + " " + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      const parsed = parseTurkishNaturalPlanDate(text);
       
       const newPlan = {
         id: "plan-" + Date.now(),
         title: text,
-        timeStr: timeStr + " (Kaydedildi)",
-        date: now.toISOString().slice(0, 10),
-        startTimeMs: Date.now() + 3600000
+        timeStr: parsed.displayStr,
+        targetTimestamp: parsed.targetTimestamp,
+        notified: false
       };
 
       const currentPlans = getStoredUserPlans();
@@ -1334,7 +1453,7 @@
       renderEvents();
       
       input.value = "";
-      showToast("✓ Plan Başarıyla Eklendi & Kaydedildi! ✨");
+      showToast(`✓ Plan Eklendi: ${parsed.displayStr}`);
 
       try {
         await fetch(GOOGLE_SCRIPT_URL + "?action=add&title=" + encodeURIComponent(text), { mode: "no-cors" });
@@ -1352,7 +1471,39 @@
       } catch (err) {}
     }
 
-    
+    // 🔔 CANLI PLAN ALARM VE HATIRLATICI WATCHDOG MOTORU
+    function checkScheduledPlanAlarms() {
+      const plans = getStoredUserPlans();
+      const now = Date.now();
+      let updated = false;
+
+      plans.forEach(plan => {
+        if (plan.targetTimestamp && !plan.notified && now >= plan.targetTimestamp) {
+          plan.notified = true;
+          updated = true;
+
+          // 1. Telefona sesli/titreşimli Push Bildirimi Gönder
+          sendMobileNotification(
+            "🔔 Plan Hatırlatması! // TE-01",
+            `Zamanı geldi: "${plan.title}" 🐾`,
+            "icon-192.png"
+          );
+
+          // 2. Masanın zilini çal
+          if (typeof ringChime === 'function') ringChime();
+
+          // 3. Ekrana toast düşür
+          showToast(`🔔 PLAN HATIRLATMASI: ${plan.title}`);
+        }
+      });
+
+      if (updated) {
+        saveStoredUserPlans(plans);
+        renderEvents();
+      }
+    }
+    setInterval(checkScheduledPlanAlarms, 30000); // Her 30 saniyede bir kontrol et
+
     // ☀️ DİNAMİK DOĞAL GÜN IŞIĞI HESAPLAYICI (İZMİR KOORDİNATLARI İÇİN)
     function calculateNaturalAmbientLight() {
       const now = new Date();
