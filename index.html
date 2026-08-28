@@ -68,7 +68,7 @@
       gap: 14px;
     }
 
-    /* 📌 STICKY HEADER (SABİT PIRINÇ ÇITA) */
+    /* 📌 STICKY HEADER */
     .sticky-drawer-header {
       position: sticky;
       top: 8px;
@@ -84,7 +84,7 @@
         0 1px 0 rgba(255,255,255,0.1);
     }
 
-    /* 🗄️ DOLAP ÇEKMECESİ / RAF BÖLMESİ */
+    /* 🗄️ DOLAP ÇEKMECESİ */
     .drawer-tray {
       background: var(--felt-tray);
       border: 2px solid var(--wood-border);
@@ -284,10 +284,6 @@
       color: var(--text-bright);
     }
 
-    .history-table tr:hover td {
-      background: rgba(212, 175, 55, 0.05);
-    }
-
     .shelf-tabs {
       display: flex;
       background: #18100B;
@@ -382,8 +378,26 @@
       outline: none;
     }
 
-    .wake-input:focus {
-      border-color: var(--brass-gold);
+    /* 🎵 SPOTIFY EQUALIZER ANİMASYONU */
+    .eq-bar-box {
+      display: inline-flex;
+      gap: 3px;
+      align-items: flex-end;
+      height: 16px;
+    }
+    .eq-bar {
+      width: 3px;
+      background: #1DB954;
+      border-radius: 1px;
+      animation: eqBounce 0.8s infinite ease-in-out alternate;
+    }
+    .eq-bar:nth-child(2) { animation-delay: 0.2s; }
+    .eq-bar:nth-child(3) { animation-delay: 0.4s; }
+    .eq-bar:nth-child(4) { animation-delay: 0.1s; }
+
+    @keyframes eqBounce {
+      0% { height: 3px; }
+      100% { height: 16px; }
     }
 
     .guide-accordion {
@@ -428,7 +442,6 @@
       border-bottom: none;
     }
 
-    /* 🍅 POMODORO DOKU KUTUSU */
     .pomodoro-box {
       background: var(--felt-recess);
       border: 1px solid rgba(212, 175, 55, 0.3);
@@ -478,7 +491,7 @@
 
   <div class="drawer-box">
 
-    <!-- 📌 1. STICKY HEADER // SABİT PIRINÇ ÜST ÇITA -->
+    <!-- 📌 1. STICKY HEADER -->
     <div class="sticky-drawer-header">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div class="brass-label" style="font-size: 11.5px;">
@@ -495,7 +508,7 @@
       </div>
     </div>
 
-    <!-- 🎛️ ÇEKMECE RAFLARI ARASI GEÇİŞ (5 SEKME) -->
+    <!-- 🎛️ ÇEKMECE RAFLARI ARASI GEÇİŞ -->
     <div class="shelf-tabs">
       <div class="shelf-tab-item active" id="tabSensors" onclick="switchShelf('sensors')">📊 METROLOJİ</div>
       <div class="shelf-tab-item" id="tabDaily" onclick="switchShelf('daily')">📅 GRAFİK</div>
@@ -505,11 +518,41 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- 1. RAF: ANLIK SENSÖR TELEMETRİSİ & POMODORO -->
+    <!-- 1. RAF: ANLIK SENSÖR TELEMETRİSİ, SPOTIFY & POMODORO -->
     <!-- ==================================================== -->
     <div id="shelfSensorsContent" style="display: flex; flex-direction: column; gap: 12px;">
       
-      <!-- 🎯 1. CANLI POMODORO ASİSTANI BÖLMESİ -->
+      <!-- 💻 1. SPOTIFY & MAC HUD BÖLMESİ -->
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[MAC-01]</span> MAC KOKPİT & SPOTIFY HUD</div>
+          <span class="brass-tag active-green" id="macStatusBadge">
+            <span class="live-pulse-dot"></span>
+            <span>MAC KÖPRÜSÜ AKTİF</span>
+          </span>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; gap: 10px; align-items: center; overflow: hidden;">
+            <div class="eq-bar-box">
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+            </div>
+            <div style="overflow: hidden;">
+              <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #1DB954;" id="spotifyTrackText">Daft Punk - Get Lucky</div>
+              <div style="font-size: 9.5px; color: var(--text-muted);" id="spotifyArtistText">Spotify Çalıyor ♫ // DJ Yulaf 🎧</div>
+            </div>
+          </div>
+          <div style="text-align: right; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); white-space: nowrap;">
+            <div>CPU: <b id="macCpuText" style="color: var(--brass-gold);">%15</b></div>
+            <div>PİL: <b id="macBattText" style="color: var(--sage-green);">%11 ⚡</b></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🎯 2. CANLI POMODORO ASİSTANI BÖLMESİ -->
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[POMODORO-01]</span> ODAKLANMA VE ÇALIŞMA SAYACI</div>
@@ -528,7 +571,7 @@
         </div>
       </div>
 
-      <!-- 🏆 2. GÜNLÜK VERİMLİLİK & SAĞLIK SKORU BÖLMESİ -->
+      <!-- 🏆 3. GÜNLÜK VERİMLİLİK & SAĞLIK SKORU BÖLMESİ -->
       <div class="drawer-tray" style="padding: 12px 14px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
@@ -539,7 +582,7 @@
         </div>
       </div>
 
-      <!-- 📊 3. ANLIK ÇEVRESEL VERİLER -->
+      <!-- 📊 4. ANLIK ÇEVRESEL VERİLER -->
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL VERİLER</div>
@@ -616,13 +659,19 @@
         </div>
       </div>
 
-      <!-- 📖 AÇILIR KAPANIR SENSÖR & ÇEVRE REHBERİ (EXPANDABLE FAQ) -->
+      <!-- 📖 AÇILIR KAPANIR SENSÖR & ÇEVRE REHBERİ -->
       <div class="guide-accordion">
         <div class="guide-header" onclick="toggleGuide()">
           <span>📖 SENSÖR & İDEAL DEĞERLER KILAVUZU</span>
           <span id="guideArrow" style="transition: transform 0.2s;">▼</span>
         </div>
         <div class="guide-content" id="guideContent">
+          <div class="guide-item">
+            <b style="color: #1DB954;">🎵 Spotify & Mac Entegrasyonu:</b><br>
+            • Spotify çaldığında masada <b>DJ Yulaf (Kulaklık 🎧 & Notalar ♪ ♫)</b> belirir, şarkı adı kayar.<br>
+            • Mac CPU > %75 olduğunda <b>Matrix Hacker Yulaf 💻</b> belirir.<br>
+            • Mac pili azalınca <b>Düşük Pil Yulaf 🪫</b> uyarır.
+          </div>
           <div class="guide-item">
             <b style="color: var(--brass-gold);">🎯 Pomodoro & Verimlilik:</b><br>
             • <b>25 Dk Odaklan:</b> Masadaki ekranda saniye saniye geri sayar, Yulaf bandana takar.<br>
@@ -632,19 +681,19 @@
           <div class="guide-item">
             <b style="color: var(--brass-gold);">🪟 MQ-135 Hava Kalitesi (PPM):</b><br>
             • <b>400 - 650 PPM:</b> Tertemiz dağ havası seviyesi.<br>
-            • <b>650 - 950 PPM:</b> Normal oda havası, çalışma için uygun.<br>
-            • <b>950+ PPM:</b> Karbondioksit & gaz yoğunluğu arttı. Yulaf pencereyi açar, odayı havalandırın!
+            • <b>650 - 950 PPM:</b> Normal oda havası.<br>
+            • <b>950+ PPM:</b> Gaz yoğunluğu arttı, havalandırın!
           </div>
           <div class="guide-item">
             <b style="color: var(--sage-green);">🌡️ BME280 Sıcaklık & Nem:</b><br>
-            • <b>İdeal Sıcaklık:</b> 21°C - 25°C (En verimli çalışma aralığı).<br>
-            • <b>İdeal Bağıl Nem:</b> %40 - %60 (Göz ve boğaz kuruluğunu önler).
+            • <b>İdeal Sıcaklık:</b> 21°C - 25°C.<br>
+            • <b>İdeal Bağıl Nem:</b> %40 - %60.
           </div>
           <div class="guide-item">
             <b style="color: var(--amber-glow);">💡 LDR Işık Seviyesi (%):</b><br>
             • <b>%40 - %80:</b> Gözü yormayan dengeli çalışma aydınlatması.<br>
-            • <b><%20:</b> Loş/Karanlık (Karanlıkta 10 saniyede uykuya geçer).<br>
-            • <b>>%85:</b> Parlak güneş (Yulaf güneş gözlüğü takar 🕶️).
+            • <b><%20:</b> Karanlık (Karanlıkta 10 saniyede uykuya geçer).<br>
+            • <b>>%85:</b> Güneş gözlüğü takan Yulaf 🕶️.
           </div>
           <div class="guide-item">
             <b style="color: var(--text-bright);">🛡️ PIR Akıllı Özellikler (D27):</b><br>
@@ -676,7 +725,6 @@
         </div>
       </div>
 
-      <!-- Bugünün Saatlik Günlükleri -->
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[GÜNLÜK-01]</span> BUGÜNÜN GERÇEK SAATLİK KAYITLARI</div>
@@ -693,9 +741,7 @@
                 <th>DURUM</th>
               </tr>
             </thead>
-            <tbody id="hourlyTableBody">
-              <!-- Saatlik Satırlar -->
-            </tbody>
+            <tbody id="hourlyTableBody"></tbody>
           </table>
         </div>
       </div>
@@ -745,9 +791,7 @@
                 <th>PUAN</th>
               </tr>
             </thead>
-            <tbody id="monthlyTableBody">
-              <!-- Gerçek Günlük Satırlar -->
-            </tbody>
+            <tbody id="monthlyTableBody"></tbody>
           </table>
         </div>
       </div>
@@ -773,7 +817,7 @@
         <div class="insight-card">
           <div class="insight-title"><span>🪟</span> <span>HAVA KALİTESİ & PENCERE DURUMU</span></div>
           <div class="insight-body" id="airInsightText">
-            MQ-135 sensörünüz odadaki havayı canlı olarak kokluyor. Pencereler kapalı kaldığında içeride gaz ve karbondioksit yoğunluğu artar.
+            MQ-135 sensörünüz odadaki havayı canlı olarak kokluyor.
           </div>
         </div>
 
@@ -804,9 +848,7 @@
           Masa istasyonunuz her ses çıkardığında, alarm çaldığında veya tetiklendiğinde sebebi buraya kaydedilir. Her gece yarısı otomatik sıfırlanır.
         </div>
 
-        <div id="eventListContainer" style="display: flex; flex-direction: column; gap: 8px;">
-          <!-- Canlı Bildirim Kartları -->
-        </div>
+        <div id="eventListContainer" style="display: flex; flex-direction: column; gap: 8px;"></div>
       </div>
     </div>
 
@@ -921,7 +963,6 @@
     }
     setInterval(updatePomoTimerUI, 1000);
 
-    // 🏆 100 ÜZERİNDEN GÜNLÜK VERİMLİLİK HESABI
     function calculateDailyProductivityScore() {
       let airScore = liveAir < 650 ? 35 : (liveAir < 950 ? 25 : 10);
       let lightScore = (liveLight >= 40 && liveLight <= 80) ? 35 : (liveLight > 80 ? 30 : 15);
@@ -992,15 +1033,9 @@
       document.getElementById('tabAnalysis').classList.toggle('active', shelfId === 'analysis');
       document.getElementById('tabEvents').classList.toggle('active', shelfId === 'events');
 
-      if (shelfId === 'daily') {
-        setTimeout(initOrUpdateDailyChart, 50);
-      }
-      if (shelfId === 'analysis') {
-        generateSmartInsights();
-      }
-      if (shelfId === 'events') {
-        renderEventList();
-      }
+      if (shelfId === 'daily') setTimeout(initOrUpdateDailyChart, 50);
+      if (shelfId === 'analysis') generateSmartInsights();
+      if (shelfId === 'events') renderEventList();
     }
 
     async function ringDeskChime() {
@@ -1030,9 +1065,7 @@
 
     function wakeScreenCustom() {
       const val = parseInt(document.getElementById('customWakeMin').value || "10");
-      if (val > 0) {
-        wakeScreenMinutes(val);
-      }
+      if (val > 0) wakeScreenMinutes(val);
     }
 
     function getTodayKey() {
@@ -1046,9 +1079,6 @@
       return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
     }
 
-    // ====================================================
-    // 🔔 GÜNLÜK SES & BİLDİRİM GÜNLÜĞÜ
-    // ====================================================
     function getTodayEvents() {
       try {
         let events = JSON.parse(localStorage.getItem('station_daily_events') || '[]');
@@ -1064,13 +1094,10 @@
     function addEventEntry(icon, title, desc) {
       const todayKey = getTodayKey();
       let events = getTodayEvents();
-
       const now = new Date();
       const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
 
-      if (events.length > 0 && events[0].title === title && (now.getTime() - events[0].timestamp < 45000)) {
-        return;
-      }
+      if (events.length > 0 && events[0].title === title && (now.getTime() - events[0].timestamp < 45000)) return;
 
       events.unshift({
         dateKey: todayKey,
@@ -1082,7 +1109,6 @@
       });
 
       if (events.length > 30) events.pop();
-
       localStorage.setItem('station_daily_events', JSON.stringify(events));
       renderEventList();
     }
@@ -1095,7 +1121,7 @@
       if (list.length === 0) {
         container.innerHTML = `
           <div style="text-align: center; padding: 24px 10px; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px dashed rgba(255,255,255,0.06); font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">
-            ✨ Bugün henüz beklenmedik bir sesli alarm çalmadı.<br>Masa istasyonunuz sakin ve sessiz çalışıyor.
+            ✨ Bugün henüz sesli alarm çalmadı.<br>Masa istasyonunuz sakin ve sessiz çalışıyor.
           </div>
         `;
         return;
@@ -1115,9 +1141,6 @@
       `).join('');
     }
 
-    // ====================================================
-    // 📊 GERÇEK TELEMETRİ KAYIT DEFTERİ
-    // ====================================================
     function getStoredDays() {
       try {
         let list = JSON.parse(localStorage.getItem('real_station_days') || '[]');
@@ -1142,7 +1165,6 @@
       let list = getStoredDays();
       const todayKey = getTodayKey();
       let todayObj = list.find(item => item.dateKey === todayKey);
-
       const score = Math.min(100, Math.max(50, Math.round(100 - (a > 700 ? 10 : 0) - (a > 1000 ? 25 : 0) - (l < 20 ? 10 : 0))));
 
       if (!todayObj) {
@@ -1193,7 +1215,6 @@
     function renderHourlyTable() {
       const tbody = document.getElementById('hourlyTableBody');
       if (!tbody) return;
-
       const now = new Date();
       const currentH = now.getHours();
       let rowsHtml = "";
@@ -1232,9 +1253,7 @@
         lightData.push(h >= 7 && h <= 19 ? liveLight : 15);
       }
 
-      if (dailyChartInstance) {
-        dailyChartInstance.destroy();
-      }
+      if (dailyChartInstance) dailyChartInstance.destroy();
 
       dailyChartInstance = new Chart(canvas.getContext('2d'), {
         type: 'line',
@@ -1266,14 +1285,8 @@
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
-            x: {
-              grid: { color: 'rgba(255,255,255,0.04)' },
-              ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } }
-            },
-            y: {
-              grid: { color: 'rgba(255,255,255,0.04)' },
-              ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } }
-            }
+            x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } } },
+            y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } } }
           }
         }
       });
@@ -1285,9 +1298,6 @@
       showToast("Grafik ve Kayıtlar Güncellendi ↻");
     }
 
-    // ====================================================
-    // 💡 GERÇEKÇİ AKILLI YORUM MOTORU
-    // ====================================================
     function generateSmartInsights() {
       const hwEl = document.getElementById('hardwareInsightText');
       if (hwEl) {
@@ -1322,24 +1332,17 @@
 
       const adviceEl = document.getElementById('liveAdviceText');
       if (adviceEl) {
-        if (liveAir > 950) {
-          adviceEl.innerText = "Hava kalitesi biraz ağırlaştı; pencereyi açıp odayı taze havayla doldurmanız tavsiye edilir! 🪟";
-        } else if (liveLight < 25) {
-          adviceEl.innerText = "Oda biraz loş görünüyor; çalışma lambanızı açarak göz konforunuzu artırabilirsiniz! 💡";
-        } else if (liveLight > 84) {
-          adviceEl.innerText = "Ortam fazlasıyla aydınlık ve güneşli. Harika enerjik bir çalışma ortamı! 🕶️✨";
-        } else {
-          adviceEl.innerText = "Aktif sensör verilerine göre ortam ders/çalışma için çok uygun. Harika bir odaklanma seansı yapabilirsiniz! ✨";
-        }
+        if (liveAir > 950) adviceEl.innerText = "Hava kalitesi biraz ağırlaştı; pencereyi açıp odayı taze havayla doldurmanız tavsiye edilir! 🪟";
+        else if (liveLight < 25) adviceEl.innerText = "Oda biraz loş görünüyor; çalışma lambanızı açarak göz konforunuzu artırabilirsiniz! 💡";
+        else if (liveLight > 84) adviceEl.innerText = "Ortam fazlasıyla aydınlık ve güneşli. Harika enerjik bir çalışma ortamı! 🕶️✨";
+        else adviceEl.innerText = "Aktif sensör verilerine göre ortam ders/çalışma için çok uygun. Harika bir odaklanma seansı yapabilirsiniz! ✨";
       }
     }
 
     function exportDataCsv() {
       const list = getStoredDays();
       let csvContent = "data:text/csv;charset=utf-8,Tarih,Hava_PPM,Isik_Yuzde,BME280_Durumu,Puan\n";
-      list.forEach(r => {
-        csvContent += `${r.displayDate},${r.air},${r.light},${r.bme},${r.score}\n`;
-      });
+      list.forEach(r => { csvContent += `${r.displayDate},${r.air},${r.light},${r.bme},${r.score}\n`; });
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
@@ -1350,7 +1353,7 @@
       showToast("📥 CSV Raporu İndirildi!");
     }
 
-    // 🔄 CANLI SENSÖR VERİLERİ SENKRONİZASYONU
+    // 🔄 CANLI SENSÖR & MAC SENKRONİZASYONU
     async function syncLiveSensors() {
       try {
         const res = await fetch(FIREBASE_URL + "station.json" + FIREBASE_AUTH);
@@ -1362,7 +1365,6 @@
             triggerShimmer();
 
             bmeConnected = (data.bme_active === true);
-
             const bmeTempBadge = document.getElementById('bmeTempBadge');
             const bmeHumBadge = document.getElementById('bmeHumBadge');
 
@@ -1388,21 +1390,16 @@
               liveAir = parseInt(data.air);
               document.getElementById('airVal').innerText = liveAir + " PPM";
               const airStatusEl = document.getElementById('airStatus');
-              if (airStatusEl) {
-                airStatusEl.innerText = liveAir < 700 ? "Ferah & Temiz ✨" : (liveAir < 1000 ? "Normal Seviye 🍃" : "Ağırlaştı / Havalandır 🪟");
-              }
+              if (airStatusEl) airStatusEl.innerText = liveAir < 700 ? "Ferah & Temiz ✨" : (liveAir < 1000 ? "Normal Seviye 🍃" : "Ağırlaştı / Havalandır 🪟");
             }
 
             if (data.light !== undefined) {
               liveLight = parseInt(data.light);
               document.getElementById('lightVal').innerText = liveLight + "%";
               const lightStatusEl = document.getElementById('lightStatus');
-              if (lightStatusEl) {
-                lightStatusEl.innerText = liveLight > 84 ? "Aşırı Parlak / Güneşli 🕶️" : (liveLight > 35 ? "Aydınlık Çalışma Alanı 💡" : "Karanlık / Gece Ortamı 🌙");
-              }
+              if (lightStatusEl) lightStatusEl.innerText = liveLight > 84 ? "Aşırı Parlak / Güneşli 🕶️" : (liveLight > 35 ? "Aydınlık Çalışma Alanı 💡" : "Karanlık / Gece Ortamı 🌙");
             }
 
-            // 🛡️ ODA MUHAFIZI ROZET GÜNCELLEMESİ
             const roomBadge = document.getElementById('roomPresenceBadge');
             if (roomBadge) {
               if (data.user_present === true) {
@@ -1420,8 +1417,6 @@
               let icon = "🔔";
               if (reason.indexOf("Hava") >= 0) icon = "🪟";
               else if (reason.indexOf("Isik") >= 0 || reason.indexOf("Korku") >= 0) icon = "😱";
-              else if (reason.indexOf("Sicaklik") >= 0) icon = "🥵";
-              else if (reason.indexOf("Kuru") >= 0 || reason.indexOf("Su") >= 0) icon = "💧";
               else if (reason.indexOf("Pomodoro") >= 0) icon = "🎯";
 
               addEventEntry(icon, "Masa Sesli Uyarı Verdi", reason);
@@ -1431,10 +1426,34 @@
             updateTodayRecord(liveAir, liveLight);
           }
         }
+
+        // 💻 Mac Telemetrisini Çekme
+        const resMac = await fetch(FIREBASE_URL + "mac.json" + FIREBASE_AUTH);
+        if (resMac.ok) {
+          const macData = await resMac.json();
+          if (macData && typeof macData === 'object') {
+            const trackEl = document.getElementById('spotifyTrackText');
+            const artistEl = document.getElementById('spotifyArtistText');
+            const cpuEl = document.getElementById('macCpuText');
+            const battEl = document.getElementById('macBattText');
+
+            if (macData.spotify_playing && macData.spotify_track) {
+              trackEl.innerText = macData.spotify_track;
+              artistEl.innerText = `${macData.spotify_artist} ♫ // DJ Yulaf 🎧`;
+              document.querySelector('.eq-bar-box').style.display = 'inline-flex';
+            } else {
+              trackEl.innerText = "Spotify Çalmıyor";
+              artistEl.innerText = "Müzik bekleniyor... // Yulaf Normal 🐱";
+              document.querySelector('.eq-bar-box').style.display = 'none';
+            }
+
+            if (cpuEl) cpuEl.innerText = `%${macData.cpu || 15}`;
+            if (battEl) battEl.innerText = `%${macData.battery || 100} ${macData.charging ? '⚡' : ''}`;
+          }
+        }
       } catch (e) {}
     }
 
-    // Başlatıcılar
     renderMonthlyTable();
     renderHourlyTable();
     renderEventList();
