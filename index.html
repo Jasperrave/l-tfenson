@@ -749,11 +749,16 @@
           </div>
         </div>
 
-        <!-- Ekran Modu Seçici & Zil Çalma -->
-        <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 6px;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
+        <!-- Ekran Modu Seçici & Büyük Zil Çalma Butonu -->
+        <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <!-- 🔔 BÜYÜK MASAYI ÇALDIR & ROBOTİK KONUŞTUR BUTONU -->
+          <button type="button" class="te-btn" onclick="ringChime()" style="width: 100%; padding: 10px 14px; font-size: 11px; font-weight: 700; background: rgba(0, 229, 117, 0.12); border: 1px solid var(--te-green); color: var(--te-green); display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 4px; box-shadow: 0 0 10px rgba(0, 229, 117, 0.15); cursor: pointer;">
+            <span style="font-size: 14px;">🔔</span> 
+            <span>MASAYI ÇALDIR & ROBOTİK KONUŞTUR 🗣️</span>
+          </button>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
             <span style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dark);">DONANIM EKRAN MODU:</span>
-            <button type="button" class="te-btn" onclick="ringChime()" style="padding: 4px 8px; font-size: 10px;">🔔 ZİLİ ÇAL</button>
           </div>
           <div class="te-switch-group">
             <div class="te-switch-item active" id="btnModeAuto" onclick="setScreenMode('auto')">OTOMATİK</div>
@@ -1696,7 +1701,11 @@
           led.style.boxShadow = isOnline ? "0 0 6px var(--te-green)" : "0 0 6px var(--te-amber)";
         }
 
-        const l = data.light !== undefined ? data.light : 0;
+        let l = data.light !== undefined ? data.light : 0;
+        if (l <= 0) {
+          const natLight = calculateNaturalAmbientLight();
+          l = natLight.pct;
+        }
         const a = data.air !== undefined ? data.air : 435;
         const t = data.temp !== undefined ? Math.round(data.temp) : 26;
         const h = data.humidity !== undefined ? Math.round(data.humidity) : 45;
@@ -1707,7 +1716,7 @@
         if (humValEl) humValEl.innerText = "%" + h;
         if (actionEl) actionEl.innerText = "ESP32 // Sensörler";
 
-        if (lightStatusEl) lightStatusEl.innerText = l > 40 ? "Aydınlık 💡" : (l > 10 ? "Loş Ortam 🌙" : "Karanlık / Gece");
+        if (lightStatusEl) lightStatusEl.innerText = l > 40 ? "Aydınlık 💡" : (l > 15 ? "Loş Ortam 🌙" : "Karanlık / Gece");
         if (airStatusEl) airStatusEl.innerText = a < 600 ? "Temiz & Ferah ✨" : (a < 1200 ? "Normal Seviye 🍃" : "Ağırlaştı ⚠️");
 
         if (specPpm) specPpm.innerText = a + " PPM";
