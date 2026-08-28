@@ -2,19 +2,19 @@
 <html lang="tr" class="notranslate" translate="no">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="google" content="notranslate">
-  <title>Masa İstasyonu // PROFESYONEL TELEMETRİ KOKPİTİ</title>
+  <title>Masa İstasyonu // TELEMETRİ KOKPİTİ</title>
   
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1F1510">
+  <meta name="theme-color" content="#140D08">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- FONTS: Space Grotesk & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -22,24 +22,24 @@
   <style>
     :root {
       /* 🪵 VINTAGE CEVİZ, PIRINÇ & TELEMETRİ PALETİ */
-      --wood-dark: #140D08;
-      --wood-chassis: #1F140D;
-      --wood-border: #442E1F;
-      --wood-highlight: #6E4930;
-      --felt-tray: #101612;
-      --felt-recess: #0A0F0B;
+      --wood-dark: #120B07;
+      --wood-chassis: #1C120B;
+      --wood-border: #3D281B;
+      --wood-highlight: #68452D;
+      --felt-tray: #0E1410;
+      --felt-recess: #080D09;
       --brass-gold: #D4AF37;
-      --brass-light: #F3E5AB;
-      --brass-dim: rgba(212, 175, 55, 0.15);
+      --brass-light: #F5E5A3;
+      --brass-dim: rgba(212, 175, 55, 0.12);
       --copper-orange: #C86432;
       --sage-green: #68A37C;
       --emerald-glow: #2ECC71;
       --amber-glow: #E89E4B;
       --cyan-air: #4DD0E1;
       --purple-focus: #BB86FC;
-      --text-bright: #F5EFEB;
-      --text-muted: #A3968B;
-      --text-dark: #63574E;
+      --text-bright: #F7F3EE;
+      --text-muted: #BDB0A4;
+      --text-dark: #7A6C60;
       --font-mono: "JetBrains Mono", monospace;
       --font-ui: "Space Grotesk", sans-serif;
     }
@@ -58,10 +58,12 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 10px 8px 100px 8px;
+      padding: 10px 8px calc(115px + env(safe-area-inset-bottom)) 8px;
       background-image: 
-        radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.11) 0%, transparent 70%),
-        linear-gradient(180deg, #1F140D 0%, #140D08 100%);
+        radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 65%),
+        linear-gradient(180deg, #1C120B 0%, #120B07 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
     }
 
     .drawer-box {
@@ -70,6 +72,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      position: relative;
     }
 
     /* 📌 STICKY HEADER */
@@ -77,26 +80,32 @@
       position: sticky;
       top: 6px;
       z-index: 1000;
-      background: rgba(16, 22, 18, 0.96);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 2px solid var(--wood-border);
+      background: rgba(14, 20, 16, 0.96);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1.5px solid var(--wood-border);
       border-radius: 8px;
       padding: 10px 14px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.85), 0 1px 0 rgba(255,255,255,0.1);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.08);
     }
 
-    /* 🗄️ DOLAP ÇEKMECESİ (3D Pirinç Vidalar ile) */
+    /* 🗄️ DOLAP ÇEKMECESİ */
     .drawer-tray {
       background: var(--felt-tray);
-      border: 2px solid var(--wood-border);
+      border: 1.5px solid var(--wood-border);
       border-radius: 8px;
       padding: 14px;
       position: relative;
       box-shadow: 
         inset 0 4px 14px rgba(0,0,0,0.9),
         0 6px 18px rgba(0,0,0,0.7),
-        0 1px 0 rgba(255,255,255,0.08);
+        0 1px 0 rgba(255,255,255,0.06);
+      animation: fadeInTray 0.25s ease-out;
+    }
+
+    @keyframes fadeInTray {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* 3D Pirinç Vida Başları */
@@ -105,8 +114,9 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: radial-gradient(circle, #FFE79A 20%, #B8860B 80%, #684805 100%);
+      background: radial-gradient(circle, #FFE79A 20%, #B8860B 80%, #5C3E04 100%);
       box-shadow: inset 0 1px 1px rgba(255,255,255,0.8), 0 1px 2px rgba(0,0,0,0.9);
+      pointer-events: none;
     }
     .screw::after {
       content: "";
@@ -127,7 +137,7 @@
       justify-content: space-between;
       align-items: center;
       padding-bottom: 8px;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.18);
       margin-bottom: 12px;
     }
 
@@ -147,38 +157,39 @@
       font-family: var(--font-mono);
       font-size: 9.5px;
       font-weight: 700;
-      padding: 3px 7px;
-      border-radius: 3px;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      background: rgba(0,0,0,0.45);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      background: rgba(0,0,0,0.5);
       color: var(--brass-gold);
       letter-spacing: 0.04em;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      white-space: nowrap;
     }
 
     .brass-tag.active-green {
       color: #72C78F;
-      border-color: rgba(114, 199, 143, 0.4);
+      border-color: rgba(114, 199, 143, 0.35);
       background: rgba(114, 199, 143, 0.1);
     }
 
     .brass-tag.active-cyan {
       color: var(--cyan-air);
-      border-color: rgba(77, 208, 225, 0.4);
+      border-color: rgba(77, 208, 225, 0.35);
       background: rgba(77, 208, 225, 0.1);
     }
 
     .brass-tag.active-purple {
       color: var(--purple-focus);
-      border-color: rgba(187, 134, 252, 0.4);
+      border-color: rgba(187, 134, 252, 0.35);
       background: rgba(187, 134, 252, 0.1);
     }
 
     .brass-tag.pending-amber {
       color: var(--amber-glow);
-      border-color: rgba(232, 158, 75, 0.4);
+      border-color: rgba(232, 158, 75, 0.35);
       background: rgba(232, 158, 75, 0.1);
     }
 
@@ -212,21 +223,22 @@
       justify-content: center;
       gap: 6px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-      transition: all 0.1s ease;
+      transition: transform 0.08s ease, background 0.15s ease, box-shadow 0.15s ease;
+      touch-action: manipulation;
       user-select: none;
     }
 
     .brass-btn:active {
-      transform: translateY(1px);
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
-      background: #1F1510;
+      transform: scale(0.96) translateY(1px);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.85);
+      background: #1C120B;
     }
 
     .brass-btn-gold {
       background: linear-gradient(180deg, #D4AF37 0%, #AA820A 100%);
-      color: #1A110B;
+      color: #160E08;
       border-color: #D4AF37;
-      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.35);
       font-weight: 800;
     }
 
@@ -249,7 +261,9 @@
       padding: 12px;
       box-shadow: inset 0 2px 6px rgba(0,0,0,0.7);
       position: relative;
-      transition: border-color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .comp-label {
@@ -261,6 +275,7 @@
       letter-spacing: 0.06em;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
     .comp-val {
@@ -275,17 +290,18 @@
     .comp-sub {
       font-size: 11px;
       color: var(--text-muted);
+      line-height: 1.3;
     }
 
     /* 📊 VINTAGE SVG ANALOG GAUGE STYLES */
     .gauge-wrapper {
       position: relative;
       width: 100%;
-      height: 64px;
+      height: 62px;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 4px;
+      margin: 2px 0 4px 0;
     }
 
     .gauge-svg {
@@ -296,18 +312,21 @@
 
     .gauge-needle {
       transform-origin: 60px 52px;
-      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .shelf-tabs {
       display: flex;
-      background: #18100B;
+      background: #160E09;
       border: 1px solid var(--wood-border);
       border-radius: 6px;
       padding: 3px;
       gap: 3px;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .shelf-tabs::-webkit-scrollbar { display: none; }
 
     .shelf-tab-item {
       flex: 1;
@@ -315,19 +334,20 @@
       font-size: 9.5px;
       font-weight: 700;
       text-align: center;
-      padding: 6px 4px;
+      padding: 7px 5px;
       border-radius: 4px;
       cursor: pointer;
       color: var(--text-muted);
       white-space: nowrap;
-      transition: all 0.15s;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
     }
 
     .shelf-tab-item.active {
       background: linear-gradient(180deg, #3A271C 0%, #261A12 100%);
       color: var(--brass-gold);
       border: 1px solid var(--wood-highlight);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.6);
     }
 
     .lab-metric-card {
@@ -447,24 +467,24 @@
       text-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
     }
 
-    /* ⚡ MOBİL ALT HIZLI AKSİYON DOCK BARI */
+    /* ⚡ MOBİL ALT HIZLI AKSİYON DOCK BARI (Thumb-Friendly) */
     .mobile-quick-dock {
       position: fixed;
-      bottom: 10px;
+      bottom: calc(12px + env(safe-area-inset-bottom));
       left: 50%;
       transform: translateX(-50%);
       width: calc(100% - 20px);
       max-width: 520px;
-      background: rgba(22, 15, 10, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(20, 13, 8, 0.95);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       border: 1.5px solid var(--brass-gold);
-      border-radius: 28px;
-      padding: 6px 12px;
+      border-radius: 30px;
+      padding: 7px 14px;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.95), 0 0 12px rgba(212,175,55,0.25);
+      box-shadow: 0 10px 32px rgba(0,0,0,0.95), 0 0 14px rgba(212,175,55,0.22);
       z-index: 9999;
     }
 
@@ -482,7 +502,8 @@
       cursor: pointer;
       padding: 4px 8px;
       border-radius: 8px;
-      transition: all 0.15s;
+      transition: transform 0.1s ease, background 0.15s ease;
+      touch-action: manipulation;
     }
 
     .dock-btn:active {
@@ -496,21 +517,21 @@
 
     #toast {
       position: fixed;
-      top: 20px;
+      top: 18px;
       left: 50%;
       transform: translateX(-50%) translateY(-100px);
-      background: #261A12;
-      border: 1px solid var(--brass-gold);
+      background: #241810;
+      border: 1.5px solid var(--brass-gold);
       color: var(--text-bright);
-      padding: 8px 16px;
-      border-radius: 4px;
+      padding: 9px 18px;
+      border-radius: 6px;
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 700;
       z-index: 99999;
       pointer-events: none;
       transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.9);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.92);
       white-space: nowrap;
     }
 
@@ -550,9 +571,9 @@
         <span class="brass-tag active-green" id="macLocationPill">🏠 EVDE (MASA BAŞINDA)</span>
       </div>
 
-      <div style="display: flex; justify-content: space-between; font-size: 11px; padding-top: 4px; color: var(--text-bright);">
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding-top: 4px; color: var(--text-bright);">
         <span>Sonraki Göz & Duruş Molası: <b style="color: var(--purple-focus);" id="ergoCountdownText">12:33 dk</b></span>
-        <button type="button" class="brass-btn" onclick="triggerPostureAlertTest()" style="padding: 2px 6px; font-size: 9px; border-color: var(--purple-focus); color: var(--purple-focus);">Test Et 🔔</button>
+        <button type="button" class="brass-btn" onclick="triggerPostureAlertTest()" style="padding: 2px 7px; font-size: 9px; border-color: var(--purple-focus); color: var(--purple-focus);">Test Et 🔔</button>
       </div>
 
       <div style="font-size: 10px; color: var(--text-muted); line-height: 1.3;">
@@ -581,7 +602,7 @@
     <div class="circadian-pill-bar">
       <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
         <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-5: TERASTA YILDIZLAR ALTINDA DİNLENME</span>
-        <span style="color: var(--text-muted);" id="circadianPhaseTime">23:10 // ŞİRİNYER</span>
+        <span style="color: var(--text-muted);" id="circadianPhaseTime">23:12 // ŞİRİNYER</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="circadianProgressFill" style="width: 90%;"></div>
@@ -676,16 +697,16 @@
             
             <div class="gauge-wrapper">
               <svg class="gauge-svg" viewBox="0 0 120 60">
-                <!-- Arc Tracks -->
-                <path d="M 15 52 A 45 45 0 0 1 105 52" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6" stroke-linecap="round"/>
+                <!-- Kadran Cetvel Çizgileri -->
+                <path d="M 15 52 A 45 45 0 0 1 105 52" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" stroke-linecap="round"/>
                 <path d="M 15 52 A 45 45 0 0 1 50 18" fill="none" stroke="#2ECC71" stroke-width="6" stroke-linecap="round"/>
                 <path d="M 50 18 A 45 45 0 0 1 80 20" fill="none" stroke="#F1C40F" stroke-width="6"/>
                 <path d="M 80 20 A 45 45 0 0 1 105 52" fill="none" stroke="#E74C3C" stroke-width="6" stroke-linecap="round"/>
-                <!-- Needle -->
+                <!-- İbre -->
                 <g id="airGaugeNeedle" class="gauge-needle" style="transform: rotate(-60deg);">
-                  <line x1="60" y1="52" x2="60" y2="16" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+                  <line x1="60" y1="52" x2="60" y2="15" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
                   <circle cx="60" cy="52" r="4.5" fill="#D4AF37"/>
-                  <circle cx="60" cy="52" r="2" fill="#1A110B"/>
+                  <circle cx="60" cy="52" r="2" fill="#140D08"/>
                 </g>
               </svg>
             </div>
@@ -699,16 +720,14 @@
             
             <div class="gauge-wrapper">
               <svg class="gauge-svg" viewBox="0 0 120 60">
-                <!-- Arc Tracks -->
-                <path d="M 15 52 A 45 45 0 0 1 105 52" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6" stroke-linecap="round"/>
+                <path d="M 15 52 A 45 45 0 0 1 105 52" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" stroke-linecap="round"/>
                 <path d="M 15 52 A 45 45 0 0 1 50 18" fill="none" stroke="#3498DB" stroke-width="6" stroke-linecap="round"/>
                 <path d="M 50 18 A 45 45 0 0 1 85 22" fill="none" stroke="#D4AF37" stroke-width="6"/>
                 <path d="M 85 22 A 45 45 0 0 1 105 52" fill="none" stroke="#E67E22" stroke-width="6" stroke-linecap="round"/>
-                <!-- Needle -->
                 <g id="lightGaugeNeedle" class="gauge-needle" style="transform: rotate(20deg);">
-                  <line x1="60" y1="52" x2="60" y2="16" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+                  <line x1="60" y1="52" x2="60" y2="15" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
                   <circle cx="60" cy="52" r="4.5" fill="#D4AF37"/>
-                  <circle cx="60" cy="52" r="2" fill="#1A110B"/>
+                  <circle cx="60" cy="52" r="2" fill="#140D08"/>
                 </g>
               </svg>
             </div>
@@ -842,12 +861,12 @@
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); text-transform: uppercase;">BUGÜNKÜ GERÇEK AKTİF MAC SÜRESİ</div>
-              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 32 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 35 dk</div>
               <div style="font-size: 10px; color: var(--sage-green);">✓ IODisplayWrangler: Uyku modundaki sahte süreler %100 elendi.</div>
             </div>
             <div style="text-align: right;">
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">KESİNTİSİZ OTURMA</div>
-              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">52 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">55 dk</div>
               <div style="font-size: 9.5px; color: var(--text-muted);">Ergonomi Limiti: 90 dk</div>
             </div>
           </div>
@@ -979,28 +998,27 @@
     function playTactileFeedback() {
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.03);
-        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
+        osc.frequency.setValueAtTime(650, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.025);
+        gain.gain.setValueAtTime(0.09, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.025);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.03);
+        osc.stop(audioCtx.currentTime + 0.025);
       } catch(e) {}
 
-      // Mobil Haptic Titreşim
       if (navigator.vibrate) {
-        navigator.vibrate(12);
+        navigator.vibrate(10);
       }
     }
 
-    // Tüm butonlara otomatik dokunsal geri bildirim ekle
     document.addEventListener('click', (e) => {
-      if (e.target.closest('button') || e.target.closest('.shelf-tab-item')) {
+      if (e.target.closest('button') || e.target.closest('.shelf-tab-item') || e.target.closest('.dock-btn')) {
         playTactileFeedback();
       }
     });
@@ -1029,15 +1047,12 @@
       setTimeout(() => t.classList.remove('show'), 2200);
     }
 
-    // 📊 SVG ANALOG İBRE GÜNCELLEME MOTORU
     function updateAnalogGauges(air, light) {
-      // Hava Kalitesi: 400 PPM = -75 deg, 1800 PPM = +75 deg
       const airClamped = Math.min(1800, Math.max(380, air));
       const airAngle = -75 + ((airClamped - 380) / (1800 - 380)) * 150;
       const airNeedle = document.getElementById('airGaugeNeedle');
       if (airNeedle) airNeedle.style.transform = `rotate(${airAngle.toFixed(1)}deg)`;
 
-      // Işık Seviyesi: %0 = -75 deg, %100 = +75 deg
       const lightClamped = Math.min(100, Math.max(0, light));
       const lightAngle = -75 + (lightClamped / 100) * 150;
       const lightNeedle = document.getElementById('lightGaugeNeedle');
@@ -1203,8 +1218,8 @@
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
-            x: { grid: { display: false }, ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } } },
-            y: { max: 100, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } } }
+            x: { grid: { display: false }, ticks: { color: '#BDB0A4', font: { family: 'JetBrains Mono', size: 9 } } },
+            y: { max: 100, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#BDB0A4', font: { family: 'JetBrains Mono', size: 9 } } }
           }
         }
       });
@@ -1242,8 +1257,8 @@
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
-            x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } } },
-            y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } } }
+            x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#BDB0A4', font: { family: 'JetBrains Mono', size: 9 } } },
+            y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#BDB0A4', font: { family: 'JetBrains Mono', size: 9 } } }
           }
         }
       });
@@ -1300,7 +1315,6 @@
               document.getElementById('lightVal').innerText = liveLight + "%";
             }
 
-            // Analog İbreleri Güncelle
             updateAnalogGauges(liveAir, liveLight);
 
             const roomBadge = document.getElementById('roomPresenceBadge');
@@ -1334,7 +1348,6 @@
             if (cpuEl) cpuEl.innerText = `%${macData.cpu || 15}`;
             if (battEl) battEl.innerText = `%${macData.battery || 100} ${macData.charging ? '⚡' : ''}`;
 
-            // 📍 Konum Rozeti
             const locPill = document.getElementById('macLocationPill');
             if (locPill) {
               if (macData.mac_location === "SCHOOL_MOBILE") {
@@ -1363,7 +1376,6 @@
               contEl.innerText = `${ch > 0 ? ch + ' sa ' : ''}${cm} dk`;
             }
 
-            // 🧘‍♂️ 20-20-20 Postür Geri Sayımı
             if (ergoEl) {
               const remainingToErgo = Math.max(0, 1200 - (contSec % 1200));
               const em = Math.floor(remainingToErgo / 60);
