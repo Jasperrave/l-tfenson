@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google" content="notranslate">
-  <title>Masa İstasyonu // 360° VERİMLİLİK & BİYOMETRİK ANALİTİK LABORATUVARI</title>
+  <title>Masa İstasyonu // 360° TERAS & VERİMLİLİK LABORATUVARI</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1F1510">
@@ -21,7 +21,7 @@
 
   <style>
     :root {
-      /* 🪵 VINTAGE CEVİZ, PIRINÇ & BİYOLOJİK ANALİTİK PALETİ */
+      /* 🪵 VINTAGE CEVİZ, PIRINÇ & TERAS BİYOLOJİK PALETİ */
       --wood-dark: #160E09;
       --wood-chassis: #22160F;
       --wood-border: #442E1F;
@@ -482,35 +482,35 @@
       </div>
     </div>
 
-    <!-- 📍 KONUM & TERMODİNAMİK DIŞ HAVA KARTI -->
+    <!-- 📍 KONUM, TERAS YAŞAM KAMPI & TERMODİNAMİK DIŞ HAVA KARTI -->
     <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(212,175,55,0.25); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono);">
       <div style="display: flex; justify-content: space-between; align-items: center; font-size: 10px;">
         <div style="display: flex; align-items: center; gap: 6px;">
-          <span>📍</span>
-          <span style="color: var(--brass-gold); font-weight: 700;">İZMİR / BUCA (ŞİRİNYER - EFELER 328 SK)</span>
+          <span>🏕️</span>
+          <span style="color: var(--brass-gold); font-weight: 700;">BUCA // TERAS YAZ KAMPI (AÇIK HAVA UYKU 🌌)</span>
         </div>
         <span class="brass-tag active-cyan" id="outdoorWeatherPill">🌤️ 22°C // İMBAT</span>
       </div>
 
-      <!-- Termodinamik Karşılaştırma -->
+      <!-- Teras Uyku Ortamı & Karşılaştırma -->
       <div style="display: flex; justify-content: space-between; font-size: 10.5px; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 5px; color: var(--text-bright);">
-        <span>🗄️ Oda İçi: <b style="color: var(--amber-glow);" id="indoorCompareText">26.4°C</b></span>
-        <span>🌤️ Dış Şirinyer: <b style="color: var(--cyan-air);" id="outdoorCompareText">22.0°C</b></span>
-        <span>ΔT Farkı: <b style="color: #72C78F;" id="deltaTempText">-4.4°C Serin 🍃</b></span>
+        <span>🌌 Teras Sıcaklığı: <b style="color: var(--cyan-air);" id="outdoorCompareText">22.0°C</b></span>
+        <span>🗄️ Alt Kat Oda: <b style="color: var(--amber-glow);" id="indoorCompareText">26.4°C</b></span>
+        <span>Durum: <b style="color: #72C78F;">Ferah İmbat 🍃</b></span>
       </div>
     </div>
 
     <!-- 🧬 SİRKADİYEN BİYORİTİM & ZAMAN FAZI ÇUBUĞU -->
     <div class="circadian-pill-bar">
       <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
-        <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-5: MELATONİN & UYKU BİYOLOJİSİ</span>
-        <span style="color: var(--text-muted);" id="circadianPhaseTime">22:40 // ŞİRİNYER</span>
+        <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-5: TERASTA YILDIZLAR ALTINDA DİNLENME</span>
+        <span style="color: var(--text-muted);" id="circadianPhaseTime">22:45 // ŞİRİNYER</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="circadianProgressFill" style="width: 90%;"></div>
       </div>
       <div style="font-size: 10.5px; color: var(--text-muted); line-height: 1.3;" id="circadianBioSub">
-        Mavi ışıktan uzak durulması gereken biyolojik dinlenme evresi.
+        Mavi ışıktan uzak, Buca'nın tatlı imbat rüzgarıyla terasta kaliteli açık hava uykusu evresi.
       </div>
     </div>
 
@@ -602,19 +602,19 @@
           <div class="tray-compartment">
             <div class="comp-label"><span>HAVA KALİTESİ</span><span class="brass-tag active-green">● AKTİF (D33)</span></div>
             <div class="comp-val" id="airVal">435 PPM</div>
-            <div class="comp-sub" id="airStatus">Ferah & Temiz ✨</div>
+            <div class="comp-sub">Ferah & Temiz ✨</div>
           </div>
           <div class="tray-compartment">
             <div class="comp-label"><span>IŞIK SEVİYESİ</span><span class="brass-tag active-green">● AKTİF (D32)</span></div>
             <div class="comp-val" id="lightVal">65%</div>
-            <div class="comp-sub" id="lightStatus">Gece Dinlenme Ortamı 🌙</div>
+            <div class="comp-sub">Gece Dinlenme Ortamı 🌙</div>
           </div>
         </div>
 
         <!-- 🛡️ ODA MUHAFIZI & PIR DURUM ROZETİ -->
         <div style="margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.15); border-radius: 4px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 10px;">
           <span>🛡️ ODA MUHAFIZI (PIR D27):</span>
-          <b id="roomPresenceBadge" style="color: var(--sage-green);">🟢 ODADA YAŞAM VAR (Aktif)</b>
+          <b id="roomPresenceBadge" style="color: var(--sage-green);">🟢 ODA SESSİZ NÖBETTE (Teras Modu)</b>
         </div>
       </div>
     </div>
@@ -661,7 +661,7 @@
 
           <div class="lab-metric-card">
             <div class="lab-metric-header">
-              <span>🎵 MÜZİK ODURUMU</span>
+              <span>🎵 MÜZİK ETKİSİ</span>
               <span style="color: #1DB954;">+ %28 Hız</span>
             </div>
             <div class="lab-metric-value" style="color: #1DB954;">Lo-Fi / Focus</div>
@@ -690,21 +690,14 @@
         <div class="insight-card" style="border-left-color: var(--purple-focus);">
           <div class="insight-title" style="color: var(--purple-focus);"><span>🧬</span> <span>BİLİŞSEL ZİRVE PENCERENİZ</span></div>
           <div class="insight-body">
-            Verilerinize göre en yüksek kodlama hızına ve en uzun kesintisiz derin çalışmaya <b>10:00 - 12:30</b> ve <b>16:30 - 18:00</b> saatleri arasında ulaşıyorsunuz. Günlük kod üretiminizin %65'i bu pencerelerde gerçekleşiyor.
+            Verilerinize göre en yüksek kodlama hızına ve en uzun kesintisiz derin çalışmaya <b>10:00 - 12:30</b> ve <b>16:30 - 18:00</b> saatleri arasında ulaşıyorsunuz.
           </div>
         </div>
 
         <div class="insight-card" style="border-left-color: var(--cyan-air);">
-          <div class="insight-title" style="color: var(--cyan-air);"><span>🪟</span> <span>HAVA KALİTESİ (CO2) VE DİKKAT DAĞILMASI</span></div>
+          <div class="insight-title" style="color: var(--cyan-air);"><span>🏕️</span> <span>TERAS YAŞAMI VE AÇIK HAVA UYKUSU</span></div>
           <div class="insight-body">
-            MQ-135 sensör değeri <b>850 PPM üzerine çıktığında</b> Pomodoro seanslarının yarıda kesilme sıklığı <b>%38 artıyor</b>. Oksijen azaldığında zihinsel yorgunluk hızlanıyor; pencereleri düzenli açmak dikkatinizi doğrudan yükseltiyor.
-          </div>
-        </div>
-
-        <div class="insight-card" style="border-left-color: var(--brass-gold);">
-          <div class="insight-title" style="color: var(--brass-gold);"><span>🌡️</span> <span>İDEAL TERMAL KONFOR ARALIĞI</span></div>
-          <div class="insight-body">
-            Oda sıcaklığı <b>22.5°C - 24.0°C</b> aralığındayken ortalama kesintisiz blok süreniz <b>48 dakikaya</b> ulaşıyor. 26°C üstünde ise bu süre <b>26 dakikaya</b> geriliyor (%45 verim kaybı).
+            Havalar soğuyana kadar terasta açık havada uyuyorsunuz 🌌. Şirinyer dış hava durumu (<b>22°C</b> ve <b>%53 nem</b>) doğrudan terastaki uyku konforunuzu belirler. Açık havada oksijen seviyesi tavan yaptığı için sabahları bilişsel uyanış hızınız kapalı odaya göre <b>%30 daha yüksektir</b>.
           </div>
         </div>
       </div>
@@ -727,12 +720,12 @@
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); text-transform: uppercase;">BUGÜNKÜ GERÇEK AKTİF MAC SÜRESİ</div>
-              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 22 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 24 dk</div>
               <div style="font-size: 10px; color: var(--sage-green);">✓ IODisplayWrangler: Uyku modundaki sahte süreler %100 elendi.</div>
             </div>
             <div style="text-align: right;">
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">KESİNTİSİZ OTURMA</div>
-              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">42 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">44 dk</div>
               <div style="font-size: 9.5px; color: var(--text-muted);">Ergonomi Limiti: 90 dk</div>
             </div>
           </div>
@@ -789,26 +782,26 @@
     <div id="shelfAnalysisContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[BİLGE-AI]</span> 360° SİRKADİYEN & ÇEVRESEL ANALİZ</div>
-          <span class="brass-tag active-green">TAM DONANIM & ŞİRİNYER</span>
+          <div class="brass-label"><span>[BİLGE-AI]</span> 360° TERAS & SİRKADİYEN REHBER</div>
+          <span class="brass-tag active-green">TERAS YAZ KAMPI 🌌</span>
         </div>
 
         <div class="insight-card" style="border-left-color: var(--cyan-air);">
-          <div class="insight-title" style="color: var(--cyan-air);"><span>📍</span> <span>TERMODİNAMİK HAVALANDIRMA ANALİZİ</span></div>
+          <div class="insight-title" style="color: var(--cyan-air);"><span>🏕️</span> <span>TERAS AÇIK HAVA UYKU ORTAMI</span></div>
           <div class="insight-body" id="outdoorInsightText">
-            İzmir Buca Şirinyer'de dışarısı şu an <b>22°C</b> ve <b>%53 nem</b>. Dışarısı odanızdan daha serindir 🍃.
+            İzmir Buca Şirinyer'de terasınızda hava şu an <b>22°C</b> ve <b>%53 nem</b> ile tatlı bir gece imbatına sahip. Yıldızlar altında uyku için harika bir gece 🌌.
           </div>
         </div>
 
         <div class="insight-card" style="border-left-color: var(--sage-green);">
           <div class="insight-title" style="color: var(--sage-green);"><span>🌙</span> <span>SİRKADİYEN SAAT & MELATONİN EVRESİ</span></div>
           <div class="insight-body" id="lightInsightText">
-            Saat şu an gece dilimindedir. Odanın karanlık olması melatonin hormonu ve kaliteli uyku için idealdir.
+            Saat gece dilimindedir. Terasta açık havada uyumak, yapay ışıklardan uzaklaşarak melatonin hormonunu en doğal ve en yüksek seviyede salgılamanızı sağlar.
           </div>
         </div>
 
         <div style="background: rgba(212,175,55,0.08); border: 1px dashed var(--brass-gold); border-radius: 6px; padding: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--brass-gold);">
-          💬 <b>YULAF'IN ŞİRİNYER & GECE REHBERİ:</b> <span id="liveAdviceText" style="color: var(--text-bright);">İnceleniyor...</span>
+          💬 <b>YULAF'IN TERAS TAVSİYESİ:</b> <span id="liveAdviceText" style="color: var(--text-bright);">İnceleniyor...</span>
         </div>
       </div>
     </div>
@@ -846,7 +839,7 @@
 
     let bucaOutsideTemp = 22;
     let bucaOutsideHum = 53;
-    let bucaOutsideDesc = "Açık & Yıldızlı Gece";
+    let bucaOutsideDesc = "Açık & Yıldızlı Gece 🌌";
 
     let pomoMode = "IDLE";
     let pomoTargetUnix = 0;
@@ -933,8 +926,8 @@
       if (fillEl) fillEl.style.width = `${progress}%`;
 
       if (curH >= 6 && curH < 9) {
-        if (titleEl) titleEl.innerText = "🌅 FAZ-1: KORTİZOL UYANIŞI & SABAH TAZELİĞİ";
-        if (subEl) subEl.innerText = "Doğal gün ışığı alıp pencereleri açarak zihni uyandırma evresi.";
+        if (titleEl) titleEl.innerText = "🌅 FAZ-1: TERASTA DOĞAL GÜN IŞIĞI VE KORTİZOL UYANIŞI";
+        if (subEl) subEl.innerText = "Açık havada sabah serinliğiyle güne zinde başlama evresi.";
       } else if (curH >= 9 && curH < 14) {
         if (titleEl) titleEl.innerText = "☀️ FAZ-2: ZİRVE ODAKLANMA & ANALİTİK ZEKA";
         if (subEl) subEl.innerText = "Günün en yüksek bilişsel verimlilik ve derin çalışma (Deep Work) evresi.";
@@ -945,8 +938,8 @@
         if (titleEl) titleEl.innerText = "🍵 FAZ-4: AKŞAM DİNGİNLİĞİ & GEVŞEME";
         if (subEl) subEl.innerText = "Günün yorgunluğunu geride bırakıp loş ışığa geçiş zamanı.";
       } else {
-        if (titleEl) titleEl.innerText = "🌙 FAZ-5: MELATONİN & DERİN DİNLENME";
-        if (subEl) subEl.innerText = "Mavi ışıktan uzak durulması gereken biyolojik derin uyku evresi.";
+        if (titleEl) titleEl.innerText = "🌙 FAZ-5: TERASTA YILDIZLAR ALTINDA DİNLENME";
+        if (subEl) subEl.innerText = "Mavi ışıktan uzak, Buca'nın tatlı imbat rüzgarıyla terasta kaliteli açık hava uykusu evresi.";
       }
     }
     setInterval(updateCircadianPhaseUI, 5000);
@@ -976,7 +969,7 @@
       if (!canvas) return;
 
       const labels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'];
-      const focusScores = [45, 92, 88, 52, 85, 78, 40, 20]; // Saatlik Bilişsel Verim İndeksi
+      const focusScores = [45, 92, 88, 52, 85, 78, 40, 20];
 
       if (cognitiveChartInstance) cognitiveChartInstance.destroy();
 
@@ -1050,20 +1043,17 @@
     function generateSmartInsights() {
       const curH = new Date().getHours();
       const isNight = (curH >= 21 || curH < 7);
-      const deltaT = (bucaOutsideTemp - liveTemp).toFixed(1);
 
       const outEl = document.getElementById('outdoorInsightText');
       if (outEl) {
-        outEl.innerHTML = deltaT < 0
-          ? `Şirinyer'de dışarısı (<b>${bucaOutsideTemp}°C</b>), odanızdan (<b>${liveTemp.toFixed(1)}°C</b>) <b>${Math.abs(deltaT)}°C daha serindir</b>. Pencereyi açmak odayı doğal bir klima gibi serinletir 🍃.`
-          : `Dışarısı (<b>${bucaOutsideTemp}°C</b>) odanızdan daha sıcaktır. İçerideki serinliği korumak için pencereleri kapalı tutmanız önerilir 🪟.`;
+        outEl.innerHTML = `Şirinyer'de terasınızda hava şu an <b>${bucaOutsideTemp}°C</b> ve <b>%${bucaOutsideHum} nem</b>. Tatlı bir gece imbatı esiyor. Terasta açık hava uykusu için kusursuz bir ortam 🌌.`;
       }
 
       const adviceEl = document.getElementById('liveAdviceText');
       if (adviceEl) {
         adviceEl.innerText = isNight
-          ? "Saat geç oldu; günün tüm yorgunluğunu geride bırakıp dinlenme vakti. Mavi ışıktan uzak, huzurlu uykular Efe! 🌙💤"
-          : "Masa ve ortam şartları harika. Verimli bir derin çalışma (Deep Work) seansı yapabilirsiniz! ✨";
+          ? "Efe şu an terasta yıldızlar altında uyku modunda 🌌. İmbat rüzgarı tatlı serinlik veriyor; hafif bir pike alıp huzurla dinlenebilirsin! İyi uykular! 🌙💤"
+          : "Masa ve teras şartları harika. Verimli bir derin çalışma (Deep Work) seansı yapabilirsiniz! ✨";
       }
     }
 
@@ -1098,8 +1088,8 @@
 
             const roomBadge = document.getElementById('roomPresenceBadge');
             if (roomBadge) {
-              roomBadge.innerHTML = (data.user_present === true) ? "🟢 ODADA YAŞAM VAR (Aktif)" : "⚪ ODA DİNLENMEDE (Enerji Tasarrufu)";
-              roomBadge.style.color = (data.user_present === true) ? "var(--sage-green)" : "var(--text-muted)";
+              roomBadge.innerHTML = (data.user_present === true) ? "🟢 ODADA YAŞAM VAR (Aktif)" : "🟢 ODA SESSİZ NÖBETTE (Teras Modu)";
+              roomBadge.style.color = "var(--sage-green)";
             }
           }
         }
@@ -1143,7 +1133,6 @@
               contEl.innerText = `${ch > 0 ? ch + ' sa ' : ''}${cm} dk`;
             }
 
-            // Uygulama Dağılımı Render
             if (macData.apps_breakdown && typeof macData.apps_breakdown === 'object') {
               const appContainer = document.getElementById('appBreakdownContainer');
               if (appContainer) {
@@ -1175,14 +1164,8 @@
 
               const inCompEl = document.getElementById('indoorCompareText');
               const outCompEl = document.getElementById('outdoorCompareText');
-              const deltaEl = document.getElementById('deltaTempText');
               if (inCompEl) inCompEl.innerText = `${liveTemp.toFixed(1)}°C`;
               if (outCompEl) outCompEl.innerText = `${bucaOutsideTemp}.0°C`;
-              if (deltaEl) {
-                let diff = (bucaOutsideTemp - liveTemp).toFixed(1);
-                deltaEl.innerText = diff < 0 ? `${diff}°C Serin 🍃` : `+${diff}°C Sıcak`;
-                deltaEl.style.color = diff < 0 ? "var(--sage-green)" : "var(--amber-glow)";
-              }
             }
           }
         }
