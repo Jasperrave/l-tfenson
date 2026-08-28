@@ -215,6 +215,12 @@
       font-weight: 800;
     }
 
+    .brass-btn-bronze {
+      background: linear-gradient(180deg, #C86432 0%, #8A3E16 100%);
+      color: #FFF;
+      border-color: #C86432;
+    }
+
     .telemetry-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -422,6 +428,27 @@
       border-bottom: none;
     }
 
+    /* 🍅 POMODORO DOKU KUTUSU */
+    .pomodoro-box {
+      background: var(--felt-recess);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+      margin-bottom: 8px;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+    }
+
+    .pomodoro-digits {
+      font-family: var(--font-mono);
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--brass-gold);
+      letter-spacing: 2px;
+      margin: 6px 0;
+      text-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+    }
+
     #toast {
       position: fixed;
       bottom: 20px;
@@ -478,9 +505,41 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- 1. RAF: ANLIK SENSÖR TELEMETRİSİ (CANLI ÖLÇÜMLER) -->
+    <!-- 1. RAF: ANLIK SENSÖR TELEMETRİSİ & POMODORO -->
     <!-- ==================================================== -->
     <div id="shelfSensorsContent" style="display: flex; flex-direction: column; gap: 12px;">
+      
+      <!-- 🎯 1. CANLI POMODORO ASİSTANI BÖLMESİ -->
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[POMODORO-01]</span> ODAKLANMA VE ÇALIŞMA SAYACI</div>
+          <span class="brass-tag" id="pomoSessionBadge">🍅 0 TUR TAMAM</span>
+        </div>
+
+        <div class="pomodoro-box">
+          <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); text-transform: uppercase;" id="pomoStatusText">HAZIR // SEANS BAŞLATIN</div>
+          <div class="pomodoro-digits" id="pomoDisplay">25:00</div>
+          
+          <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px;">
+            <button type="button" class="brass-btn brass-btn-gold" onclick="startPomodoro(25, 'FOCUS')">🎯 25 Dk Odaklan</button>
+            <button type="button" class="brass-btn brass-btn-bronze" onclick="startPomodoro(5, 'BREAK')">☕ 5 Dk Mola</button>
+            <button type="button" class="brass-btn" onclick="stopPomodoro()">🛑 Durdur</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🏆 2. GÜNLÜK VERİMLİLİK & SAĞLIK SKORU BÖLMESİ -->
+      <div class="drawer-tray" style="padding: 12px 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--brass-gold); font-weight: 700;">🏆 GÜNLÜK VERİMLİLİK SKORU</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="scoreSummaryText">Hava, aydınlatma & odaklanma mükemmel</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--sage-green);" id="dailyScoreVal">98/100</div>
+        </div>
+      </div>
+
+      <!-- 📊 3. ANLIK ÇEVRESEL VERİLER -->
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL VERİLER</div>
@@ -564,6 +623,12 @@
           <span id="guideArrow" style="transition: transform 0.2s;">▼</span>
         </div>
         <div class="guide-content" id="guideContent">
+          <div class="guide-item">
+            <b style="color: var(--brass-gold);">🎯 Pomodoro & Verimlilik:</b><br>
+            • <b>25 Dk Odaklan:</b> Masadaki ekranda saniye saniye geri sayar, Yulaf bandana takar.<br>
+            • <b>5 Dk Mola:</b> Yulaf kahvesini içer.<br>
+            • <b>100 Puan Skoru:</b> Temiz hava (%35), Doğru ışık (%35) ve Pomodoro seansları (%30) ile hesaplanır.
+          </div>
           <div class="guide-item">
             <b style="color: var(--brass-gold);">🪟 MQ-135 Hava Kalitesi (PPM):</b><br>
             • <b>400 - 650 PPM:</b> Tertemiz dağ havası seviyesi.<br>
@@ -765,6 +830,11 @@
     let lastRegisteredSoundTime = 0;
     let lastSyncTimestamp = Date.now();
 
+    // 🎯 Pomodoro State
+    let pomoMode = "IDLE";
+    let pomoTargetUnix = 0;
+    let completedPomoCount = parseInt(localStorage.getItem('completed_pomo_count') || '0');
+
     localStorage.removeItem('station_monthly_log');
 
     function showToast(msg) {
@@ -773,6 +843,104 @@
       t.innerText = msg;
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    // 🎯 POMODORO KONTROLLERİ
+    async function startPomodoro(minutes, mode) {
+      const targetUnix = Math.floor(Date.now() / 1000) + (minutes * 60);
+      pomoMode = mode;
+      pomoTargetUnix = targetUnix;
+
+      showToast(mode === 'FOCUS' ? "🎯 25 Dk Odaklanma Başladı!" : "☕ 5 Dk Mola Başladı!");
+      addEventEntry(mode === 'FOCUS' ? "🎯" : "☕", mode === 'FOCUS' ? "Odaklanma Seansı" : "Mola Seansı", `${minutes} dakikalık Pomodoro seansı başlatıldı.`);
+
+      try {
+        await fetch(FIREBASE_URL + "control/pomodoro_state.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(mode)
+        });
+        await fetch(FIREBASE_URL + "control/pomodoro_target.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(targetUnix)
+        });
+      } catch (e) {}
+    }
+
+    async function stopPomodoro() {
+      pomoMode = "IDLE";
+      pomoTargetUnix = 0;
+      showToast("🛑 Pomodoro Durduruldu");
+
+      try {
+        await fetch(FIREBASE_URL + "control/pomodoro_state.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify("IDLE")
+        });
+      } catch (e) {}
+    }
+
+    function updatePomoTimerUI() {
+      const displayEl = document.getElementById('pomoDisplay');
+      const statusEl = document.getElementById('pomoStatusText');
+      const badgeEl = document.getElementById('pomoSessionBadge');
+
+      if (badgeEl) badgeEl.innerText = `🍅 ${completedPomoCount} TUR TAMAM`;
+
+      if (pomoMode === "IDLE" || pomoTargetUnix === 0) {
+        if (displayEl) displayEl.innerText = "25:00";
+        if (statusEl) statusEl.innerText = "HAZIR // SEANS BAŞLATIN";
+        return;
+      }
+
+      const nowUnix = Math.floor(Date.now() / 1000);
+      const remainingSec = Math.max(0, pomoTargetUnix - nowUnix);
+
+      const m = Math.floor(remainingSec / 60);
+      const s = remainingSec % 60;
+      const timeStr = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+
+      if (displayEl) displayEl.innerText = timeStr;
+      if (statusEl) {
+        statusEl.innerText = pomoMode === "FOCUS" ? "🎯 ODAKLANMA SEANSI AKTİF" : "☕ KAHVE MOLASI AKTİF";
+      }
+
+      if (remainingSec <= 0 && pomoMode !== "IDLE") {
+        if (pomoMode === "FOCUS") {
+          completedPomoCount++;
+          localStorage.setItem('completed_pomo_count', completedPomoCount.toString());
+          showToast("🎉 Odaklanma Tamamlandı! Mola Zamanı ☕");
+          startPomodoro(5, "BREAK");
+        } else {
+          showToast("🔔 Mola Bitti! Yeni Seansa Hazır mısınız?");
+          stopPomodoro();
+        }
+      }
+    }
+    setInterval(updatePomoTimerUI, 1000);
+
+    // 🏆 100 ÜZERİNDEN GÜNLÜK VERİMLİLİK HESABI
+    function calculateDailyProductivityScore() {
+      let airScore = liveAir < 650 ? 35 : (liveAir < 950 ? 25 : 10);
+      let lightScore = (liveLight >= 40 && liveLight <= 80) ? 35 : (liveLight > 80 ? 30 : 15);
+      let pomoScore = Math.min(30, completedPomoCount * 10 + 10);
+
+      let total = Math.min(100, Math.max(40, airScore + lightScore + pomoScore));
+
+      const scoreEl = document.getElementById('dailyScoreVal');
+      const sumEl = document.getElementById('scoreSummaryText');
+
+      if (scoreEl) {
+        scoreEl.innerText = `${total}/100`;
+        scoreEl.style.color = total >= 85 ? "var(--sage-green)" : (total >= 70 ? "var(--brass-gold)" : "var(--amber-glow)");
+      }
+      if (sumEl) {
+        if (total >= 90) sumEl.innerText = "🏆 Kusursuz hava, dengeli ışık & yüksek odak!";
+        else if (total >= 75) sumEl.innerText = "✨ Verimli bir çalışma ortamı mevcut.";
+        else sumEl.innerText = "⚠️ Odayı havalandırmanız veya lamba açmanız iyi olur.";
+      }
     }
 
     function toggleGuide() {
@@ -847,7 +1015,6 @@
       } catch (e) {}
     }
 
-    // 🌙 GECE EKRANI GEÇİCİ UYANDIRMA
     async function wakeScreenMinutes(mins) {
       const targetUnix = Math.floor(Date.now() / 1000) + (mins * 60);
       showToast(`🌙 Ekran ${mins} Dakika Boyunca Açık!`);
@@ -961,7 +1128,7 @@
             air: liveAir,
             light: liveLight,
             bme: bmeConnected ? "Aktif" : "Beklemede",
-            score: 96
+            score: 98
           }];
           localStorage.setItem('real_station_days', JSON.stringify(list));
         }
@@ -1255,11 +1422,12 @@
               else if (reason.indexOf("Isik") >= 0 || reason.indexOf("Korku") >= 0) icon = "😱";
               else if (reason.indexOf("Sicaklik") >= 0) icon = "🥵";
               else if (reason.indexOf("Kuru") >= 0 || reason.indexOf("Su") >= 0) icon = "💧";
-              else if (reason.indexOf("Pomodoro") >= 0) icon = "📖";
+              else if (reason.indexOf("Pomodoro") >= 0) icon = "🎯";
 
               addEventEntry(icon, "Masa Sesli Uyarı Verdi", reason);
             }
 
+            calculateDailyProductivityScore();
             updateTodayRecord(liveAir, liveLight);
           }
         }
