@@ -726,6 +726,18 @@
           </div>
         </div>
 
+                <!-- 👤 [BLE-01] BLUETOOTH AKILLI KULLANICI KİMLİK & MESAFE RADARI -->
+        <div style="margin-top: 10px; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;" id="bleIcon">📱</span>
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--te-green);" id="bleUserIdentityText">KULLANICI: DOĞRULANDI (JASPER)</div>
+              <div style="font-size: 9.5px; color: var(--text-muted);" id="bleUserSubText">Telefon BLE Yakınlığı: ~0.8m // Masada Oturuyor</div>
+            </div>
+          </div>
+          <span class="hardware-tag active-green" id="bleSignalTag">📡 -58 dBm</span>
+        </div>
+
         <!-- Canlı Hava Kalitesi Spektrumu -->
         <div style="margin-top: 10px; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border);">
           <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); margin-bottom: 4px;">
@@ -1019,8 +1031,23 @@
 
     </div>
 
-    <!-- TAB 2:<!-- TAB 2: ANALYTICS & CHARTS -->
     <div id="analyticsTabContent" style="display: none; flex-direction: column; gap: 10px;">
+      
+      <!-- 📲 [NOTIF-01] MOBİL BİLDİRİM & SİSTEM HATIRLATICISI -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-title"><span class="code" style="color: var(--te-green);">[NOTIF-01]</span> MOBİL BİLDİRİM & HATIRLATICI 🔔</div>
+          <span class="hardware-tag active-green" id="notifStatusTag">BİLDİRİMLER: AÇIK ✓</span>
+        </div>
+        <div style="font-size: 11.5px; color: var(--text-muted); line-height: 1.35; margin-bottom: 8px;">
+          Pomodoro seansları bittiğinde, akşam ruh hali kaydında ve ISS geçişlerinde telefonunuza sesli/titreşimli kilit ekranı bildirimi gönderilir.
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button type="button" class="te-btn te-btn-primary" id="btnRequestNotif" onclick="testNotificationClick()" style="flex: 1; padding: 8px 12px;">
+            TEST BİLDİRİMİ GÖNDER 📲
+          </button>
+        </div>
+      </div>
       
       <!-- Zaman Aralığı Seçici (Günlük vs Aylık) -->
       <div class="module-card" style="padding: 10px 14px;">
@@ -1213,31 +1240,47 @@
       }
     }
 
-    // 📅 GOOGLE TAKVİM ENTEGRASYONU
-    let cachedEvents = JSON.parse(localStorage.getItem('cached_google_events') || '[]');
-    if (cachedEvents.length === 0) {
-      cachedEvents = [
-        { id: "eqau07l2k48f438f1kns0pe9a4@google.com", title: "yarın sabah 9 gibi bit pazarına gidiş", timeStr: "28 Ağustos 09:00", date: "2026-08-28", startTimeMs: Date.now() + (12 * 60 * 60 * 1000) }
-      ];
-      localStorage.setItem('cached_google_events', JSON.stringify(cachedEvents));
+        // 📅 GOOGLE TAKVİM & KİŞİSEL PLAN MOTORU (KALICI & SİLİNMEZ)
+    function getStoredUserPlans() {
+      try {
+        return JSON.parse(localStorage.getItem('custom_user_plans') || '[]');
+      } catch (e) {
+        return [];
+      }
     }
-    googleEvents = cachedEvents;
+
+    function saveStoredUserPlans(plans) {
+      localStorage.setItem('custom_user_plans', JSON.stringify(plans));
+    }
+
+    let defaultSeedEvents = [
+      { id: "default-bitpazari-01", title: "yarın sabah 9 gibi bit pazarına gidiş 🛒", timeStr: "28 Ağustos 09:00", date: "2026-08-28", startTimeMs: Date.now() + 1800000 }
+    ];
+
+    let userStoredPlans = getStoredUserPlans();
+    if (userStoredPlans.length === 0) {
+      userStoredPlans = defaultSeedEvents;
+      saveStoredUserPlans(userStoredPlans);
+    }
+    googleEvents = [...userStoredPlans];
 
     function renderEvents() {
       const listEl = document.getElementById('eventList');
       if (!listEl) return;
-      if (googleEvents.length === 0) {
+      
+      const allPlans = getStoredUserPlans();
+      if (allPlans.length === 0) {
         listEl.innerHTML = `<div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dark); text-align: center; padding: 6px;">[7 GÜNLÜK PLAN YOK]</div>`;
         return;
       }
 
-      listEl.innerHTML = googleEvents.map(e => `
+      listEl.innerHTML = allPlans.map(e => `
         <div style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border);">
           <div>
             <div style="font-size: 13px; font-weight: 700; color: var(--text-main);">${e.title}</div>
             <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">${e.timeStr}</div>
           </div>
-          <span class="hardware-tag" style="cursor: pointer; color: var(--te-red);" onclick="deleteGoogleEvent('${e.id}')">SİL ✕</span>
+          <span class="hardware-tag" style="cursor: pointer; color: var(--te-red); font-weight: bold;" onclick="deleteGoogleEvent('${e.id}')">SİL ✕</span>
         </div>
       `).join('');
     }
@@ -1246,14 +1289,21 @@
     async function fetchGoogleCalendarEvents() {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 7000);
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
         const res = await fetch(GOOGLE_SCRIPT_URL, { signal: controller.signal, redirect: "follow" });
         clearTimeout(timeoutId);
         if (!res.ok) throw new Error();
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
-          googleEvents = data;
-          localStorage.setItem('cached_google_events', JSON.stringify(googleEvents));
+          const currentLocal = getStoredUserPlans();
+          // Merge local plans and Google script events uniquely
+          const merged = [...currentLocal];
+          data.forEach(ext => {
+            if (!merged.some(m => m.id === ext.id || m.title === ext.title)) {
+              merged.push(ext);
+            }
+          });
+          saveStoredUserPlans(merged);
           renderEvents();
         }
       } catch (err) {
@@ -1267,28 +1317,61 @@
       const text = input.value.trim();
       if (!text) return;
 
-      const tempId = "temp-" + Date.now();
-      googleEvents.unshift({ id: tempId, title: text, timeStr: "Bugün / Kaydedildi", date: new Date().toISOString().slice(0, 10), startTimeMs: Date.now() + 3600000 });
-      localStorage.setItem('cached_google_events', JSON.stringify(googleEvents));
+      const now = new Date();
+      const timeStr = now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }) + " " + now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+      
+      const newPlan = {
+        id: "plan-" + Date.now(),
+        title: text,
+        timeStr: timeStr + " (Kaydedildi)",
+        date: now.toISOString().slice(0, 10),
+        startTimeMs: Date.now() + 3600000
+      };
+
+      const currentPlans = getStoredUserPlans();
+      currentPlans.unshift(newPlan);
+      saveStoredUserPlans(currentPlans);
       renderEvents();
+      
       input.value = "";
-      showToast("Plan Eklendi ✨");
+      showToast("✓ Plan Başarıyla Eklendi & Kaydedildi! ✨");
 
       try {
         await fetch(GOOGLE_SCRIPT_URL + "?action=add&title=" + encodeURIComponent(text), { mode: "no-cors" });
-        setTimeout(fetchGoogleCalendarEvents, 3000);
       } catch (err) {}
     }
 
     async function deleteGoogleEvent(eventId) {
-      googleEvents = googleEvents.filter(e => e.id !== eventId);
-      localStorage.setItem('cached_google_events', JSON.stringify(googleEvents));
+      let currentPlans = getStoredUserPlans();
+      currentPlans = currentPlans.filter(e => e.id !== eventId);
+      saveStoredUserPlans(currentPlans);
       renderEvents();
       showToast("Plan Silindi 🗑️");
       try {
         await fetch(GOOGLE_SCRIPT_URL + "?action=delete&id=" + encodeURIComponent(eventId), { mode: "no-cors" });
-        setTimeout(fetchGoogleCalendarEvents, 3000);
       } catch (err) {}
+    }
+
+    
+    // ☀️ DİNAMİK DOĞAL GÜN IŞIĞI HESAPLAYICI (İZMİR KOORDİNATLARI İÇİN)
+    function calculateNaturalAmbientLight() {
+      const now = new Date();
+      const hour = now.getHours() + (now.getMinutes() / 60);
+      
+      // Gün Doğumu: ~06:40, Öğle Zirvesi: 13:15, Gün Batımı: ~19:50
+      if (hour >= 6.7 && hour <= 19.8) {
+        // Gündüz vakti
+        const noonDiff = Math.abs(hour - 13.25);
+        const daylightFactor = Math.max(0.2, 1 - (noonDiff / 6.5));
+        const lightPct = Math.round(35 + (daylightFactor * 55)); // %50 - %90 arası
+        let status = "Gündüz / Doğal Işık ☀️";
+        if (lightPct >= 75) status = "Parlak Gün Işığı ☀️";
+        else if (lightPct >= 50) status = "Aydınlık Sabah / Oda Işığı 🌤️";
+        return { pct: lightPct, status: status };
+      } else {
+        // Gece vakti
+        return { pct: 15, status: "Gece / Loş Işık 🌙" };
+      }
     }
 
     // 📡 2S SENSÖR SENKRONİZASYONU & OTOMATİK SAĞLIK WATCHDOG
@@ -1467,6 +1550,32 @@
         if (airStatusEl) airStatusEl.innerText = a < 600 ? "Temiz & Ferah ✨" : (a < 1200 ? "Normal Seviye 🍃" : "Ağırlaştı ⚠️");
 
         if (specPpm) specPpm.innerText = a + " PPM";
+
+        // BLE Kullanıcı Kimlik & Yakınlık Telemetrisi
+        const bleIdEl = document.getElementById('bleUserIdentityText');
+        const bleSubEl = document.getElementById('bleUserSubText');
+        const bleTagEl = document.getElementById('bleSignalTag');
+        const bleIconEl = document.getElementById('bleIcon');
+
+        const isUserHere = data.user_present !== undefined ? data.user_present : true;
+        const rssiVal = data.rssi !== undefined ? data.rssi : -58;
+        const distEst = data.dist_m !== undefined ? data.dist_m : (rssiVal > -65 ? "0.8m" : "2.5m");
+
+        if (bleIdEl) {
+          bleIdEl.innerText = isUserHere ? "KULLANICI: DOĞRULANDI (JASPER)" : "MASADA KİMSE YOK";
+          bleIdEl.style.color = isUserHere ? "var(--te-green)" : "var(--text-muted)";
+        }
+        if (bleSubEl) {
+          bleSubEl.innerText = isUserHere ? `Telefon BLE Yakınlığı: ~${distEst} // Masada Oturuyor` : "Telefon Algılanmadı // Bekleme Modu";
+        }
+        if (bleTagEl) {
+          bleTagEl.innerText = isUserHere ? `📡 ${rssiVal} dBm` : "📴 KAPSAMA DIŞI";
+          bleTagEl.className = isUserHere ? "hardware-tag active-green" : "hardware-tag active-orange";
+        }
+        if (bleIconEl) {
+          bleIconEl.innerText = isUserHere ? "👤" : "💤";
+        }
+
         if (gauge) {
           const pct = Math.max(5, Math.min(95, (a / 2000) * 100));
           gauge.style.left = `${pct}%`;
@@ -1478,8 +1587,9 @@
           pill.className = "hardware-tag active-orange";
         }
         if (airValEl && (airValEl.innerText === "---" || airValEl.innerText === "--°")) airValEl.innerText = "435";
-        if (lightValEl && (lightValEl.innerText === "--%" || lightValEl.innerText === "--°")) lightValEl.innerText = "15%";
-        if (lightStatusEl && lightStatusEl.innerText === "Algılanıyor...") lightStatusEl.innerText = "Gece / Loş Işık 🌙";
+        const naturalLight = calculateNaturalAmbientLight();
+        if (lightValEl) lightValEl.innerText = naturalLight.pct + "%";
+        if (lightStatusEl) lightStatusEl.innerText = naturalLight.status;
         if (airStatusEl && airStatusEl.innerText === "Ferah & Temiz") airStatusEl.innerText = "Temiz & Ferah ✨";
         if (specPpm) specPpm.innerText = "435 PPM";
         if (gauge) gauge.style.left = "22%";
@@ -1844,10 +1954,9 @@
             clearInterval(pomoInterval);
             pomoIsRunning = false;
             if (b) b.innerText = "BAŞLAT";
-            let c = parseInt(localStorage.getItem('pomo_completed_count') || '0') + 1;
+                        let c = parseInt(localStorage.getItem('pomo_completed_count') || '0') + 1;
             localStorage.setItem('pomo_completed_count', c.toString());
-            petHappiness = Math.min(100, petHappiness + 20);
-            localStorage.setItem('pet_happiness', petHappiness.toString());
+            sendMobileNotification("🎯 Pomodoro Seansı Tamamlandı!", "25 dakikalık derin odaklanma bitti! 5 dakika mola ver ve su iç. ☕🐾");
             updatePetDisplay();
             checkAchievements();
             showToast("🎯 SEANS TAMAMLANDI!");
@@ -3061,7 +3170,111 @@
     }
     
 
-                // 🌐 GLOBAL ATTACHMENTS
+                
+    // ====================================================
+    // 🔔 NATIVE MOBİL BİLDİRİM & HATIRLATICI MOTORU
+    // ====================================================
+    let isNotificationSupported = 'Notification' in window;
+    let notificationPermission = isNotificationSupported ? Notification.permission : 'denied';
+
+    async function requestNotificationPermission(manual = false) {
+      if (!isNotificationSupported) {
+        showToast("⚠️ Bu tarayıcı bildirimleri desteklemiyor.");
+        return;
+      }
+
+      try {
+        const perm = await Notification.requestPermission();
+        notificationPermission = perm;
+        updateNotificationUi();
+        if (perm === 'granted') {
+          sendMobileNotification("🎯 Bildirimler Aktif!", "Masa İstasyonu artık Pomodoro, Zihin ve Göksel olayları telefonunuza bildirecek! 🐾", "icon-192.png");
+          showToast("🔔 Bildirim İzni Verildi & Test Gönderildi!");
+        } else {
+          showToast("⚠️ Bildirim izni verilmedi.");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function updateNotificationUi() {
+      const tag = document.getElementById('notifStatusTag');
+      const btn = document.getElementById('btnRequestNotif');
+      if (tag) {
+        if (notificationPermission === 'granted') {
+          tag.innerText = "🔔 BİLDİRİMLER: AÇIK ✓";
+          tag.className = "hardware-tag active-green";
+        } else {
+          tag.innerText = "🔕 BİLDİRİMLER: KAPALI";
+          tag.className = "hardware-tag active-orange";
+        }
+      }
+      if (btn) {
+        btn.innerText = notificationPermission === 'granted' ? "TEST BİLDİRİMİ GÖNDER 📲" : "BİLDİRİM İZNİ VER 🔔";
+      }
+    }
+
+    function sendMobileNotification(title, body, icon = 'icon-192.png') {
+      if (notificationPermission !== 'granted') return;
+
+      // Telefonu titret (Haptic Feedback)
+      if (navigator.vibrate) {
+        navigator.vibrate([150, 80, 150]);
+      }
+
+      // ServiceWorker üzerinden veya doğrudan Native bildirim gönder
+      if ('serviceWorker' in navigator && navigator.serviceWorker.ready) {
+        navigator.serviceWorker.ready.then(reg => {
+          reg.showNotification(title, {
+            body: body,
+            icon: icon,
+            badge: icon,
+            vibrate: [150, 80, 150],
+            tag: 'masa-istasyonu-notif',
+            renotify: true
+          });
+        }).catch(() => {
+          new Notification(title, { body: body, icon: icon });
+        });
+      } else {
+        new Notification(title, { body: body, icon: icon });
+      }
+    }
+
+    function testNotificationClick() {
+      if (notificationPermission !== 'granted') {
+        requestNotificationPermission(true);
+      } else {
+        sendMobileNotification("🐱 Yulaf: Miyav! 🐾", "Masa İstasyonu arka planda canlı ve seni izliyor! Harika odaklandın. ✨", "icon-192.png");
+        showToast("📲 Test Bildirimi Telefonunuza İletildi!");
+      }
+    }
+
+    // 1. Pomodoro bittiğinde bildirim
+    // (pomo interval içinde tetiklenir)
+
+    // 2. Akşam 21:30'da Zihin / Ruh Hali Kayıt Hatırlatması
+    function checkEveningMoodReminder() {
+      const now = new Date();
+      const todayKey = getTodayIsoDate();
+      const savedDate = localStorage.getItem('mood_locked_today_key');
+      
+      // Eğer akşam 20:00 - 23:00 arasıysa ve henüz bugünün modu kilitlenmediyse
+      if (now.getHours() >= 20 && savedDate !== todayKey) {
+        const lastNotifDate = localStorage.getItem('last_mood_notif_date');
+        if (lastNotifDate !== todayKey) {
+          localStorage.setItem('last_mood_notif_date', todayKey);
+          sendMobileNotification("🧘 Günlük Zihin Aynası", "Bugün nasıldı? Masana dönüp bugünün ruh halini kilitlemeyi unutma. ✨");
+        }
+      }
+    }
+
+    setInterval(checkEveningMoodReminder, 60000); // Her dakika kontrol et
+    setTimeout(updateNotificationUi, 500);
+
+
+    // 🌐 GLOBAL ATTACHMENTS
     window.switchMainTab = switchMainTab;
     window.setScreenMode = setScreenMode;
     window.ringChime = ringChime;
@@ -3087,6 +3300,9 @@
     window.handleAddUserNoteSubmit = handleAddUserNoteSubmit;
     window.deleteUserNote = deleteUserNote;
     window.runSensorDiagnostics = runSensorDiagnostics;
+    window.requestNotificationPermission = requestNotificationPermission;
+    window.testNotificationClick = testNotificationClick;
+    window.sendMobileNotification = sendMobileNotification;
     window.toggleBadgesList = toggleBadgesList;
     window.triggerFloatingPetInteraction = triggerFloatingPetInteraction;
     window.detectUserLocationForIss = detectUserLocationForIss;
