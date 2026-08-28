@@ -54,7 +54,7 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 16px 10px 80px 10px;
+      padding: 12px 10px 80px 10px;
       background-image: 
         radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 70%),
         linear-gradient(180deg, #261A12 0%, #1A110B 100%);
@@ -66,6 +66,22 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
+    }
+
+    /* 📌 STICKY HEADER (SABİT PIRINÇ ÇITA) */
+    .sticky-drawer-header {
+      position: sticky;
+      top: 8px;
+      z-index: 1000;
+      background: rgba(20, 28, 22, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid var(--wood-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      box-shadow: 
+        0 8px 24px rgba(0,0,0,0.7),
+        0 1px 0 rgba(255,255,255,0.1);
     }
 
     /* 🗄️ DOLAP ÇEKMECESİ / RAF BÖLMESİ */
@@ -124,6 +140,9 @@
       background: rgba(0,0,0,0.4);
       color: var(--brass-gold);
       letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .brass-tag.active-green {
@@ -136,6 +155,33 @@
       color: var(--amber-glow);
       border-color: rgba(232, 158, 75, 0.4);
       background: rgba(232, 158, 75, 0.1);
+    }
+
+    /* 🟢 CANLI NABIZ ANİMASYONU */
+    .live-pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #72C78F;
+      box-shadow: 0 0 8px #72C78F;
+      animation: pulseAnimation 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseAnimation {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #72C78F; }
+      100% { transform: scale(0.9); opacity: 0.7; }
+    }
+
+    /* ✨ SHIMMER EFECTİ (YENİLENME PARILTISI) */
+    .sync-shimmer {
+      animation: shimmerGlow 0.8s ease;
+    }
+
+    @keyframes shimmerGlow {
+      0% { border-color: rgba(212, 175, 55, 0.1); }
+      50% { border-color: rgba(212, 175, 55, 0.8); box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.3); }
+      100% { border-color: rgba(255, 255, 255, 0.06); }
     }
 
     .brass-btn {
@@ -184,6 +230,7 @@
       padding: 12px;
       box-shadow: inset 0 2px 6px rgba(0,0,0,0.7);
       position: relative;
+      transition: border-color 0.3s ease;
     }
 
     .comp-label {
@@ -335,6 +382,49 @@
       border-color: var(--brass-gold);
     }
 
+    /* 📖 AÇILIR KAPANIR SENSÖR REHBERİ (ACCORDION) */
+    .guide-accordion {
+      background: var(--felt-recess);
+      border: 1px solid var(--wood-border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .guide-header {
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.4);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--brass-gold);
+      user-select: none;
+    }
+
+    .guide-content {
+      display: none;
+      padding: 12px;
+      font-size: 11px;
+      color: var(--text-bright);
+      line-height: 1.6;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .guide-item {
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(255,255,255,0.06);
+    }
+    .guide-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
     #toast {
       position: fixed;
       bottom: 20px;
@@ -364,15 +454,18 @@
 
   <div class="drawer-box">
 
-    <!-- 🏷️ ÇEKMECE ÜST PIRINÇ BAŞLIĞI // İSTASYON DURUMU -->
-    <div class="drawer-tray" style="padding: 10px 14px;">
+    <!-- 📌 1. STICKY HEADER // SABİT PIRINÇ ÜST ÇITA -->
+    <div class="sticky-drawer-header">
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div class="brass-label" style="font-size: 12px;">
+        <div class="brass-label" style="font-size: 11.5px;">
           <span>🪵</span>
           <span>MASA ÇEKMECESİ // TELEMETRİ</span>
         </div>
         <div style="display: flex; gap: 6px; align-items: center;">
-          <span class="brass-tag active-green" id="liveStatusBadge">● ESP32 CANLI</span>
+          <span class="brass-tag active-green" id="liveStatusBadge">
+            <span class="live-pulse-dot"></span>
+            <span>ESP32 CANLI</span>
+          </span>
           <button type="button" class="brass-btn" onclick="ringDeskChime()" style="padding: 4px 8px; font-size: 10px;">🔔 Masayı Çaldır</button>
         </div>
       </div>
@@ -394,12 +487,16 @@
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL VERİLER</div>
-          <span class="brass-tag" id="lastSyncTime">ŞİMDİ GÜNCEL</span>
+          <!-- ⏱️ CANLI RÖLATİF ZAMAN SAYACI -->
+          <span class="brass-tag" id="lastSyncTime">
+            <span class="live-pulse-dot"></span>
+            <span id="relativeTimeText">ŞİMDİ GÜNCEL</span>
+          </span>
         </div>
 
         <div class="telemetry-grid">
           <!-- 1. Sıcaklık -->
-          <div class="tray-compartment">
+          <div class="tray-compartment" id="compTemp">
             <div class="comp-label">
               <span>SICAKLIK</span>
               <span id="bmeTempBadge" class="brass-tag pending-amber" style="font-size: 8px; padding: 1px 4px;">BEKLEMEDE ⏳</span>
@@ -409,7 +506,7 @@
           </div>
 
           <!-- 2. Bağıl Nem -->
-          <div class="tray-compartment">
+          <div class="tray-compartment" id="compHum">
             <div class="comp-label">
               <span>BAĞIL NEM</span>
               <span id="bmeHumBadge" class="brass-tag pending-amber" style="font-size: 8px; padding: 1px 4px;">BEKLEMEDE ⏳</span>
@@ -419,7 +516,7 @@
           </div>
 
           <!-- 3. Hava Kalitesi -->
-          <div class="tray-compartment">
+          <div class="tray-compartment" id="compAir">
             <div class="comp-label">
               <span>HAVA KALİTESİ</span>
               <span class="brass-tag active-green" style="font-size: 8px; padding: 1px 4px;">● AKTİF (D33)</span>
@@ -429,7 +526,7 @@
           </div>
 
           <!-- 4. Işık Şiddeti -->
-          <div class="tray-compartment">
+          <div class="tray-compartment" id="compLight">
             <div class="comp-label">
               <span>IŞIK SEVİYESİ</span>
               <span class="brass-tag active-green" style="font-size: 8px; padding: 1px 4px;">● AKTİF (D32)</span>
@@ -461,6 +558,37 @@
           <input type="number" id="customWakeMin" class="wake-input" value="10" min="1" max="180">
           <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">Dakika</span>
           <button type="button" class="brass-btn brass-btn-gold" onclick="wakeScreenCustom()" style="flex: 1; padding: 8px 12px; font-size: 11px;">🌙 Ekranı Aç</button>
+        </div>
+      </div>
+
+      <!-- 📖 AÇILIR KAPANIR SENSÖR & ÇEVRE REHBERİ (EXPANDABLE FAQ) -->
+      <div class="guide-accordion">
+        <div class="guide-header" onclick="toggleGuide()">
+          <span>📖 SENSÖR & İDEAL DEĞERLER KILAVUZU</span>
+          <span id="guideArrow" style="transition: transform 0.2s;">▼</span>
+        </div>
+        <div class="guide-content" id="guideContent">
+          <div class="guide-item">
+            <b style="color: var(--brass-gold);">🪟 MQ-135 Hava Kalitesi (PPM):</b><br>
+            • <b>400 - 650 PPM:</b> Tertemiz dağ havası seviyesi.<br>
+            • <b>650 - 950 PPM:</b> Normal oda havası, çalışma için uygun.<br>
+            • <b>950+ PPM:</b> Karbondioksit & gaz yoğunluğu arttı. Yulaf pencereyi açar, odayı havalandırın!
+          </div>
+          <div class="guide-item">
+            <b style="color: var(--sage-green);">🌡️ BME280 Sıcaklık & Nem:</b><br>
+            • <b>İdeal Sıcaklık:</b> 21°C - 25°C (En verimli çalışma aralığı).<br>
+            • <b>İdeal Bağıl Nem:</b> %40 - %60 (Göz ve boğaz kuruluğunu önler).
+          </div>
+          <div class="guide-item">
+            <b style="color: var(--amber-glow);">💡 LDR Işık Seviyesi (%):</b><br>
+            • <b>%40 - %80:</b> Gözü yormayan dengeli çalışma aydınlatması.<br>
+            • <b><%20:</b> Loş/Karanlık (Yulaf korkar, lamba açın).<br>
+            • <b>>%85:</b> Parlak güneş (Yulaf güneş gözlüğü takar 🕶️).
+          </div>
+          <div class="guide-item">
+            <b style="color: var(--text-bright);">🚶 PIR Hareket Sensörü:</b><br>
+            Masanızda oturduğunuzu algılar. 35 saniye hareket olmazsa Yulaf enerji tasarrufu için uykuya dalar.
+          </div>
         </div>
       </div>
     </div>
@@ -637,6 +765,7 @@
     let liveAir = 435;
     let liveLight = 65;
     let lastRegisteredSoundTime = 0;
+    let lastSyncTimestamp = Date.now();
 
     localStorage.removeItem('station_monthly_log');
 
@@ -646,6 +775,42 @@
       t.innerText = msg;
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    function toggleGuide() {
+      const content = document.getElementById('guideContent');
+      const arrow = document.getElementById('guideArrow');
+      if (!content || !arrow) return;
+      const isOpen = content.style.display === 'block';
+      content.style.display = isOpen ? 'none' : 'block';
+      arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+
+    function updateRelativeTime() {
+      const diffSec = Math.floor((Date.now() - lastSyncTimestamp) / 1000);
+      const relEl = document.getElementById('relativeTimeText');
+      if (!relEl) return;
+
+      if (diffSec <= 1) {
+        relEl.innerText = "ŞİMDİ GÜNCEL";
+      } else if (diffSec < 60) {
+        relEl.innerText = `${diffSec} sn ÖNCE`;
+      } else {
+        const min = Math.floor(diffSec / 60);
+        relEl.innerText = `${min} dk ÖNCE`;
+      }
+    }
+    setInterval(updateRelativeTime, 1000);
+
+    function triggerShimmer() {
+      ['compAir', 'compLight', 'compTemp', 'compHum'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.remove('sync-shimmer');
+          void el.offsetWidth;
+          el.classList.add('sync-shimmer');
+        }
+      });
     }
 
     function switchShelf(shelfId) {
@@ -1027,6 +1192,10 @@
         if (res.ok) {
           const data = await res.json();
           if (data && typeof data === 'object') {
+            lastSyncTimestamp = Date.now();
+            updateRelativeTime();
+            triggerShimmer();
+
             bmeConnected = (data.bme_active === true);
 
             const bmeTempBadge = document.getElementById('bmeTempBadge');
@@ -1088,11 +1257,6 @@
           }
         }
       } catch (e) {}
-
-      const now = new Date();
-      const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-      const syncEl = document.getElementById('lastSyncTime');
-      if (syncEl) syncEl.innerText = timeStr + " GÜNCEL";
     }
 
     // Başlatıcılar
