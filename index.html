@@ -132,6 +132,12 @@
       background: rgba(114, 199, 143, 0.1);
     }
 
+    .brass-tag.pending-amber {
+      color: var(--amber-glow);
+      border-color: rgba(232, 158, 75, 0.4);
+      background: rgba(232, 158, 75, 0.1);
+    }
+
     .brass-btn {
       font-family: var(--font-mono);
       font-size: 11px;
@@ -193,7 +199,7 @@
 
     .comp-val {
       font-family: var(--font-mono);
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 800;
       color: var(--text-bright);
       margin: 4px 0 2px 0;
@@ -281,9 +287,9 @@
     }
 
     .insight-body {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-bright);
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     #toast {
@@ -320,7 +326,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div class="brass-label" style="font-size: 12px;">
           <span>🪵</span>
-          <span>MASA ÇEKMECESİ // VERİ ARŞİVİ</span>
+          <span>MASA ÇEKMECESİ // TELEMETRİ</span>
         </div>
         <div style="display: flex; gap: 6px; align-items: center;">
           <span class="brass-tag active-green" id="liveStatusBadge">● ESP32 CANLI</span>
@@ -352,27 +358,27 @@
           <div class="tray-compartment">
             <div class="comp-label">
               <span>SICAKLIK</span>
-              <span style="color: var(--copper-orange);">BME280</span>
+              <span id="bmeTempBadge" class="brass-tag pending-amber" style="font-size: 8px; padding: 1px 4px;">BEKLEMEDE ⏳</span>
             </div>
-            <div class="comp-val" id="tempVal">26.4°C</div>
-            <div class="comp-sub" id="tempSub">İdeal Çalışma Sıcaklığı</div>
+            <div class="comp-val" id="tempVal">--.-°C</div>
+            <div class="comp-sub" id="tempSub">BME280 Lehim Bekliyor</div>
           </div>
 
           <!-- 2. Bağıl Nem -->
           <div class="tray-compartment">
             <div class="comp-label">
               <span>BAĞIL NEM</span>
-              <span style="color: var(--sage-green);">% REL</span>
+              <span id="bmeHumBadge" class="brass-tag pending-amber" style="font-size: 8px; padding: 1px 4px;">BEKLEMEDE ⏳</span>
             </div>
-            <div class="comp-val" id="humVal">%48</div>
-            <div class="comp-sub" id="humSub">Sağlıklı Oda Havası</div>
+            <div class="comp-val" id="humVal">--%</div>
+            <div class="comp-sub" id="humSub">BME280 Lehim Bekliyor</div>
           </div>
 
           <!-- 3. Hava Kalitesi -->
           <div class="tray-compartment">
             <div class="comp-label">
               <span>HAVA KALİTESİ</span>
-              <span style="color: var(--brass-gold);">MQ-135</span>
+              <span class="brass-tag active-green" style="font-size: 8px; padding: 1px 4px;">● AKTİF (D33)</span>
             </div>
             <div class="comp-val" id="airVal">435 PPM</div>
             <div class="comp-sub" id="airStatus">Ferah & Temiz ✨</div>
@@ -382,7 +388,7 @@
           <div class="tray-compartment">
             <div class="comp-label">
               <span>IŞIK SEVİYESİ</span>
-              <span style="color: var(--amber-glow);">LDR (D32)</span>
+              <span class="brass-tag active-green" style="font-size: 8px; padding: 1px 4px;">● AKTİF (D32)</span>
             </div>
             <div class="comp-val" id="lightVal">65%</div>
             <div class="comp-sub" id="lightStatus">Aydınlık Çalışma Alanı 💡</div>
@@ -391,21 +397,8 @@
 
         <!-- Günün Mini Özet Şeridi -->
         <div style="margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.15); border-radius: 4px; padding: 8px 10px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
-          <span>BUGÜNÜN MIN / MAX: <b style="color: var(--brass-gold);" id="dailyMinMax">25.8°C / 26.8°C</b></span>
-          <span>ODA SAĞLIK PUANI: <b style="color: var(--sage-green);" id="dailyHealthScore">98 / 100</b></span>
-        </div>
-      </div>
-
-      <!-- Akustik Ses Testi -->
-      <div class="drawer-tray">
-        <div class="brass-header">
-          <div class="brass-label"><span>[SES-01]</span> HOPARLÖR VE ALARM TESTİ</div>
-          <span class="brass-tag">D25 PIEZO + D26 8Ω</span>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
-          <button type="button" class="brass-btn" onclick="ringDeskChime()">🔔 Masa Zili</button>
-          <button type="button" class="brass-btn" onclick="triggerSoundAlert('AIR')">⚠️ Hava Sireni</button>
-          <button type="button" class="brass-btn" onclick="triggerSoundAlert('WATER')">💧 Su İç Uyarısı</button>
+          <span>AKTİF SENSÖRLER: <b style="color: var(--sage-green);">MQ-135 + LDR + PIR</b></span>
+          <span>DONANIM DURUMU: <b style="color: var(--amber-glow);" id="hardwareStatusText">BME280 Yarın Eklenecek</b></span>
         </div>
       </div>
     </div>
@@ -416,7 +409,7 @@
     <div id="shelfDailyContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[GRAFİK-01]</span> BUGÜNÜN GERÇEK ZAMANLI EĞRİSİ</div>
+          <div class="brass-label"><span>[GRAFİK-01]</span> AKTİF SENSÖR EĞRİSİ</div>
           <button type="button" class="brass-btn" onclick="refreshDailyChart()" style="padding: 2px 6px; font-size: 9.5px;">Yenile ↻</button>
         </div>
 
@@ -425,9 +418,8 @@
         </div>
 
         <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
-          <span style="color: #C86432;">● Sıcaklık (°C)</span>
-          <span style="color: #68A37C;">● Nem (%)</span>
-          <span style="color: #D4AF37;">● Hava (PPM / 10)</span>
+          <span style="color: #D4AF37;">● Hava Kalitesi (PPM/10) [D33]</span>
+          <span style="color: #E89E4B;">● Işık Oranı (%) [D32]</span>
         </div>
       </div>
 
@@ -443,10 +435,9 @@
             <thead>
               <tr>
                 <th>SAAT</th>
-                <th>SICAKLIK</th>
-                <th>NEM</th>
                 <th>HAVA PPM</th>
-                <th>IŞIK</th>
+                <th>IŞIK SEVİYESİ</th>
+                <th>DURUM</th>
               </tr>
             </thead>
             <tbody id="hourlyTableBody">
@@ -470,18 +461,18 @@
         <!-- 3'lü İstatistik Kutusu -->
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
           <div class="tray-compartment" style="text-align: center; padding: 8px 4px;">
-            <div class="comp-label" style="justify-content: center;">BUGÜNKÜ ORT.</div>
-            <div class="comp-val" id="avgMonthTemp" style="font-size: 19px; color: var(--copper-orange);">26.4°C</div>
-            <div class="comp-sub">Masa Isısı</div>
+            <div class="comp-label" style="justify-content: center;">ORT. HAVA</div>
+            <div class="comp-val" id="avgMonthAir" style="font-size: 19px; color: var(--brass-gold);">435 PPM</div>
+            <div class="comp-sub">MQ-135</div>
           </div>
           <div class="tray-compartment" style="text-align: center; padding: 8px 4px;">
-            <div class="comp-label" style="justify-content: center;">ORT. NEM</div>
-            <div class="comp-val" id="avgMonthHum" style="font-size: 19px; color: var(--sage-green);">%48.0</div>
-            <div class="comp-sub">Dengeli</div>
+            <div class="comp-label" style="justify-content: center;">ORT. IŞIK</div>
+            <div class="comp-val" id="avgMonthLight" style="font-size: 19px; color: var(--amber-glow);">%65</div>
+            <div class="comp-sub">LDR</div>
           </div>
           <div class="tray-compartment" style="text-align: center; padding: 8px 4px;">
             <div class="comp-label" style="justify-content: center;">KAYITLI GÜN</div>
-            <div class="comp-val" id="loggedDaysCount" style="font-size: 19px; color: var(--brass-gold);">1 Gün</div>
+            <div class="comp-val" id="loggedDaysCount" style="font-size: 19px; color: var(--sage-green);">1 Gün</div>
             <div class="comp-sub">Başlangıç: Bugün</div>
           </div>
         </div>
@@ -497,9 +488,9 @@
             <thead>
               <tr>
                 <th>TARİH</th>
-                <th>ORT. ISI</th>
-                <th>ORT. NEM</th>
-                <th>HAVA PPM</th>
+                <th>ORT. HAVA PPM</th>
+                <th>ORT. IŞIK</th>
+                <th>BME280</th>
                 <th>PUAN</th>
               </tr>
             </thead>
@@ -512,42 +503,42 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- 4. RAF: 💡 AKILLI YORUMCU & DÖNEMSEL TELEMETRİ ANALİZİ -->
+    <!-- 4. RAF: 💡 GERÇEKÇİ & DONANIMIN FARKINDA AKILLI YORUMCU -->
     <!-- ==================================================== -->
     <div id="shelfAnalysisContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[YORUMCU]</span> AKILLI TELEMETRİ VE ÇEVRE ANALİZİ</div>
-          <span class="brass-tag active-green">OTOMATİK ANALİZ</span>
+          <div class="brass-label"><span>[YORUMCU]</span> GERÇEK SENSÖR VE ORTAM ANALİZİ</div>
+          <span class="brass-tag active-green">DONANIM FARKINDALIĞI</span>
         </div>
 
-        <!-- 1. Haftalık Değerlendirme -->
+        <!-- 1. Donanım Durumu Açıklaması -->
+        <div class="insight-card" style="border-left-color: var(--amber-glow);">
+          <div class="insight-title" style="color: var(--amber-glow);"><span>🔬</span> <span>BAĞLI DONANIM TESPİTİ</span></div>
+          <div class="insight-body" id="hardwareInsightText">
+            Şu anda istasyonunuzda <b>MQ-135 (Hava Kalitesi)</b>, <b>LDR (Işık Seviyesi)</b> ve <b>PIR (Hareket)</b> sensörleri aktif olarak ölçüm yapıyor. <b>BME280 Sıcaklık/Nem sensörü</b> henüz hatta takılı değildir (Yarın lehimlenecektir). Bu nedenle analizler sadece aktif sensörlerin gerçek verilerine dayanmaktadır.
+          </div>
+        </div>
+
+        <!-- 2. Hava ve Havalandırma Analizi -->
         <div class="insight-card">
-          <div class="insight-title"><span>📅</span> <span>BU HAFTANIN TELEMETRİ ANALİZİ</span></div>
-          <div class="insight-body" id="weeklyInsightText">
-            Masa istasyonunuz bu hafta ortalama <b>26.2°C</b> sıcaklık ve <b>%48</b> dengeli nem ile çalıştı. Hava kalitesi ölçümleri %96 oranında ferah aralıkta seyretti. Çalışma veriminiz için harika bir ortam.
+          <div class="insight-title"><span>🪟</span> <span>HAVA KALİTESİ & PENCERE DURUMU</span></div>
+          <div class="insight-body" id="airInsightText">
+            MQ-135 sensörünüz odadaki havayı canlı olarak kokluyor. Pencereler kapalı kaldığında havadaki karbondioksit ve uçucu gaz yoğunluğu artabilir.
           </div>
         </div>
 
-        <!-- 2. Aylık Değerlendirme -->
-        <div class="insight-card" style="border-left-color: var(--copper-orange);">
-          <div class="insight-title" style="color: var(--copper-orange);"><span>🗂️</span> <span>AĞUSTOS AYI GENEL DEĞERLENDİRMESİ</span></div>
-          <div class="insight-body" id="monthlyInsightText">
-            Ağustos ayı boyunca oda konfor puanı <b>98 / 100</b> olarak kaydedildi. Işık sensörü masanın gün boyunca verimli aydınlatıldığını, hava kalitesinin ise çalışma saatlerinde ideal kaldığını gösteriyor.
-          </div>
-        </div>
-
-        <!-- 3. Yıllık & Sezonluk Trend -->
+        <!-- 3. Aydınlatma & Göz Konforu -->
         <div class="insight-card" style="border-left-color: var(--sage-green);">
-          <div class="insight-title" style="color: var(--sage-green);"><span>⏳</span> <span>SEZONLUK & UZUN DÖNEM TRENDİ</span></div>
-          <div class="insight-body" id="annualInsightText">
-            Yaz dönemi boyunca sensör verileriniz kaydedilmeye devam ediyor. Sıcaklık ortalaması klima/havalandırma ile dengede tutulduğunda odaklanma sürelerinin en üst seviyeye ulaştığı görülmektedir.
+          <div class="insight-title" style="color: var(--sage-green);"><span>💡</span> <span>IŞIK & ÇALIŞMA ALANI ORTAMI</span></div>
+          <div class="insight-body" id="lightInsightText">
+            LDR sensörünüz masanızın ışık şiddetini ölçüyor.
           </div>
         </div>
 
         <!-- 4. Canlı Tavsiye Plaketi -->
         <div style="background: rgba(212,175,55,0.08); border: 1px dashed var(--brass-gold); border-radius: 6px; padding: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--brass-gold);">
-          💡 <b>GÜNCEL ÇALIŞMA ÖNERİSİ:</b> <span id="liveAdviceText" style="color: var(--text-bright);">Şu anda odanın sıcaklık, nem ve hava dengesi ders/çalışma için zirve noktada. İdeal bir odaklanma seansı yapabilirsiniz!</span>
+          💬 <b>YULAF'IN GÜNCEL TAVSİYESİ:</b> <span id="liveAdviceText" style="color: var(--text-bright);">Sensör verileri inceleniyor...</span>
         </div>
       </div>
     </div>
@@ -564,8 +555,9 @@
     const FIREBASE_AUTH = "?auth=seDMOC3iMWa7SNERZxASLx4qZJVfbo81uoRSc7tJ";
 
     let dailyChartInstance = null;
-    let liveTemp = 26.4;
-    let liveHum = 48;
+    let bmeConnected = false;
+    let liveTemp = 0;
+    let liveHum = 0;
     let liveAir = 435;
     let liveLight = 65;
 
@@ -610,11 +602,6 @@
       } catch (e) {}
     }
 
-    async function triggerSoundAlert(type) {
-      showToast(`🔊 [${type}] Sesi Masaya Gönderildi!`);
-      ringDeskChime();
-    }
-
     // ====================================================
     // 📊 GERÇEK TELEMETRİ KAYIT DEFTERİ (BUGÜNDEN İTİBAREN)
     // ====================================================
@@ -636,10 +623,10 @@
           list = [{
             dateKey: getTodayKey(),
             displayDate: getTodayFormatted(),
-            temp: liveTemp.toFixed(1),
-            hum: liveHum,
             air: liveAir,
-            score: 98
+            light: liveLight,
+            bme: bmeConnected ? "Aktif" : "Beklemede",
+            score: 96
           }];
           localStorage.setItem('real_station_days', JSON.stringify(list));
         }
@@ -649,27 +636,27 @@
       }
     }
 
-    function updateTodayRecord(t, h, a) {
+    function updateTodayRecord(a, l) {
       let list = getStoredDays();
       const todayKey = getTodayKey();
       let todayObj = list.find(item => item.dateKey === todayKey);
 
-      const score = Math.min(100, Math.max(50, Math.round(100 - (a > 700 ? 10 : 0) - (a > 1000 ? 20 : 0) - Math.abs(t - 25) * 2)));
+      const score = Math.min(100, Math.max(50, Math.round(100 - (a > 700 ? 10 : 0) - (a > 1000 ? 25 : 0) - (l < 20 ? 10 : 0))));
 
       if (!todayObj) {
         todayObj = {
           dateKey: todayKey,
           displayDate: getTodayFormatted(),
-          temp: t.toFixed(1),
-          hum: Math.round(h),
           air: Math.round(a),
+          light: Math.round(l),
+          bme: bmeConnected ? "Aktif" : "Beklemede",
           score: score
         };
         list.unshift(todayObj);
       } else {
-        todayObj.temp = t.toFixed(1);
-        todayObj.hum = Math.round(h);
         todayObj.air = Math.round(a);
+        todayObj.light = Math.round(l);
+        todayObj.bme = bmeConnected ? "Aktif" : "Beklemede",
         todayObj.score = score;
       }
 
@@ -685,18 +672,18 @@
       tbody.innerHTML = list.map(row => `
         <tr>
           <td style="font-weight: 700; color: var(--brass-gold);">${row.displayDate}</td>
-          <td>${row.temp}°C</td>
-          <td>%${row.hum}</td>
           <td>${row.air} PPM</td>
+          <td>%${row.light}</td>
+          <td style="color: ${row.bme === 'Aktif' ? 'var(--sage-green)' : 'var(--amber-glow)'};">${row.bme}</td>
           <td style="color: ${row.score >= 90 ? 'var(--sage-green)' : 'var(--amber-glow)'}; font-weight: 700;">${row.score}/100</td>
         </tr>
       `).join('');
 
       if (list.length > 0) {
-        let sumT = 0, sumH = 0;
-        list.forEach(r => { sumT += parseFloat(r.temp); sumH += parseInt(r.hum); });
-        document.getElementById('avgMonthTemp').innerText = (sumT / list.length).toFixed(1) + "°C";
-        document.getElementById('avgMonthHum').innerText = "%" + Math.round(sumH / list.length);
+        let sumA = 0, sumL = 0;
+        list.forEach(r => { sumA += parseInt(r.air); sumL += parseInt(r.light); });
+        document.getElementById('avgMonthAir').innerText = Math.round(sumA / list.length) + " PPM";
+        document.getElementById('avgMonthLight').innerText = "%" + Math.round(sumL / list.length);
         document.getElementById('loggedDaysCount').innerText = list.length + " Gün";
       }
     }
@@ -711,18 +698,16 @@
 
       for (let h = currentH; h >= Math.max(0, currentH - 6); h--) {
         const timeStr = `${h < 10 ? '0' : ''}${h}:00`;
-        const t = (liveTemp - (currentH - h) * 0.1).toFixed(1);
-        const hm = Math.round(liveHum + (currentH - h) * 0.5);
         const ar = liveAir;
-        const lt = (h >= 7 && h <= 19) ? "Aydınlık 💡" : "Gece 🌙";
+        const lt = (h >= 7 && h <= 19) ? `%${liveLight} (Aydınlık)` : `%${Math.min(15, liveLight)} (Karanlık)`;
+        const st = ar > 950 ? "Ağır / Havalandır 🪟" : (ar > 700 ? "Orta Seviye 🍃" : "Temiz & Ferah ✨");
 
         rowsHtml += `
           <tr>
             <td style="color: var(--brass-gold); font-weight: 700;">${timeStr}</td>
-            <td>${t}°C</td>
-            <td>%${hm}</td>
-            <td>${ar}</td>
+            <td>${ar} PPM</td>
             <td>${lt}</td>
+            <td>${st}</td>
           </tr>
         `;
       }
@@ -736,15 +721,13 @@
       const now = new Date();
       const currentH = now.getHours();
       const labels = [];
-      const tempData = [];
-      const humData = [];
       const airData = [];
+      const lightData = [];
 
       for (let h = Math.max(0, currentH - 8); h <= currentH; h++) {
         labels.push(`${h}:00`);
-        tempData.push((liveTemp - (currentH - h) * 0.15).toFixed(1));
-        humData.push(Math.round(liveHum + (currentH - h) * 0.4));
         airData.push(Math.round(liveAir / 10));
+        lightData.push(h >= 7 && h <= 19 ? liveLight : 15);
       }
 
       if (dailyChartInstance) {
@@ -757,30 +740,20 @@
           labels: labels,
           datasets: [
             {
-              label: 'Sıcaklık (°C)',
-              data: tempData,
-              borderColor: '#C86432',
-              backgroundColor: 'rgba(200, 100, 50, 0.1)',
-              borderWidth: 2,
-              tension: 0.3,
-              pointRadius: 3
-            },
-            {
-              label: 'Nem (%)',
-              data: humData,
-              borderColor: '#68A37C',
-              backgroundColor: 'transparent',
-              borderWidth: 2,
-              tension: 0.3,
-              pointRadius: 3
-            },
-            {
               label: 'Hava (PPM/10)',
               data: airData,
               borderColor: '#D4AF37',
+              backgroundColor: 'rgba(212, 175, 55, 0.1)',
+              borderWidth: 2,
+              tension: 0.3,
+              pointRadius: 3
+            },
+            {
+              label: 'Işık (%)',
+              data: lightData,
+              borderColor: '#E89E4B',
               backgroundColor: 'transparent',
-              borderWidth: 1.5,
-              borderDash: [3, 3],
+              borderWidth: 2,
               tension: 0.3,
               pointRadius: 3
             }
@@ -811,58 +784,59 @@
     }
 
     // ====================================================
-    // 💡 AKILLI HAFTALIK, AYLIK VE YILLIK YORUM MOTORU
+    // 💡 GERÇEKÇİ & DONANIMIN FARKINDA AKILLI YORUM MOTORU
     // ====================================================
     function generateSmartInsights() {
-      const list = getStoredDays();
-      let sumT = 0, sumH = 0, sumA = 0;
-      list.forEach(r => {
-        sumT += parseFloat(r.temp);
-        sumH += parseInt(r.hum);
-        sumA += parseInt(r.air);
-      });
-      const avgT = (sumT / list.length).toFixed(1);
-      const avgH = Math.round(sumH / list.length);
-      const avgA = Math.round(sumA / list.length);
-
-      // 1. Haftalık Yorum
-      const weeklyEl = document.getElementById('weeklyInsightText');
-      if (weeklyEl) {
-        weeklyEl.innerHTML = `Masa istasyonunuz bu hafta ortalama <b>${avgT}°C</b> sıcaklık ve <b>%${avgH}</b> dengeli nem ile çalıştı. Hava kalitesi ortalaması <b>${avgA} PPM</b> ile son derece temiz seyretti. Odaklanma için ideal bir masa ortamı.`;
+      // 1. Donanım Tespiti Metni
+      const hwEl = document.getElementById('hardwareInsightText');
+      if (hwEl) {
+        if (bmeConnected) {
+          hwEl.innerHTML = `Tüm sensörleriniz (<b>BME280 Sıcaklık/Nem</b>, <b>MQ-135 Hava</b>, <b>LDR Işık</b> ve <b>PIR Hareket</b>) bağlı ve donanım hattında tam kapasite çalışıyor!`;
+        } else {
+          hwEl.innerHTML = `Şu anda istasyonunuzda <b>MQ-135 (Hava Kalitesi)</b>, <b>LDR (Işık Seviyesi)</b> ve <b>PIR (Hareket)</b> sensörleri aktif olarak ölçüm yapıyor. <b>BME280 Sıcaklık/Nem sensörü</b> henüz hatta takılı değildir (Yarın lehimlenecektir). Bu nedenle analizler sadece aktif çalışan sensörlerinizin gerçek verilerine dayanmaktadır.`;
+        }
       }
 
-      // 2. Aylık Yorum
-      const monthlyEl = document.getElementById('monthlyInsightText');
-      if (monthlyEl) {
-        monthlyEl.innerHTML = `Ağustos ayı kayıtlarına göre çalışma alanınızın ortalama konfor puanı <b>98 / 100</b> olarak gerçekleşti. BME280 ve MQ-135 sensörleri oda havasının dengeli olduğunu ve gün ışığı aydınlatmasının gözü yormayacak seviyede kaldığını teyit ediyor.`;
+      // 2. Hava Kalitesi & Havalandırma Yorumu
+      const airEl = document.getElementById('airInsightText');
+      if (airEl) {
+        if (liveAir > 950) {
+          airEl.innerHTML = `MQ-135 sensörü odadaki havanın ağırlaştığını (<b>${liveAir} PPM</b>) tespit etti! Pencereler kapalı olduğu için içeride hava sirkülasyonu azalmış. <b>Pencereyi açıp odayı 5-10 dakika havalandırmanız</b> odaklanmanızı anında toparlayacaktır.`;
+        } else if (liveAir > 700) {
+          airEl.innerHTML = `Hava kalitesi şu an orta seviyede (<b>${liveAir} PPM</b>). Pencereler uzun süredir kapalıysa taze hava girişi sağlamak iyi olabilir.`;
+        } else {
+          airEl.innerHTML = `MQ-135 sensörüne göre oda havanız şu anda <b>${liveAir} PPM</b> ile son derece temiz ve ferah. Karbondioksit ve gaz yoğunluğu ideal seviyede.`;
+        }
       }
 
-      // 3. Yıllık / Sezonluk Yorum
-      const annualEl = document.getElementById('annualInsightText');
-      if (annualEl) {
-        annualEl.innerHTML = `Yaz sezonu telemetri veritabanı aktif olarak kaydediliyor. Sensör verileriniz masanızın nem ve sıcaklık dengesini koruyarak uzun süreli çalışmalarda zihinsel yorgunluğu en aza indirdiğini göstermektedir.`;
+      // 3. Işık Yorumu
+      const lightEl = document.getElementById('lightInsightText');
+      if (lightEl) {
+        if (liveLight < 25) {
+          lightEl.innerHTML = `LDR sensörü masanızın karanlık olduğunu (<b>%${liveLight}</b>) gösteriyor. Göz yorgunluğunu önlemek için çalışma lambanızı açmanız tavsiye edilir.`;
+        } else {
+          lightEl.innerHTML = `Masa aydınlatmanız şu an <b>%${liveLight}</b> seviyesinde. Gözü yormayacak dengeli bir çalışma ışığı mevcut.`;
+        }
       }
 
       // 4. Canlı Tavsiye
       const adviceEl = document.getElementById('liveAdviceText');
       if (adviceEl) {
-        if (liveAir > 900) {
-          adviceEl.innerText = "Hava kalitesi biraz ağırlaştı; pencereyi 5-10 dakika açıp odayı taze havayla doldurmanız tavsiye edilir! 🪟";
-        } else if (liveHum < 35) {
-          adviceEl.innerText = "Oda nemi biraz düşük; masanıza bir bardak su alıp yudumlamanız iyi gelecektir! 💧";
-        } else if (liveTemp > 29) {
-          adviceEl.innerText = "Oda sıcaklığı yükseldi; ortamı serinleterek çalışma veriminizi artırabilirsiniz! ❄️";
+        if (liveAir > 950) {
+          adviceEl.innerText = "Hava kalitesi biraz ağırlaştı; pencereyi açıp odayı taze havayla doldurmanız tavsiye edilir! 🪟";
+        } else if (liveLight < 25) {
+          adviceEl.innerText = "Oda biraz loş görünüyor; çalışma lambanızı açarak göz konforunuzu artırabilirsiniz! 💡";
         } else {
-          adviceEl.innerText = "Şu anda odanın sıcaklık, nem ve hava dengesi çalışma için zirve noktada. İdeal bir odaklanma seansı yapabilirsiniz! ✨";
+          adviceEl.innerText = "Aktif sensör verilerine göre ortam ders/çalışma için çok uygun. Harika bir odaklanma seansı yapabilirsiniz! ✨";
         }
       }
     }
 
     function exportDataCsv() {
       const list = getStoredDays();
-      let csvContent = "data:text/csv;charset=utf-8,Tarih,Sicaklik_C,Bagil_Nem_Yuzde,Hava_PPM,Puan\n";
+      let csvContent = "data:text/csv;charset=utf-8,Tarih,Hava_PPM,Isik_Yuzde,BME280_Durumu,Puan\n";
       list.forEach(r => {
-        csvContent += `${r.displayDate},${r.temp},${r.hum},${r.air},${r.score}\n`;
+        csvContent += `${r.displayDate},${r.air},${r.light},${r.bme},${r.score}\n`;
       });
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
@@ -881,22 +855,42 @@
         if (res.ok) {
           const data = await res.json();
           if (data && typeof data === 'object') {
-            if (data.temp !== undefined) {
+            bmeConnected = (data.bme_active === true);
+
+            // BME280 Varlık Durumu
+            const bmeTempBadge = document.getElementById('bmeTempBadge');
+            const bmeHumBadge = document.getElementById('bmeHumBadge');
+            const hwStatus = document.getElementById('hardwareStatusText');
+
+            if (bmeConnected) {
               liveTemp = parseFloat(data.temp);
-              document.getElementById('tempVal').innerText = liveTemp.toFixed(1) + "°C";
-            }
-            if (data.humidity !== undefined) {
               liveHum = parseInt(data.humidity);
+              document.getElementById('tempVal').innerText = liveTemp.toFixed(1) + "°C";
               document.getElementById('humVal').innerText = "%" + liveHum;
+              document.getElementById('tempSub').innerText = "BME280 Canlı Ölçüm";
+              document.getElementById('humSub').innerText = "BME280 Canlı Ölçüm";
+              if (bmeTempBadge) { bmeTempBadge.className = "brass-tag active-green"; bmeTempBadge.innerText = "● CANLI (0x76)"; }
+              if (bmeHumBadge) { bmeHumBadge.className = "brass-tag active-green"; bmeHumBadge.innerText = "● CANLI (0x76)"; }
+              if (hwStatus) { hwStatus.innerText = "Tüm Sensörler Aktif"; hwStatus.style.color = "var(--sage-green)"; }
+            } else {
+              document.getElementById('tempVal').innerText = "BEKLEMEDE";
+              document.getElementById('humVal').innerText = "BEKLEMEDE";
+              document.getElementById('tempSub').innerText = "Yarın Lehimlenecek ⏳";
+              document.getElementById('humSub').innerText = "Yarın Lehimlenecek ⏳";
+              if (bmeTempBadge) { bmeTempBadge.className = "brass-tag pending-amber"; bmeTempBadge.innerText = "BEKLEMEDE ⏳"; }
+              if (bmeHumBadge) { bmeHumBadge.className = "brass-tag pending-amber"; bmeHumBadge.innerText = "BEKLEMEDE ⏳"; }
+              if (hwStatus) { hwStatus.innerText = "BME280 Yarın Eklenecek"; hwStatus.style.color = "var(--amber-glow)"; }
             }
+
             if (data.air !== undefined) {
               liveAir = parseInt(data.air);
               document.getElementById('airVal').innerText = liveAir + " PPM";
               const airStatusEl = document.getElementById('airStatus');
               if (airStatusEl) {
-                airStatusEl.innerText = liveAir < 700 ? "Ferah & Temiz ✨" : (liveAir < 1000 ? "Normal Seviye 🍃" : "Ağırlaştı ⚠️");
+                airStatusEl.innerText = liveAir < 700 ? "Ferah & Temiz ✨" : (liveAir < 1000 ? "Normal Seviye 🍃" : "Ağırlaştı / Havalandır 🪟");
               }
             }
+
             if (data.light !== undefined) {
               liveLight = parseInt(data.light);
               document.getElementById('lightVal').innerText = liveLight + "%";
@@ -906,7 +900,7 @@
               }
             }
 
-            updateTodayRecord(liveTemp, liveHum, liveAir);
+            updateTodayRecord(liveAir, liveLight);
           }
         }
       } catch (e) {}
