@@ -30,15 +30,18 @@
       --faceplate-silver-bot: #B6BABE;
       --faceplate-bevel: #FFFFFF;
 
-      --tape-terracotta-top: #D35400;
-      --tape-terracotta-bot: #A04000;
-
       --engraved-dark: #1A1D20;
       --engraved-sub: #4A5056;
 
       --tungsten-core: #FFF0A0;
       --tungsten-amber: #FF9000;
       --tungsten-glow: rgba(255, 144, 0, 0.85);
+
+      --crt-screen-bg: #07120B;
+      --crt-grid-line: #0F2919;
+      --crt-phosphor: #2ED573;
+      --crt-amber-trace: #FF9F1A;
+      --crt-cyan-trace: #00F2FE;
 
       --led-red: #FF2B2B;
       --led-red-glow: rgba(255, 43, 43, 0.8);
@@ -305,7 +308,6 @@
       position: relative;
     }
 
-    /* Manyetik Bant Çizgisi */
     .magnetic-tape-bridge {
       position: absolute;
       top: 50%;
@@ -317,7 +319,6 @@
       z-index: 1;
     }
 
-    /* Dönen Makaralar */
     .tape-reel-svg {
       width: 105px;
       height: 105px;
@@ -335,7 +336,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* 🔢 MEKANİK ODOMETRE SAYAÇ KUTUSU [ 0 0 6 1 ] */
     .odometer-counter-box {
       background: #0D0E10;
       border: 2px solid #33383F;
@@ -358,7 +358,6 @@
       border-bottom: 1px solid #444;
     }
 
-    /* 🎹 VINTAGE PİYANO TUŞLARI (PIANO TRANSPORT KEYS) */
     .piano-keys-bank {
       display: flex;
       justify-content: center;
@@ -455,6 +454,70 @@
     .green-led .ghost-layer { color: var(--led-green-ghost); }
     .green-led .active-layer { color: var(--led-green); text-shadow: 0 0 14px var(--led-green-glow); }
 
+    /* ======================================================= */
+    /* 📈 STRIP-CHART RECORDER (RULO KAĞITLI LABORATUVAR ÇİZİCİSİ)*/
+    /* ======================================================= */
+    .strip-chart-frame {
+      background: var(--crt-screen-bg);
+      border: 3px solid #1A221E;
+      border-top: 3px solid #0D1410;
+      border-bottom: 2px solid #32443A;
+      border-radius: 8px;
+      padding: 12px 10px;
+      position: relative;
+      box-shadow: inset 0 4px 14px rgba(0,0,0,0.95), 0 3px 8px rgba(0,0,0,0.6);
+      overflow: hidden;
+    }
+
+    .strip-chart-frame::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 4px);
+      pointer-events: none;
+      z-index: 8;
+    }
+
+    .chart-time-selector {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .time-toggle-btn {
+      font-family: var(--font-din);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid #1E3827;
+      background: #0B1C11;
+      color: #55916A;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      touch-action: manipulation;
+    }
+
+    .time-toggle-btn.active {
+      background: #1C4D2E;
+      color: #2ED573;
+      border-color: #2ED573;
+      box-shadow: 0 0 8px rgba(46, 213, 115, 0.4);
+    }
+
+    .chart-legend-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8.5px;
+      font-weight: 800;
+      color: #8C9C92;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid #142E1F;
+    }
+
     /* 🎛️ DÖKÜM ALÜMİNYUM BASMA BUTONLARI */
     .silver-tactile-btn {
       font-family: var(--font-din);
@@ -528,7 +591,9 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.25);
     }
 
-    /* ⚡ MOBİL ALT HIZLI AKSİYON DOCK BARI */
+    /* ======================================================= */
+    /* ⚡ MOBİL ALT HIZLI AKSİYON DOCK BARI (100% RETRO DONANIM)*/
+    /* ======================================================= */
     .mobile-quick-dock {
       position: fixed;
       bottom: calc(10px + env(safe-area-inset-bottom));
@@ -536,13 +601,13 @@
       transform: translateX(-50%);
       width: calc(100% - 20px);
       max-width: 540px;
-      background: linear-gradient(180deg, #E6E9EB 0%, #C0C4C8 100%);
+      background: linear-gradient(180deg, #E6E9EB 0%, #B8BCBF 100%);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 2px solid #7D8389;
+      border: 2px solid #6E747A;
       border-top: 1.5px solid #FFFFFF;
       border-radius: 28px;
-      padding: 6px 14px;
+      padding: 6px 12px;
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -555,14 +620,14 @@
       border: none;
       color: #1A1D20;
       font-family: var(--font-din);
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2px;
+      gap: 3px;
       cursor: pointer;
-      padding: 4px 6px;
+      padding: 4px 8px;
       border-radius: 6px;
       transition: transform 0.1s ease;
       touch-action: manipulation;
@@ -572,8 +637,21 @@
       transform: scale(0.92);
     }
 
-    .dock-icon {
-      font-size: 16px;
+    /* 🏷️ RETRO METALİK GLİF ROZETİ */
+    .retro-glyph-badge {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #CBD0D4 100%);
+      border: 1px solid #7D8389;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 900;
+      color: #0E1012;
     }
 
     #toast {
@@ -769,7 +847,6 @@
         <div style="font-family: var(--font-din); font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;">
           📼 REEL-TO-REEL DECK // SPOTIFY CLOUD
         </div>
-        <!-- MEKANİK ODOMETRE SAYAÇ -->
         <div class="odometer-counter-box" title="Manyetik Bant Metresi">
           <span class="odometer-wheel">0</span>
           <span class="odometer-wheel">0</span>
@@ -778,7 +855,6 @@
         </div>
       </div>
 
-      <!-- DÖNEN ÇİFT MAKARA SAHNESİ -->
       <div class="tape-stage-reels">
         <div class="magnetic-tape-bridge"></div>
         
@@ -786,11 +862,9 @@
         <svg class="tape-reel-svg spin-reel" id="leftTapeReel" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="48" fill="#262A2E" stroke="#14171A" stroke-width="2"/>
           <circle cx="50" cy="50" r="36" fill="#181B1E"/>
-          <!-- 3 Kanatlı Yuva Delikleri -->
           <path d="M 50 14 L 54 36 L 46 36 Z" fill="#0C0E10"/>
           <path d="M 81 68 L 60 52 L 64 45 Z" fill="#0C0E10"/>
           <path d="M 19 68 L 36 45 L 40 52 Z" fill="#0C0E10"/>
-          <!-- Göbek -->
           <circle cx="50" cy="50" r="14" fill="#0C0E10" stroke="#3A3F45" stroke-width="1.5"/>
           <circle cx="50" cy="50" r="5" fill="#FFFFFF"/>
           <text x="50" y="27" fill="#8E959E" font-size="6.5" font-family="Space Grotesk" font-weight="800" text-anchor="middle">TAPE</text>
@@ -806,11 +880,9 @@
         <svg class="tape-reel-svg spin-reel" id="rightTapeReel" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="48" fill="#D8DCDE" stroke="#8A8E92" stroke-width="2"/>
           <circle cx="50" cy="50" r="36" fill="#B0B5B9"/>
-          <!-- 3 Kanatlı Yuva Delikleri -->
           <path d="M 50 14 L 54 36 L 46 36 Z" fill="#14171A"/>
           <path d="M 81 68 L 60 52 L 64 45 Z" fill="#14171A"/>
           <path d="M 19 68 L 36 45 L 40 52 Z" fill="#14171A"/>
-          <!-- Göbek -->
           <circle cx="50" cy="50" r="14" fill="#14171A" stroke="#444" stroke-width="1.5"/>
           <circle cx="50" cy="50" r="5" fill="#FFFFFF"/>
           <text x="50" y="27" fill="#1A1D20" font-size="6.5" font-family="Space Grotesk" font-weight="800" text-anchor="middle">TAPE</text>
@@ -862,7 +934,7 @@
             <span class="active-layer" id="ergoCountdownText">12:33</span>
           </div>
         </div>
-        <button type="button" class="silver-tactile-btn primary" onclick="triggerPostureAlertTest()">TEST ET 🔔</button>
+        <button type="button" class="silver-tactile-btn primary" onclick="triggerPostureAlertTest()">TEST ET ∿</button>
       </div>
     </div>
 
@@ -892,7 +964,7 @@
       <div class="channel-pill active" id="tabSensors" onclick="switchChannel('sensors')">K.1 VU METRE</div>
       <div class="channel-pill" id="tabProductivityLab" onclick="switchChannel('prodlab')">K.2 VERİMLİLİK</div>
       <div class="channel-pill" id="tabScreenTime" onclick="switchChannel('screentime')">K.3 EKRAN SÜRESİ</div>
-      <div class="channel-pill" id="tabDaily" onclick="switchChannel('daily')">K.4 GRAFİK</div>
+      <div class="channel-pill" id="tabDaily" onclick="switchChannel('daily')">K.4 STRIP CHART</div>
       <div class="channel-pill" id="tabAnalysis" onclick="switchChannel('analysis')">K.5 GÜNLÜK</div>
     </div>
 
@@ -934,7 +1006,7 @@
         <svg class="allen-screw-svg br" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
 
         <div class="chassis-brand-header">
-          <div class="brand-logo-text"><span>[LAB-01] BİLİŞSEL VERİMLİLİK</span></div>
+          <div class="brand-logo-text"><span>[LAB-01] BİLİŞSEL VERİMLİLİK İNDEKSİ</span></div>
           <span style="font-size: 8.5px; font-weight: 800; color: #2ED573; background: #0E1012; padding: 2px 6px; border-radius: 3px;">KALİBRE</span>
         </div>
 
@@ -957,7 +1029,7 @@
           </div>
         </div>
 
-        <div style="position: relative; height: 160px; width: 100%;">
+        <div class="strip-chart-frame" style="height: 160px;">
           <canvas id="hourlyCognitiveChart"></canvas>
         </div>
       </div>
@@ -997,14 +1069,16 @@
         </div>
 
         <div class="chassis-brand-header" style="margin-top: 12px;">
-          <div class="brand-logo-text"><span>UYGULAMA DAĞILIMI</span></div>
+          <div class="brand-logo-text"><span>UYGULAMA TELEMETRİSİ</span></div>
         </div>
 
         <div id="appBreakdownContainer" style="display: flex; flex-direction: column; gap: 5px;"></div>
       </div>
     </div>
 
-    <!-- 4. KANAL: GRAFİK -->
+    <!-- ======================================================= -->
+    <!-- 4. KANAL: STRIP-CHART LABORATUVAR ÇİZİCİSİ (YENİ!)       -->
+    <!-- ======================================================= -->
     <div id="channelDailyContent" style="display: none; flex-direction: column; gap: 14px;">
       <div class="aluminum-chassis-card">
         <svg class="allen-screw-svg tl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
@@ -1013,12 +1087,27 @@
         <svg class="allen-screw-svg br" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
 
         <div class="chassis-brand-header">
-          <div class="brand-logo-text"><span>[GRAFİK] SENSÖR GÜNLÜK EĞRİSİ</span></div>
-          <button type="button" class="silver-tactile-btn" onclick="refreshDailyChart()" style="padding: 3px 8px; font-size: 9px;">YENİLE ↻</button>
+          <div class="brand-logo-text"><span>[YOKOGAWA-76] STRIP-CHART TELEMETRİ ÇİZİCİSİ</span></div>
+          <button type="button" class="silver-tactile-btn" onclick="refreshDailyChart()" style="padding: 3px 8px; font-size: 9px;">YENİLE ⟳</button>
         </div>
 
-        <div style="position: relative; height: 160px; width: 100%;">
-          <canvas id="dailySensorChart"></canvas>
+        <!-- ZAMAN ARALIĞI SEÇİCİSİ (GÜNLÜK / HAFTALIK / AYLIK) -->
+        <div class="chart-time-selector">
+          <button type="button" class="time-toggle-btn active" id="btnChart24h" onclick="changeChartPeriod('24h')">[ GÜNLÜK 24S ]</button>
+          <button type="button" class="time-toggle-btn" id="btnChart7d" onclick="changeChartPeriod('7d')">[ HAFTALIK 7G ]</button>
+          <button type="button" class="time-toggle-btn" id="btnChart30d" onclick="changeChartPeriod('30d')">[ AYLIK 30G ]</button>
+        </div>
+
+        <!-- OSİLOSKOP / RULO KAĞIT ÇERÇEVESİ -->
+        <div class="strip-chart-frame">
+          <div style="position: relative; height: 180px; width: 100%;">
+            <canvas id="dailySensorChart"></canvas>
+          </div>
+          <div class="chart-legend-row">
+            <span style="color: #FF9F1A;">● HAVA PPM (MQ-135)</span>
+            <span style="color: #2ED573;">● IŞIK % (LDR)</span>
+            <span style="color: #00F2FE;">● SICAKLIK °C</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1048,23 +1137,23 @@
 
   </div>
 
-  <!-- ⚡ MOBİL ALT HIZLI AKSİYON DOCK BARI -->
+  <!-- ⚡ MOBİL ALT HIZLI AKSİYON DOCK BARI (%100 RETRO DONANIM GLİFLERİ) -->
   <div class="mobile-quick-dock">
     <button type="button" class="dock-btn" onclick="ringDeskChime()">
-      <span class="dock-icon">🔔</span>
+      <div class="retro-glyph-badge">⏣</div>
       <span>ZİL ÇAL</span>
     </button>
     <button type="button" class="dock-btn" onclick="startPomodoro(25, 'FOCUS')">
-      <span class="dock-icon">🎯</span>
+      <div class="retro-glyph-badge">⌖</div>
       <span>25 DK ODAK</span>
     </button>
     <button type="button" class="dock-btn" onclick="triggerPostureAlertTest()">
-      <span class="dock-icon">🧘‍♂️</span>
-      <span>POSTÜR TEST</span>
+      <div class="retro-glyph-badge">∿</div>
+      <span>POSTÜR</span>
     </button>
     <button type="button" class="dock-btn" onclick="wakeDeskScreen()">
-      <span class="dock-icon">💡</span>
-      <span>EKRANI YAK</span>
+      <div class="retro-glyph-badge">☼</div>
+      <span>EKRAN</span>
     </button>
   </div>
 
@@ -1098,13 +1187,15 @@
     }
 
     document.addEventListener('click', (e) => {
-      if (e.target.closest('button') || e.target.closest('.channel-pill') || e.target.closest('.dock-btn') || e.target.closest('.toggle-switch-unit') || e.target.closest('.piano-key')) {
+      if (e.target.closest('button') || e.target.closest('.channel-pill') || e.target.closest('.dock-btn') || e.target.closest('.toggle-switch-unit') || e.target.closest('.piano-key') || e.target.closest('.time-toggle-btn')) {
         playTactileFeedback();
       }
     });
 
     let dailyChartInstance = null;
     let cognitiveChartInstance = null;
+    let currentChartPeriod = '24h';
+
     let bmeConnected = false;
     let liveTemp = 26.4;
     let liveHum = 48;
@@ -1127,11 +1218,13 @@
     }
 
     function updateAnalogGauges(air, light) {
+      // Skala: 400 PPM = -45°, 1800 PPM = +45°
       const airClamped = Math.min(1800, Math.max(400, air));
       const airAngle = -45 + ((airClamped - 400) / (1800 - 400)) * 90;
       const airNeedle = document.getElementById('airGaugeNeedle');
       if (airNeedle) airNeedle.style.transform = `rotate(${airAngle.toFixed(1)}deg)`;
 
+      // Skala: %0 = -45°, %100 = +45°
       const lightClamped = Math.min(100, Math.max(0, light));
       const lightAngle = -45 + (lightClamped / 100) * 90;
       const lightNeedle = document.getElementById('lightGaugeNeedle');
@@ -1235,6 +1328,14 @@
       if (channelId === 'daily') setTimeout(initOrUpdateDailyChart, 50);
     }
 
+    function changeChartPeriod(period) {
+      currentChartPeriod = period;
+      document.getElementById('btnChart24h').classList.toggle('active', period === '24h');
+      document.getElementById('btnChart7d').classList.toggle('active', period === '7d');
+      document.getElementById('btnChart30d').classList.toggle('active', period === '30d');
+      initOrUpdateDailyChart();
+    }
+
     function initCognitiveChart() {
       const canvas = document.getElementById('hourlyCognitiveChart');
       if (!canvas) return;
@@ -1270,16 +1371,32 @@
       const canvas = document.getElementById('dailySensorChart');
       if (!canvas) return;
 
-      const now = new Date();
-      const currentH = now.getHours();
-      const labels = [];
-      const airData = [];
-      const lightData = [];
+      let labels = [];
+      let airData = [];
+      let lightData = [];
+      let tempData = [];
 
-      for (let h = Math.max(0, currentH - 8); h <= currentH; h++) {
-        labels.push(`${h}:00`);
-        airData.push(Math.round(liveAir / 10));
-        lightData.push(h >= 7 && h <= 19 ? liveLight : 10);
+      if (currentChartPeriod === '24h') {
+        const now = new Date();
+        const currentH = now.getHours();
+        for (let h = Math.max(0, currentH - 8); h <= currentH; h++) {
+          labels.push(`${h}:00`);
+          airData.push(Math.round(liveAir / 10));
+          lightData.push(h >= 7 && h <= 19 ? liveLight : 10);
+          tempData.push(liveTemp);
+        }
+      } else if (currentChartPeriod === '7d') {
+        labels = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+        airData = [42, 45, 43, 44, 46, 42, Math.round(liveAir / 10)];
+        lightData = [60, 65, 70, 65, 80, 55, liveLight];
+        tempData = [25.8, 26.1, 26.4, 25.9, 26.5, 26.2, liveTemp];
+      } else if (currentChartPeriod === '30d') {
+        for (let d = 1; d <= 30; d += 3) {
+          labels.push(`${d} Ağu`);
+          airData.push(40 + (d % 8));
+          lightData.push(50 + (d % 30));
+          tempData.push(25.0 + (d % 3));
+        }
       }
 
       if (dailyChartInstance) dailyChartInstance.destroy();
@@ -1289,8 +1406,9 @@
         data: {
           labels: labels,
           datasets: [
-            { data: airData, borderColor: '#D4AF37', borderWidth: 2.5, tension: 0.1, pointRadius: 2.5 },
-            { data: lightData, borderColor: '#2ED573', borderWidth: 2.5, tension: 0.1, pointRadius: 2.5 }
+            { label: 'Hava', data: airData, borderColor: '#FF9F1A', backgroundColor: 'rgba(255,159,26,0.1)', borderWidth: 2, tension: 0.2, pointRadius: 3 },
+            { label: 'Işık', data: lightData, borderColor: '#2ED573', backgroundColor: 'rgba(46,213,115,0.1)', borderWidth: 2, tension: 0.2, pointRadius: 3 },
+            { label: 'Sıcaklık', data: tempData, borderColor: '#00F2FE', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [4, 4], tension: 0.2, pointRadius: 2 }
           ]
         },
         options: {
@@ -1298,8 +1416,8 @@
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
-            x: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#4A5056', font: { family: 'JetBrains Mono', size: 9 } } },
-            y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#4A5056', font: { family: 'JetBrains Mono', size: 9 } } }
+            x: { grid: { color: '#0F2919' }, ticks: { color: '#55916A', font: { family: 'JetBrains Mono', size: 9 } } },
+            y: { grid: { color: '#0F2919' }, ticks: { color: '#55916A', font: { family: 'JetBrains Mono', size: 9 } } }
           }
         }
       });
@@ -1307,7 +1425,7 @@
 
     function refreshDailyChart() {
       initOrUpdateDailyChart();
-      showToast("GRAFİK YENİLENDİ");
+      showToast("TELEMETRİ ÇİZİCİSİ YENİLENDİ");
     }
 
     async function ringDeskChime() {
@@ -1377,7 +1495,6 @@
             const contEl = document.getElementById('continuousWorkText');
             const ergoEl = document.getElementById('ergoCountdownText');
 
-            // Odometre Sayacı (Bant Metresi)
             const mSec = screenSec % 100;
             const o1 = document.getElementById('tapeCounterM1');
             const o2 = document.getElementById('tapeCounterM2');
