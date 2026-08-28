@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google" content="notranslate">
-  <title>Masa İstasyonu // ULTRA-ZEKİ YAŞAM & TELEMETRİ KOKPİTİ</title>
+  <title>Masa İstasyonu // DOĞRUDAN CİHAZ & TELEMETRİ KOKPİTİ</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1F1510">
@@ -155,6 +155,12 @@
       color: var(--cyan-air);
       border-color: rgba(77, 208, 225, 0.4);
       background: rgba(77, 208, 225, 0.1);
+    }
+
+    .brass-tag.pending-amber {
+      color: var(--amber-glow);
+      border-color: rgba(232, 158, 75, 0.4);
+      background: rgba(232, 158, 75, 0.1);
     }
 
     .live-pulse-dot {
@@ -423,48 +429,6 @@
       transition: width 0.5s ease;
     }
 
-    .guide-accordion {
-      background: var(--felt-recess);
-      border: 1px solid var(--wood-border);
-      border-radius: 6px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-
-    .guide-header {
-      padding: 10px 12px;
-      background: rgba(0,0,0,0.4);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--brass-gold);
-      user-select: none;
-    }
-
-    .guide-content {
-      display: none;
-      padding: 12px;
-      font-size: 11px;
-      color: var(--text-bright);
-      line-height: 1.6;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .guide-item {
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px dashed rgba(255,255,255,0.06);
-    }
-    .guide-item:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-
     .pomodoro-box {
       background: var(--felt-recess);
       border: 1px solid rgba(212, 175, 55, 0.3);
@@ -553,7 +517,7 @@
     <div class="circadian-pill-bar">
       <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
         <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-5: MELATONİN & UYKU BİYOLOJİSİ</span>
-        <span style="color: var(--text-muted);" id="circadianPhaseTime">22:35 // ŞİRİNYER</span>
+        <span style="color: var(--text-muted);" id="circadianPhaseTime">22:37 // ŞİRİNYER</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="circadianProgressFill" style="width: 90%;"></div>
@@ -566,7 +530,7 @@
     <!-- 🎛️ ÇEKMECE RAFLARI ARASI GEÇİŞ -->
     <div class="shelf-tabs">
       <div class="shelf-tab-item active" id="tabSensors" onclick="switchShelf('sensors')">📊 METROLOJİ</div>
-      <div class="shelf-tab-item" id="tabScreenTime" onclick="switchShelf('screentime')">⏱️ EKRAN SÜRESİ</div>
+      <div class="shelf-tab-item" id="tabScreenTime" onclick="switchShelf('screentime')">⏱️ CİHAZ EKRANLARI</div>
       <div class="shelf-tab-item" id="tabDaily" onclick="switchShelf('daily')">📅 GRAFİK</div>
       <div class="shelf-tab-item" id="tabMonthly" onclick="switchShelf('monthly')">🗂️ ARŞİV</div>
       <div class="shelf-tab-item" id="tabAnalysis" onclick="switchShelf('analysis')">💡 360° AI BİLGE</div>
@@ -638,7 +602,7 @@
         </div>
       </div>
 
-      <!-- 📊 4. ANLIK ÇEVRESEL VERİLER -->
+      <!-- 📊 4. ANLIK ÇEVRESEL VERİLER (ESP32 FİZİKSEL SENSÖRLERİ) -->
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL METROLOJİ</div>
@@ -696,74 +660,85 @@
           <b id="roomPresenceBadge" style="color: var(--sage-green);">🟢 ODADA YAŞAM VAR (Aktif)</b>
         </div>
       </div>
-
-      <!-- 🌙 GECE EKRAN UYKU MODU (23:00 - 07:00) & SADE SÜRELİ AÇMA -->
-      <div class="drawer-tray">
-        <div class="brass-header">
-          <div class="brass-label"><span>[GECE-01]</span> EKRAN KARARTMA & AY IŞIĞI</div>
-          <span class="brass-tag" style="color: var(--amber-glow);">OTOMATİK UYKU</span>
-        </div>
-
-        <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">
-          Saat 23:00'dan sonra masadaki OLED ekran uyku için kararır. Gece su içmeye kalktığınızda hareket görünce <b>30 saniye loş ay ışığıyla</b> etrafı aydınlatır! Web'den süre vermek için:
-        </div>
-
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <input type="number" id="customWakeMin" class="wake-input" value="10" min="1" max="180">
-          <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">Dakika</span>
-          <button type="button" class="brass-btn brass-btn-gold" onclick="wakeScreenCustom()" style="flex: 1; padding: 8px 12px; font-size: 11px;">🌙 Ekranı Aç</button>
-        </div>
-      </div>
     </div>
 
     <!-- ==================================================== -->
-    <!-- ⏱️ YENİ RAF: GERÇEK EKRAN SÜRESİ & UYGULAMA DAĞILIMI -->
+    <!-- ⏱️ 2. RAF: %100 DOĞRUDAN CİHAZLARDAN ÇEKİLEN VERİLER -->
     <!-- ==================================================== -->
     <div id="shelfScreenTimeContent" style="display: none; flex-direction: column; gap: 12px;">
+      
+      <!-- 💻 1. MACBOOK DOĞRUDAN SİSTEM TELEMETRİSİ -->
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[EKRAN-01]</span> MAC & TELEFON GERÇEK EKRAN SÜRESİ</div>
-          <span class="brass-tag active-green">UYKU HATASI ELENDİ ✅</span>
+          <div class="brass-label"><span>[MAC-DIRECT]</span> MACBOOK GERÇEK EKRAN & UYGULAMA MOTORU</div>
+          <span class="brass-tag active-green">● DOĞRUDAN MACOS API</span>
         </div>
 
         <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 12px; margin-bottom: 12px;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); text-transform: uppercase;">BUGÜNKÜ GERÇEK AKTİF MAC SÜRESİ</div>
-              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 15 dk</div>
-              <div style="font-size: 10.5px; color: var(--sage-green);">✓ Mac uyurken geçen sahte süreler sayılmaz.</div>
+              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 18 dk</div>
+              <div style="font-size: 10px; color: var(--sage-green);">✓ IODisplayWrangler: Uyku modundaki sahte süreler %100 elendi.</div>
             </div>
             <div style="text-align: right;">
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">KESİNTİSİZ OTURMA</div>
-              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">35 dk</div>
-              <div style="font-size: 9.5px; color: var(--text-muted);">Mola Hedefi: 90 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">38 dk</div>
+              <div style="font-size: 9.5px; color: var(--text-muted);">Ergonomi Limiti: 90 dk</div>
             </div>
           </div>
         </div>
 
         <div class="brass-header" style="margin-top: 6px;">
-          <div class="brass-label" style="font-size: 10px;"><span>[UYGULAMALAR]</span> EN ÇOK KULLANILAN PROGRAMLAR</div>
+          <div class="brass-label" style="font-size: 10px;"><span>[UYGULAMALAR]</span> MAC'TE NEYE NE KADAR ZAMAN HARCANDI?</div>
         </div>
 
         <div id="appBreakdownContainer" style="display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 11px;">
           <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
             <span style="color: var(--brass-gold);">💻 Antigravity / IDE</span>
-            <span>45 dk (%60)</span>
+            <span>48 dk (%61)</span>
           </div>
           <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
             <span style="color: var(--cyan-air);">🌐 Google Chrome</span>
-            <span>20 dk (%27)</span>
+            <span>20 dk (%25)</span>
           </div>
           <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
             <span style="color: #1DB954;">🎵 Spotify</span>
-            <span>10 dk (%13)</span>
+            <span>10 dk (%14)</span>
           </div>
+        </div>
+      </div>
+
+      <!-- 📱 2. TELEFON DOĞRUDAN ENTEGRASYON BÖLMESİ -->
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[PHONE-DIRECT]</span> TELEFON EKRAN SÜRESİ & SENKRONU</div>
+          <span class="brass-tag active-cyan">● BULUT KÖPRÜSÜ</span>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">BUGÜNKÜ TELEFON EKRAN SÜRESİ</div>
+              <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--cyan-air); margin: 4px 0;" id="phoneScreenTimeVal">2 sa 05 dk</div>
+              <div style="font-size: 10px; color: var(--text-muted);" id="phoneModelSub">📱 iPhone // Şarj: %78</div>
+            </div>
+            <div style="text-align: right;">
+              <span class="brass-tag active-green">DOĞRUDAN SENKRON</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5; background: rgba(212,175,55,0.06); border: 1px dashed var(--brass-gold); border-radius: 6px; padding: 10px;">
+          📲 <b>iPhone Otomatik Kestirme (Shortcut) Entegrasyonu:</b><br>
+          Telefonunuzun <b>Kestirmeler (Shortcuts)</b> uygulamasından her gün ekran sürenizi veya şarja takıldığında durumunu anında masanıza fırlatan tek tık webhook linkiniz:<br>
+          <code style="color: var(--brass-gold); word-break: break-all; font-size: 9.5px;">https://masaustubotu-default-rtdb.firebaseio.com/phone.json</code>
         </div>
       </div>
     </div>
 
     <!-- ==================================================== -->
-    <!-- 2. RAF: GÜNLÜK AKIŞ & 24 SAATLİK SENSÖR GRAFİĞİ -->
+    <!-- 3. RAF: GÜNLÜK AKIŞ & 24 SAATLİK SENSÖR GRAFİĞİ -->
     <!-- ==================================================== -->
     <div id="shelfDailyContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
@@ -805,7 +780,7 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- 3. RAF: AYLIK ARŞİV & İSTATİSTİK RAPORU -->
+    <!-- 4. RAF: AYLIK ARŞİV & İSTATİSTİK RAPORU -->
     <!-- ==================================================== -->
     <div id="shelfMonthlyContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
@@ -855,7 +830,7 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- 4. RAF: 💡 360° BİLGE AI YAŞAM KOÇU -->
+    <!-- 5. RAF: 💡 360° BİLGE AI YAŞAM KOÇU -->
     <!-- ==================================================== -->
     <div id="shelfAnalysisContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
@@ -896,7 +871,7 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- 5. RAF: 🔔 BİLDİRİMLER & SES GÜNLÜĞÜ -->
+    <!-- 6. RAF: 🔔 BİLDİRİMLER & SES GÜNLÜĞÜ -->
     <!-- ==================================================== -->
     <div id="shelfEventsContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
@@ -1090,15 +1065,6 @@
       }
     }
 
-    function toggleGuide() {
-      const content = document.getElementById('guideContent');
-      const arrow = document.getElementById('guideArrow');
-      if (!content || !arrow) return;
-      const isOpen = content.style.display === 'block';
-      content.style.display = isOpen ? 'none' : 'block';
-      arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
-    }
-
     function updateRelativeTime() {
       const diffSec = Math.floor((Date.now() - lastSyncTimestamp) / 1000);
       const relEl = document.getElementById('relativeTimeText');
@@ -1151,24 +1117,6 @@
           body: JSON.stringify(true)
         });
       } catch (e) {}
-    }
-
-    async function wakeScreenMinutes(mins) {
-      const targetUnix = Math.floor(Date.now() / 1000) + (mins * 60);
-      showToast(`🌙 Ekran ${mins} Dakika Boyunca Açık!`);
-      addEventEntry("🌙", "Gece Ekranı Açıldı", `Ekran ${mins} dakika boyunca açıldı.`);
-      try {
-        await fetch(FIREBASE_URL + "control/screen_wake_until.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(targetUnix)
-        });
-      } catch (e) {}
-    }
-
-    function wakeScreenCustom() {
-      const val = parseInt(document.getElementById('customWakeMin').value || "10");
-      if (val > 0) wakeScreenMinutes(val);
     }
 
     function getTodayKey() {
@@ -1534,7 +1482,7 @@
           }
         }
 
-        // 💻 Mac & Spotify & Ekran Süresi Telemetrisi
+        // 💻 1. Doğrudan Mac Telemetrisi
         const resMac = await fetch(FIREBASE_URL + "mac.json" + FIREBASE_AUTH);
         if (resMac.ok) {
           const macData = await resMac.json();
@@ -1557,7 +1505,6 @@
             if (cpuEl) cpuEl.innerText = `%${macData.cpu || 15}`;
             if (battEl) battEl.innerText = `%${macData.battery || 100} ${macData.charging ? '⚡' : ''}`;
 
-            // ⏱️ Gerçek Ekran Süresi Güncellemesi
             const screenSec = macData.total_screen_sec || 0;
             const contSec = macData.continuous_work_sec || 0;
             const screenTimeEl = document.getElementById('trueMacScreenTime');
@@ -1574,7 +1521,6 @@
               contEl.innerText = `${ch > 0 ? ch + ' sa ' : ''}${cm} dk`;
             }
 
-            // Uygulama Dağılımı Render
             if (macData.apps_breakdown && typeof macData.apps_breakdown === 'object') {
               const appContainer = document.getElementById('appBreakdownContainer');
               if (appContainer) {
@@ -1614,6 +1560,24 @@
                 deltaEl.innerText = diff < 0 ? `${diff}°C Serin 🍃` : `+${diff}°C Sıcak`;
                 deltaEl.style.color = diff < 0 ? "var(--sage-green)" : "var(--amber-glow)";
               }
+            }
+          }
+        }
+
+        // 📱 2. Doğrudan Telefon Telemetrisi
+        const resPhone = await fetch(FIREBASE_URL + "phone.json" + FIREBASE_AUTH);
+        if (resPhone.ok) {
+          const phoneData = await resPhone.json();
+          if (phoneData && typeof phoneData === 'object') {
+            const phoneTimeEl = document.getElementById('phoneScreenTimeVal');
+            const phoneSubEl = document.getElementById('phoneModelSub');
+            if (phoneTimeEl && phoneData.phone_screen_min) {
+              const ph = Math.floor(phoneData.phone_screen_min / 60);
+              const pm = phoneData.phone_screen_min % 60;
+              phoneTimeEl.innerText = `${ph > 0 ? ph + ' sa ' : ''}${pm} dk`;
+            }
+            if (phoneSubEl && phoneData.device_name) {
+              phoneSubEl.innerText = `📱 ${phoneData.device_name} // Şarj: %${phoneData.battery || 80}`;
             }
           }
         }
