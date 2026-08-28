@@ -1,0 +1,67 @@
+# 🪵 Akıllı Masa İstasyonu // TE-01 Desk Station & Telemetry
+
+ESP32 tabanlı, çift çekirdek (FreeRTOS) mimarili, 60 FPS Bayer Halftone dithered piksel sanatına sahip maskot (Yulaf), akustik ses motoru ve ahşap dolap çekmecesi temalı web telemetri arşivine sahip açık kaynaklı akıllı masa asistanı.
+
+![Station Banner](https://img.shields.io/badge/ESP32-FreeRTOS_Dual_Core-blue?style=for-the-badge&logo=espressif)
+![Display](https://img.shields.io/badge/Display-SH1106_OLED_+_Philips_PCF8576-green?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Production_Ready-orange?style=for-the-badge)
+
+---
+
+## 📌 Proje Dosyaları
+
+| Dosya | Açıklama |
+| :--- | :--- |
+| **`index.html`** | GitHub Pages üzerinden doğrudan çalışan ahşap çekmece temalı web telemetri & aylık veri kaydedici kontrol paneli. |
+| **`sssss.ino`** | ESP32 için Arduino kaynak kodu (SPI OLED, 48x48 Yulaf Cyber-HUD, akustik çift hoparlör, sensör filtreleri ve Firebase). |
+| **`Blaupunkt_Lehim_Semasi.md`** | Philips PCF8576 I2C LCD entegresi için teknik lehim ve pin haritası. |
+
+---
+
+## ⚡ Donanım & Pin Bağlantı Şeması
+
+```
+ESP32 NodeMCU 38-Pin
+├── 📟 SH1106 OLED (7-Pin SPI)
+│   ├── D18 ➔ SCK / CLK
+│   ├── D19 ➔ MOSI / DIN
+│   ├── D05 ➔ CS
+│   ├── D04 ➔ DC
+│   └── D21 ➔ RES / RST
+│
+├── 🌡️ Çevre Sensörleri
+│   ├── D33 ➔ MQ-135 Hava Kalitesi (Analog)
+│   ├── D32 ➔ LDR Işık Şiddeti (Analog)
+│   ├── D27 ➔ PIR Hareket Sensörü (Dijital)
+│   ├── D22 ➔ BME280 SCL (I2C)
+│   └── D23 ➔ BME280 SDA (I2C)
+│
+├── 🔊 Akustik Çift Ses Motoru
+│   ├── D25 ➔ Piezo Buzzer
+│   └── D26 ➔ 8Ω Hoparlör (Brick Game)
+│
+└── 📻 Dış Ekran (Philips PCF8576 Teyp / 1602 LCD)
+    ├── D23 ➔ SDA (Pin 10)
+    └── D22 ➔ SCL (Pin 11)
+```
+
+---
+
+## 🚀 Kurulum & Çalıştırma
+
+### 1. Web Paneli (GitHub Pages):
+* Bu depoyu GitHub'a yükleyin.
+* **Settings ➔ Pages ➔ Branch: `main` / `root` ➔ Save** seçin.
+* `https://kullaniciadiniz.github.io/depoadi/` adresinden siteniz canlıya geçecektir!
+
+### 2. ESP32 Kodunu Yükleme:
+1. Arduino IDE'yi açın.
+2. `Adafruit SH110X`, `Adafruit GFX` kütüphanelerini kurun.
+3. Kart olarak **ESP32 Dev Module** seçin.
+4. [`sssss.ino`](sssss.ino) dosyasını açıp **Yükle (➔)** butonuna basın.
+
+---
+
+👤 **Geliştirici:** Efe Burak  
+🐱 **Mascot:** Yulaf (48x48 Retro Pixel Art)  
+📜 **Lisans:** MIT
