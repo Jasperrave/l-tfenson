@@ -4,41 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="google" content="notranslate">
-  <title>Masa İstasyonu // ANALOG ENSTRÜMAN KOKPİTİ</title>
+  <title>Masa İstasyonu // STUDER & NAGRA ANALOG LABORATUVARI</title>
   
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0D0805">
+  <meta name="theme-color" content="#080503">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- FONTS: Space Grotesk & JetBrains Mono -->
+  <!-- FONTS: JetBrains Mono (Engraved Type) & Space Grotesk (DIN Industrial) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     :root {
-      /* 🪵 GERÇEK MEKANİK AUDIOPHILE / STUDER & CEVİZ PALETİ */
-      --chassis-dark: #0A0604;
-      --wood-frame: #180F0A;
-      --wood-bezel: #2E1A11;
-      --metal-plate: #1A1817;
-      --metal-border: #4A3E36;
-      --brass-gold: #D4AF37;
+      /* 📻 GERÇEK ANALOG STUDER / NAGRA ENSTRÜMAN PALETİ */
+      --chassis-black: #060403;
+      --walnut-dark: #120A06;
+      --walnut-grain: #1F110A;
+      --walnut-edge: #382013;
+      
+      --faceplate-metal: #181513;
+      --faceplate-rim: #3A322C;
+      --faceplate-bevel: #554A42;
+      --recessed-dark: #080605;
+      
       --brass-metal: #C5A030;
-      --brass-highlight: #FFEAA7;
-      --vu-bg-warm: #EADCB8;
-      --vu-bg-glow: #F5E8C8;
-      --vu-black: #1A140E;
-      --vu-red: #D63031;
+      --brass-gold: #D4AF37;
+      --brass-bright: #FFEAA7;
+      --brass-engrave: #8C6D1F;
+
+      --dial-parchment: #EFE3C6;
+      --dial-parchment-glow: #FFF3D6;
+      --dial-shadow: #C4B491;
+      --dial-ink: #18120C;
+      --dial-red: #C0392B;
+      
+      --nixie-amber: #FF9F43;
+      --nixie-glow: rgba(255, 159, 67, 0.45);
       --emerald-lamp: #00B894;
-      --amber-lamp: #E17055;
       --cyan-air: #00CEC9;
-      --text-bright: #F5EFEB;
+      --purple-focus: #A29BFE;
+      
+      --text-bright: #F7F1E3;
       --text-muted: #B8A89A;
+      --text-engraved: #857567;
+      
       --font-mono: "JetBrains Mono", monospace;
       --font-ui: "Space Grotesk", sans-serif;
     }
@@ -51,7 +65,7 @@
     }
 
     body {
-      background-color: var(--chassis-dark);
+      background-color: var(--chassis-black);
       color: var(--text-bright);
       font-family: var(--font-ui);
       min-height: 100vh;
@@ -60,12 +74,12 @@
       padding: 10px 8px calc(115px + env(safe-area-inset-bottom)) 8px;
       background-image: 
         radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
-        linear-gradient(180deg, #180F0A 0%, #0A0604 100%);
+        linear-gradient(180deg, #1A0F08 0%, #060403 100%);
       background-attachment: fixed;
       overflow-x: hidden;
     }
 
-    .drawer-box {
+    .rack-mount-chassis {
       width: 100%;
       max-width: 540px;
       display: flex;
@@ -74,167 +88,157 @@
       position: relative;
     }
 
-    /* 📌 STICKY HEADER */
-    .sticky-drawer-header {
+    /* 📌 STICKY HEADER (FIRÇALANMIŞ TİTANYUM & ENGRAVED METALLİ) */
+    .sticky-rack-header {
       position: sticky;
       top: 6px;
       z-index: 1000;
-      background: linear-gradient(180deg, #1D1815 0%, #120E0C 100%);
-      border: 1px solid var(--metal-border);
+      background: linear-gradient(180deg, #221D1A 0%, #14110F 100%);
+      border: 1.5px solid var(--faceplate-rim);
+      border-top: 1px solid rgba(255,255,255,0.18);
       border-radius: 6px;
       padding: 10px 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.15);
+      box-shadow: 0 10px 32px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.12);
     }
 
-    /* 🗄️ GERÇEK MEKANİK ENSTRÜMAN ŞASİSİ */
-    .instrument-chassis {
-      background: linear-gradient(180deg, #1A1410 0%, #100C09 100%);
-      border: 1.5px solid #3E2B1F;
+    /* 🎛️ PROFESYONEL ANALOG MODÜL KASASI */
+    .analog-module {
+      background: linear-gradient(180deg, #1C1714 0%, #100D0B 100%);
+      border: 1.5px solid #362920;
+      border-top: 1.5px solid rgba(255,255,255,0.12);
       border-radius: 6px;
-      padding: 14px;
+      padding: 14px 14px 12px 14px;
       position: relative;
       box-shadow: 
-        inset 0 2px 6px rgba(0,0,0,0.9),
-        0 8px 24px rgba(0,0,0,0.8),
-        0 1px 0 rgba(255,255,255,0.06);
+        inset 0 2px 4px rgba(255,255,255,0.04),
+        inset 0 -2px 6px rgba(0,0,0,0.9),
+        0 8px 24px rgba(0,0,0,0.85);
     }
 
-    /* 🔩 FOTOREALİSTİK 3D OYUKLU PİRİNÇ VİDALAR */
-    .machined-screw {
+    /* 🔩 FOTOREALİSTİK OYUKLU ÇELİK/PİRİNÇ VİDALAR */
+    .countersunk-screw {
       position: absolute;
-      width: 9px;
-      height: 9px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #FFF0BA 0%, #D4AF37 45%, #7A5809 85%, #3A2602 100%);
+      background: radial-gradient(circle at 35% 35%, #FFF0C2 0%, #D4AF37 40%, #75550A 85%, #2B1D02 100%);
       box-shadow: 
-        inset 0 1px 2px rgba(255,255,255,0.8),
-        0 0 0 1px #0A0604,
-        0 1px 3px rgba(0,0,0,0.95);
+        inset 0 1px 2px rgba(255,255,255,0.7),
+        0 0 0 1.5px #070503,
+        0 1px 4px rgba(0,0,0,0.95);
       pointer-events: none;
     }
-    .machined-screw::after {
+    .countersunk-screw::after {
       content: "";
       position: absolute;
-      top: 4px;
+      top: 4.5px;
       left: 1.5px;
-      width: 6px;
+      width: 7px;
       height: 1.2px;
-      background: #241501;
-      box-shadow: 0 0.5px 0.5px rgba(255,255,255,0.25);
+      background: #1F1401;
+      box-shadow: 0 0.5px 0.5px rgba(255,255,255,0.3);
     }
-    .machined-screw.tl { top: 6px; left: 6px; transform: rotate(32deg); }
-    .machined-screw.tr { top: 6px; right: 6px; transform: rotate(124deg); }
-    .machined-screw.bl { bottom: 6px; left: 6px; transform: rotate(78deg); }
-    .machined-screw.br { bottom: 6px; right: 6px; transform: rotate(155deg); }
+    .countersunk-screw.tl { top: 6px; left: 6px; transform: rotate(38deg); }
+    .countersunk-screw.tr { top: 6px; right: 6px; transform: rotate(127deg); }
+    .countersunk-screw.bl { bottom: 6px; left: 6px; transform: rotate(82deg); }
+    .countersunk-screw.br { bottom: 6px; right: 6px; transform: rotate(164deg); }
 
-    .brass-header {
+    .module-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-bottom: 8px;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.22);
       margin-bottom: 12px;
     }
 
-    .brass-label {
+    .engraved-label {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       color: var(--brass-gold);
       text-transform: uppercase;
       display: flex;
       align-items: center;
       gap: 6px;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      text-shadow: 0 -1px 0 rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.15);
     }
 
-    .brass-tag {
+    .stamped-badge {
       font-family: var(--font-mono);
-      font-size: 9.5px;
-      font-weight: 700;
+      font-size: 9px;
+      font-weight: 800;
       padding: 3px 8px;
       border-radius: 3px;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      background: #0E0B08;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      background: #0A0806;
       color: var(--brass-gold);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
-    }
-
-    .brass-tag.active-green {
-      color: #00B894;
-      border-color: rgba(0, 184, 148, 0.4);
-    }
-
-    .brass-tag.active-cyan {
-      color: var(--cyan-air);
-      border-color: rgba(0, 206, 201, 0.4);
-    }
-
-    .brass-tag.active-purple {
-      color: var(--purple-focus);
-      border-color: rgba(187, 134, 252, 0.4);
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.9);
     }
 
     .jewel-lamp {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #A8FFEB 0%, #00B894 60%, #004D3D 100%);
-      box-shadow: 0 0 8px #00B894, inset 0 1px 1px #FFF;
-      animation: jewelPulse 2s infinite ease-in-out;
+      background: radial-gradient(circle at 30% 30%, #C7FFF1 0%, #00B894 55%, #004D3D 100%);
+      box-shadow: 0 0 10px #00B894, inset 0 1px 1px #FFF;
+      animation: jewelBlink 2.2s infinite ease-in-out;
     }
 
-    @keyframes jewelPulse {
-      0% { opacity: 0.75; transform: scale(0.95); }
-      50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 12px #00B894; }
-      100% { opacity: 0.75; transform: scale(0.95); }
+    @keyframes jewelBlink {
+      0% { opacity: 0.8; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 14px #00B894; }
+      100% { opacity: 0.8; transform: scale(0.95); }
     }
 
-    /* 🎛️ GERÇEK FIRÇALANMIŞ METAL BUTONLAR */
-    .brass-btn {
+    /* 🎛️ GERÇEK İŞLENMİŞ ALÜMİNYUM & METAL BUTONLAR */
+    .machined-btn {
       font-family: var(--font-mono);
       font-size: 10.5px;
       font-weight: 800;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
       padding: 8px 14px;
       border-radius: 4px;
-      border: 1px solid #5A4432;
-      background: linear-gradient(180deg, #382A20 0%, #201711 100%);
+      border: 1px solid #4D3B2C;
+      border-top: 1px solid rgba(255,255,255,0.25);
+      background: linear-gradient(180deg, #3C2B1E 0%, #20160F 100%);
       color: var(--text-bright);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.15);
       transition: transform 0.08s ease, background 0.15s ease;
       touch-action: manipulation;
       user-select: none;
     }
 
-    .brass-btn:active {
+    .machined-btn:active {
       transform: scale(0.95) translateY(1px);
-      box-shadow: inset 0 3px 6px rgba(0,0,0,0.9);
+      box-shadow: inset 0 3px 6px rgba(0,0,0,0.95);
       background: #140E0A;
     }
 
-    .brass-btn-gold {
-      background: linear-gradient(180deg, #E5C158 0%, #A88214 100%);
+    .machined-btn-gold {
+      background: linear-gradient(180deg, #E6C45E 0%, #A37F15 100%);
       color: #120B03;
       border-color: #D4AF37;
-      box-shadow: 0 3px 10px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+      border-top-color: #FFF2A8;
+      box-shadow: 0 3px 10px rgba(212, 175, 55, 0.45), inset 0 1px 0 rgba(255,255,255,0.5);
     }
 
-    .brass-btn-bronze {
+    .machined-btn-bronze {
       background: linear-gradient(180deg, #D35400 0%, #873600 100%);
       color: #FFF;
       border-color: #D35400;
-      box-shadow: 0 3px 8px rgba(211, 84, 0, 0.35);
+      border-top-color: #FFA07A;
+      box-shadow: 0 3px 10px rgba(211, 84, 0, 0.4);
     }
 
     .telemetry-grid {
@@ -244,103 +248,126 @@
     }
 
     /* ======================================================= */
-    /* 📟 GERÇEK CAMLI & ARKADAN IŞIKLI ANALOG VU METRE KADRANI */
+    /* 📻 GÖMÜLÜ DERİN MİNERAL CAMLI ARKADAN IŞIKLI VU METRELER */
     /* ======================================================= */
-    .vu-meter-housing {
-      background: radial-gradient(ellipse at 50% 30%, #FFF4D4 0%, var(--vu-bg-warm) 60%, #C9B890 100%);
-      border: 3px solid #1E1610;
+    .recessed-vu-frame {
+      background: #080604;
+      border: 2px solid #221812;
+      border-bottom: 2px solid #3E2B1F;
       border-radius: 6px;
+      padding: 3px;
+      box-shadow: 
+        inset 0 4px 10px rgba(0,0,0,0.95),
+        0 2px 6px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    .vu-meter-chamber {
+      background: radial-gradient(ellipse at 50% 20%, var(--dial-parchment-glow) 0%, var(--dial-parchment) 55%, var(--dial-shadow) 100%);
+      border-radius: 4px;
       padding: 6px 8px 4px 8px;
       position: relative;
       overflow: hidden;
-      box-shadow: 
-        inset 0 3px 8px rgba(0,0,0,0.6),
-        inset 0 0 16px rgba(184, 150, 80, 0.35),
-        0 2px 6px rgba(0,0,0,0.8);
       display: flex;
       flex-direction: column;
       align-items: center;
+      box-shadow: inset 0 0 14px rgba(184, 150, 80, 0.35);
     }
 
-    /* Cam Parlama Çizgisi (Realistic Glass Bevel & Lens Flare) */
-    .vu-meter-housing::before {
+    /* 🔍 DERİN MİNERAL CAM PARLAMASI & IŞIK YANSIMASI */
+    .vu-meter-chamber::before {
       content: "";
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.08) 35%, transparent 60%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 32%, transparent 55%);
       pointer-events: none;
       z-index: 10;
     }
 
-    .vu-header-label {
+    /* Alt Lamba Akkor Işığı */
+    .vu-meter-chamber::after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 30px;
+      background: radial-gradient(ellipse, rgba(255, 200, 100, 0.4) 0%, transparent 80%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .vu-top-text {
       font-family: var(--font-mono);
-      font-size: 8.5px;
+      font-size: 8px;
       font-weight: 800;
-      color: #4A3828;
+      color: #3D2D1E;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       width: 100%;
       display: flex;
       justify-content: space-between;
       z-index: 5;
     }
 
-    .vu-svg {
+    .vu-gauge-svg {
       width: 130px;
-      height: 64px;
+      height: 62px;
       overflow: visible;
       z-index: 2;
     }
 
-    .vu-needle-arm {
-      transform-origin: 65px 56px;
-      transition: transform 0.7s cubic-bezier(0.25, 1.4, 0.5, 1);
-      filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.35));
+    .vu-calibrated-needle {
+      transform-origin: 65px 54px;
+      transition: transform 0.75s cubic-bezier(0.2, 1.45, 0.4, 1);
+      filter: drop-shadow(1.5px 2.5px 2px rgba(0,0,0,0.38));
     }
 
-    .vu-digital-val {
+    .vu-digital-readout {
       font-family: var(--font-mono);
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 800;
-      color: #1A1108;
-      letter-spacing: -0.02em;
-      margin-top: -2px;
+      color: #160F07;
+      letter-spacing: -0.03em;
+      margin-top: -3px;
       z-index: 5;
       text-shadow: 0 1px 0 rgba(255,255,255,0.6);
     }
 
-    .vu-sub-status {
-      font-size: 9px;
-      font-weight: 700;
-      color: #5C4733;
+    .vu-status-caption {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #4D3927;
       z-index: 5;
       margin-bottom: 2px;
     }
 
-    .tray-compartment {
-      background: #0C0805;
+    .instrument-bay {
+      background: #0B0806;
       border: 1px solid rgba(255,255,255,0.06);
       border-radius: 6px;
-      padding: 10px;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.8);
+      padding: 10px 12px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.9);
       position: relative;
     }
 
-    .comp-label {
+    .bay-title {
       font-family: var(--font-mono);
-      font-size: 9.5px;
-      font-weight: 700;
+      font-size: 9px;
+      font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
-    .comp-val {
+    .bay-value {
       font-family: var(--font-mono);
       font-size: 20px;
       font-weight: 800;
@@ -349,30 +376,31 @@
       letter-spacing: -0.02em;
     }
 
-    .comp-sub {
+    .bay-desc {
       font-size: 10.5px;
       color: var(--text-muted);
     }
 
-    .shelf-tabs {
+    /* 🎛️ MEKANİK SELECTOR BUTONLARI (FUNCTION SELECTOR) */
+    .function-selector {
       display: flex;
-      background: #100B08;
-      border: 1px solid var(--metal-border);
+      background: #0E0A07;
+      border: 1.5px solid var(--faceplate-rim);
       border-radius: 6px;
       padding: 3px;
       gap: 3px;
       overflow-x: auto;
       scrollbar-width: none;
     }
-    .shelf-tabs::-webkit-scrollbar { display: none; }
+    .function-selector::-webkit-scrollbar { display: none; }
 
-    .shelf-tab-item {
+    .selector-switch {
       flex: 1;
       font-family: var(--font-mono);
       font-size: 9.5px;
       font-weight: 800;
       text-align: center;
-      padding: 7px 5px;
+      padding: 7px 6px;
       border-radius: 4px;
       cursor: pointer;
       color: var(--text-muted);
@@ -381,42 +409,15 @@
       touch-action: manipulation;
     }
 
-    .shelf-tab-item.active {
-      background: linear-gradient(180deg, #3A271C 0%, #22160F 100%);
+    .selector-switch.active {
+      background: linear-gradient(180deg, #3D2B1D 0%, #20150E 100%);
       color: var(--brass-gold);
       border: 1px solid var(--brass-gold);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.7);
-    }
-
-    .lab-metric-card {
-      background: #0C0805;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 6px;
-      padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .lab-metric-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    .lab-metric-value {
-      font-family: var(--font-mono);
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--brass-gold);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.15);
     }
 
     .insight-card {
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.45);
       border-left: 3px solid var(--brass-gold);
       border-radius: 0 6px 6px 0;
       padding: 10px 12px;
@@ -426,7 +427,7 @@
     .insight-title {
       font-family: var(--font-mono);
       font-size: 10.5px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--brass-gold);
       display: flex;
       align-items: center;
@@ -462,7 +463,7 @@
     }
 
     .circadian-pill-bar {
-      background: rgba(0,0,0,0.55);
+      background: rgba(0,0,0,0.6);
       border: 1px solid rgba(212, 175, 55, 0.25);
       border-radius: 6px;
       padding: 8px 10px;
@@ -485,24 +486,25 @@
       transition: width 0.5s ease;
     }
 
-    .pomodoro-box {
-      background: #0A0604;
-      border: 1px solid rgba(212, 175, 55, 0.35);
+    /* 📟 VINTAGE NIXIE / VFD GÖSTERGE PENCERESİ */
+    .pomodoro-chamber {
+      background: #060402;
+      border: 2px solid #2A1D14;
       border-radius: 8px;
       padding: 14px;
       text-align: center;
       margin-bottom: 8px;
-      box-shadow: inset 0 3px 10px rgba(0,0,0,0.9);
+      box-shadow: inset 0 4px 12px rgba(0,0,0,0.95);
     }
 
     .pomodoro-digits {
       font-family: var(--font-mono);
-      font-size: 38px;
+      font-size: 40px;
       font-weight: 800;
-      color: var(--brass-gold);
+      color: var(--nixie-amber);
       letter-spacing: 2px;
       margin: 6px 0;
-      text-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
+      text-shadow: 0 0 16px var(--nixie-glow), 0 0 4px #FFA502;
     }
 
     /* ⚡ MOBİL ALT HIZLI AKSİYON DOCK BARI */
@@ -513,16 +515,17 @@
       transform: translateX(-50%);
       width: calc(100% - 20px);
       max-width: 520px;
-      background: linear-gradient(180deg, #221710 0%, #120C07 100%);
+      background: linear-gradient(180deg, #241A13 0%, #120C07 100%);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1.5px solid var(--brass-gold);
+      border-top: 1.5px solid #FFEAA7;
       border-radius: 32px;
       padding: 6px 14px;
       display: flex;
       justify-content: space-around;
       align-items: center;
-      box-shadow: 0 12px 36px rgba(0,0,0,0.98), 0 0 16px rgba(212,175,55,0.25);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.98), 0 0 18px rgba(212,175,55,0.25);
       z-index: 9999;
     }
 
@@ -579,38 +582,39 @@
 </head>
 <body>
 
-  <div class="drawer-box">
+  <div class="rack-mount-chassis">
 
-    <!-- 📌 1. STICKY HEADER -->
-    <div class="sticky-drawer-header">
+    <!-- 📌 1. STICKY RACK HEADER -->
+    <div class="sticky-rack-header">
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div class="brass-label" style="font-size: 11.5px;">
+        <div class="engraved-label" style="font-size: 11.5px;">
           <span>⚙️</span>
-          <span>MASA İSTASYONU // STUDER LAB</span>
+          <span>STUDER A80 // TELEMETRİ KOKPİTİ</span>
         </div>
         <div style="display: flex; gap: 6px; align-items: center;">
-          <span class="brass-tag active-green" id="liveStatusBadge">
+          <span class="stamped-badge" style="color: #00B894; border-color: rgba(0,184,148,0.4);" id="liveStatusBadge">
             <span class="jewel-lamp"></span>
             <span>ESP32 CANLI</span>
           </span>
-          <button type="button" class="brass-btn" onclick="ringDeskChime()" style="padding: 4px 8px; font-size: 10px;">🔔 Masayı Çal</button>
+          <button type="button" class="machined-btn" onclick="ringDeskChime()" style="padding: 4px 8px; font-size: 10px;">🔔 Masayı Çal</button>
         </div>
       </div>
     </div>
 
-    <!-- 👀 20-20-20 GÖZ & DİK DURUŞ (POSTÜR) KOÇU KARTI -->
-    <div style="background: rgba(187,134,252,0.06); border: 1.5px solid #6C5CE7; border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono);">
-      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 10px;">
-        <div style="display: flex; align-items: center; gap: 6px;">
+    <!-- 👀 20-20-20 GÖZ & DİK DURUŞ (POSTÜR) MODÜLÜ -->
+    <div class="analog-module" style="background: linear-gradient(180deg, #1A141A 0%, #100C12 100%); border-color: #4A3A5E;">
+      <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+      <div class="module-header" style="border-bottom-color: rgba(162,155,254,0.3);">
+        <div class="engraved-label" style="color: var(--purple-focus);">
           <span>👀</span>
-          <span style="color: var(--purple-focus); font-weight: 800;">20-20-20 GÖZ & POSTÜR KOÇU</span>
+          <span>20-20-20 GÖZ & POSTÜR KOÇU</span>
         </div>
-        <span class="brass-tag active-green" id="macLocationPill">🏠 EVDE (MASA BAŞINDA)</span>
+        <span class="stamped-badge" style="color: #00B894; border-color: rgba(0,184,148,0.4);" id="macLocationPill">🏠 EVDE (MASA BAŞINDA)</span>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding-top: 4px; color: var(--text-bright);">
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 4px 0; color: var(--text-bright); font-family: var(--font-mono);">
         <span>Sonraki Göz & Duruş Molası: <b style="color: var(--purple-focus);" id="ergoCountdownText">12:33 dk</b></span>
-        <button type="button" class="brass-btn" onclick="triggerPostureAlertTest()" style="padding: 2px 7px; font-size: 9px; border-color: var(--purple-focus); color: var(--purple-focus);">Test Et 🔔</button>
+        <button type="button" class="machined-btn" onclick="triggerPostureAlertTest()" style="padding: 2px 8px; font-size: 9px; border-color: var(--purple-focus); color: var(--purple-focus);">Test Et 🔔</button>
       </div>
 
       <div style="font-size: 10px; color: var(--text-muted); line-height: 1.3;">
@@ -619,18 +623,19 @@
     </div>
 
     <!-- 📍 KONUM, TERAS YAŞAM KAMPI & TERMODİNAMİK DIŞ HAVA KARTI -->
-    <div style="background: rgba(0,0,0,0.45); border: 1px solid rgba(212,175,55,0.25); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono);">
-      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 10px;">
-        <div style="display: flex; align-items: center; gap: 6px;">
+    <div class="analog-module">
+      <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+      <div class="module-header">
+        <div class="engraved-label">
           <span>🏕️</span>
-          <span style="color: var(--brass-gold); font-weight: 700;">BUCA // YAZ TERAS KAMPI (AÇIK HAVA YAŞAMI 🌌)</span>
+          <span>BUCA // YAZ TERAS KAMPI (AÇIK HAVA YAŞAMI 🌌)</span>
         </div>
-        <span class="brass-tag active-cyan" id="outdoorWeatherPill">🌤️ 22°C // İMBAT</span>
+        <span class="stamped-badge" style="color: var(--cyan-air); border-color: rgba(0,206,201,0.4);" id="outdoorWeatherPill">🌤️ 22°C // İMBAT</span>
       </div>
 
-      <div style="display: flex; justify-content: space-between; font-size: 10.5px; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 5px; color: var(--text-bright);">
+      <div style="display: flex; justify-content: space-between; font-size: 10.5px; font-family: var(--font-mono); padding-top: 2px; color: var(--text-bright);">
         <span>🌌 Teras (Efe): <b style="color: var(--cyan-air);" id="outdoorCompareText">22.0°C</b></span>
-        <span>🗄️ Alt Kat Oda: <b style="color: var(--amber-lamp);" id="indoorCompareText">26.4°C</b></span>
+        <span>🗄️ Alt Kat Oda: <b style="color: var(--nixie-amber);" id="indoorCompareText">26.4°C</b></span>
         <span>Masa: <b style="color: #00B894;">Gölgede Nöbette 🍃</b></span>
       </div>
     </div>
@@ -638,8 +643,8 @@
     <!-- 🧬 SİRKADİYEN BİYORİTİM & ZAMAN FAZI ÇUBUĞU -->
     <div class="circadian-pill-bar">
       <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
-        <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-5: TERASTA YILDIZLAR ALTINDA DİNLENME</span>
-        <span style="color: var(--text-muted);" id="circadianPhaseTime">23:15 // ŞİRİNYER</span>
+        <span style="color: var(--brass-gold); font-weight: 800;" id="circadianPhaseTitle">🌙 FAZ-5: TERASTA YILDIZLAR ALTINDA DİNLENME</span>
+        <span style="color: var(--text-muted);" id="circadianPhaseTime">23:18 // ŞİRİNYER</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="circadianProgressFill" style="width: 90%;"></div>
@@ -649,14 +654,14 @@
       </div>
     </div>
 
-    <!-- 🎛️ ÇEKMECE RAFLARI ARASI GEÇİŞ -->
-    <div class="shelf-tabs">
-      <div class="shelf-tab-item active" id="tabSensors" onclick="switchShelf('sensors')">📊 VU METRE</div>
-      <div class="shelf-tab-item" id="tabProductivityLab" onclick="switchShelf('prodlab')">🧠 VERİMLİLİK LAB</div>
-      <div class="shelf-tab-item" id="tabScreenTime" onclick="switchShelf('screentime')">⏱️ CİHAZ EKRANLARI</div>
-      <div class="shelf-tab-item" id="tabDaily" onclick="switchShelf('daily')">📅 GRAFİK</div>
-      <div class="shelf-tab-item" id="tabAnalysis" onclick="switchShelf('analysis')">💡 360° AI BİLGE</div>
-      <div class="shelf-tab-item" id="tabEvents" onclick="switchShelf('events')">🔔 BİLDİRİMLER</div>
+    <!-- 🎛️ FUNCTION SELECTOR (ANA MODÜL SEÇİCİ) -->
+    <div class="function-selector">
+      <div class="selector-switch active" id="tabSensors" onclick="switchShelf('sensors')">📊 VU METRE</div>
+      <div class="selector-switch" id="tabProductivityLab" onclick="switchShelf('prodlab')">🧠 VERİMLİLİK LAB</div>
+      <div class="selector-switch" id="tabScreenTime" onclick="switchShelf('screentime')">⏱️ CİHAZ EKRANLARI</div>
+      <div class="selector-switch" id="tabDaily" onclick="switchShelf('daily')">📅 GRAFİK</div>
+      <div class="selector-switch" id="tabAnalysis" onclick="switchShelf('analysis')">💡 360° AI BİLGE</div>
+      <div class="selector-switch" id="tabEvents" onclick="switchShelf('events')">🔔 BİLDİRİMLER</div>
     </div>
 
     <!-- ==================================================== -->
@@ -665,17 +670,17 @@
     <div id="shelfSensorsContent" style="display: flex; flex-direction: column; gap: 12px;">
       
       <!-- 💻 SPOTIFY ÇALAR -->
-      <div class="instrument-chassis">
-        <div class="machined-screw tl"></div><div class="machined-screw tr"></div><div class="machined-screw bl"></div><div class="machined-screw br"></div>
-        <div class="brass-header">
-          <div class="brass-label"><span>[SPOTIFY-01]</span> SPOTIFY EVRENSEL BULUT ÇALAR</div>
-          <span class="brass-tag active-green" id="macStatusBadge">
+      <div class="analog-module">
+        <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+        <div class="module-header">
+          <div class="engraved-label"><span>[SPOTIFY-01]</span> SPOTIFY EVRENSEL BULUT ÇALAR</div>
+          <span class="stamped-badge" style="color: #00B894;" id="macStatusBadge">
             <span class="jewel-lamp"></span>
             <span>BULUT KÖPRÜSÜ AKTİF</span>
           </span>
         </div>
 
-        <div style="background: #0C0805; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="background: #0B0806; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
           <div style="display: flex; gap: 10px; align-items: center; overflow: hidden;">
             <div class="eq-bar-box">
               <div class="eq-bar"></div>
@@ -695,32 +700,32 @@
         </div>
       </div>
 
-      <!-- 🎯 POMODORO SAYACI -->
-      <div class="instrument-chassis">
-        <div class="machined-screw tl"></div><div class="machined-screw tr"></div><div class="machined-screw bl"></div><div class="machined-screw br"></div>
-        <div class="brass-header">
-          <div class="brass-label"><span>[POMODORO-01]</span> ODAKLANMA VE ÇALIŞMA SAYACI</div>
-          <span class="brass-tag" id="pomoSessionBadge">🍅 0 TUR TAMAM</span>
+      <!-- 🎯 POMODORO NIXIE/VFD SAYACI -->
+      <div class="analog-module">
+        <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+        <div class="module-header">
+          <div class="engraved-label"><span>[POMODORO-01]</span> ODAKLANMA VE ÇALIŞMA SAYACI</div>
+          <span class="stamped-badge" id="pomoSessionBadge">🍅 0 TUR TAMAM</span>
         </div>
 
-        <div class="pomodoro-box">
+        <div class="pomodoro-chamber">
           <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); text-transform: uppercase;" id="pomoStatusText">HAZIR // SEANS BAŞLATIN</div>
           <div class="pomodoro-digits" id="pomoDisplay">25:00</div>
           
           <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px;">
-            <button type="button" class="brass-btn brass-btn-gold" onclick="startPomodoro(25, 'FOCUS')">🎯 25 Dk Odaklan</button>
-            <button type="button" class="brass-btn brass-btn-bronze" onclick="startPomodoro(5, 'BREAK')">☕ 5 Dk Mola</button>
-            <button type="button" class="brass-btn" onclick="stopPomodoro()">🛑 Durdur</button>
+            <button type="button" class="machined-btn machined-btn-gold" onclick="startPomodoro(25, 'FOCUS')">🎯 25 Dk Odaklan</button>
+            <button type="button" class="machined-btn machined-btn-bronze" onclick="startPomodoro(5, 'BREAK')">☕ 5 Dk Mola</button>
+            <button type="button" class="machined-btn" onclick="stopPomodoro()">🛑 Durdur</button>
           </div>
         </div>
       </div>
 
-      <!-- 📊 FOTOREALİSTİK ARKADAN IŞIKLI ANALOG VU METRELER -->
-      <div class="instrument-chassis">
-        <div class="machined-screw tl"></div><div class="machined-screw tr"></div><div class="machined-screw bl"></div><div class="machined-screw br"></div>
-        <div class="brass-header">
-          <div class="brass-label"><span>[METROLOJİ]</span> GERÇEK ANALOG VU KADRANLARI</div>
-          <span class="brass-tag" id="lastSyncTime">
+      <!-- 📊 FOTOREALİSTİK DERİN CAMLI ANALOG VU METRELER -->
+      <div class="analog-module">
+        <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+        <div class="module-header">
+          <div class="engraved-label"><span>[METROLOJİ]</span> DUAL-SCALE ANALOG VU KADRANLARI</div>
+          <span class="stamped-badge" id="lastSyncTime">
             <span class="jewel-lamp"></span>
             <span id="relativeTimeText">ŞİMDİ GÜNCEL</span>
           </span>
@@ -728,84 +733,88 @@
 
         <div class="telemetry-grid">
           <!-- 1. HAVA KALİTESİ VU METRE (MQ-135) -->
-          <div class="vu-meter-housing">
-            <div class="vu-header-label">
-              <span>AIR PPM</span>
-              <span>MQ-135</span>
-            </div>
-            
-            <svg class="vu-svg" viewBox="0 0 130 64">
-              <!-- VU Kadran Cetvel Çizgileri -->
-              <path d="M 18 56 A 48 48 0 0 1 112 56" fill="none" stroke="#685642" stroke-width="1.5" stroke-dasharray="1, 4"/>
-              <path d="M 18 56 A 48 48 0 0 1 80 18" fill="none" stroke="#2D3436" stroke-width="2.5"/>
-              <path d="M 80 18 A 48 48 0 0 1 112 56" fill="none" stroke="#D63031" stroke-width="3"/>
+          <div class="recessed-vu-frame">
+            <div class="vu-meter-chamber">
+              <div class="vu-top-text">
+                <span>AIR PPM</span>
+                <span>MQ-135</span>
+              </div>
               
-              <!-- Rakamlar -->
-              <text x="18" y="52" fill="#3D2D1E" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">400</text>
-              <text x="58" y="18" fill="#3D2D1E" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">800</text>
-              <text x="100" y="52" fill="#D63031" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">1800</text>
+              <svg class="vu-gauge-svg" viewBox="0 0 130 64">
+                <!-- VU Kadran Cetvel Çizgileri -->
+                <path d="M 18 54 A 48 48 0 0 1 112 54" fill="none" stroke="#685642" stroke-width="1.5" stroke-dasharray="1, 4"/>
+                <path d="M 18 54 A 48 48 0 0 1 80 18" fill="none" stroke="#1E1610" stroke-width="2.5"/>
+                <path d="M 80 18 A 48 48 0 0 1 112 54" fill="none" stroke="#C0392B" stroke-width="3.5"/>
+                
+                <!-- Rakamlar -->
+                <text x="18" y="50" fill="#3D2D1E" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">400</text>
+                <text x="58" y="18" fill="#3D2D1E" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">800</text>
+                <text x="98" y="50" fill="#C0392B" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">1800</text>
 
-              <!-- İbre (Needle) -->
-              <g id="airGaugeNeedle" class="vu-needle-arm" style="transform: rotate(-60deg);">
-                <line x1="65" y1="56" x2="65" y2="10" stroke="#1A140E" stroke-width="2" stroke-linecap="round"/>
-                <line x1="65" y1="18" x2="65" y2="10" stroke="#D63031" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="65" cy="56" r="5" fill="#2E241B" stroke="#000" stroke-width="1"/>
-                <circle cx="65" cy="56" r="2" fill="#D4AF37"/>
-              </g>
-            </svg>
+                <!-- İbre (Needle) -->
+                <g id="airGaugeNeedle" class="vu-calibrated-needle" style="transform: rotate(-60deg);">
+                  <line x1="65" y1="54" x2="65" y2="8" stroke="#160F09" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="65" y1="16" x2="65" y2="8" stroke="#C0392B" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="65" cy="54" r="5.5" fill="#2E241B" stroke="#000" stroke-width="1"/>
+                  <circle cx="65" cy="54" r="2" fill="#D4AF37"/>
+                </g>
+              </svg>
 
-            <div class="vu-digital-val" id="airVal">435 PPM</div>
-            <div class="vu-sub-status" id="airStatus">Ferah & Temiz ✨</div>
+              <div class="vu-digital-readout" id="airVal">435 PPM</div>
+              <div class="vu-status-caption" id="airStatus">Ferah & Temiz ✨</div>
+            </div>
           </div>
 
           <!-- 2. IŞIK SEVİYESİ VU METRE (LDR) -->
-          <div class="vu-meter-housing">
-            <div class="vu-header-label">
-              <span>LIGHT %</span>
-              <span>PHOTOMETRIC</span>
-            </div>
-            
-            <svg class="vu-svg" viewBox="0 0 130 64">
-              <!-- VU Kadran Cetvel Çizgileri -->
-              <path d="M 18 56 A 48 48 0 0 1 112 56" fill="none" stroke="#685642" stroke-width="1.5" stroke-dasharray="1, 4"/>
-              <path d="M 18 56 A 48 48 0 0 1 85 20" fill="none" stroke="#2D3436" stroke-width="2.5"/>
-              <path d="M 85 20 A 48 48 0 0 1 112 56" fill="none" stroke="#E67E22" stroke-width="3"/>
+          <div class="recessed-vu-frame">
+            <div class="vu-meter-chamber">
+              <div class="vu-top-text">
+                <span>LIGHT %</span>
+                <span>PHOTOMETRIC</span>
+              </div>
               
-              <!-- Rakamlar -->
-              <text x="18" y="52" fill="#3D2D1E" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">0%</text>
-              <text x="58" y="18" fill="#3D2D1E" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">50%</text>
-              <text x="100" y="52" fill="#E67E22" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">100%</text>
+              <svg class="vu-gauge-svg" viewBox="0 0 130 64">
+                <!-- VU Kadran Cetvel Çizgileri -->
+                <path d="M 18 54 A 48 48 0 0 1 112 54" fill="none" stroke="#685642" stroke-width="1.5" stroke-dasharray="1, 4"/>
+                <path d="M 18 54 A 48 48 0 0 1 85 20" fill="none" stroke="#1E1610" stroke-width="2.5"/>
+                <path d="M 85 20 A 48 48 0 0 1 112 54" fill="none" stroke="#D35400" stroke-width="3.5"/>
+                
+                <!-- Rakamlar -->
+                <text x="18" y="50" fill="#3D2D1E" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">0%</text>
+                <text x="58" y="18" fill="#3D2D1E" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">50%</text>
+                <text x="98" y="50" fill="#D35400" font-size="6.5" font-family="JetBrains Mono" font-weight="bold">100%</text>
 
-              <!-- İbre (Needle) -->
-              <g id="lightGaugeNeedle" class="vu-needle-arm" style="transform: rotate(20deg);">
-                <line x1="65" y1="56" x2="65" y2="10" stroke="#1A140E" stroke-width="2" stroke-linecap="round"/>
-                <line x1="65" y1="18" x2="65" y2="10" stroke="#E67E22" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="65" cy="56" r="5" fill="#2E241B" stroke="#000" stroke-width="1"/>
-                <circle cx="65" cy="56" r="2" fill="#D4AF37"/>
-              </g>
-            </svg>
+                <!-- İbre (Needle) -->
+                <g id="lightGaugeNeedle" class="vu-calibrated-needle" style="transform: rotate(20deg);">
+                  <line x1="65" y1="54" x2="65" y2="8" stroke="#160F09" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="65" y1="16" x2="65" y2="8" stroke="#D35400" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="65" cy="54" r="5.5" fill="#2E241B" stroke="#000" stroke-width="1"/>
+                  <circle cx="65" cy="54" r="2" fill="#D4AF37"/>
+                </g>
+              </svg>
 
-            <div class="vu-digital-val" id="lightVal">65%</div>
-            <div class="vu-sub-status" id="lightStatus">Gece Dinlenme Ortamı 🌙</div>
+              <div class="vu-digital-readout" id="lightVal">65%</div>
+              <div class="vu-status-caption" id="lightStatus">Gece Dinlenme Ortamı 🌙</div>
+            </div>
           </div>
 
           <!-- SICAKLIK -->
-          <div class="tray-compartment">
-            <div class="comp-label"><span>SICAKLIK</span><span class="brass-tag pending-amber">BEKLEMEDE ⏳</span></div>
-            <div class="comp-val" id="tempVal">--.-°C</div>
-            <div class="comp-sub">BME280 Lehim Bekliyor</div>
+          <div class="instrument-bay">
+            <div class="bay-title"><span>SICAKLIK</span><span class="stamped-badge" style="color: var(--nixie-amber);">BEKLEMEDE ⏳</span></div>
+            <div class="bay-value" id="tempVal">--.-°C</div>
+            <div class="bay-desc">BME280 Lehim Bekliyor</div>
           </div>
 
           <!-- BAĞIL NEM -->
-          <div class="tray-compartment">
-            <div class="comp-label"><span>BAĞIL NEM</span><span class="brass-tag pending-amber">BEKLEMEDE ⏳</span></div>
-            <div class="comp-val" id="humVal">--%</div>
-            <div class="comp-sub">BME280 Lehim Bekliyor</div>
+          <div class="instrument-bay">
+            <div class="bay-title"><span>BAĞIL NEM</span><span class="stamped-badge" style="color: var(--nixie-amber);">BEKLEMEDE ⏳</span></div>
+            <div class="bay-value" id="humVal">--%</div>
+            <div class="bay-desc">BME280 Lehim Bekliyor</div>
           </div>
         </div>
 
         <!-- 🛡️ ODA MUHAFIZI & PIR DURUM ROZETİ -->
-        <div style="margin-top: 10px; background: #0A0604; border: 1px solid rgba(212,175,55,0.18); border-radius: 4px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 10px;">
+        <div style="margin-top: 10px; background: #080604; border: 1px solid rgba(212,175,55,0.2); border-radius: 4px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 10px;">
           <span>🛡️ ODA MUHAFIZI (PIR D27):</span>
           <b id="roomPresenceBadge" style="color: #00B894;">🟢 ODA SESSİZ NÖBETTE (Yaz Modu)</b>
         </div>
@@ -818,55 +827,55 @@
     <div id="shelfProductivityLabContent" style="display: none; flex-direction: column; gap: 12px;">
       
       <!-- 🏆 AI VERİMLİLİK VE SAĞLIK KOKPİTİ -->
-      <div class="instrument-chassis">
-        <div class="machined-screw tl"></div><div class="machined-screw tr"></div><div class="machined-screw bl"></div><div class="machined-screw br"></div>
-        <div class="brass-header">
-          <div class="brass-label"><span>[AI-LAB-01]</span> KİŞİSEL BİLİŞSEL & POSTÜR İNDEKSİ</div>
-          <span class="brass-tag active-purple">POSTÜR ASİSTANI AKTİF</span>
+      <div class="analog-module">
+        <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+        <div class="module-header">
+          <div class="engraved-label"><span>[AI-LAB-01]</span> KİŞİSEL BİLİŞSEL & POSTÜR İNDEKSİ</div>
+          <span class="stamped-badge" style="color: var(--purple-focus);">POSTÜR ASİSTANI AKTİF</span>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px;">
-          <div class="lab-metric-card">
-            <div class="lab-metric-header">
+          <div class="instrument-bay">
+            <div class="bay-title">
               <span>🎯 DEEP WORK ORANI</span>
               <span style="color: #00B894;">%82</span>
             </div>
-            <div class="lab-metric-value" id="labDeepWorkRatioText">%82 Üretim</div>
+            <div class="bay-value" id="labDeepWorkRatioText" style="color: var(--brass-gold);">%82 Üretim</div>
             <div style="font-size: 9.5px; color: var(--text-muted);">Kodlama / IDE / Tasarım</div>
           </div>
 
-          <div class="lab-metric-card">
-            <div class="lab-metric-header">
+          <div class="instrument-bay">
+            <div class="bay-title">
               <span>🧘‍♂️ POSTÜR MOLASI</span>
               <span style="color: var(--purple-focus);">20 Dk</span>
             </div>
-            <div class="lab-metric-value" style="color: var(--purple-focus);">20-20-20 Kuralı</div>
+            <div class="bay-value" style="color: var(--purple-focus);">20-20-20 Kuralı</div>
             <div style="font-size: 9.5px; color: var(--text-muted);">Otomatik Zil & Göz Koçu</div>
           </div>
 
-          <div class="lab-metric-card">
-            <div class="lab-metric-header">
+          <div class="instrument-bay">
+            <div class="bay-title">
               <span>🏖️ YAZ YAŞAM UYUMU</span>
               <span style="color: var(--cyan-air);">Teras</span>
             </div>
-            <div class="lab-metric-value" style="color: var(--cyan-air);">Açık Hava</div>
+            <div class="bay-value" style="color: var(--cyan-air);">Açık Hava</div>
             <div style="font-size: 9.5px; color: var(--text-muted);">Oda Dışı Esnek Yaşam</div>
           </div>
 
-          <div class="lab-metric-card">
-            <div class="lab-metric-header">
+          <div class="instrument-bay">
+            <div class="bay-title">
               <span>🎵 MÜZİK ETKİSİ</span>
               <span style="color: #1DB954;">+ %28 Hız</span>
             </div>
-            <div class="lab-metric-value" style="color: #1DB954;">Lo-Fi / Focus</div>
+            <div class="bay-value" style="color: #1DB954;">Lo-Fi / Focus</div>
             <div style="font-size: 9.5px; color: var(--text-muted);">Spotify Açıkken Odak</div>
           </div>
         </div>
 
         <!-- 📈 24 SAATLİK BİLİŞSEL ODAK ISINMA GRAFİĞİ -->
-        <div class="brass-header" style="margin-top: 6px;">
-          <div class="brass-label" style="font-size: 10px;"><span>[KRONOBİYOLOJİ]</span> SAATLİK BİLİŞSEL VERİMLİLİK EĞRİSİ</div>
-          <span class="brass-tag active-purple">GÜN İÇİ ZİRVE SAATLER</span>
+        <div class="module-header" style="margin-top: 6px;">
+          <div class="engraved-label" style="font-size: 10px;"><span>[KRONOBİYOLOJİ]</span> SAATLİK BİLİŞSEL VERİMLİLİK EĞRİSİ</div>
+          <span class="stamped-badge" style="color: var(--purple-focus);">GÜN İÇİ ZİRVE SAATLER</span>
         </div>
 
         <div style="position: relative; height: 160px; width: 100%; margin-bottom: 6px;">
@@ -875,11 +884,11 @@
       </div>
 
       <!-- 🔬 ÇEVRESEL KOŞULLAR VE ODAK KORELASYON KARTLARI -->
-      <div class="instrument-chassis">
-        <div class="machined-screw tl"></div><div class="machined-screw tr"></div><div class="machined-screw bl"></div><div class="machined-screw br"></div>
-        <div class="brass-header">
-          <div class="brass-label"><span>[AI-KEŞİF]</span> SİSTEMİN SİZİN HAKKINIZDA ÖĞRENDİKLERİ</div>
-          <span class="brass-tag active-green">KANITA DAYALI BULGULAR</span>
+      <div class="analog-module">
+        <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+        <div class="module-header">
+          <div class="engraved-label"><span>[AI-KEŞİF]</span> SİSTEMİN SİZİN HAKKINIZDA ÖĞRENDİKLERİ</div>
+          <span class="stamped-badge" style="color: #00B894;">KANITA DAYALI BULGULAR</span>
         </div>
 
         <div class="insight-card" style="border-left-color: var(--purple-focus);">
@@ -905,14 +914,14 @@
     <div id="shelfScreenTimeContent" style="display: none; flex-direction: column; gap: 12px;">
       
       <!-- 💻 MACBOOK DOĞRUDAN TELEMETRİ -->
-      <div class="instrument-chassis">
-        <div class="machined-screw tl"></div><div class="machined-screw tr"></div><div class="machined-screw bl"></div><div class="machined-screw br"></div>
-        <div class="brass-header">
-          <div class="brass-label"><span>[MAC-DIRECT]</span> MACBOOK GERÇEK EKRAN & UYGULAMA MOTORU</div>
-          <span class="brass-tag active-green">● DOĞRUDAN MACOS API</span>
+      <div class="analog-module">
+        <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+        <div class="module-header">
+          <div class="engraved-label"><span>[MAC-DIRECT]</span> MACBOOK GERÇEK EKRAN & UYGULAMA MOTORU</div>
+          <span class="stamped-badge" style="color: #00B894;">● DOĞRUDAN MACOS API</span>
         </div>
 
-        <div style="background: #0C0805; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 12px; margin-bottom: 12px;">
+        <div style="background: #0B0806; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 12px; margin-bottom: 12px;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); text-transform: uppercase;">BUGÜNKÜ GERÇEK AKTİF MAC SÜRESİ</div>
@@ -921,28 +930,28 @@
             </div>
             <div style="text-align: right;">
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">KESİNTİSİZ OTURMA</div>
-              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-lamp);" id="continuousWorkText">57 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--nixie-amber);" id="continuousWorkText">57 dk</div>
               <div style="font-size: 9.5px; color: var(--text-muted);">Ergonomi Limiti: 90 dk</div>
             </div>
           </div>
         </div>
 
-        <div class="brass-header" style="margin-top: 6px;">
-          <div class="brass-label" style="font-size: 10px;"><span>[UYGULAMALAR]</span> MAC'TE NEYE NE KADAR ZAMAN HARCANDI?</div>
+        <div class="module-header" style="margin-top: 6px;">
+          <div class="engraved-label" style="font-size: 10px;"><span>[UYGULAMALAR]</span> MAC'TE NEYE NE KADAR ZAMAN HARCANDI?</div>
         </div>
 
         <div id="appBreakdownContainer" style="display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 11px;"></div>
       </div>
 
       <!-- 📱 TELEFON DOĞRUDAN ENTEGRASYON BÖLMESİ -->
-      <div class="instrument-chassis">
-        <div class="machined-screw tl"></div><div class="machined-screw tr"></div><div class="machined-screw bl"></div><div class="machined-screw br"></div>
-        <div class="brass-header">
-          <div class="brass-label"><span>[PHONE-DIRECT]</span> TELEFON EKRAN SÜRESİ & SENKRONU</div>
-          <span class="brass-tag active-cyan">● BULUT KÖPRÜSÜ</span>
+      <div class="analog-module">
+        <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+        <div class="module-header">
+          <div class="engraved-label"><span>[PHONE-DIRECT]</span> TELEFON EKRAN SÜRESİ & SENKRONU</div>
+          <span class="stamped-badge" style="color: var(--cyan-air);">● BULUT KÖPRÜSÜ</span>
         </div>
 
-        <div style="background: #0C0805; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+        <div style="background: #0B0806; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 12px; margin-bottom: 10px;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">BUGÜNKÜ TELEFON EKRAN SÜRESİ</div>
@@ -950,7 +959,7 @@
               <div style="font-size: 10px; color: var(--text-muted);" id="phoneModelSub">📱 Android / iPhone // Şarj: %78</div>
             </div>
             <div style="text-align: right;">
-              <span class="brass-tag active-green">DOĞRUDAN SENKRON</span>
+              <span class="stamped-badge" style="color: #00B894;">DOĞRUDAN SENKRON</span>
             </div>
           </div>
         </div>
@@ -961,11 +970,11 @@
     <!-- 4. RAF: GÜNLÜK AKIŞ & SENSÖR GRAFİĞİ -->
     <!-- ==================================================== -->
     <div id="shelfDailyContent" style="display: none; flex-direction: column; gap: 12px;">
-      <div class="instrument-chassis">
-        <div class="machined-screw tl"></div><div class="machined-screw tr"></div><div class="machined-screw bl"></div><div class="machined-screw br"></div>
-        <div class="brass-header">
-          <div class="brass-label"><span>[GRAFİK-01]</span> AKTİF SENSÖR EĞRİSİ</div>
-          <button type="button" class="brass-btn" onclick="refreshDailyChart()" style="padding: 2px 6px; font-size: 9.5px;">Yenile ↻</button>
+      <div class="analog-module">
+        <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+        <div class="module-header">
+          <div class="engraved-label"><span>[GRAFİK-01]</span> AKTİF SENSÖR EĞRİSİ</div>
+          <button type="button" class="machined-btn" onclick="refreshDailyChart()" style="padding: 2px 6px; font-size: 9.5px;">Yenile ↻</button>
         </div>
 
         <div style="position: relative; height: 180px; width: 100%; margin-bottom: 6px;">
@@ -978,11 +987,11 @@
     <!-- 5. RAF: 360° AI BİLGE KOÇU -->
     <!-- ==================================================== -->
     <div id="shelfAnalysisContent" style="display: none; flex-direction: column; gap: 12px;">
-      <div class="instrument-chassis">
-        <div class="machined-screw tl"></div><div class="machined-screw tr"></div><div class="machined-screw bl"></div><div class="machined-screw br"></div>
-        <div class="brass-header">
-          <div class="brass-label"><span>[BİLGE-AI]</span> 360° YAZ YAŞAMI & POSTÜR REHBERİ</div>
-          <span class="brass-tag active-green">YAZ YAŞAM KAMPI 🏖️</span>
+      <div class="analog-module">
+        <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+        <div class="module-header">
+          <div class="engraved-label"><span>[BİLGE-AI]</span> 360° YAZ YAŞAMI & POSTÜR REHBERİ</div>
+          <span class="stamped-badge" style="color: #00B894;">YAZ YAŞAM KAMPI 🏖️</span>
         </div>
 
         <div class="insight-card" style="border-left-color: var(--purple-focus);">
@@ -1009,11 +1018,11 @@
     <!-- 6. RAF: BİLDİRİMLER & SES GÜNLÜĞÜ -->
     <!-- ==================================================== -->
     <div id="shelfEventsContent" style="display: none; flex-direction: column; gap: 12px;">
-      <div class="instrument-chassis">
-        <div class="machined-screw tl"></div><div class="machined-screw tr"></div><div class="machined-screw bl"></div><div class="machined-screw br"></div>
-        <div class="brass-header">
-          <div class="brass-label"><span>[GÜNLÜK-SES]</span> MASA NEDEN ÖTTÜ? // BUGÜNÜN GÜNLÜĞÜ</div>
-          <span class="brass-tag active-green">GÜNLÜK SIFIRLANIR</span>
+      <div class="analog-module">
+        <div class="countersunk-screw tl"></div><div class="countersunk-screw tr"></div><div class="countersunk-screw bl"></div><div class="countersunk-screw br"></div>
+        <div class="module-header">
+          <div class="engraved-label"><span>[GÜNLÜK-SES]</span> MASA NEDEN ÖTTÜ? // BUGÜNÜN GÜNLÜĞÜ</div>
+          <span class="stamped-badge" style="color: #00B894;">GÜNLÜK SIFIRLANIR</span>
         </div>
 
         <div id="eventListContainer" style="display: flex; flex-direction: column; gap: 8px;"></div>
@@ -1072,7 +1081,7 @@
     }
 
     document.addEventListener('click', (e) => {
-      if (e.target.closest('button') || e.target.closest('.shelf-tab-item') || e.target.closest('.dock-btn')) {
+      if (e.target.closest('button') || e.target.closest('.selector-switch') || e.target.closest('.dock-btn')) {
         playTactileFeedback();
       }
     });
@@ -1263,8 +1272,8 @@
           datasets: [{
             label: 'Odaklanma Yoğunluğu (%)',
             data: focusScores,
-            backgroundColor: focusScores.map(v => v >= 80 ? '#BB86FC' : (v >= 60 ? '#D4AF37' : 'rgba(255,255,255,0.15)')),
-            borderRadius: 4
+            backgroundColor: focusScores.map(v => v >= 80 ? '#A29BFE' : (v >= 60 ? '#D4AF37' : 'rgba(255,255,255,0.12)')),
+            borderRadius: 3
           }]
         },
         options: {
@@ -1303,7 +1312,7 @@
           labels: labels,
           datasets: [
             { label: 'Hava (PPM/10)', data: airData, borderColor: '#D4AF37', backgroundColor: 'rgba(212, 175, 55, 0.1)', borderWidth: 2, tension: 0.3, pointRadius: 3 },
-            { label: 'Işık (%)', data: lightData, borderColor: '#E89E4B', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 }
+            { label: 'Işık (%)', data: lightData, borderColor: '#FF9F43', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 }
           ]
         },
         options: {
@@ -1406,10 +1415,12 @@
             if (locPill) {
               if (macData.mac_location === "SCHOOL_MOBILE") {
                 locPill.innerText = "🎒 OKULDA / MOBİL";
-                locPill.className = "brass-tag active-cyan";
+                locPill.className = "stamped-badge";
+                locPill.style.color = "var(--cyan-air)";
               } else {
                 locPill.innerText = "🏠 EVDE (MASA BAŞINDA)";
-                locPill.className = "brass-tag active-green";
+                locPill.className = "stamped-badge";
+                locPill.style.color = "#00B894";
               }
             }
 
@@ -1450,7 +1461,7 @@
                   else if (app.indexOf("Spotify") >= 0) icon = "🎵";
                   else if (app.indexOf("Terminal") >= 0) icon = "⌨️";
                   return `
-                    <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+                    <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: #0B0806; border-radius: 4px; border: 1px solid rgba(255,255,255,0.04);">
                       <span style="color: var(--brass-gold);">${icon} ${app}</span>
                       <span>${mins} dk (%${pct})</span>
                     </div>
