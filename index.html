@@ -1554,12 +1554,15 @@
       }
 
       const d = lastSensorPayload;
-      const diffSec = d.last_seen ? Math.abs(now - d.last_seen) : 999;
+      let isOffline = false;
+      if (d.last_seen && d.last_seen > 1000000000) {
+        if (Math.abs(now - d.last_seen) > 90) isOffline = true;
+      }
       let issues = [];
 
       // 1. ESP32 Çevrimdışı Kontrolü
-      if (diffSec > 90) {
-        issues.push(`ESP32 Çevrimdışı (${diffSec}s önce)`);
+      if (isOffline) {
+        issues.push("ESP32 Çevrimdışı");
       }
 
       // 2. DHT22 Sıcaklık / Nem Kontrolü
@@ -1674,8 +1677,15 @@
       if (data && typeof data === 'object' && (data.temp !== undefined || data.air !== undefined)) {
         lastSensorPayload = data;
         const now = Math.floor(Date.now() / 1000);
-        const diffSec = data.last_seen ? Math.abs(now - data.last_seen) : 0;
-        const isOnline = diffSec < 180;
+        let isOnline = true;
+        if (data.last_seen) {
+          if (data.last_seen > 1000000000) {
+            isOnline = Math.abs(now - data.last_seen) < 180;
+          } else {
+            // Uptime seconds or active payload
+            isOnline = true;
+          }
+        }
 
         if (pill) {
           pill.innerText = isOnline ? "ESP32 CANLI" : "BEKLEMEDE";
