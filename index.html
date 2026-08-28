@@ -26,15 +26,10 @@
       --room-ambient: #050302;
       --walnut-core: #1C0F08;
       --walnut-bevel: #2E190E;
-      --walnut-highlight: #452616;
 
       --faceplate-matte: #161311;
-      --faceplate-specular: #38302A;
-      --faceplate-bevel-light: #5A4E44;
-      --faceplate-bevel-dark: #070504;
-
-      --recess-chamber: #040302;
-      --bezel-cast-iron: #1E1916;
+      --faceplate-bevel-light: #524235;
+      --faceplate-bevel-dark: #060403;
 
       --brass-bright: #FFE89E;
       --brass-gold: #D4AF37;
@@ -42,7 +37,7 @@
 
       --led-red: #FF2B2B;
       --led-red-glow: rgba(255, 43, 43, 0.7);
-      --led-red-ghost: #200404;
+      --led-red-ghost: #220505;
 
       --led-amber: #FFA21A;
       --led-amber-glow: rgba(255, 162, 26, 0.7);
@@ -56,9 +51,9 @@
       --vfd-cyan-glow: rgba(0, 240, 255, 0.65);
       --vfd-cyan-ghost: #011A1C;
 
-      --dial-parchment: #E8DCB8;
-      --dial-tungsten: #FFF5D6;
-      --dial-ink: #120C06;
+      --dial-parchment: #EDE2C0;
+      --dial-tungsten: #FFF8E7;
+      --dial-ink: #140E08;
       --dial-red: #C0392B;
 
       --font-dseg: "DSEG7-Classic", monospace;
@@ -83,7 +78,7 @@
       padding: 12px 6px calc(115px + env(safe-area-inset-bottom)) 6px;
       background-image: 
         repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 4px),
-        linear-gradient(180deg, #1A110A 0%, #050302 100%);
+        linear-gradient(180deg, #18100A 0%, #050302 100%);
       background-attachment: fixed;
       overflow-x: hidden;
     }
@@ -111,13 +106,10 @@
       border-bottom: 3px solid #080604;
       border-radius: 4px;
       padding: 8px 12px;
-      box-shadow: 
-        0 10px 30px rgba(0,0,0,0.98),
-        inset 0 1px 0 rgba(255,255,255,0.2),
-        inset 0 -1px 0 rgba(0,0,0,0.8);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.98), inset 0 1px 0 rgba(255,255,255,0.2);
     }
 
-    /* 🎛️ GERÇEK 10MM DÖKÜM ALÜMİNYUM ŞASİ MODÜLÜ */
+    /* 🎛️ DÖKÜM ALÜMİNYUM ŞASİ MODÜLÜ */
     .hardware-module {
       background: 
         repeating-linear-gradient(90deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 4px),
@@ -134,7 +126,7 @@
         inset 0 -3px 8px rgba(0,0,0,0.9);
     }
 
-    /* 🔩 CNC İŞLENMİŞ DERİN PAHLI VİDA SVG */
+    /* 🔩 CNC İŞLENMİŞ VİDA SVG */
     .cnc-screw-svg {
       position: absolute;
       width: 15px;
@@ -186,7 +178,6 @@
       gap: 5px;
     }
 
-    /* 💎 FİZİKSEL CAM KUBBELİ PİLOT LAMBA */
     .pilot-jewel-lamp {
       width: 8px;
       height: 8px;
@@ -202,7 +193,7 @@
       100% { opacity: 0.8; transform: scale(0.96); }
     }
 
-    /* 📟 FÜME AKRİLİK CAMLI GÖMÜLÜ 7-SEGMENT DİJİTAL TÜPLER */
+    /* 📟 7-SEGMENT DİJİTAL TÜP PENCERESİ */
     .smoked-display-bezel {
       background: #050302;
       border: 2px solid #1A120B;
@@ -212,9 +203,7 @@
       padding: 6px 10px;
       position: relative;
       overflow: hidden;
-      box-shadow: 
-        inset 0 4px 12px rgba(0,0,0,0.98),
-        0 2px 6px rgba(0,0,0,0.85);
+      box-shadow: inset 0 4px 12px rgba(0,0,0,0.98), 0 2px 6px rgba(0,0,0,0.85);
     }
 
     .smoked-display-bezel::before {
@@ -258,7 +247,7 @@
     .cyan-tube .ghost-layer { color: var(--vfd-cyan-ghost); }
     .cyan-tube .active-layer { color: var(--vfd-cyan); text-shadow: 0 0 14px var(--vfd-cyan-glow); }
 
-    /* 🎛️ TIRTIKLI ALÜMİNYUM KARE BUTONLAR */
+    /* 🎛️ İŞLENMİŞ METALİK KARE BUTONLAR */
     .tactile-rocker-btn {
       font-family: var(--font-din);
       font-size: 10px;
@@ -298,7 +287,7 @@
     }
 
     /* ======================================================= */
-    /* 📻 GÖMÜLÜ DERİN MİNERAL CAMLI ANALOG VU GALVANOMETRELER */
+    /* 📻 MİKROMETRİK HASSASİYETTE ANALOG VU METRELER         */
     /* ======================================================= */
     .recessed-vu-die-housing {
       background: #040201;
@@ -306,73 +295,82 @@
       border-top: 2px solid #080503;
       border-bottom: 2.5px solid #44301F;
       border-radius: 4px;
-      padding: 3px;
+      padding: 6px 6px 4px 6px;
       box-shadow: 
-        inset 0 5px 12px rgba(0,0,0,0.98),
-        0 2px 6px rgba(0,0,0,0.9);
+        inset 0 5px 14px rgba(0,0,0,0.98),
+        0 3px 8px rgba(0,0,0,0.9);
       position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .vu-dial-chamber {
-      background: radial-gradient(ellipse at 50% 20%, var(--dial-tungsten) 0%, var(--dial-parchment) 60%, #BAA675 100%);
-      border-radius: 2px;
-      padding: 5px 6px 3px 6px;
+      background: radial-gradient(ellipse at 50% 15%, var(--dial-tungsten) 0%, var(--dial-parchment) 65%, #C2AE7B 100%);
+      border-radius: 3px;
+      padding: 4px;
+      width: 100%;
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
-      box-shadow: inset 0 0 12px rgba(184, 150, 80, 0.4);
+      box-shadow: inset 0 0 12px rgba(160, 130, 60, 0.4);
     }
 
+    /* 🔍 KONVEKS MİNERAL CAM MERCEK YANSIMASI */
     .vu-dial-chamber::before {
       content: "";
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(135deg, rgba(255,255,255,0.48) 0%, rgba(255,255,255,0.1) 35%, transparent 58%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 32%, transparent 58%);
       pointer-events: none;
       z-index: 10;
     }
 
     .vu-text-strip {
-      font-family: var(--font-mono);
-      font-size: 7.5px;
+      font-family: var(--font-din);
+      font-size: 8.5px;
       font-weight: 800;
       color: #382618;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       width: 100%;
+      padding: 0 4px;
       display: flex;
       justify-content: space-between;
       z-index: 5;
     }
 
     .vu-svg-canvas {
-      width: 125px;
-      height: 58px;
+      width: 100%;
+      height: 72px;
       overflow: visible;
       z-index: 2;
     }
 
+    /* İbre (Galvanometre Rotasyon Merkezi: 100, 80) */
     .galvanometer-needle {
-      transform-origin: 62.5px 52px;
+      transform-origin: 100px 80px;
       transition: transform 0.7s cubic-bezier(0.2, 1.4, 0.4, 1);
-      filter: drop-shadow(1.5px 2px 2px rgba(0,0,0,0.4));
+      filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.4));
     }
 
     .vu-digital-sub {
       font-family: var(--font-mono);
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 800;
       color: #140E06;
-      margin-top: -2px;
+      margin-top: 2px;
       z-index: 5;
       letter-spacing: -0.02em;
     }
 
     .vu-caption {
+      font-family: var(--font-din);
       font-size: 8.5px;
       font-weight: 800;
-      color: #4D3927;
+      color: #523D2A;
+      letter-spacing: 0.06em;
       z-index: 5;
     }
 
@@ -651,7 +649,7 @@
         </div>
       </div>
 
-      <!-- 📊 ÇİFT KANAL ANALOG VU METRELER -->
+      <!-- 📊 MİKROMETRİK ÇİFT KANAL VU METRELER (SIFAM / NAGRA STANDARD) -->
       <div class="hardware-module">
         <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
         <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
@@ -659,7 +657,7 @@
         <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
         
         <div class="module-engrave-header">
-          <div class="plate-title"><span>[METROLOJİ] ÇİFT KANAL VU METRE</span></div>
+          <div class="plate-title"><span>[METROLOJİ] ÇİFT KANAL ANALOG VU METRE</span></div>
           <span class="status-badge-die" id="lastSyncTime">CANLI</span>
         </div>
 
@@ -668,29 +666,56 @@
           <div class="recessed-vu-die-housing">
             <div class="vu-dial-chamber">
               <div class="vu-text-strip">
-                <span>HAVA PPM</span>
+                <span>HAVA KALİTESİ</span>
                 <span>MQ-135</span>
               </div>
               
-              <svg class="vu-svg-canvas" viewBox="0 0 125 58">
-                <path d="M 15 50 A 46 46 0 0 1 110 50" fill="none" stroke="#685642" stroke-width="1.5" stroke-dasharray="1, 4"/>
-                <path d="M 15 50 A 46 46 0 0 1 78 16" fill="none" stroke="#1E1610" stroke-width="2.5"/>
-                <path d="M 78 16 A 46 46 0 0 1 110 50" fill="none" stroke="#C0392B" stroke-width="3"/>
-                
-                <text x="15" y="47" fill="#3D2D1E" font-size="6" font-family="JetBrains Mono" font-weight="bold">400</text>
-                <text x="56" y="16" fill="#3D2D1E" font-size="6" font-family="JetBrains Mono" font-weight="bold">800</text>
-                <text x="96" y="47" fill="#C0392B" font-size="6" font-family="JetBrains Mono" font-weight="bold">1800</text>
+              <svg class="vu-svg-canvas" viewBox="0 0 200 90">
+                <!-- 1. Ana Skala Yayları: Siyah Normal Bölge (-45° ila +15°), Kırmızı Tehlike Bölgesi (+15° ila +45°) -->
+                <path d="M 52 44.5 A 68 68 0 0 1 117.6 14.3" fill="none" stroke="#1C140E" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M 117.6 14.3 A 68 68 0 0 1 148 44.5" fill="none" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
 
+                <!-- 2. Radyal Çentik Çizgileri (Trigonometrik Hassasiyet) -->
+                <!-- -45° (400) -->
+                <line x1="52" y1="44.5" x2="57.5" y2="49.5" stroke="#1C140E" stroke-width="1.8"/>
+                <!-- -30° (600) -->
+                <line x1="66" y1="26.1" x2="70" y2="33" stroke="#1C140E" stroke-width="1.2"/>
+                <!-- -15° (800) -->
+                <line x1="82.4" y1="14.3" x2="84.5" y2="21.5" stroke="#1C140E" stroke-width="1.5"/>
+                <!-- 0° (1000 - İbre Sıfırı) -->
+                <line x1="100" y1="12" x2="100" y2="20" stroke="#1C140E" stroke-width="2"/>
+                <!-- +15° (1200 - Kırmızı Başlangıcı) -->
+                <line x1="117.6" y1="14.3" x2="115.5" y2="21.5" stroke="#C0392B" stroke-width="1.8"/>
+                <!-- +30° (1500) -->
+                <line x1="134" y1="26.1" x2="130" y2="33" stroke="#C0392B" stroke-width="1.5"/>
+                <!-- +45° (1800) -->
+                <line x1="148" y1="44.5" x2="142.5" y2="49.5" stroke="#C0392B" stroke-width="2"/>
+
+                <!-- 3. Rakamlar (Çentiklerin Altında Ferah Yerleşim, Sıfır Çakışma) -->
+                <text x="63" y="60" fill="#2E2015" font-size="8.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">400</text>
+                <text x="83" y="34" fill="#2E2015" font-size="8" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">800</text>
+                <text x="100" y="32" fill="#2E2015" font-size="8" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">1000</text>
+                <text x="137" y="60" fill="#C0392B" font-size="8.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">1800</text>
+
+                <!-- 4. Alt Kadran Etiketi -->
+                <text x="100" y="58" fill="#523D2A" font-size="7" font-family="Space Grotesk" font-weight="800" letter-spacing="1" text-anchor="middle">PPM GAZ İNDEKSİ</text>
+
+                <!-- 5. Galvanometre İbresi (Dönme Merkezi: 100, 80) -->
                 <g id="airGaugeNeedle" class="galvanometer-needle" style="transform: rotate(-60deg);">
-                  <line x1="62.5" y1="50" x2="62.5" y2="8" stroke="#160F09" stroke-width="1.8" stroke-linecap="round"/>
-                  <line x1="62.5" y1="16" x2="62.5" y2="8" stroke="#C0392B" stroke-width="1.8" stroke-linecap="round"/>
-                  <circle cx="62.5" cy="50" r="5" fill="#2E241B" stroke="#000" stroke-width="1"/>
-                  <circle cx="62.5" cy="50" r="1.8" fill="#D4AF37"/>
+                  <!-- İbre Gövdesi -->
+                  <line x1="100" y1="80" x2="100" y2="14" stroke="#140E06" stroke-width="1.6" stroke-linecap="round"/>
+                  <!-- Kırmızı Gösterge Ucu -->
+                  <line x1="100" y1="28" x2="100" y2="14" stroke="#C0392B" stroke-width="1.8" stroke-linecap="round"/>
+                  <!-- Karşı Ağırlık Kuyruğu -->
+                  <line x1="100" y1="80" x2="100" y2="88" stroke="#140E06" stroke-width="2.5"/>
+                  <!-- Merkez Döner Kapak -->
+                  <circle cx="100" cy="80" r="7" fill="#1C140E" stroke="#000" stroke-width="1"/>
+                  <circle cx="100" cy="80" r="2.5" fill="#D4AF37"/>
                 </g>
               </svg>
 
               <div class="vu-digital-sub" id="airVal">435 PPM</div>
-              <div class="vu-caption" id="airStatus">TEMİZ HAVA</div>
+              <div class="vu-caption" id="airStatus">FERAH & TEMİZ ✨</div>
             </div>
           </div>
 
@@ -698,29 +723,45 @@
           <div class="recessed-vu-die-housing">
             <div class="vu-dial-chamber">
               <div class="vu-text-strip">
-                <span>IŞIK %</span>
+                <span>IŞIK SEVİYESİ</span>
                 <span>FOTOMETRİK</span>
               </div>
               
-              <svg class="vu-svg-canvas" viewBox="0 0 125 58">
-                <path d="M 15 50 A 46 46 0 0 1 110 50" fill="none" stroke="#685642" stroke-width="1.5" stroke-dasharray="1, 4"/>
-                <path d="M 15 50 A 46 46 0 0 1 82 18" fill="none" stroke="#1E1610" stroke-width="2.5"/>
-                <path d="M 82 18 A 46 46 0 0 1 110 50" fill="none" stroke="#D35400" stroke-width="3"/>
-                
-                <text x="15" y="47" fill="#3D2D1E" font-size="6" font-family="JetBrains Mono" font-weight="bold">0%</text>
-                <text x="56" y="16" fill="#3D2D1E" font-size="6" font-family="JetBrains Mono" font-weight="bold">50%</text>
-                <text x="96" y="47" fill="#D35400" font-size="6" font-family="JetBrains Mono" font-weight="bold">100%</text>
+              <svg class="vu-svg-canvas" viewBox="0 0 200 90">
+                <!-- 1. Ana Skala Yayları: Gece / Normal Bölge (-45° ila +20°), Yüksek Işık Bölgesi (+20° ila +45°) -->
+                <path d="M 52 44.5 A 68 68 0 0 1 123.3 16.1" fill="none" stroke="#1C140E" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M 123.3 16.1 A 68 68 0 0 1 148 44.5" fill="none" stroke="#D35400" stroke-width="3.5" stroke-linecap="round"/>
 
+                <!-- 2. Çentikler -->
+                <line x1="52" y1="44.5" x2="57.5" y2="49.5" stroke="#1C140E" stroke-width="1.8"/>
+                <line x1="66" y1="26.1" x2="70" y2="33" stroke="#1C140E" stroke-width="1.2"/>
+                <line x1="82.4" y1="14.3" x2="84.5" y2="21.5" stroke="#1C140E" stroke-width="1.5"/>
+                <line x1="100" y1="12" x2="100" y2="20" stroke="#1C140E" stroke-width="2"/>
+                <line x1="123.3" y1="16.1" x2="120.5" y2="22.5" stroke="#D35400" stroke-width="1.8"/>
+                <line x1="134" y1="26.1" x2="130" y2="33" stroke="#D35400" stroke-width="1.5"/>
+                <line x1="148" y1="44.5" x2="142.5" y2="49.5" stroke="#D35400" stroke-width="2"/>
+
+                <!-- 3. Rakamlar (Net & Düzenli) -->
+                <text x="63" y="60" fill="#2E2015" font-size="8.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">%0</text>
+                <text x="83" y="34" fill="#2E2015" font-size="8" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">%30</text>
+                <text x="100" y="32" fill="#2E2015" font-size="8" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">%50</text>
+                <text x="137" y="60" fill="#D35400" font-size="8.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">%100</text>
+
+                <!-- 4. Alt Kadran Etiketi -->
+                <text x="100" y="58" fill="#523D2A" font-size="7" font-family="Space Grotesk" font-weight="800" letter-spacing="1" text-anchor="middle">LÜKS / AYDINLIK</text>
+
+                <!-- 5. İbre -->
                 <g id="lightGaugeNeedle" class="galvanometer-needle" style="transform: rotate(20deg);">
-                  <line x1="62.5" y1="50" x2="62.5" y2="8" stroke="#160F09" stroke-width="1.8" stroke-linecap="round"/>
-                  <line x1="62.5" y1="16" x2="62.5" y2="8" stroke="#D35400" stroke-width="1.8" stroke-linecap="round"/>
-                  <circle cx="62.5" cy="50" r="5" fill="#2E241B" stroke="#000" stroke-width="1"/>
-                  <circle cx="62.5" cy="50" r="1.8" fill="#D4AF37"/>
+                  <line x1="100" y1="80" x2="100" y2="14" stroke="#140E06" stroke-width="1.6" stroke-linecap="round"/>
+                  <line x1="100" y1="28" x2="100" y2="14" stroke="#D35400" stroke-width="1.8" stroke-linecap="round"/>
+                  <line x1="100" y1="80" x2="100" y2="88" stroke="#140E06" stroke-width="2.5"/>
+                  <circle cx="100" cy="80" r="7" fill="#1C140E" stroke="#000" stroke-width="1"/>
+                  <circle cx="100" cy="80" r="2.5" fill="#D4AF37"/>
                 </g>
               </svg>
 
               <div class="vu-digital-sub" id="lightVal">65%</div>
-              <div class="vu-caption" id="lightStatus">ORTAM IŞIĞI</div>
+              <div class="vu-caption" id="lightStatus">GECE DİNLENME 🌙</div>
             </div>
           </div>
 
@@ -988,13 +1029,15 @@
     }
 
     function updateAnalogGauges(air, light) {
-      const airClamped = Math.min(1800, Math.max(380, air));
-      const airAngle = -75 + ((airClamped - 380) / (1800 - 380)) * 150;
+      // Skala: 400 PPM = -45°, 1800 PPM = +45°
+      const airClamped = Math.min(1800, Math.max(400, air));
+      const airAngle = -45 + ((airClamped - 400) / (1800 - 400)) * 90;
       const airNeedle = document.getElementById('airGaugeNeedle');
       if (airNeedle) airNeedle.style.transform = `rotate(${airAngle.toFixed(1)}deg)`;
 
+      // Skala: %0 = -45°, %100 = +45°
       const lightClamped = Math.min(100, Math.max(0, light));
-      const lightAngle = -75 + (lightClamped / 100) * 150;
+      const lightAngle = -45 + (lightClamped / 100) * 90;
       const lightNeedle = document.getElementById('lightGaugeNeedle');
       if (lightNeedle) lightNeedle.style.transform = `rotate(${lightAngle.toFixed(1)}deg)`;
     }
