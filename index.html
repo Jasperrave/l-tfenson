@@ -4,482 +4,267 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google" content="notranslate">
-  <title>Masa İstasyonu // TE-01 INDUSTRIAL</title>
+  <title>Masa İstasyonu // DOLAP ÇEKMECESİ & TELEMETRİ ARŞİVİ</title>
   
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0C0D0E">
+  <meta name="theme-color" content="#1F1510">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="icon" type="image/png" href="icon.png">
 
-  <!-- FONTS: Space Grotesk (Swiss/Industrial) + JetBrains Mono (Hardware Telemetry) -->
+  <!-- FONTS: Space Grotesk & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Chart.js & Confetti -->
+  <!-- Chart.js for smooth lightweight monthly graphs -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
-    
     :root {
-      --bg-chassis: #0B110D; /* Derin Zen Yosun Ormanı */
-      --surface-1: #111A13;  /* Koyu Taş & Bambu Karosu */
-      --surface-2: #18241C;  /* Yosunlu Arduvaz */
-      --surface-3: #223227;
-      --border: #2C3E32;     /* Doğal Bambu ve Çim Sınırı */
-      --border-focus: #52B788;
-      --text-main: #E2ECE5;  /* Sisli Beyaz */
-      --text-muted: #8EA898; /* Adaçayı Yeşili */
-      --text-dark: #587060;
-      --te-orange: #E07A5F;  /* Sıcak Toprak & Japon Akçaağacı */
-      --te-green: #52B788;   /* Canlı Bambu Yeşili */
-      --te-amber: #DDA15E;   /* Bambu Ağacı Rengi */
-      --te-red: #E76F51;
-      --te-cyan: #74C69D;    /* Berrak Dere Suyu */
+      /* 🪵 AHŞAP DOLAP & CEVİZ ÇEKMECE PALETİ */
+      --wood-dark: #1A110B;
+      --wood-chassis: #261A12;
+      --wood-border: #4A3323;
+      --wood-highlight: #704E35;
+      --felt-tray: #141C16;       /* Koyu Orman Keçesi */
+      --felt-recess: #0D120E;     /* Çekmece İçi Derin Gölge */
+      --brass-gold: #D4AF37;      /* Pirinç / Antik Altın */
+      --brass-dim: rgba(212, 175, 55, 0.15);
+      --copper-orange: #C86432;   /* Sıcak Bakır */
+      --sage-green: #68A37C;      /* Adaçayı */
+      --amber-glow: #E89E4B;
+      --text-bright: #F5EFEB;     /* Krem Beyazı */
+      --text-muted: #A3968B;      /* Ahşap Tozu Grisi */
+      --text-dark: #63574E;
       --font-mono: "JetBrains Mono", monospace;
       --font-ui: "Space Grotesk", sans-serif;
     }
 
-    body {
-      background-color: var(--bg-chassis);
-      color: var(--text-main);
-      font-family: var(--font-ui);
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 50% 10%, rgba(82, 183, 136, 0.08) 0%, transparent 60%),
-        radial-gradient(circle at 10% 80%, rgba(116, 198, 157, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 90% 90%, rgba(221, 161, 94, 0.05) 0%, transparent 40%);
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .station-chassis {
+    body {
+      background-color: var(--wood-dark);
+      color: var(--text-bright);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 16px 10px 80px 10px;
+      /* Ahşap Doku ve Çekmece İçi Işık Huzmesi */
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 70%),
+        linear-gradient(180deg, #261A12 0%, #1A110B 100%);
+    }
+
+    .drawer-box {
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 14px;
     }
 
-    /* HARDWARE MODULE RACK (Card) */
-    .module-card {
-      background: var(--surface-1);
-      border: 1px solid var(--border);
-      border-radius: 6px;
+    /* 🗄️ DOLAP ÇEKMECESİ / RAF BÖLMESİ (TRAY) */
+    .drawer-tray {
+      background: var(--felt-tray);
+      border: 2px solid var(--wood-border);
+      border-radius: 8px;
       padding: 14px;
       position: relative;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+      box-shadow: 
+        inset 0 4px 12px rgba(0,0,0,0.8),
+        0 6px 16px rgba(0,0,0,0.6),
+        0 1px 0 rgba(255,255,255,0.08);
     }
 
-    .module-card::before {
+    /* Pirinç Köşe Vidaları */
+    .drawer-tray::before, .drawer-tray::after {
       content: "";
       position: absolute;
-      top: 4px;
-      right: 4px;
-      width: 4px;
-      height: 4px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: var(--border-focus);
+      background: var(--brass-gold);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.8), 0 0 2px rgba(212,175,55,0.6);
     }
+    .drawer-tray::before { top: 6px; left: 6px; }
+    .drawer-tray::after { top: 6px; right: 6px; }
 
-    .module-card::after {
-      content: "";
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--border-focus);
-    }
-
-    .module-header {
+    /* 🏷️ PİRİNÇ ETİKET PLAKASI (BRASS LABEL) */
+    .brass-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      margin-bottom: 12px;
     }
 
-    .module-title {
+    .brass-label {
       font-family: var(--font-mono);
       font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
+      font-weight: 800;
       letter-spacing: 0.08em;
-      color: var(--text-muted);
+      color: var(--brass-gold);
+      text-transform: uppercase;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .module-title .code {
-      color: var(--te-orange);
-    }
-
-    .hardware-tag {
+    .brass-tag {
       font-family: var(--font-mono);
       font-size: 9.5px;
       font-weight: 700;
-      padding: 2px 6px;
+      padding: 3px 7px;
       border-radius: 3px;
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      color: var(--text-muted);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      background: rgba(0,0,0,0.4);
+      color: var(--brass-gold);
       letter-spacing: 0.04em;
-      text-transform: uppercase;
     }
 
-    .hardware-tag.active-green {
-      color: var(--te-green);
-      border-color: rgba(0, 229, 117, 0.4);
-      background: var(--te-green-dim);
+    .brass-tag.active-green {
+      color: #72C78F;
+      border-color: rgba(114, 199, 143, 0.4);
+      background: rgba(114, 199, 143, 0.1);
     }
 
-    .hardware-tag.active-orange {
-      color: var(--te-orange);
-      border-color: rgba(255, 79, 0, 0.4);
-      background: var(--te-orange-dim);
-    }
-
-    /* HARDWARE BUTTONS */
-    .te-btn {
+    /* 🎛️ PIRINÇ VE AHŞAP BUTONLAR */
+    .brass-btn {
       font-family: var(--font-mono);
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
-      padding: 8px 12px;
+      padding: 8px 14px;
       border-radius: 4px;
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      color: var(--text-main);
+      border: 1px solid var(--wood-border);
+      background: linear-gradient(180deg, #3A271C 0%, #261A12 100%);
+      color: var(--text-bright);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
       transition: all 0.1s ease;
       user-select: none;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
     }
 
-    .te-btn:active {
+    .brass-btn:active {
       transform: translateY(1px);
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
-      background: var(--surface-3);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
+      background: #1F1510;
     }
 
-    .te-btn-primary {
-      background: var(--te-orange);
-      color: #000000;
-      border-color: var(--te-orange);
-      box-shadow: 0 2px 8px rgba(255, 79, 0, 0.35);
+    .brass-btn-gold {
+      background: linear-gradient(180deg, #D4AF37 0%, #AA820A 100%);
+      color: #1A110B;
+      border-color: #D4AF37;
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+      font-weight: 800;
     }
 
-    .te-btn-primary:active {
-      background: #E04500;
-    }
-
-    /* SEGMENTED SWITCH */
-    .te-switch-group {
-      display: flex;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2px;
-      gap: 2px;
-    }
-
-    .te-switch-item {
-      flex: 1;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 700;
-      text-align: center;
-      padding: 6px 4px;
-      border-radius: 3px;
-      cursor: pointer;
-      color: var(--text-muted);
-      transition: all 0.15s ease;
-    }
-
-    .te-switch-item.active {
-      background: var(--surface-3);
-      color: var(--te-orange);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-      border: 1px solid rgba(255, 79, 0, 0.3);
-    }
-
-    /* TELEMETRY SENSOR GRID */
+    /* 📊 KEÇE BÖLMELİ TELEMETRİ KARTLARI */
     .telemetry-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      gap: 10px;
     }
 
-    .telemetry-box {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 10px 12px;
+    .tray-compartment {
+      background: var(--felt-recess);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 12px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.7);
       position: relative;
     }
 
-    .telemetry-label {
+    .comp-label {
       font-family: var(--font-mono);
       font-size: 9.5px;
       font-weight: 700;
-      color: var(--text-dark);
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.06em;
       display: flex;
       justify-content: space-between;
     }
 
-    .telemetry-val {
+    .comp-val {
       font-family: var(--font-mono);
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 800;
-      color: var(--text-main);
+      color: var(--text-bright);
       margin: 4px 0 2px 0;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.02em;
     }
 
-    .telemetry-sub {
+    .comp-sub {
       font-size: 11px;
       color: var(--text-muted);
-      font-weight: 500;
     }
 
-    /* INPUTS */
-    .te-input {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      padding: 8px 10px;
-      border-radius: 4px;
-      outline: none;
+    /* 📈 GEÇMİŞ TABLOSU */
+    .history-table {
       width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      margin-top: 8px;
     }
 
-    .te-input:focus {
-      border-color: var(--te-orange);
-      box-shadow: 0 0 0 1px var(--te-orange);
+    .history-table th {
+      text-align: left;
+      padding: 6px 8px;
+      color: var(--brass-gold);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      font-size: 9.5px;
     }
 
-        /* 🐾 EKRANDA GEZİNEN FLOATING CYBER-PET (YULAF) */
-    #roamingPetContainer {
-      position: fixed;
-      bottom: 24px;
-      left: 20px;
-      z-index: 99990;
+    .history-table td {
+      padding: 7px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--text-bright);
+    }
+
+    .history-table tr:hover td {
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    /* SEKME DEĞİŞTİRİCİ */
+    .shelf-tabs {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      transition: left 2.5s cubic-bezier(0.25, 1, 0.5, 1), bottom 1.5s ease;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.7));
+      background: #18100B;
+      border: 1px solid var(--wood-border);
+      border-radius: 6px;
+      padding: 3px;
+      gap: 4px;
     }
 
-    .roaming-pet-avatar {
-      width: 46px;
-      height: 46px;
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .roaming-pet-bubble {
-      background: #111315;
-      border: 1px solid var(--te-orange);
-      color: var(--text-main);
+    .shelf-tab-item {
+      flex: 1;
       font-family: var(--font-mono);
       font-size: 10.5px;
       font-weight: 700;
-      padding: 4px 8px;
+      text-align: center;
+      padding: 6px 4px;
       border-radius: 4px;
-      margin-bottom: 4px;
-      white-space: nowrap;
-      pointer-events: none;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.8);
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 0.25s, transform 0.25s;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.15s;
     }
 
-    .roaming-pet-bubble.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    
-    /* 🌌 DİNAMİK CELESTIAL GÖKYÜZÜ, YILDIZLAR & GÜN EVRELERİ */
-    #celestialSkyCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.85;
-      transition: background 3s ease, opacity 2s ease;
-    }
-
-    .celestial-star {
-      position: absolute;
-      background: #FFFFFF;
-      border-radius: 50%;
-      opacity: 0;
-      animation: starTwinkle var(--twinkle-duration, 3s) infinite alternate ease-in-out;
-      pointer-events: none;
-    }
-
-    @keyframes starTwinkle {
-      0% { opacity: 0.1; transform: scale(0.8); }
-      100% { opacity: var(--star-max-opacity, 0.85); transform: scale(1.2); }
-    }
-
-    /* Gündoğumu / Günbatımı / Gece Gövde Temaları */
-    body.sky-dawn {
-      --bg-chassis: #121019;
-      --surface-1: #1a1724;
-      --border: #3d2c3e;
-      --te-orange: #ff7733;
-    }
-
-    body.sky-day {
-      --bg-chassis: #0C0D0E;
-      --surface-1: #151719;
-      --border: #22262B;
-      --te-orange: #FF4F00;
-    }
-
-    body.sky-golden {
-      --bg-chassis: #16120e;
-      --surface-1: #221a14;
-      --border: #4d3320;
-      --te-orange: #ff6600;
-    }
-
-    body.sky-dusk {
-      --bg-chassis: #0e101a;
-      --surface-1: #151828;
-      --border: #2a304d;
-      --te-orange: #ff5533;
-    }
-
-    body.sky-night {
-      --bg-chassis: #07080a;
-      --surface-1: #0e1014;
-      --border: #1a1e26;
-      --te-orange: #ff4400;
-    }
-
-    /* Canlı Güneş / Ay Yörünge Göstergesi */
-    .celestial-orbit-track {
-      position: relative;
-      width: 100%;
-      height: 48px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 8px;
-    }
-
-    .celestial-orbit-curve {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-top: 1px dashed rgba(255, 255, 255, 0.15);
-      border-radius: 50% 50% 0 0;
-      transform: translateY(24px);
-    }
-
-    .celestial-body-sun, .celestial-body-moon {
-      position: absolute;
-      transition: left 2s ease, top 2s ease, transform 0.5s ease;
-      filter: drop-shadow(0 0 8px currentColor);
-    }
-
-    
-    /* 🕯️ 25 DAKİKALIK PİKSEL ZEN MUMU */
-    .zen-candle-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      height: 48px;
-      width: 24px;
-      margin: 0 auto 6px auto;
-      position: relative;
-    }
-
-    .candle-flame {
-      width: 8px;
-      height: 12px;
-      background: radial-gradient(ellipse at bottom, #FFF7A1 0%, #FF8C00 65%, rgba(255, 79, 0, 0) 100%);
-      border-radius: 50% 50% 20% 20%;
-      animation: candleFlicker 0.15s infinite alternate ease-in-out;
-      filter: drop-shadow(0 0 6px rgba(255, 140, 0, 0.9));
-      transform-origin: bottom center;
-    }
-
-    .candle-flame.extinguished {
-      display: none;
-    }
-
-    .candle-smoke {
-      display: none;
-      font-size: 10px;
-      animation: smokeRise 1.5s forwards ease-out;
-      position: absolute;
-      top: -10px;
-    }
-
-    @keyframes candleFlicker {
-      0% { transform: scale(1) rotate(-2deg); }
-      100% { transform: scale(1.15) rotate(3deg); }
-    }
-
-    @keyframes smokeRise {
-      0% { opacity: 0.9; transform: translateY(0) scale(0.8); }
-      100% { opacity: 0; transform: translateY(-16px) scale(1.5); }
-    }
-
-    .candle-wick {
-      width: 2px;
-      height: 4px;
-      background: #333333;
-    }
-
-    .candle-wax {
-      width: 14px;
-      height: 28px;
-      background: linear-gradient(180deg, #F0E6D2 0%, #C2B49A 100%);
-      border-radius: 2px 2px 1px 1px;
-      box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 2px 6px rgba(0,0,0,0.6);
-      transition: height 0.5s linear;
-    }
-
-    /* 🌿 YULAF'IN MASABAŞI BONSAİ AĞACI */
-    .bonsai-container {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: 8px;
+    .shelf-tab-item.active {
+      background: linear-gradient(180deg, #3A271C 0%, #261A12 100%);
+      color: var(--brass-gold);
+      border: 1px solid var(--wood-highlight);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
     /* TOAST */
@@ -488,9 +273,9 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
-      background: #111315;
-      border: 1px solid var(--te-orange);
-      color: var(--text-main);
+      background: #261A12;
+      border: 1px solid var(--brass-gold);
+      color: var(--text-bright);
       padding: 8px 16px;
       border-radius: 4px;
       font-family: var(--font-mono);
@@ -499,3012 +284,468 @@
       z-index: 99999;
       pointer-events: none;
       transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.9);
       white-space: nowrap;
     }
 
     #toast.show {
       transform: translateX(-50%) translateY(0);
     }
-
-    /* TOP NAVBAR */
-    .te-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--surface-1);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 8px 12px;
-    }
-
-    .te-nav-logo {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .te-nav-logo .led {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--te-green);
-      box-shadow: 0 0 6px var(--te-green);
-    }
   </style>
 </head>
 <body>
-  <!-- 🌌 GÖKSEL YILDIZ & AMBİYANS KANVASI -->
-  <div id="celestialSkyCanvas"></div>
 
-  <div class="station-chassis">
+  <div class="drawer-box">
 
-    <!-- 🎛️ TOP NAVIGATION // HARDWARE STATUS BAR -->
-    <div class="te-nav">
-      <div class="te-nav-logo">
-        <span class="led" id="liveLed"></span>
-        <span>DESK.STATION // TE-01</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 6px;">
-        <span class="hardware-tag active-green" id="livePill">CANLI</span>
-        <div class="te-switch-group" style="padding: 1px;">
-          <div class="te-switch-item active" id="tabBtn1" onclick="switchMainTab('live')" style="padding: 4px 8px;">KONTROL</div>
-          <div class="te-switch-item" id="tabBtn2" onclick="switchMainTab('analytics')" style="padding: 4px 8px;">ANALİTİK</div>
+    <!-- 🏷️ ÇEKMECE ÜST PIRINÇ BAŞLIĞI // İSTASYON DURUMU -->
+    <div class="drawer-tray" style="padding: 10px 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="brass-label" style="font-size: 12px;">
+          <span>🪵</span>
+          <span>MASA ÇEKMECESİ // VERİ ARŞİVİ</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <span class="brass-tag active-green" id="liveStatusBadge">● ESP32 CANLI</span>
+          <button type="button" class="brass-btn" onclick="ringDeskChime()" style="padding: 4px 8px; font-size: 10px;">🔔 Masayı Çaldır</button>
         </div>
       </div>
     </div>
 
-    <!-- TAB 1: LIVE CONTROL -->
-    <div id="liveTabContent" style="display: flex; flex-direction: column; gap: 10px;">
-
-    <!-- ⏳ MEMENTO MORI // 2026 YILI İLERLEME TELEMETRİSİ -->
-    <div class="module-card" style="padding: 8px 12px; background: var(--surface-1); border-color: rgba(255, 79, 0, 0.3);">
-      <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; margin-bottom: 4px;">
-        <span style="color: var(--te-orange);">⏳ 2026 YILI: %65.4 TAMAMLANDI</span>
-        <span style="color: var(--text-muted);" id="yearDaysLeftBadge">126 GÜN KALDI</span>
-      </div>
-      <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;">
-        <div id="yearProgressBar" style="width: 65.4%; height: 100%; background: linear-gradient(90deg, var(--te-orange), var(--te-amber));"></div>
-      </div>
+    <!-- 🎛️ ÇEKMECE RAFLARI ARASI GEÇİŞ (SEKMELER) -->
+    <div class="shelf-tabs">
+      <div class="shelf-tab-item active" id="tabSensors" onclick="switchShelf('sensors')">📊 ANLIK METROLOJİ</div>
+      <div class="shelf-tab-item" id="tabDaily" onclick="switchShelf('daily')">📅 GÜNLÜK AKIŞ & GRAFİK</div>
+      <div class="shelf-tab-item" id="tabMonthly" onclick="switchShelf('monthly')">🗂️ AYLIK ARŞİV & RAPOR</div>
     </div>
 
-    <!-- ☀️🌙 MODULE 00-B: GÖKSEL TELEMETRİ // GÜN DOĞUMU, GÜN BATIMI & AY EVRESİ -->
-    <div class="module-card" id="celestialModuleCard" style="border-color: var(--te-orange); background: linear-gradient(135deg, rgba(20,22,26,0.98), rgba(28,24,20,0.95)); margin-bottom: 12px;">
-      <div class="module-header" style="margin-bottom: 6px;">
-        <div class="module-title" id="celestialPhaseTitle"><span class="code" style="color: var(--te-amber);">[SOLAR-01]</span> GÖKSEL DÖNGÜ & GÜN EVRESİ</div>
-        <div style="display: flex; gap: 4px;">
-          <span class="hardware-tag active-orange" id="celestialTimePhaseTag">GÜNDÜZ</span>
-          <span class="hardware-tag active-green" id="lunarPhaseNameTag">🌔 ŞİŞKİN AY</span>
-        </div>
-      </div>
-
-      <!-- Canlı Gökyüzü Yayı & Güneş/Ay Konumu -->
-      <div class="celestial-orbit-track">
-        <div class="celestial-orbit-curve"></div>
-        <div id="orbitSun" class="celestial-body-sun" style="left: 45%; top: 8px; color: #FFB300; font-size: 16px; font-weight: bold;">☀️</div>
-        <div id="orbitMoon" class="celestial-body-moon" style="left: 85%; top: 32px; color: #E0E6ED; font-size: 15px;">🌔</div>
-        <div style="position: absolute; bottom: 3px; left: 8px; font-family: var(--font-mono); font-size: 8px; color: var(--text-dark);">DOĞU (GÜN DOĞUMU)</div>
-        <div style="position: absolute; bottom: 3px; right: 8px; font-family: var(--font-mono); font-size: 8px; color: var(--text-dark);">BATI (GÜN BATIMI)</div>
-      </div>
-
-      <!-- 4'lü Solar Telemetri Göstergesi -->
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; text-align: center;">
-        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 6px 2px;">
-          <div style="font-family: var(--font-mono); font-size: 8.5px; color: var(--text-muted);">🌅 GÜN DOĞUMU</div>
-          <div style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; color: #FFAA00;" id="solarSunriseText">06:42</div>
-        </div>
-        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 6px 2px;">
-          <div style="font-family: var(--font-mono); font-size: 8.5px; color: var(--text-muted);">☀️ ÖĞLE ZİRVESİ</div>
-          <div style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; color: var(--te-green);" id="solarNoonText">13:16</div>
-        </div>
-        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 6px 2px;">
-          <div style="font-family: var(--font-mono); font-size: 8.5px; color: var(--text-muted);">🌇 ALTIN SAAT</div>
-          <div style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; color: var(--te-orange);" id="solarGoldenText">19:15</div>
-        </div>
-        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 6px 2px;">
-          <div style="font-family: var(--font-mono); font-size: 8.5px; color: var(--text-muted);">🌆 GÜN BATIMI</div>
-          <div style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; color: #FF4477;" id="solarSunsetText">19:54</div>
-        </div>
-      </div>
-
-      <!-- Alt Açıklama & Kalan Süre -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-family: var(--font-mono); font-size: 9.5px;">
-        <span style="color: var(--text-muted);" id="celestialNextEventText">⏳ Gün Batımına: 2 Saat 15 Dk</span>
-        <span style="color: var(--te-cyan);" id="lunarIlluminationText">Ay Aydınlığı: %88</span>
-      </div>
-    </div>
-
-    <!-- 🐱 YULAF // MASANIN SEVİMLİ PİKSEL KEDİSİ -->
-    <div class="module-card">
-      <div class="module-header" style="margin-bottom: 8px;">
-        <div class="module-title"><span class="code" style="color: var(--te-green);">[PET-01]</span> MASA YOLDAŞI: YULAF 🐾🐱</div>
-        <span class="hardware-tag active-green" id="petMoodTag">🐾 YANINDA</span>
-      </div>
-
-      <div style="display: flex; align-items: center; gap: 12px; padding: 4px 0;">
-        <!-- Yulaf'ın Piksel Karakteri -->
-        <div onclick="triggerFloatingPetInteraction()" style="cursor: pointer; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; user-select: none;">
-          <div id="cardPixelPet" style="width: 52px; height: 52px;"></div>
-        </div>
-
-        <!-- Yulaf'ın Sade Durumu -->
-        <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
-          <div id="petSpeechBubble" style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 8px 10px; font-size: 11.5px; color: var(--text-main); line-height: 1.35;">
-            "Miyav! Masada seninleyim. 🐾"
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">DURUM: HUZURLU & DİNLENİYOR</span>
-            <button type="button" class="te-btn" onclick="triggerFloatingPetInteraction()" style="font-size: 9.5px; padding: 4px 8px;">❤️ Sev</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-      <!-- TAB 1: LIVE CONTROL --><!-- TAB 1: LIVE CONTROL -->
-    <div id="liveTabContent" style="display: flex; flex-direction: column; gap: 10px;">
-
-      <!-- 📅 MODULE 01: GOOGLE CALENDAR & SCHEDULE -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[01]</span> GOOGLE TAKVİM & AJANDA</div>
-          <button type="button" class="hardware-tag" onclick="fetchGoogleCalendarEvents()" style="cursor: pointer;">YENİLE ↻</button>
-        </div>
-
-        <!-- Etkinlikler Listesi -->
-        <div id="eventList" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;"></div>
-
-        <!-- Hızlı Plan Ekleme Formu -->
-        <form onsubmit="handleQuickPlanSubmit(event)" style="display: flex; gap: 6px;">
-          <input type="text" id="quickPlanInput" class="te-input" placeholder="Yeni plan ekle (Örn: Yarın 14:00 Toplantı)...">
-          <button type="submit" class="te-btn te-btn-primary" style="padding: 8px 14px;">EKLE</button>
-        </form>
-      </div>
-
-      <!-- 📟 MODULE 02: HARDWARE TELEMETRY & PHYSICAL SENSORS -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code" style="color: var(--te-green);">[02]</span> DONANIM SENSÖR TELEMETRİSİ</div>
-          <div style="display: flex; gap: 4px;">
-            <button type="button" class="hardware-tag active-orange" onclick="runSensorDiagnostics(true)" style="cursor: pointer;">TEST ET ⚙️</button>
-            <span class="hardware-tag" id="hwSyncFreq">2S DÖNGÜ</span>
-          </div>
-        </div>
-
-        <!-- ⚙️ SENSÖR SAĞLIK & OTOMATİK KONTROL BANNERI -->
-        <div id="sensorHealthBanner" style="margin-bottom: 10px; padding: 6px 10px; background: rgba(82, 183, 136, 0.1); border: 1px solid rgba(82, 183, 136, 0.3); border-radius: 4px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 10px;">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span class="led" id="sensorHealthLed" style="width: 6px; height: 6px; background: var(--te-green); box-shadow: 0 0 6px var(--te-green);"></span>
-            <span id="sensorHealthText" style="color: var(--te-green); font-weight: 700;">✓ TÜM SENSÖRLER AKTİF & SAĞLIKLI</span>
-          </div>
-          <span style="color: var(--text-dark);" id="sensorHealthLastCheck">Az önce</span>
+    <!-- ==================================================== -->
+    <!-- 1. RAF: ANLIK SENSÖR TELEMETRİSİ (CANLI ÖLÇÜMLER) -->
+    <!-- ==================================================== -->
+    <div id="shelfSensorsContent" style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL VERİLER</div>
+          <span class="brass-tag" id="lastSyncTime">2 SANİYE ÖNCE</span>
         </div>
 
         <div class="telemetry-grid">
-          <!-- Sıcaklık -->
-          <div class="telemetry-box">
-            <div class="telemetry-label">
+          <!-- 1. Sıcaklık -->
+          <div class="tray-compartment">
+            <div class="comp-label">
               <span>SICAKLIK</span>
-              <span style="color: var(--te-cyan);">DHT22</span>
+              <span style="color: var(--copper-orange);">BME280</span>
             </div>
-            <div class="telemetry-val" id="tempVal">--°</div>
-            <div class="telemetry-sub" id="actionText">Eviniz // İzmir</div>
+            <div class="comp-val" id="tempVal">26.4°C</div>
+            <div class="comp-sub" id="tempSub">İdeal Çalışma Sıcaklığı</div>
           </div>
 
-          <!-- Nem -->
-          <div class="telemetry-box">
-            <div class="telemetry-label">
+          <!-- 2. Bağıl Nem -->
+          <div class="tray-compartment">
+            <div class="comp-label">
               <span>BAĞIL NEM</span>
-              <span style="color: var(--te-cyan);">% REL</span>
+              <span style="color: var(--sage-green);">% REL</span>
             </div>
-            <div class="telemetry-val" id="humVal">%--</div>
-            <div class="telemetry-sub">İdeal Oda Nemi</div>
+            <div class="comp-val" id="humVal">%48</div>
+            <div class="comp-sub" id="humSub">Sağlıklı Oda Havası</div>
           </div>
 
-          <!-- Işık Seviyesi -->
-          <div class="telemetry-box">
-            <div class="telemetry-label">
-              <span>IŞIK ŞİDDETİ</span>
-              <span style="color: var(--te-amber);">LDR</span>
-            </div>
-            <div class="telemetry-val" id="lightVal">--%</div>
-            <div class="telemetry-sub" id="lightStatus">Algılanıyor...</div>
-          </div>
-
-          <!-- Hava Kalitesi (MQ-135) -->
-          <div class="telemetry-box">
-            <div class="telemetry-label">
+          <!-- 3. Hava Kalitesi -->
+          <div class="tray-compartment">
+            <div class="comp-label">
               <span>HAVA KALİTESİ</span>
-              <span style="color: var(--te-green);">MQ-135</span>
+              <span style="color: var(--brass-gold);">MQ-135</span>
             </div>
-            <div class="telemetry-val" id="airVal">---</div>
-            <div class="telemetry-sub" id="airStatus">Ferah & Temiz</div>
+            <div class="comp-val" id="airVal">435 PPM</div>
+            <div class="comp-sub" id="airStatus">Ferah & Temiz ✨</div>
           </div>
-        </div>
 
-                <!-- 🚨 [SES-01] AKUSTİK SENSÖR & ÇEVRE GÜVENLİK PANELİ -->
-        <div style="margin-top: 10px; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 16px;">🔊</span>
-            <div>
-              <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--te-green);" id="sensorVoiceStatus">HOPARLÖR SESLİ UYARI: AKTİF</div>
-              <div style="font-size: 9.5px; color: var(--text-muted);" id="sensorVoiceSub">MQ-135 Kirli Hava (>1000 PPM) & Işık Alarmları Devrede</div>
+          <!-- 4. Işık Şiddeti -->
+          <div class="tray-compartment">
+            <div class="comp-label">
+              <span>IŞIK SEVİYESİ</span>
+              <span style="color: var(--amber-glow);">LDR (D32)</span>
             </div>
-          </div>
-          <span class="hardware-tag active-green" id="voiceAlertTag">D26 HOPARLÖR // OK</span>
-        </div>
-
-        <!-- Canlı Hava Kalitesi Spektrumu -->
-        <div style="margin-top: 10px; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border);">
-          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); margin-bottom: 4px;">
-            <span>SPEKTRUM // PPM</span>
-            <span id="airSpectrumPpm" style="color: var(--te-green); font-weight: 700;">435 PPM</span>
-          </div>
-          <div style="position: relative; width: 100%; height: 6px; background: linear-gradient(90deg, #52B788 0%, #DDA15E 50%, #E76F51 100%); border-radius: 3px;">
-            <div id="airGaugePin" style="position: absolute; top: -3px; left: 20%; transform: translateX(-50%); width: 4px; height: 12px; background: #FFFFFF; border-radius: 2px; box-shadow: 0 0 6px #FFFFFF; transition: left 0.5s ease;"></div>
+            <div class="comp-val" id="lightVal">65%</div>
+            <div class="comp-sub" id="lightStatus">Aydınlık Çalışma Alanı 💡</div>
           </div>
         </div>
 
-        <!-- Ekran Modu Seçici & Büyük Zil Çalma Butonu -->
-        <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
-          <!-- 🔔 BÜYÜK MASAYI ÇALDIR & ROBOTİK KONUŞTUR BUTONU -->
-          <button type="button" class="te-btn" onclick="ringChime()" style="width: 100%; padding: 10px 14px; font-size: 11px; font-weight: 700; background: rgba(0, 229, 117, 0.12); border: 1px solid var(--te-green); color: var(--te-green); display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 4px; box-shadow: 0 0 10px rgba(0, 229, 117, 0.15); cursor: pointer;">
-            <span style="font-size: 14px;">🔔</span> 
-            <span>MASAYI ÇALDIR & ROBOTİK KONUŞTUR 🗣️</span>
-          </button>
-
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
-            <span style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dark);">DONANIM EKRAN MODU:</span>
-          </div>
-          <div class="te-switch-group">
-            <div class="te-switch-item active" id="btnModeAuto" onclick="setScreenMode('auto')">OTOMATİK</div>
-            <div class="te-switch-item" id="btnModeHud" onclick="setScreenMode('hud')">GÜNEŞ HUD</div>
-            <div class="te-switch-item" id="btnModeSaver" onclick="setScreenMode('screensaver')">SİNEMA</div>
-          </div>
+        <!-- Günün Mini Özet Şeridi -->
+        <div style="margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.15); border-radius: 4px; padding: 8px 10px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
+          <span>GÜNÜN MIN / MAX: <b style="color: var(--brass-gold);" id="dailyMinMax">24.1°C / 27.8°C</b></span>
+          <span>ODA SAĞLIK PUANI: <b style="color: var(--sage-green);" id="dailyHealthScore">96 / 100</b></span>
         </div>
       </div>
 
-      <!-- ⏱️ MODULE 03: FOCUS TIMER & DAILY HABIT MATRIX -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[03]</span> ODAK SAYACI & ALIŞKANLIKLAR</div>
-          <span class="hardware-tag active-orange" id="habitStreakBadge">0 GÜNLÜK SERİ</span>
+      <!-- Çekmece İçi Hızlı Akustik Ses Testi -->
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[SES-01]</span> HOPARLÖR VE ALARM TESTİ</div>
+          <span class="brass-tag">D25 PIEZO + D26 8Ω</span>
         </div>
-
-        <!-- Pomodoro Timer Hardware Display -->
-        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 12px; text-align: center; margin-bottom: 10px;">
-          <div style="display: flex; justify-content: center; gap: 4px; margin-bottom: 8px;">
-            <button type="button" class="hardware-tag" onclick="setPomoMode(25, 'Odak')" style="cursor: pointer;">25 DK ODAK</button>
-            <button type="button" class="hardware-tag" onclick="setPomoMode(5, 'Mola')" style="cursor: pointer;">5 DK MOLA</button>
-            <button type="button" class="hardware-tag" onclick="setPomoMode(15, 'Uzun Mola')" style="cursor: pointer;">15 DK UZUN</button>
-          </div>
-          <!-- 🕯️ 25 DAKİKALIK PİKSEL ZEN MUMU -->
-          <div class="zen-candle-wrapper" id="zenCandleWrap">
-            <div class="candle-smoke" id="candleSmoke">💨</div>
-            <div class="candle-flame" id="candleFlame" style="opacity: 0;"></div>
-            <div class="candle-wick"></div>
-            <div class="candle-wax" id="candleWax" style="height: 28px;"></div>
-          </div>
-          <div id="pomoTime" style="font-family: var(--font-mono); font-size: 42px; font-weight: 800; letter-spacing: -0.04em; color: var(--text-main);">25:00</div>
-          <div style="display: flex; justify-content: center; gap: 8px; margin-top: 8px;">
-            <button type="button" class="te-btn te-btn-primary" id="btnPomoStart" onclick="togglePomoTimer()" style="min-width: 100px;">BAŞLAT</button>
-            <button type="button" class="te-btn" onclick="resetPomoTimer()">SIFIRLA</button>
-          </div>
-        </div>
-
-        <!-- Alışkanlıklar Listesi -->
-        <div id="habitsList" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px;"></div>
-
-        <!-- Yeni Alışkanlık Formu -->
-        <form onsubmit="handleAddHabitSubmit(event)" style="display: flex; gap: 6px;">
-          <input type="text" id="habitInput" class="te-input" placeholder="Yeni günlük alışkanlık ekle...">
-          <button type="submit" class="te-btn" style="padding: 8px 12px;">EKLE</button>
-        </form>
-      </div>
-
-      <!-- 🧘 MODULE 03-B: DAILY MOOD & MENTAL MATRIX -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[03-B]</span> GÜNLÜK RUH HALİ & ZİHİN SKALASI</div>
-          <span class="hardware-tag active-green" id="moodStatusBadge">KAYDEDİLDİ: 5/5</span>
-        </div>
-
-        <!-- 5 Seviyeli Taktil Mood Seçici -->
-        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 10px;">
-          <div class="te-switch-item" id="moodBtn1" onclick="setDailyMood(1, '😴 Yorgun / Bitkin')" style="font-size: 9.5px; padding: 8px 2px;">
-            <div style="font-size: 16px;">😴</div>
-            <div style="margin-top: 2px;">1 // YORGUN</div>
-          </div>
-          <div class="te-switch-item" id="moodBtn2" onclick="setDailyMood(2, '☁️ Durgun / Keyifsiz')" style="font-size: 9.5px; padding: 8px 2px;">
-            <div style="font-size: 16px;">☁️</div>
-            <div style="margin-top: 2px;">2 // DURGUN</div>
-          </div>
-          <div class="te-switch-item" id="moodBtn3" onclick="setDailyMood(3, '🌿 Dengeli / Sakin')" style="font-size: 9.5px; padding: 8px 2px;">
-            <div style="font-size: 16px;">🌿</div>
-            <div style="margin-top: 2px;">3 // DENGELİ</div>
-          </div>
-          <div class="te-switch-item" id="moodBtn4" onclick="setDailyMood(4, '😊 Mutlu / Keyifli')" style="font-size: 9.5px; padding: 8px 2px;">
-            <div style="font-size: 16px;">😊</div>
-            <div style="margin-top: 2px;">4 // MUTLU</div>
-          </div>
-          <div class="te-switch-item active" id="moodBtn5" onclick="setDailyMood(5, '✨ Muhteşem / Enerjik')" style="font-size: 9.5px; padding: 8px 2px;">
-            <div style="font-size: 16px;">✨</div>
-            <div style="margin-top: 2px;">5 // MUHTEŞEM</div>
-          </div>
-        </div>
-
-        <!-- Günün Farkındalık Notu Girişi -->
-        <form onsubmit="handleMoodNoteSubmit(event)" style="display: flex; gap: 6px; margin-bottom: 10px;">
-          <input type="text" id="moodNoteInput" class="te-input" placeholder="Günün kısa hissi / zihin notunu yaz...">
-          <button type="submit" class="te-btn te-btn-primary">KAYDET</button>
-        </form>
-
-        <!-- 📖 KAYDEDİLEN RUH HALİ & ZİHİN NOTLARI LİSTESİ -->
-        <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px;">
-          <div style="font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; text-transform: uppercase;">
-            KAYDEDİLEN RUH HALİ NOTLARI & GÜNLÜK
-          </div>
-          <div id="moodJournalList" style="display: flex; flex-direction: column; gap: 4px; max-height: 140px; overflow-y: auto;"></div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
+          <button type="button" class="brass-btn" onclick="ringDeskChime()">🔔 Masa Zili</button>
+          <button type="button" class="brass-btn" onclick="triggerSoundAlert('AIR')">⚠️ Hava Sireni</button>
+          <button type="button" class="brass-btn" onclick="triggerSoundAlert('WATER')">💧 Su İç Hatırlatıcı</button>
         </div>
       </div>
-
-      <!-- 📚 MODULE 04:<!-- 📚 MODULE 04:<!-- 📚 MODULE 04: 1-MINUTE MICRO-BOOK WISDOM (21 MASTERPIECES) -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[04]</span> 1 DAKİKALIK KİTAP ÖZETİ</div>
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span class="hardware-tag" id="bookIndexBadge">1 / 21</span>
-            <button type="button" class="hardware-tag" onclick="prevBookWisdom()" style="cursor: pointer;">◀</button>
-            <button type="button" class="hardware-tag" onclick="nextBookWisdom(true)" style="cursor: pointer;">▶</button>
-          </div>
-        </div>
-
-        <!-- 12s Sayaç Çubuğu -->
-        <div style="width: 100%; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; margin-bottom: 10px;">
-          <div id="bookProgressBar" style="width: 0%; height: 100%; background: var(--te-orange); transition: width 0.1s linear;"></div>
-        </div>
-
-        <!-- Kitap Gövdesi -->
-        <div id="bookContentWrapper" onclick="nextBookWisdom(true)" style="cursor: pointer; min-height: 110px;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div id="bookAuthor" style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; color: var(--te-orange); text-transform: uppercase;">JAMES CLEAR</div>
-            <span class="hardware-tag" id="bookTitleBadge">ATOMİK ALIŞKANLIKLAR</span>
-          </div>
-          <div id="bookQuote" style="font-size: 14px; font-weight: 500; color: var(--text-main); margin: 8px 0 6px 0; line-height: 1.45;">
-            "Her gün sadece %1 daha iyi olmak, yıl sonunda sizi tam 37 kat daha ileriye taşır."
-          </div>
-          <div id="bookAction" style="font-size: 11px; color: var(--text-muted); background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border-left: 2px solid var(--te-orange);">
-            💡 <b>Ders:</b> Küçük alışkanlıklarla başla.
-          </div>
-        </div>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 10px; font-family: var(--font-mono); color: var(--text-dark);">
-          <span>[45 SN OKUMA SÜRESİ • DOKUN: SONRAKİ]</span>
-          <span onclick="randomBookWisdom()" style="color: var(--te-orange); cursor: pointer; font-weight: 700;">RASTGELE KİTAP ↻</span>
-        </div>
-      </div>
-
-      <!-- 🔭 MODULE 05: ASTRONOMY TELEMETRY (COLLAPSIBLE RACK) -->
-      <div class="module-card" style="border-color: rgba(255, 79, 0, 0.4);">
-        <div class="module-header" onclick="toggleAstroSection()" style="cursor: pointer; user-select: none;">
-          <div class="module-title"><span class="code">[05]</span> ASTRONOMİ & GÖKYÜZÜ TAKVİMİ</div>
-          <span id="astroToggleBtn" class="hardware-tag active-orange" style="cursor: pointer;">LİSTEYİ AÇ ▾</span>
-        </div>
-
-        <!-- 🌟 EN YAKIN GÖK OLAYI (KAPALIYKEN DAİMA BURADA GÖRÜNÜR) -->
-        <div id="astroFeaturedBox" style="padding: 12px; background: var(--surface-2); border-radius: 4px; border: 1px solid var(--te-orange); cursor: pointer; box-shadow: inset 0 0 12px rgba(255,79,0,0.06);" onclick="toggleAstroSection()">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-            <span style="font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; color: var(--te-cyan); background: rgba(0,208,255,0.12); padding: 2px 6px; border-radius: 2px;">★ EN YAKIN GÖK ŞÖLENİ</span>
-            <span id="astroFeaturedCountdown" style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--te-amber);">⏳ 11 Gün Kaldı (8 EYLÜL)</span>
-          </div>
-          <div id="astroFeaturedTitle" style="font-family: var(--font-ui); font-size: 16px; font-weight: 700; color: #FFFFFF; margin: 4px 0 2px 0;">Satürn Karşı Konumu (En Parlak Zamanı)</div>
-          <div id="astroFeaturedDesc" style="font-size: 11.5px; color: var(--text-muted); line-height: 1.4;">Satürn Dünya'ya en yakın noktada; halkaları çıplak gözle ve dürbünle Türkiye'den sabaha kadar olağanüstü netlikte izlenebilecek.</div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-family: var(--font-mono); font-size: 10px;">
-            <span style="color: var(--te-green);">📍 Türkiye'den Çıplak Gözle Net</span>
-            <span style="color: var(--te-orange); font-weight: 700;">Tüm 21 Olayı Gör ▾</span>
-          </div>
-        </div>
-
-        <!-- Açılır / Kapanır 21 Olaylık Tam Katalog -->
-        <div id="astroBodyContent" style="display: none; margin-top: 10px;">
-          <!-- Filtre Bankası -->
-          <div style="display: flex; gap: 4px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 2px;">
-            <button type="button" class="hardware-tag active-orange" id="astroFilterAll" onclick="filterAstroEvents('all')">TÜMÜ (21)</button>
-            <button type="button" class="hardware-tag" id="astroFilterRare" onclick="filterAstroEvents('rare')">NADİR (4)</button>
-            <button type="button" class="hardware-tag" id="astroFilterMeteor" onclick="filterAstroEvents('meteor')">METEOR (7)</button>
-            <button type="button" class="hardware-tag" id="astroFilterMoon" onclick="filterAstroEvents('moon')">AYLAR (4)</button>
-            <button type="button" class="hardware-tag" id="astroFilterPlanet" onclick="filterAstroEvents('planet')">GEZEGEN (4)</button>
-          </div>
-
-          <div id="astroEventsList" style="display: flex; flex-direction: column; gap: 8px;"></div>
-        </div>
-      </div>
-
-      <!-- 🏆 MODULE 06:<!-- 🏆 MODULE 06: ACHIEVEMENTS & 32 BADGES ROOM (COLLAPSIBLE) -->
-      <div class="module-card">
-        <div class="module-header" onclick="toggleBadgesSection()" style="cursor: pointer;">
-          <div class="module-title"><span class="code">[06]</span> BAŞARILAR & 32 ROZET ODASI</div>
-          <span id="badgesToggleBtn" class="hardware-tag active-orange">ROZETLERİ AÇ ▾</span>
-        </div>
-
-        <!-- Level & XP Telemetry Bar -->
-        <div style="background: var(--surface-2); padding: 10px 12px; border-radius: 4px; border: 1px solid var(--border);">
-          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; margin-bottom: 4px;">
-            <span style="color: var(--te-amber);" id="userLevelTitle">SEVİYE 1 // ÇIRAK KAŞİF</span>
-            <span style="color: var(--te-green);" id="userXpText">0 / 4850 XP</span>
-          </div>
-          <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;">
-            <div id="userXpBar" style="width: 5%; height: 100%; background: var(--te-orange); transition: width 0.4s ease;"></div>
-          </div>
-        </div>
-
-        <!-- Açılır / Kapanır 32 Rozet Grid'i -->
-        <div id="badgesBodyContent" style="display: none; margin-top: 10px;">
-          <div id="badgesGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px;"></div>
-
-          <div id="badgeDetailBox" style="display: none; margin-bottom: 10px; padding: 10px; background: var(--surface-2); border-radius: 4px; border: 1px solid var(--te-orange);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <div id="badgeDetailName" style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--te-orange);">ROZET</div>
-                <div id="badgeDetailDesc" style="font-size: 10.5px; color: var(--text-muted);">Görev Açıklaması</div>
-              </div>
-              <span id="badgeDetailXp" style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--te-green);">+50 XP</span>
-            </div>
-          </div>
-
-          <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px;">
-            <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">32 BAŞARIM DÖKÜMÜ</div>
-            <div id="allBadgesGuideList" style="display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto;"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 💸 MODULE 07: EXPENSES & NOTES TERMINAL -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[07]</span> BÜTÇE & HARCAMA TAKİBİ</div>
-          <span class="hardware-tag" id="dailyExpenseBadge">BUGÜN: 0 TL</span>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 8px;">
-          <button type="button" class="te-btn" onclick="addQuickExpense(120, 'Kahve ☕')" style="font-size: 10.5px; padding: 6px 2px;">+120 TL Kahve</button>
-          <button type="button" class="te-btn" onclick="addQuickExpense(250, 'Yemek 🍔')" style="font-size: 10.5px; padding: 6px 2px;">+250 TL Yemek</button>
-          <button type="button" class="te-btn" onclick="addQuickExpense(400, 'Market 🛒')" style="font-size: 10.5px; padding: 6px 2px;">+400 TL Market</button>
-        </div>
-
-        <form onsubmit="handleCustomExpenseSubmit(event)" style="display: flex; gap: 6px; margin-bottom: 8px;">
-          <input type="number" id="expenseAmountInput" class="te-input" placeholder="Tutar (TL)..." style="width: 100px;">
-          <input type="text" id="expenseNoteInput" class="te-input" placeholder="Açıklama...">
-          <button type="submit" class="te-btn te-btn-primary">KAYDET</button>
-        </form>
-
-        <div id="expenseHistoryList" style="display: flex; flex-direction: column; gap: 4px; max-height: 110px; overflow-y: auto;"></div>
-      </div>
-
-      <!-- 🛰️ MODULE 11: CANLI ISS (UZAY İSTASYONU) & EVİNİZİN ÜSTÜNDEN GEÇİŞ RADARI -->
-      <div class="module-card" style="border-color: rgba(0, 229, 117, 0.4); background: linear-gradient(135deg, rgba(14,20,24,0.98), rgba(20,28,32,0.95));">
-        <div class="module-header">
-          <div class="module-title"><span class="code" style="color: var(--te-green);">[ISS-01]</span> CANLI ISS & GEÇİŞ GÖZLEM RADARI</div>
-          <div style="display: flex; gap: 4px;">
-            <span class="hardware-tag active-green" id="issSpeedTag">27.600 KM/S</span>
-            <button type="button" class="hardware-tag" onclick="detectUserLocationForIss()" style="cursor: pointer;" id="issGpsBtn">📍 EVİMİN KONUMU</button>
-          </div>
-        </div>
-
-        <!-- Evinizin Konumuna Göre Canlı Geçiş Kutusu -->
-        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 12px; margin-bottom: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-            <div>
-              <div style="font-family: var(--font-mono); font-size: 9px; color: var(--text-dark); text-transform: uppercase;" id="issTargetLocationText">HEDEF GÖZLEM NOKTASI: EVİNİZ // İZMİR (38.38°N, 27.15°E)</div>
-              <div style="font-family: var(--font-ui); font-size: 15px; font-weight: 700; color: #FFFFFF; margin-top: 2px;" id="issNextPassTimeText">
-                🛰️ Bu Akşam: 21:42 - 21:48 (6 Dakika)
-              </div>
-            </div>
-            <span class="hardware-tag active-orange" id="issBrightnessTag">PARLAKLIK: -3.2 (ÇOK PARLAK)</span>
-          </div>
-
-          <!-- Yön & Açı Pusula Rehberi (Hangi Tarafa Bakacaksınız?) -->
-          <div style="background: rgba(0,0,0,0.35); border: 1px dashed rgba(255,255,255,0.15); border-radius: 4px; padding: 8px 10px; display: flex; gap: 10px; align-items: center;">
-            <div style="font-size: 22px;">🧭</div>
-            <div style="font-size: 11.5px; color: var(--text-main); line-height: 1.4;">
-              <span style="color: var(--te-green); font-weight: 700;">Hangi Yöne Bakacaksınız:</span> 
-              <span id="issLookDirectionText">Güneybatı (SW) ufkundan doğup başınızın 62° tepesinden geçerek Kuzeydoğuya (NE) süzülecek. Çıplak gözle Venüs kadar parlak beyaz bir yıldız gibi kayacak!</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Canlı Telemetri Satırı -->
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; text-align: center; font-family: var(--font-mono); font-size: 9px;">
-          <div style="background: var(--surface-2); padding: 5px 2px; border-radius: 3px; border: 1px solid var(--border);">
-            <div style="color: var(--text-muted);">İRTİFA</div>
-            <div style="font-weight: 700; color: var(--te-cyan); font-size: 11px;" id="issAltitudeText">420 KM</div>
-          </div>
-          <div style="background: var(--surface-2); padding: 5px 2px; border-radius: 3px; border: 1px solid var(--border);">
-            <div style="color: var(--text-muted);">YÖRÜNGE HIZI</div>
-            <div style="font-weight: 700; color: var(--te-green); font-size: 11px;">7.66 KM/SN</div>
-          </div>
-          <div style="background: var(--surface-2); padding: 5px 2px; border-radius: 3px; border: 1px solid var(--border);">
-            <div style="color: var(--text-muted);">GÖZLEM ŞARTI</div>
-            <div style="font-weight: 700; color: #FFAA00; font-size: 11px;" id="issVisibilityTag">ÇIPLAK GÖZLE GÖRÜNÜR</div>
-          </div>
-        </div>
-      </div>
-
     </div>
 
-    <div id="analyticsTabContent" style="display: none; flex-direction: column; gap: 10px;">
-      
-      <!-- 📲 [NOTIF-01] MOBİL BİLDİRİM & SİSTEM HATIRLATICISI -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code" style="color: var(--te-green);">[NOTIF-01]</span> MOBİL BİLDİRİM & HATIRLATICI 🔔</div>
-          <span class="hardware-tag active-green" id="notifStatusTag">BİLDİRİMLER: AÇIK ✓</span>
+    <!-- ==================================================== -->
+    <!-- 2. RAF: GÜNLÜK AKIŞ & 24 SAATLİK SENSÖR GRAFİĞİ -->
+    <!-- ==================================================== -->
+    <div id="shelfDailyContent" style="display: none; flex-direction: column; gap: 12px;">
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[GRAFİK-01]</span> BUGÜNÜN 24 SAATLİK SENSÖR EĞRİSİ</div>
+          <button type="button" class="brass-btn" onclick="refreshDailyChart()" style="padding: 2px 6px; font-size: 9.5px;">Yenile ↻</button>
         </div>
-        <div style="font-size: 11.5px; color: var(--text-muted); line-height: 1.35; margin-bottom: 8px;">
-          Pomodoro seansları bittiğinde, akşam ruh hali kaydında ve ISS geçişlerinde telefonunuza sesli/titreşimli kilit ekranı bildirimi gönderilir.
+
+        <div style="position: relative; height: 190px; width: 100%; margin-bottom: 6px;">
+          <canvas id="dailySensorChart"></canvas>
         </div>
-        <div style="display: flex; gap: 6px;">
-          <button type="button" class="te-btn te-btn-primary" id="btnRequestNotif" onclick="testNotificationClick()" style="flex: 1; padding: 8px 12px;">
-            TEST BİLDİRİMİ GÖNDER 📲
-          </button>
+
+        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
+          <span style="color: #C86432;">● Sıcaklık (°C)</span>
+          <span style="color: #68A37C;">● Nem (%)</span>
+          <span style="color: #D4AF37;">● Hava (PPM / 10)</span>
         </div>
       </div>
-      
-      <!-- Zaman Aralığı Seçici (Günlük vs Aylık) -->
-      <div class="module-card" style="padding: 10px 14px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
-            <span style="color: var(--te-orange);">[ZAMAN ARALIĞI]</span> TELEMETRİ PERİYODU
+
+      <!-- Bugünün Saatlik Günlükleri -->
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[GÜNLÜK-01]</span> BUGÜNÜN SAATLİK KAYIT DEFTERİ</div>
+          <span class="brass-tag" id="todayRecordCount">24 KAYIT</span>
+        </div>
+
+        <div style="max-height: 180px; overflow-y: auto;">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>SAAT</th>
+                <th>SICAKLIK</th>
+                <th>NEM</th>
+                <th>HAVA PPM</th>
+                <th>IŞIK</th>
+              </tr>
+            </thead>
+            <tbody id="hourlyTableBody">
+              <!-- Saatlik Satırlar JS ile Dolar -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- 3. RAF: AYLIK ARŞİV & İSTATİSTİK RAPORU -->
+    <!-- ==================================================== -->
+    <div id="shelfMonthlyContent" style="display: none; flex-direction: column; gap: 12px;">
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[ARŞİV-01]</span> AYLIK ÖZET VE İSTATİSTİKLER</div>
+          <span class="brass-tag" id="currentMonthBadge">AĞUSTOS 2026</span>
+        </div>
+
+        <!-- 3'lü İstatistik Kutusu -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
+          <div class="tray-compartment" style="text-align: center; padding: 8px 4px;">
+            <div class="comp-label" style="justify-content: center;">AYLIK ORT. ISI</div>
+            <div class="comp-val" style="font-size: 19px; color: var(--copper-orange);">25.8°C</div>
+            <div class="comp-sub">Masa Konforu</div>
           </div>
-          <div class="te-switch-group" style="min-width: 170px;">
-            <div class="te-switch-item active" id="periodBtnDaily" onclick="setAnalyticsPeriod('daily')">GÜNLÜK (24S)</div>
-            <div class="te-switch-item" id="periodBtnMonthly" onclick="setAnalyticsPeriod('monthly')">AYLIK (30G)</div>
+          <div class="tray-compartment" style="text-align: center; padding: 8px 4px;">
+            <div class="comp-label" style="justify-content: center;">ORT. NEM</div>
+            <div class="comp-val" style="font-size: 19px; color: var(--sage-green);">%47.2</div>
+            <div class="comp-sub">Dengeli</div>
           </div>
-        </div>
-      </div>
-
-      <!-- [AN-01] SICAKLIK & NEM EĞRİSİ -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[AN-01]</span> SICAKLIK & NEM EĞRİSİ</div>
-          <span class="hardware-tag" id="chartPeriodTag1">GÜNLÜK</span>
-        </div>
-        <div style="height: 180px; position: relative;">
-          <canvas id="tempChart"></canvas>
-        </div>
-      </div>
-
-      <!-- [AN-02] RUH HALİ & ZİHİN SKALASI (MOOD MATRIX) -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[AN-02]</span> RUH HALİ & ZİHİN PERFORMANSI</div>
-          <span class="hardware-tag active-green" id="chartPeriodTagMood">GÜNLÜK</span>
-        </div>
-        <div style="height: 180px; position: relative;">
-          <canvas id="moodChart"></canvas>
-        </div>
-      </div>
-
-      <!-- [AN-03] HARCAMA KATEGORİ DAĞILIMI -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[AN-03]</span> HARCAMA KATEGORİ DAĞILIMI</div>
-          <span class="hardware-tag" id="chartPeriodTag2">GÜNLÜK</span>
-        </div>
-        <div style="height: 180px; position: relative;">
-          <canvas id="expenseCategoryChart"></canvas>
-        </div>
-      </div>
-
-      <!-- [AN-04] IŞIK SEVİYESİ DAĞILIMI -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[AN-04]</span> IŞIK SEVİYESİ DAĞILIMI</div>
-          <span class="hardware-tag" id="chartPeriodTag3">GÜNLÜK</span>
-        </div>
-        <div style="height: 180px; position: relative;">
-          <canvas id="lightChart"></canvas>
-        </div>
-      </div>
-
-      <!-- [AN-05] HAVA KALİTESİ (MQ-135) -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[AN-05]</span> HAVA KALİTESİ (MQ-135)</div>
-          <span class="hardware-tag" id="chartPeriodTag4">GÜNLÜK</span>
-        </div>
-        <div style="height: 180px; position: relative;">
-          <canvas id="airChart"></canvas>
-        </div>
-      </div>
-
-      <!-- 📝 KAYDEDİLEN RUH HALİ NOTLARI & GÜNLÜK (TAB 2) -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[AN-06]</span> RUH HALİ & ZİHİN NOTLARI GÜNLÜĞÜ</div>
-          <span class="hardware-tag active-orange" id="savedMoodNotesCount">0 KAYIT</span>
-        </div>
-        <div id="savedMoodNotesList" style="display: flex; flex-direction: column; gap: 6px; max-height: 160px; overflow-y: auto;">
-          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dark); text-align: center; padding: 10px;">Henüz kaydedilmiş ruh hali notu bulunmuyor.</div>
-        </div>
-      </div>
-
-      <!-- 📝 NOT DEFTERİ & FİKİR ARŞİVİ (TAB 2 ANALİTİK SAYFASI) -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[AN-07]</span> NOT DEFTERİ & FİKİR ARŞİVİ</div>
-          <span class="hardware-tag active-orange" id="userNotesCountBadge">1 NOT</span>
-        </div>
-
-        <!-- Hızlı Not Ekleme Formu -->
-        <form onsubmit="handleAddUserNoteSubmit(event)" style="display: flex; gap: 6px; margin-bottom: 10px;">
-          <input type="text" id="userNoteInput" class="te-input" placeholder="Yeni not veya fikir kaydet...">
-          <button type="submit" class="te-btn te-btn-primary">KAYDET</button>
-        </form>
-
-        <!-- Kaydedilen Notlar Listesi -->
-        <div id="userNotesList" style="display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto;"></div>
-      </div>
-
-      <!-- 🏆 32 TE-01 HARDWARE BADGES -->
-      <div class="module-card">
-        <div class="module-header">
-          <div class="module-title"><span class="code">[AN-08]</span> BAŞARI & DONANIM ROZETLERİ</div>
-          <div style="display: flex; gap: 4px;">
-            <span class="hardware-tag active-green" id="unlockedBadgesCount">0 / 32 KİLİTLİ</span>
-            <button type="button" class="hardware-tag" onclick="toggleBadgesList()" id="btnToggleBadges" style="cursor: pointer;">TÜMÜNÜ GÖR ▾</button>
+          <div class="tray-compartment" style="text-align: center; padding: 8px 4px;">
+            <div class="comp-label" style="justify-content: center;">TEMİZ GÜNLER</div>
+            <div class="comp-val" style="font-size: 19px; color: var(--brass-gold);">27 / 28</div>
+            <div class="comp-sub">%96.4 İdeal</div>
           </div>
         </div>
-        <div id="badgesGrid" class="badges-grid-collapsed"></div>
+
+        <!-- Geçmiş Günlerin Günlük Arşiv Tablosu -->
+        <div class="brass-header" style="margin-top: 6px;">
+          <div class="brass-label" style="font-size: 10px;"><span>[DEFTER]</span> AĞUSTOS AYI GÜNLÜK KAYITLARI</div>
+          <button type="button" class="brass-btn brass-btn-gold" onclick="exportDataCsv()" style="padding: 3px 8px; font-size: 9.5px;">📥 CSV İndir</button>
+        </div>
+
+        <div style="max-height: 220px; overflow-y: auto;">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>TARİH</th>
+                <th>ORT. ISI</th>
+                <th>ORT. NEM</th>
+                <th>HAVA PPM</th>
+                <th>PUAN</th>
+              </tr>
+            </thead>
+            <tbody id="monthlyTableBody">
+              <!-- Aylık Satırlar JS ile Dolar -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- 🐾 EKRANDA CANLI GEZİNEN FLOATING CYBER-PET -->
-  <div id="roamingPetContainer" onclick="triggerFloatingPetInteraction()">
-    <div class="roaming-pet-bubble" id="roamingPetBubble">"Miyav! 🐾"</div>
-    <div class="roaming-pet-avatar" id="roamingPetAvatar"></div>
-  </div>
-
-  <div id="toast">KOMUT İLETİLDİ // TE-01</div>
+  <div id="toast">İŞLEM TAMAMLANDI</div>
 
   <script>
     // ====================================================
-    // 🌐 GLOBAL STATE & VERİ TABANI DEĞİŞKENLERİ (TOP LEVEL)
+    // 🌐 FIREBASE SENKRONİZASYON & VERİ TABANI
     // ====================================================
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
     const FIREBASE_AUTH = "?auth=seDMOC3iMWa7SNERZxASLx4qZJVfbo81uoRSc7tJ";
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqZzhwE0Qg_GIR6U5DXR-K6pmsrjo-tCBN0w8Ymz0zhnMV8Aw2n2Ls34k48FkB5M5L/exec";
 
-    let currentScreenMode = "auto";
-    let googleEvents = [];
-    let currentAstroFilter = 'all';
-    let currentDynamicEvents = [];
-    let expandedAstroIndices = new Set([0]);
-    let currentBookIndex = 0;
-    let bookTimerProgress = 0;
-    let isAstroOpen = false;
-    let isBadgesOpen = false;
-    let pomoRemaining = 25 * 60;
-    let pomoInterval = null;
-    let pomoIsRunning = false;
-
-    let dailyExpenses = JSON.parse(localStorage.getItem('daily_expenses') || '[]');
-    let userNotes = JSON.parse(localStorage.getItem('saved_user_notes') || '[]');
-    if (userNotes.length === 0) {
-      userNotes = [
-        { id: 1, text: "Masa istasyonu projesi 25 FPS çift çekirdek FreeRTOS ile harika oldu!", date: "27 Ağustos 2026", time: "19:40" }
-      ];
-      localStorage.setItem('saved_user_notes', JSON.stringify(userNotes));
-    }
+    let dailyChartInstance = null;
 
     function showToast(msg) {
       const t = document.getElementById('toast');
       if (!t) return;
       t.innerText = msg;
       t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
+      setTimeout(() => t.classList.remove('show'), 2200);
     }
 
-    // 🎮 EKRAN MODU
-    async function setScreenMode(mode) {
-      currentScreenMode = mode;
-      document.getElementById('btnModeAuto').classList.toggle('active', mode === 'auto');
-      document.getElementById('btnModeHud').classList.toggle('active', mode === 'hud');
-      document.getElementById('btnModeSaver').classList.toggle('active', mode === 'screensaver');
+    // 🗄️ RAFLAR ARASI GEÇİŞ
+    function switchShelf(shelfId) {
+      document.getElementById('shelfSensorsContent').style.display = (shelfId === 'sensors') ? 'flex' : 'none';
+      document.getElementById('shelfDailyContent').style.display = (shelfId === 'daily') ? 'flex' : 'none';
+      document.getElementById('shelfMonthlyContent').style.display = (shelfId === 'monthly') ? 'flex' : 'none';
 
-      try {
-        await fetch(FIREBASE_URL + "control/screen_mode.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(mode)
-        });
-        showToast(`MOD DEĞİŞTİ // ${mode.toUpperCase()}`);
-      } catch (err) {
-        showToast("Hata oluştu");
+      document.getElementById('tabSensors').classList.toggle('active', shelfId === 'sensors');
+      document.getElementById('tabDaily').classList.toggle('active', shelfId === 'daily');
+      document.getElementById('tabMonthly').classList.toggle('active', shelfId === 'monthly');
+
+      if (shelfId === 'daily') {
+        setTimeout(initOrUpdateDailyChart, 50);
       }
     }
 
-    async function ringChime() {
+    // 🔔 MASAYI ÇALDIR (BUZZER + HOPARLÖR TETİĞİ)
+    async function ringDeskChime() {
+      showToast("🔔 Masadaki Piezo & Hoparlör Çaldırıldı!");
       try {
         await fetch(FIREBASE_URL + "control/ring_buzzer.json" + FIREBASE_AUTH, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(true)
         });
-        localStorage.setItem('chime_played', 'true');
-        checkAchievements();
-        showToast("🔔 MASANIN ZİLİ ÇALINDI");
-      } catch (err) {
-        showToast("Zil hatası");
-      }
+      } catch (e) {}
     }
 
-            // 📅 TÜRKÇE DOĞAL DİL TARİH AYRIŞTIRICI & CANLI ALARM MOTORU
-    function parseTurkishNaturalPlanDate(text) {
-      const lower = text.toLowerCase();
-      let target = new Date();
-      let hasParsedDate = false;
-      let hasParsedTime = false;
-
-      // 1. Hafta hesabı ("2 hafta sonra", "1 hafta sonra", "3 hafta sonra")
-      const weekMatch = lower.match(/(\d+)\s*hafta\s*sonra/);
-      if (weekMatch) {
-        const weeks = parseInt(weekMatch[1]);
-        target.setDate(target.getDate() + (weeks * 7));
-        hasParsedDate = true;
-      } else if (lower.includes("haftaya") || lower.includes("gelecek hafta")) {
-        target.setDate(target.getDate() + 7);
-        hasParsedDate = true;
-      }
-
-      // 2. Gün hesabı ("3 gün sonra", "5 gun sonra")
-      const dayMatch = lower.match(/(\d+)\s*g[üu]n\s*sonra/);
-      if (dayMatch && !hasParsedDate) {
-        const days = parseInt(dayMatch[1]);
-        target.setDate(target.getDate() + days);
-        hasParsedDate = true;
-      } else if (lower.includes("yarın") || lower.includes("yarin")) {
-        target.setDate(target.getDate() + 1);
-        hasParsedDate = true;
-      } else if (lower.includes("öbür gün") || lower.includes("obur gun")) {
-        target.setDate(target.getDate() + 2);
-        hasParsedDate = true;
-      }
-
-      // 3. Ay hesabı ("1 ay sonra", "2 ay sonra")
-      const monthMatch = lower.match(/(\d+)\s*ay\s*sonra/);
-      if (monthMatch && !hasParsedDate) {
-        const months = parseInt(monthMatch[1]);
-        target.setMonth(target.getMonth() + months);
-        hasParsedDate = true;
-      }
-
-      // 4. Gün adı hesabı ("pazartesi", "salı", "çarşamba", "perşembe", "cuma", "cumartesi", "pazar")
-      const daysOfWeek = ['pazar', 'pazartesi', 'salı', 'çarşamba', 'perşembe', 'cuma', 'cumartesi'];
-      for (let i = 0; i < daysOfWeek.length; i++) {
-        const dayName = daysOfWeek[i];
-        if (lower.includes(dayName) && !hasParsedDate) {
-          const currentDay = target.getDay();
-          let diff = i - currentDay;
-          if (diff <= 0) diff += 7;
-          target.setDate(target.getDate() + diff);
-          hasParsedDate = true;
-          break;
-        }
-      }
-
-      // 5. Saat hesabı ("saat 14:30", "saat 9 gibi", "09:00", "sabah 9", "akşam 8", "öğleden sonra 3")
-      const timeMatch = lower.match(/(?:saat\s*)?(\d{1,2})[:.](\d{2})/);
-      const hourWordMatch = lower.match(/(?:saat\s*|sabah\s*|akşam\s*|aksam\s*|öğlen\s*|oglen\s*)(\d{1,2})(?:\s*gibi|\s*sularında|\s*da|\s*de|\s*te|\s*ta)?/);
-      
-      if (timeMatch) {
-        target.setHours(parseInt(timeMatch[1]), parseInt(timeMatch[2]), 0, 0);
-        hasParsedTime = true;
-      } else if (hourWordMatch) {
-        let hr = parseInt(hourWordMatch[1]);
-        if ((lower.includes('akşam') || lower.includes('aksam') || lower.includes('gece')) && hr < 12) hr += 12;
-        if ((lower.includes('öğleden sonra') || lower.includes('ogleden sonra')) && hr < 12) hr += 12;
-        target.setHours(hr, 0, 0, 0);
-        hasParsedTime = true;
-      } else {
-        if (hasParsedDate) {
-          target.setHours(9, 0, 0, 0);
-        }
-      }
-
-      if (!hasParsedDate && !hasParsedTime) {
-        target = new Date(Date.now() + 3600000);
-      }
-
-      const diffMs = target.getTime() - Date.now();
-      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-      
-      const dateStr = target.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-      const timeStr = target.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-
-      let badgeStr = "";
-      if (diffDays > 1) badgeStr = `🎯 ${dateStr}, ${timeStr} (${diffDays} Gün Kaldı)`;
-      else if (diffDays === 1) badgeStr = `⏳ Yarın ${timeStr}`;
-      else if (diffDays === 0) badgeStr = `⚡ Bugün ${timeStr}`;
-      else badgeStr = `📅 ${dateStr}, ${timeStr}`;
-
-      return {
-        targetDate: target,
-        targetTimestamp: target.getTime(),
-        displayStr: badgeStr
-      };
+    async function triggerSoundAlert(type) {
+      showToast(`🔊 [${type}] Alarm Sesi Masaya Gönderildi!`);
+      ringDeskChime();
     }
 
-    function getStoredUserPlans() {
-      try {
-        return JSON.parse(localStorage.getItem('custom_user_plans') || '[]');
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function saveStoredUserPlans(plans) {
-      localStorage.setItem('custom_user_plans', JSON.stringify(plans));
-    }
-
-    // İlk varsayılan örnekler
-    let userStoredPlans = getStoredUserPlans();
-    if (userStoredPlans.length === 0) {
-      const bitPazariParsed = parseTurkishNaturalPlanDate("yarın sabah 9 gibi bit pazarına gidiş");
-      const feslegenParsed = parseTurkishNaturalPlanDate("2 hafta sonra bugün fesleğeni gübrele");
-
-      userStoredPlans = [
-        {
-          id: "plan-feslegen",
-          title: "2 hafta sonra bugün fesleğeni gübrele 🌿",
-          timeStr: feslegenParsed.displayStr,
-          targetTimestamp: feslegenParsed.targetTimestamp,
-          notified: false
-        },
-        {
-          id: "plan-bitpazari",
-          title: "yarın sabah 9 gibi bit pazarına gidiş 🛒",
-          timeStr: bitPazariParsed.displayStr,
-          targetTimestamp: bitPazariParsed.targetTimestamp,
-          notified: false
-        }
-      ];
-      saveStoredUserPlans(userStoredPlans);
-    } else {
-      userStoredPlans = userStoredPlans.map(p => {
-        if (!p.targetTimestamp) {
-          const parsed = parseTurkishNaturalPlanDate(p.title);
-          p.timeStr = parsed.displayStr;
-          p.targetTimestamp = parsed.targetTimestamp;
-          p.notified = false;
-        }
-        return p;
-      });
-      saveStoredUserPlans(userStoredPlans);
-    }
-    googleEvents = [...userStoredPlans];
-
-    function renderEvents() {
-      const listEl = document.getElementById('eventList');
-      if (!listEl) return;
-      
-      const allPlans = getStoredUserPlans();
-      if (allPlans.length === 0) {
-        listEl.innerHTML = `<div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dark); text-align: center; padding: 6px;">[7 GÜNLÜK PLAN YOK]</div>`;
-        return;
-      }
-
-      listEl.innerHTML = allPlans.map(e => `
-        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border);">
-          <div>
-            <div style="font-size: 13px; font-weight: 700; color: var(--text-main);">${e.title}</div>
-            <div style="font-family: var(--font-mono); font-size: 10px; color: ${e.notified ? 'var(--te-green)' : 'var(--te-amber)'};">${e.timeStr} ${e.notified ? '✓ (BİLDİRİLDİ)' : ''}</div>
-          </div>
-          <span class="hardware-tag" style="cursor: pointer; color: var(--te-red); font-weight: bold;" onclick="deleteGoogleEvent('${e.id}')">SİL ✕</span>
-        </div>
-      `).join('');
-    }
-    renderEvents();
-
-    async function fetchGoogleCalendarEvents() {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
-        const res = await fetch(GOOGLE_SCRIPT_URL, { signal: controller.signal, redirect: "follow" });
-        clearTimeout(timeoutId);
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const currentLocal = getStoredUserPlans();
-          const merged = [...currentLocal];
-          data.forEach(ext => {
-            if (!merged.some(m => m.id === ext.id || m.title === ext.title)) {
-              merged.push(ext);
-            }
+    // ====================================================
+    // 📊 GÜNLÜK & AYLIK VERİ ARŞİVİ VE GEÇMİŞ MOTORU
+    // ====================================================
+    function generateMockMonthlyData() {
+      let history = JSON.parse(localStorage.getItem('station_monthly_log') || '[]');
+      if (history.length === 0) {
+        for (let day = 1; day <= 28; day++) {
+          const temp = (25.2 + Math.sin(day * 0.5) * 1.6 + Math.random() * 0.8).toFixed(1);
+          const hum = Math.round(45 + Math.cos(day * 0.4) * 6 + Math.random() * 3);
+          const air = Math.round(410 + Math.random() * 90);
+          const score = Math.min(100, Math.round(98 - (air > 500 ? 5 : 0) - Math.abs(temp - 25) * 2));
+          history.push({
+            date: `${day < 10 ? '0' : ''}${day} Ağu 2026`,
+            temp: temp,
+            hum: hum,
+            air: air,
+            score: score
           });
-          saveStoredUserPlans(merged);
-          renderEvents();
         }
-      } catch (err) {
-        renderEvents();
+        localStorage.setItem('station_monthly_log', JSON.stringify(history));
       }
+      return history;
     }
 
-    async function handleQuickPlanSubmit(e) {
-      e.preventDefault();
-      const input = document.getElementById('quickPlanInput');
-      const text = input.value.trim();
-      if (!text) return;
-
-      const parsed = parseTurkishNaturalPlanDate(text);
-      
-      const newPlan = {
-        id: "plan-" + Date.now(),
-        title: text,
-        timeStr: parsed.displayStr,
-        targetTimestamp: parsed.targetTimestamp,
-        notified: false
-      };
-
-      const currentPlans = getStoredUserPlans();
-      currentPlans.unshift(newPlan);
-      saveStoredUserPlans(currentPlans);
-      renderEvents();
-      
-      input.value = "";
-      showToast(`✓ Plan Eklendi: ${parsed.displayStr}`);
-
-      try {
-        await fetch(GOOGLE_SCRIPT_URL + "?action=add&title=" + encodeURIComponent(text), { mode: "no-cors" });
-      } catch (err) {}
-    }
-
-    async function deleteGoogleEvent(eventId) {
-      let currentPlans = getStoredUserPlans();
-      currentPlans = currentPlans.filter(e => e.id !== eventId);
-      saveStoredUserPlans(currentPlans);
-      renderEvents();
-      showToast("Plan Silindi 🗑️");
-      try {
-        await fetch(GOOGLE_SCRIPT_URL + "?action=delete&id=" + encodeURIComponent(eventId), { mode: "no-cors" });
-      } catch (err) {}
-    }
-
-    // 🔔 CANLI PLAN ALARM VE HATIRLATICI WATCHDOG MOTORU
-    function checkScheduledPlanAlarms() {
-      const plans = getStoredUserPlans();
-      const now = Date.now();
-      let updated = false;
-
-      plans.forEach(plan => {
-        if (plan.targetTimestamp && !plan.notified && now >= plan.targetTimestamp) {
-          plan.notified = true;
-          updated = true;
-
-          // 1. Telefona sesli/titreşimli Push Bildirimi Gönder
-          sendMobileNotification(
-            "🔔 Plan Hatırlatması! // TE-01",
-            `Zamanı geldi: "${plan.title}" 🐾`,
-            "icon-192.png"
-          );
-
-          // 2. Masanın zilini çal
-          if (typeof ringChime === 'function') ringChime();
-
-          // 3. Ekrana toast düşür
-          showToast(`🔔 PLAN HATIRLATMASI: ${plan.title}`);
-        }
-      });
-
-      if (updated) {
-        saveStoredUserPlans(plans);
-        renderEvents();
-      }
-    }
-    setInterval(checkScheduledPlanAlarms, 30000); // Her 30 saniyede bir kontrol et
-
-    // ☀️ DİNAMİK DOĞAL GÜN IŞIĞI HESAPLAYICI (İZMİR KOORDİNATLARI İÇİN)
-    function calculateNaturalAmbientLight() {
-      const now = new Date();
-      const hour = now.getHours() + (now.getMinutes() / 60);
-      
-      // Gün Doğumu: ~06:40, Öğle Zirvesi: 13:15, Gün Batımı: ~19:50
-      if (hour >= 6.7 && hour <= 19.8) {
-        // Gündüz vakti
-        const noonDiff = Math.abs(hour - 13.25);
-        const daylightFactor = Math.max(0.2, 1 - (noonDiff / 6.5));
-        const lightPct = Math.round(35 + (daylightFactor * 55)); // %50 - %90 arası
-        let status = "Gündüz / Doğal Işık ☀️";
-        if (lightPct >= 75) status = "Parlak Gün Işığı ☀️";
-        else if (lightPct >= 50) status = "Aydınlık Sabah / Oda Işığı 🌤️";
-        return { pct: lightPct, status: status };
-      } else {
-        // Gece vakti
-        return { pct: 15, status: "Gece / Loş Işık 🌙" };
-      }
-    }
-
-    // 📡 2S SENSÖR SENKRONİZASYONU & OTOMATİK SAĞLIK WATCHDOG
-    let lastSensorPayload = null;
-    let lastDiagnosticAlertTime = 0;
-
-    function runSensorDiagnostics(manual = false) {
-      const now = Math.floor(Date.now() / 1000);
-      const banner = document.getElementById('sensorHealthBanner');
-      const led = document.getElementById('sensorHealthLed');
-      const text = document.getElementById('sensorHealthText');
-      const lastCheck = document.getElementById('sensorHealthLastCheck');
-
-      const timeStr = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      if (lastCheck) lastCheck.innerText = `KONTROL: ${timeStr}`;
-
-      if (!lastSensorPayload) {
-        if (text) text.innerText = "BEKLEMEDE // VERİ AKIŞI ARANIYOR";
-        if (banner) {
-          banner.style.background = "rgba(255, 170, 0, 0.08)";
-          banner.style.borderColor = "rgba(255, 170, 0, 0.3)";
-        }
-        if (led) {
-          led.style.background = "var(--te-amber)";
-          led.style.boxShadow = "0 0 6px var(--te-amber)";
-        }
-        if (manual) showToast("⚠️ Henüz sensör verisi alınamadı");
-        return;
-      }
-
-      const d = lastSensorPayload;
-      let isOffline = false;
-      if (d.last_seen && d.last_seen > 1000000000) {
-        if (Math.abs(now - d.last_seen) > 90) isOffline = true;
-      }
-      let issues = [];
-
-      // 1. ESP32 Çevrimdışı Kontrolü
-      if (isOffline) {
-        issues.push("ESP32 Çevrimdışı");
-      }
-
-      // 2. DHT22 Sıcaklık / Nem Kontrolü
-      if (d.temp === undefined || d.temp < 5 || d.temp > 55 || isNaN(d.temp)) {
-        issues.push("DHT22 Sıcaklık Sensör Hatası");
-      }
-      if (d.humidity === undefined || d.humidity <= 0 || d.humidity > 100 || isNaN(d.humidity)) {
-        issues.push("DHT22 Nem Sensör Hatası");
-      }
-
-      // 3. MQ-135 Hava Sensörü Kontrolü
-      if (d.air === undefined || d.air <= 0 || isNaN(d.air)) {
-        issues.push("MQ-135 Hava Sensör Hatası");
-      }
-
-      // 4. LDR Işık Sensörü Kontrolü
-      if (d.light === undefined || isNaN(d.light)) {
-        issues.push("LDR Işık Sensör Hatası");
-      }
-
-      if (issues.length === 0) {
-        if (banner) {
-          banner.style.background = "rgba(0, 229, 117, 0.08)";
-          banner.style.borderColor = "rgba(0, 229, 117, 0.3)";
-        }
-        if (led) {
-          led.style.background = "var(--te-green)";
-          led.style.boxShadow = "0 0 6px var(--te-green)";
-        }
-        if (text) {
-          text.style.color = "var(--te-green)";
-          text.innerText = "✓ TÜM SENSÖRLER AKTİF & SAĞLIKLI";
-        }
-        if (manual) {
-          showToast(`✓ TEST BAŞARILI: DHT22 (${d.temp}°C / %${d.humidity}), MQ-135 (${d.air} PPM), LDR (${d.light}%) Aktif!`);
-        }
-      } else {
-        const errSummary = issues.join(" • ");
-        if (banner) {
-          banner.style.background = "rgba(255, 51, 68, 0.12)";
-          banner.style.borderColor = "rgba(255, 51, 68, 0.4)";
-        }
-        if (led) {
-          led.style.background = "var(--te-red)";
-          led.style.boxShadow = "0 0 6px var(--te-red)";
-        }
-        if (text) {
-          text.style.color = "var(--te-red)";
-          text.innerText = `⚠️ UYARI: ${errSummary}`;
-        }
-        
-        // Kullanıcıyı her 3 dakikada bir otomatik bildirimle uyar
-        if (manual || (Date.now() - lastDiagnosticAlertTime > 180000)) {
-          lastDiagnosticAlertTime = Date.now();
-          showToast(`⚠️ SENSÖR UYARISI: ${issues[0]}!`);
-        }
-      }
-    }
-
-    // Her 30 saniyede bir otomatik derin teşhis çalıştır
-    setInterval(() => runSensorDiagnostics(false), 30000);
-
-        async function fetchLiveWeather() {
-      try {
-        const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=38.3845&longitude=27.1534&current=temperature_2m,relative_humidity_2m&timezone=Europe%2FIstanbul");
-        if (!res.ok) return;
-        const w = await res.json();
-        if (w && w.current) {
-          const t = Math.round(w.current.temperature_2m);
-          const h = Math.round(w.current.relative_humidity_2m);
-          const tEl = document.getElementById('tempVal');
-          const hEl = document.getElementById('humVal');
-          const actionEl = document.getElementById('actionText');
-
-          // Sadece Firebase henüz veri göndermediyse meteoroloji verisini bas
-          if (!lastSensorPayload || !lastSensorPayload.temp) {
-            if (tEl) tEl.innerText = t + "°";
-            if (hEl) hEl.innerText = "%" + h;
-            if (actionEl) actionEl.innerText = "Eviniz // Canlı Hava";
-          }
-        }
-      } catch (err) {}
-    }
-
-    async function syncData() {
-      fetchLiveWeather();
-      let data = null;
-
-      // 1. Önce doğrudan ve auth ile Firebase'i dene
-      try {
-        let res = await fetch(FIREBASE_URL + "station.json" + FIREBASE_AUTH);
-        if (!res.ok) {
-          res = await fetch(FIREBASE_URL + "station.json");
-        }
-        if (res.ok) {
-          data = await res.json();
-        }
-      } catch (err) {}
-
-      const pill = document.getElementById('livePill');
-      const led = document.getElementById('liveLed');
-      const lightValEl = document.getElementById('lightVal');
-      const airValEl = document.getElementById('airVal');
-      const tempValEl = document.getElementById('tempVal');
-      const humValEl = document.getElementById('humVal');
-      const lightStatusEl = document.getElementById('lightStatus');
-      const airStatusEl = document.getElementById('airStatus');
-      const gauge = document.getElementById('airGaugePin');
-      const specPpm = document.getElementById('airSpectrumPpm');
-      const actionEl = document.getElementById('actionText');
-
-      if (data && typeof data === 'object' && (data.temp !== undefined || data.air !== undefined)) {
-        lastSensorPayload = data;
-        const now = Math.floor(Date.now() / 1000);
-        let isOnline = true;
-        if (data.last_seen) {
-          if (data.last_seen > 1000000000) {
-            isOnline = Math.abs(now - data.last_seen) < 180;
-          } else {
-            // Uptime seconds or active payload
-            isOnline = true;
-          }
-        }
-
-        if (pill) {
-          pill.innerText = isOnline ? "ESP32 CANLI" : "BEKLEMEDE";
-          pill.className = isOnline ? "hardware-tag active-green" : "hardware-tag active-orange";
-        }
-        if (led) {
-          led.style.background = isOnline ? "var(--te-green)" : "var(--te-amber)";
-          led.style.boxShadow = isOnline ? "0 0 6px var(--te-green)" : "0 0 6px var(--te-amber)";
-        }
-
-        let l = data.light !== undefined ? data.light : 0;
-        if (l <= 0) {
-          const natLight = calculateNaturalAmbientLight();
-          l = natLight.pct;
-        }
-        const a = data.air !== undefined ? data.air : 435;
-        const t = data.temp !== undefined ? Math.round(data.temp) : 26;
-        const h = data.humidity !== undefined ? Math.round(data.humidity) : 45;
-
-        if (lightValEl) lightValEl.innerText = l + "%";
-        if (airValEl) airValEl.innerText = a;
-        if (tempValEl) tempValEl.innerText = t + "°";
-        if (humValEl) humValEl.innerText = "%" + h;
-        if (actionEl) actionEl.innerText = "ESP32 // Sensörler";
-
-        if (lightStatusEl) lightStatusEl.innerText = l > 40 ? "Aydınlık 💡" : (l > 15 ? "Loş Ortam 🌙" : "Karanlık / Gece");
-        if (airStatusEl) airStatusEl.innerText = a < 600 ? "Temiz & Ferah ✨" : (a < 1200 ? "Normal Seviye 🍃" : "Ağırlaştı ⚠️");
-
-        if (specPpm) specPpm.innerText = a + " PPM";
-
-        
-        // 🚨 Akustik Sensör ve Çevre Güvenlik Paneli
-        const voiceStatusEl = document.getElementById('sensorVoiceStatus');
-        const voiceSubEl = document.getElementById('sensorVoiceSub');
-        const voiceTagEl = document.getElementById('voiceAlertTag');
-
-        if (voiceStatusEl) {
-          if (a > 1000) {
-            voiceStatusEl.innerText = "🚨 DİKKAT: KİRLİ HAVA UYARISI AKTİF!";
-            voiceStatusEl.style.color = "var(--te-red)";
-            if (voiceSubEl) voiceSubEl.innerText = `PPM Seviyesi (${a} PPM) Kritik Eşiği Aştı! Havalandırın.`;
-            if (voiceTagEl) {
-              voiceTagEl.className = "hardware-tag active-red";
-              voiceTagEl.innerText = "SESLİ ALARM 🚨";
-            }
-          } else if (l < 15) {
-            voiceStatusEl.innerText = "💡 GÖZ SAĞLIĞI: LOŞ / KARANLIK ORTAM";
-            voiceStatusEl.style.color = "var(--te-amber)";
-            if (voiceSubEl) voiceSubEl.innerText = "Işık seviyesi düşük. Çalışma lambasını açmanız önerilir.";
-            if (voiceTagEl) {
-              voiceTagEl.className = "hardware-tag active-orange";
-              voiceTagEl.innerText = "LOŞ IŞIK 🌙";
-            }
-          } else {
-            voiceStatusEl.innerText = "🔊 HOPARLÖR SESLİ UYARI: AKTİF";
-            voiceStatusEl.style.color = "var(--te-green)";
-            if (voiceSubEl) voiceSubEl.innerText = "MQ-135 Kirli Hava (>1000 PPM) & Işık Alarmları Devrede";
-            if (voiceTagEl) {
-              voiceTagEl.className = "hardware-tag active-green";
-              voiceTagEl.innerText = "D26 HOPARLÖR // OK";
-            }
-          }
-        }
-
-        if (bleSubEl) {
-          bleSubEl.innerText = `Mesafe: ~${distEst} // ${zoneLabel}`;
-        }
-
-        if (bleTagEl) {
-          bleTagEl.innerText = `📡 ${rssiVal} dBm`;
-          if (zone === "MASA_BASI") bleTagEl.className = "hardware-tag active-green";
-          else if (zone === "ODADA") bleTagEl.className = "hardware-tag active-cyan";
-          else if (zone === "UST_KAT") bleTagEl.className = "hardware-tag active-orange";
-          else bleTagEl.className = "hardware-tag";
-        }
-
-        if (bleIconEl) {
-          if (zone === "MASA_BASI") bleIconEl.innerText = "🪑";
-          else if (zone === "ODADA") bleIconEl.innerText = "🚪";
-          else if (zone === "UST_KAT") bleIconEl.innerText = "🪜";
-          else bleIconEl.innerText = "💤";
-        }
-
-
-        if (gauge) {
-          const pct = Math.max(5, Math.min(95, (a / 2000) * 100));
-          gauge.style.left = `${pct}%`;
-        }
-      } else {
-        // Firebase henüz veri vermiyorsa varsayılan akıllı durumlar
-        if (pill && pill.innerText === "CANLI") {
-          pill.innerText = "BEKLEMEDE";
-          pill.className = "hardware-tag active-orange";
-        }
-        if (airValEl && (airValEl.innerText === "---" || airValEl.innerText === "--°")) airValEl.innerText = "435";
-        const naturalLight = calculateNaturalAmbientLight();
-        if (lightValEl) lightValEl.innerText = naturalLight.pct + "%";
-        if (lightStatusEl) lightStatusEl.innerText = naturalLight.status;
-        if (airStatusEl && airStatusEl.innerText === "Ferah & Temiz") airStatusEl.innerText = "Temiz & Ferah ✨";
-        if (specPpm) specPpm.innerText = "435 PPM";
-        if (gauge) gauge.style.left = "22%";
-      }
-    }
-
-    // 📡 CANLI VERİ SENKRONİZASYONUNU BAŞLAT (2 SANİYE DÖNGÜ)
-    syncData();
-    setInterval(syncData, 2000);
-
-    
-    // ====================================================
-    // 🐱 PİKSEL YULAF SPRITE VERİTABANI (FOTOĞRAFLARA BİREBİR ÖZEL ÇİZİM)
-    // ====================================================
-    const YULAF_SPRITES = {
-      idle: `<svg viewBox="0 0 32 32" width="100%" height="100%" shape-rendering="crispEdges">
-        <rect x="2" y="16" width="3" height="3" fill="#8B5A2B"/>
-        <rect x="3" y="13" width="3" height="3" fill="#5C3A1E"/>
-        <rect x="5" y="11" width="3" height="3" fill="#8B5A2B"/>
-        <rect x="7" y="13" width="3" height="3" fill="#5C3A1E"/>
-        <rect x="8" y="15" width="15" height="11" fill="#FFFFFF"/>
-        <rect x="11" y="15" width="6" height="5" fill="#8B5A2B"/>
-        <rect x="13" y="16" width="3" height="3" fill="#5C3A1E"/>
-        <rect x="9" y="26" width="3" height="3" fill="#FFFFFF"/>
-        <rect x="10" y="28" width="1" height="1" fill="#FFB6C1"/>
-        <rect x="14" y="26" width="3" height="3" fill="#FFFFFF"/>
-        <rect x="19" y="26" width="3" height="3" fill="#FFFFFF"/>
-        <rect x="17" y="9" width="11" height="10" fill="#FFFFFF"/>
-        <rect x="18" y="7" width="4" height="3" fill="#8B5A2B"/>
-        <rect x="19" y="8" width="2" height="2" fill="#5C3A1E"/>
-        <rect x="25" y="7" width="3" height="3" fill="#8B5A2B"/>
-        <rect x="20" y="12" width="2" height="2" fill="#2D1A0E"/>
-        <rect x="25" y="12" width="2" height="2" fill="#2D1A0E"/>
-        <rect x="23" y="14" width="2" height="1" fill="#FF99AA"/>
-        <rect x="16" y="14" width="3" height="1" fill="#CCCCCC"/>
-        <rect x="27" y="14" width="3" height="1" fill="#CCCCCC"/>
-      </svg>`,
-
-      walk: `<svg viewBox="0 0 32 32" width="100%" height="100%" shape-rendering="crispEdges">
-        <rect x="2" y="14" width="3" height="3" fill="#8B5A2B"/>
-        <rect x="4" y="11" width="3" height="3" fill="#5C3A1E"/>
-        <rect x="7" y="10" width="3" height="3" fill="#8B5A2B"/>
-        <rect x="8" y="14" width="15" height="11" fill="#FFFFFF"/>
-        <rect x="11" y="14" width="6" height="5" fill="#8B5A2B"/>
-        <rect x="7" y="25" width="3" height="4" fill="#FFFFFF"/>
-        <rect x="12" y="24" width="3" height="3" fill="#FFFFFF"/>
-        <rect x="17" y="25" width="3" height="4" fill="#FFFFFF"/>
-        <rect x="21" y="24" width="3" height="3" fill="#FFFFFF"/>
-        <rect x="18" y="8" width="11" height="10" fill="#FFFFFF"/>
-        <rect x="19" y="6" width="4" height="3" fill="#8B5A2B"/>
-        <rect x="26" y="6" width="3" height="3" fill="#8B5A2B"/>
-        <rect x="21" y="11" width="2" height="2" fill="#2D1A0E"/>
-        <rect x="26" y="11" width="2" height="2" fill="#2D1A0E"/>
-        <rect x="24" y="13" width="2" height="1" fill="#FF99AA"/>
-      </svg>`,
-
-      run: `<svg viewBox="0 0 36 32" width="100%" height="100%" shape-rendering="crispEdges">
-        <rect x="0" y="15" width="4" height="1" fill="rgba(255,255,255,0.4)"/>
-        <rect x="1" y="19" width="3" height="1" fill="rgba(255,255,255,0.4)"/>
-        <rect x="3" y="13" width="7" height="2" fill="#8B5A2B"/>
-        <rect x="9" y="14" width="17" height="8" fill="#FFFFFF"/>
-        <rect x="13" y="14" width="7" height="4" fill="#8B5A2B"/>
-        <rect x="6" y="21" width="4" height="3" fill="#FFFFFF"/>
-        <rect x="24" y="21" width="5" height="3" fill="#FFFFFF"/>
-        <rect x="22" y="10" width="11" height="9" fill="#FFFFFF"/>
-        <rect x="23" y="8" width="4" height="3" fill="#8B5A2B"/>
-        <rect x="29" y="8" width="3" height="3" fill="#8B5A2B"/>
-        <rect x="26" y="13" width="2" height="2" fill="#FF4F00"/>
-        <rect x="30" y="13" width="2" height="2" fill="#FF4F00"/>
-        <rect x="29" y="15" width="2" height="1" fill="#FF99AA"/>
-      </svg>`,
-
-      sleep: `<svg viewBox="0 0 32 32" width="100%" height="100%" shape-rendering="crispEdges">
-        <text x="22" y="8" fill="#00E575" font-family="monospace" font-size="8" font-weight="bold">Zzz</text>
-        <rect x="6" y="15" width="19" height="11" rx="4" fill="#FFFFFF"/>
-        <rect x="9" y="14" width="8" height="6" fill="#8B5A2B"/>
-        <rect x="5" y="21" width="18" height="3" fill="#8B5A2B"/>
-        <rect x="9" y="21" width="4" height="3" fill="#5C3A1E"/>
-        <rect x="16" y="16" width="10" height="9" fill="#FFFFFF"/>
-        <rect x="18" y="14" width="4" height="3" fill="#8B5A2B"/>
-        <rect x="19" y="19" width="2" height="1" fill="#5C3A1E"/>
-        <rect x="23" y="19" width="2" height="1" fill="#5C3A1E"/>
-        <rect x="21" y="21" width="2" height="1" fill="#FF99AA"/>
-        <rect x="14" y="22" width="4" height="3" fill="#FFFFFF"/>
-        <rect x="15" y="24" width="1" height="1" fill="#FFB6C1"/>
-      </svg>`,
-
-      happy: `<svg viewBox="0 0 32 32" width="100%" height="100%" shape-rendering="crispEdges">
-        <text x="2" y="8" fill="#FF3344" font-size="9">❤️</text>
-        <rect x="4" y="8" width="3" height="8" fill="#8B5A2B"/>
-        <rect x="4" y="10" width="3" height="2" fill="#5C3A1E"/>
-        <rect x="8" y="15" width="15" height="11" fill="#FFFFFF"/>
-        <rect x="11" y="15" width="6" height="5" fill="#8B5A2B"/>
-        <rect x="9" y="26" width="3" height="3" fill="#FFFFFF"/>
-        <rect x="19" y="26" width="3" height="3" fill="#FFFFFF"/>
-        <rect x="17" y="9" width="11" height="10" fill="#FFFFFF"/>
-        <rect x="18" y="7" width="4" height="3" fill="#8B5A2B"/>
-        <rect x="25" y="7" width="3" height="3" fill="#8B5A2B"/>
-        <rect x="20" y="12" width="2" height="1" fill="#FF4F00"/>
-        <rect x="25" y="12" width="2" height="1" fill="#FF4F00"/>
-        <rect x="23" y="14" width="2" height="1" fill="#FF99AA"/>
-      </svg>`,
-
-      bite: `<svg viewBox="0 0 32 32" width="100%" height="100%" shape-rendering="crispEdges">
-        <text x="1" y="10" fill="#FFAA00" font-family="monospace" font-size="8" font-weight="bold">NOM!</text>
-        <rect x="6" y="17" width="15" height="10" fill="#FFFFFF"/>
-        <rect x="8" y="17" width="5" height="4" fill="#8B5A2B"/>
-        <rect x="2" y="19" width="5" height="3" fill="#8B5A2B"/>
-        <rect x="18" y="14" width="11" height="9" fill="#FFFFFF"/>
-        <rect x="19" y="12" width="4" height="3" fill="#8B5A2B"/>
-        <rect x="26" y="12" width="3" height="3" fill="#8B5A2B"/>
-        <rect x="22" y="16" width="2" height="2" fill="#2D1A0E"/>
-        <rect x="27" y="16" width="2" height="2" fill="#2D1A0E"/>
-        <rect x="25" y="18" width="3" height="3" fill="#FF3344"/>
-        <rect x="25" y="18" width="1" height="1" fill="#FFFFFF"/>
-      </svg>`
-    };
-
-    // ====================================================
-    // 🐱 YULAF // PİKSEL KEDİ MOTORU & GERÇEK DAVRANIŞLAR
-    // ====================================================
-    let petHappiness = parseInt(localStorage.getItem('pet_happiness') || '95');
-    let petLevel = parseInt(localStorage.getItem('pet_level') || '4');
-    let currentYulafState = 'idle';
-    let petPosX = 30;
-    let petPosY = 24;
-    let petFacingRight = true;
-
-    function setYulafState(state) {
-      currentYulafState = state;
-      const cardEl = document.getElementById('cardPixelPet');
-      const roamingEl = document.getElementById('roamingPetAvatar');
-      const sprite = YULAF_SPRITES[state] || YULAF_SPRITES.idle;
-
-      if (cardEl) cardEl.innerHTML = sprite;
-      if (roamingEl) roamingEl.innerHTML = sprite;
-    }
-
-        function updatePetDisplay() {
-      const moodTag = document.getElementById('petMoodTag');
-      if (moodTag) {
-        if (pomoIsRunning) {
-          moodTag.innerText = '⚡ ODAKTA';
-        } else if (currentYulafState === 'sleep') {
-          moodTag.innerText = '💤 KESTİRİYOR';
-        } else {
-          moodTag.innerText = '🐾 YANINDA';
-        }
-      }
-    }
-    function startYulafLifeCycle() {
-      setYulafState('idle');
-
-      setInterval(() => {
-        const rand = Math.random();
-
-        // 1. %20: ZOOMIES! (Çılgın Depar Atsın)
-        if (rand < 0.20 && currentYulafState !== 'sleep') {
-          triggerZoomies();
-        }
-        // 2. %20: UYKUYA YATSIN (Kıvrılıp Kestirsin)
-        else if (rand < 0.40) {
-          triggerCatNap();
-        }
-        // 3. %15: BUTON ISIRSIN (NOM NOM!)
-        else if (rand < 0.55 && currentYulafState !== 'sleep') {
-          triggerBiteAction();
-        }
-        // 4. %30: NORMAL YÜRÜYÜŞ (Gezinme / Tırmanma)
-        else if (rand < 0.85 && currentYulafState !== 'sleep') {
-          triggerNormalWalk();
-        }
-        else if (currentYulafState !== 'sleep') {
-          setYulafState('idle');
-        }
-      }, 8000);
-    }
-
-    function triggerZoomies() {
-      const petEl = document.getElementById('roamingPetContainer');
-      const avatar = document.getElementById('roamingPetAvatar');
-      if (!petEl || !avatar) return;
-
-      setYulafState('run');
-      speakFloatingPet("💨 ZOOMIES! DEPAR MODU!");
-
-      const screenW = window.innerWidth || 360;
-      const targetX = petPosX > screenW / 2 ? 25 : screenW - 75;
-      petFacingRight = targetX > petPosX;
-      avatar.style.transform = petFacingRight ? 'scaleX(1)' : 'scaleX(-1)';
-
-      petEl.style.transition = "left 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), bottom 0.7s ease";
-      petEl.style.left = `${targetX}px`;
-      petPosX = targetX;
-
-      setTimeout(() => {
-        petEl.style.transition = "left 2.5s cubic-bezier(0.25, 1, 0.5, 1), bottom 1.5s ease";
-        setYulafState('happy');
-        showToast("🐾 Yulaf ekranda depar attı!");
-        setTimeout(() => setYulafState('idle'), 2000);
-      }, 750);
-    }
-
-    function triggerCatNap() {
-      setYulafState('sleep');
-      speakFloatingPet("Mırrr... Zzz... 💤");
-      updatePetDisplay();
-    }
-
-    function triggerBiteAction() {
-      setYulafState('bite');
-      speakFloatingPet("NOM NOM! Butonu ısırdım! 🐾");
-      showToast("🐱 Yulaf bir butona pati attı!");
-      setTimeout(() => setYulafState('idle'), 3000);
-    }
-
-    function triggerNormalWalk() {
-      const screenW = window.innerWidth || 360;
-      const maxW = Math.max(40, screenW - 85);
-      const targetX = Math.floor(Math.random() * maxW) + 20;
-      const targetY = Math.random() < 0.35 ? (Math.floor(Math.random() * 80) + 20) : 24;
-
-      const petEl = document.getElementById('roamingPetContainer');
-      const avatar = document.getElementById('roamingPetAvatar');
-      if (!petEl || !avatar) return;
-
-      setYulafState('walk');
-      petFacingRight = targetX > petPosX;
-      avatar.style.transform = petFacingRight ? 'scaleX(1)' : 'scaleX(-1)';
-
-      petEl.style.left = `${targetX}px`;
-      petEl.style.bottom = `${targetY}px`;
-      petPosX = targetX;
-      petPosY = targetY;
-
-      setTimeout(() => {
-        setYulafState('idle');
-        if (Math.random() < 0.4) speakFloatingPet();
-      }, 2600);
-    }
-
-    function triggerFloatingPetInteraction() {
-      setYulafState('happy');
-      const avatar = document.getElementById('roamingPetAvatar');
-      const cardEl = document.getElementById('cardPixelPet');
-      if (avatar) {
-        avatar.style.transform = 'scale(1.3) translateY(-10px)';
-        setTimeout(() => { avatar.style.transform = petFacingRight ? 'scale(1)' : 'scaleX(-1)'; }, 350);
-      }
-      if (cardEl) {
-        cardEl.style.transform = 'scale(1.2) rotate(6deg)';
-        setTimeout(() => { cardEl.style.transform = 'scale(1) rotate(0deg)'; }, 300);
-      }
-      petHappiness = Math.min(100, petHappiness + 10);
-      localStorage.setItem('pet_happiness', petHappiness.toString());
-      updatePetDisplay();
-      speakFloatingPet("Mırrrr! Çok mutlu oldum! ❤️🐾");
-      showToast("Yulaf sana sevgiyle sokuldu! ✨");
-      setTimeout(() => setYulafState('idle'), 3000);
-    }
-
-    function interactWithPet() {
-      triggerFloatingPetInteraction();
-    }
-
-    function petPraise() {
-      triggerFloatingPetInteraction();
-    }
-
-    function feedPetFood() {
-      petHappiness = Math.min(100, petHappiness + 15);
-      localStorage.setItem('pet_happiness', petHappiness.toString());
-      updatePetDisplay();
-      setYulafState('happy');
-      const bubble = document.getElementById('petSpeechBubble');
-      if (bubble) bubble.innerText = '"Mırrr! Yaş mama harikaydı, enerjiyle doldum! 🍗✨"';
-      showToast("🍗 Yaş Mama Verildi & Yulaf Çok Mutlu (+15 Enerji)");
-      setTimeout(() => setYulafState('idle'), 3000);
-    }
-
-    function feedPetWater() {
-      petHappiness = Math.min(100, petHappiness + 10);
-      localStorage.setItem('pet_happiness', petHappiness.toString());
-      updatePetDisplay();
-      setYulafState('happy');
-      const bubble = document.getElementById('petSpeechBubble');
-      if (bubble) bubble.innerText = '"Fokur fokur su içtim! Teşekkürler dostum! 💧🐾"';
-      showToast("💧 Su Tazelendi & Yulaf Canlandı (+10 Enerji)");
-      setTimeout(() => setYulafState('idle'), 3000);
-    }
-
-    function playWithCat() {
-      petHappiness = Math.min(100, petHappiness + 20);
-      localStorage.setItem('pet_happiness', petHappiness.toString());
-      updatePetDisplay();
-      triggerZoomies();
-      const bubble = document.getElementById('petSpeechBubble');
-      if (bubble) bubble.innerText = '"İpe pati attım, harika bir oyundu! 🧶🐾"';
-      showToast("🧶 İple Oynandı & Yulaf Neşelendi (+20 Enerji)");
-    }
-
-    function speakFloatingPet(customText = null) {
-      const bubble = document.getElementById('roamingPetBubble');
-      const cardBubble = document.getElementById('petSpeechBubble');
-      if (!bubble) return;
-      const msgs = [
-        "Miyav! 🐾",
-        "Mırrr... ✨",
-        "Miyav~ 🐱",
-        "Pati! 🐾",
-        "Mırrrr... 🍃"
-      ];
-      const txt = customText || msgs[Math.floor(Math.random() * msgs.length)];
-      bubble.innerText = txt;
-      if (cardBubble) cardBubble.innerText = `"${txt}"`;
-      bubble.classList.add('show');
-      setTimeout(() => { bubble.classList.remove('show'); }, 2200);
-    }
-
-    startYulafLifeCycle();
-// ⏳ MEMENTO MORI YIL İLERLEME HESABI
-    function calculateYearProgress() {
-      const now = new Date();
-      const start = new Date(now.getFullYear(), 0, 1);
-      const end = new Date(now.getFullYear() + 1, 0, 1);
-      const pct = (((now - start) / (end - start)) * 100).toFixed(1);
-      const daysLeft = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
-
-      const bar = document.getElementById('yearProgressBar');
-      const tag = document.getElementById('yearDaysLeftBadge');
-      if (bar) bar.style.width = `${pct}%`;
-      if (tag) tag.innerText = `${daysLeft} GÜN KALDI`;
-    }
-    calculateYearProgress();
-
-    // ⏱️ POMODORO SAYAÇ MOTORU// ⏱️ POMODORO SAYAÇ MOTORU
-    // pomo state declared at top level
-    function setPomoMode(mins, label) {
-      if (pomoInterval) clearInterval(pomoInterval);
-      pomoIsRunning = false;
-      pomoRemaining = mins * 60;
-      updatePomoDisplay();
-      const b = document.getElementById('btnPomoStart');
-      if (b) b.innerText = "BAŞLAT";
-      showToast(`MOD: ${label.toUpperCase()}`);
-    }
-
-    function togglePomoTimer() {
-      const b = document.getElementById('btnPomoStart');
-      if (pomoIsRunning) {
-        clearInterval(pomoInterval);
-        pomoIsRunning = false;
-        if (b) b.innerText = "DEVAM ET";
-      } else {
-        pomoIsRunning = true;
-        if (b) b.innerText = "DURDUR";
-        pomoInterval = setInterval(() => {
-          if (pomoRemaining > 0) {
-            pomoRemaining--;
-            updatePomoDisplay();
-          } else {
-            clearInterval(pomoInterval);
-            pomoIsRunning = false;
-            if (b) b.innerText = "BAŞLAT";
-                        let c = parseInt(localStorage.getItem('pomo_completed_count') || '0') + 1;
-            localStorage.setItem('pomo_completed_count', c.toString());
-            sendMobileNotification("🎯 Pomodoro Seansı Tamamlandı!", "25 dakikalık derin odaklanma bitti! 5 dakika mola ver ve su iç. ☕🐾");
-            updatePetDisplay();
-            checkAchievements();
-            showToast("🎯 SEANS TAMAMLANDI!");
-          }
-        }, 1000);
-      }
-    }
-
-    function resetPomoTimer() {
-      if (pomoInterval) clearInterval(pomoInterval);
-      pomoIsRunning = false;
-      pomoRemaining = 25 * 60;
-      updatePomoDisplay();
-      const b = document.getElementById('btnPomoStart');
-      if (b) b.innerText = "BAŞLAT";
-    }
-
-    function updatePomoDisplay() {
-      updateZenCandle(pomoRemaining, 25 * 60, pomoIsRunning);
-      const el = document.getElementById('pomoTime');
-      if (!el) return;
-      const m = Math.floor(pomoRemaining / 60).toString().padStart(2, '0');
-      const s = (pomoRemaining % 60).toString().padStart(2, '0');
-      el.innerText = `${m}:${s}`;
-    }
-
-    // 🔥 ALIŞKANLIKLAR MOTORU
-    let habitsData = JSON.parse(localStorage.getItem('daily_habits') || '[]');
-    if (habitsData.length === 0) {
-      habitsData = [
-        { id: 1, text: "Güne 1 Bardak Limonlu Su İle Başla", done: false },
-        { id: 2, text: "45 Dk Kesintisiz Masa Odaklanması", done: false },
-        { id: 3, text: "Günün 1 Dakikalık Kitap Özetini Oku", done: false }
-      ];
-      localStorage.setItem('daily_habits', JSON.stringify(habitsData));
-    }
-    let habitStreak = parseInt(localStorage.getItem('habit_streak_count') || '0');
-
-    function renderHabits() {
-      const listEl = document.getElementById('habitsList');
-      if (!listEl) return;
-      listEl.innerHTML = habitsData.map(h => `
-        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid ${h.done ? 'var(--te-green)' : 'var(--border)'};">
-          <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleHabit(${h.id})">
-            <span style="font-family: var(--font-mono); font-weight: 700; color: ${h.done ? 'var(--te-green)' : 'var(--text-dark)'};">${h.done ? '✓' : '○'}</span>
-            <span style="font-size: 12px; color: ${h.done ? 'var(--text-muted)' : 'var(--text-main)'}; ${h.done ? 'text-decoration: line-through;' : ''}">${h.text}</span>
-          </div>
-          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dark); cursor: pointer;" onclick="deleteHabit(${h.id})">✕</span>
-        </div>
+    function renderMonthlyTable() {
+      const history = generateMockMonthlyData();
+      const tbody = document.getElementById('monthlyTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = history.slice().reverse().map(row => `
+        <tr>
+          <td style="font-weight: 700; color: var(--brass-gold);">${row.date}</td>
+          <td>${row.temp}°C</td>
+          <td>%${row.hum}</td>
+          <td>${row.air} PPM</td>
+          <td style="color: ${row.score > 90 ? 'var(--sage-green)' : 'var(--amber-glow)'}; font-weight: 700;">${row.score}/100</td>
+        </tr>
       `).join('');
-      const badge = document.getElementById('habitStreakBadge');
-      if (badge) badge.innerText = `${habitStreak} GÜNLÜK SERİ`;
     }
 
-    function toggleHabit(id) {
-      habitsData = habitsData.map(h => h.id === id ? { ...h, done: !h.done } : h);
-      localStorage.setItem('daily_habits', JSON.stringify(habitsData));
-      if (habitsData.every(h => h.done)) {
-        habitStreak++;
-        localStorage.setItem('habit_streak_count', habitStreak.toString());
-      }
-      petHappiness = Math.min(100, petHappiness + 10);
-      localStorage.setItem('pet_happiness', petHappiness.toString());
-      updatePetDisplay();
-      renderHabits();
-      checkAchievements();
-    }
+    function renderHourlyTable() {
+      const tbody = document.getElementById('hourlyTableBody');
+      if (!tbody) return;
 
-    function deleteHabit(id) {
-      habitsData = habitsData.filter(h => h.id !== id);
-      localStorage.setItem('daily_habits', JSON.stringify(habitsData));
-      renderHabits();
-    }
+      let rowsHtml = "";
+      const currentHour = new Date().getHours();
+      for (let h = currentHour; h >= Math.max(0, currentHour - 12); h--) {
+        const timeStr = `${h < 10 ? '0' : ''}${h}:00`;
+        const temp = (26.0 + Math.sin(h / 3) * 1.2).toFixed(1);
+        const hum = Math.round(48 - Math.sin(h / 4) * 4);
+        const air = Math.round(430 + (h % 3) * 20);
+        const light = (h >= 8 && h <= 19) ? "65% 💡" : "12% 🌙";
 
-    function handleAddHabitSubmit(e) {
-      e.preventDefault();
-      const input = document.getElementById('habitInput');
-      const text = input.value.trim();
-      if (!text) return;
-      habitsData.push({ id: Date.now(), text, done: false });
-      localStorage.setItem('daily_habits', JSON.stringify(habitsData));
-      input.value = "";
-      renderHabits();
-      showToast("Alışkanlık Eklendi");
-    }
-    renderHabits();
-
-    // 📚 21 KİTAPLIK BAŞYAPIT KÜLLİYATI
-    const microBooks = [
-      { title: "ATOMİK ALIŞKANLIKLAR", author: "JAMES CLEAR", quote: "Her gün sadece %1 daha iyi olmak, yıl sonunda sizi tam 37 kat daha ileriye taşır. Küçük sistemlere odaklanın.", action: "💡 <b>Ders:</b> Bugün 2 dakikalık iyi bir alışkanlık başlat." },
-      { title: "KENDİME DÜŞÜNCELER", author: "MARCUS AURELIUS", quote: "Dış dünyadaki olaylar üzerinde gücün yok, ancak kendi zihnin üzerinde tam bir hakimiyetin var.", action: "💡 <b>Ders:</b> Kontrol edemeyeceğin şeyleri dert etme." },
-      { title: "İNSANIN ANLAM ARAYIŞI", author: "VIKTOR E. FRANKL", quote: "İnsandan her şeyini alabilirsiniz, ancak tek bir şeyi alamazsınız: Kendi tavrını seçme özgürlüğü.", action: "💡 <b>Ders:</b> Zorluklara nasıl tepki vereceğini sen seç." },
-      { title: "PÜRDİKKAT (DEEP WORK)", author: "CAL NEWPORT", quote: "Dikkat dağınıklığının dünyasında derinlemesine odaklanabilenler, yeni ekonominin süper gücüne sahip olurlar.", action: "💡 <b>Ders:</b> Bildirimleri kapatıp 45 dakika tek işe odaklan." },
-      { title: "PARANIN PSİKOLOJİSİ", author: "MORGAN HOUSEL", quote: "Zenginlik sahip olduğunuz eşyalarla değil, istemediğiniz şeyleri yapmama özgürlüğüyle ölçülür.", action: "💡 <b>Ders:</b> Bağımsızlığın için birikim yap." },
-      { title: "SAPIENS", author: "YUVAL NOAH HARARI", quote: "İnsanları bir arada tutan en büyük güç, kurguladıkları ortak hikayelere inanabilmeleridir.", action: "💡 <b>Ders:</b> Kendi hayat hikayeni bilinçli yaz." },
-      { title: "HIZLI VE YAVAŞ DÜŞÜNME", author: "DANIEL KAHNEMAN", quote: "Sezgilerimiz hızlıdır fakat yanıltıcıdır; kritik kararları rasyonel mantıkla tartın.", action: "💡 <b>Ders:</b> Ani kararlar öncesi 5 saniye dur." },
-      { title: "ANTIKIRILGANLIK", author: "NASSIM NICHOLAS TALEB", quote: "Bazı şeyler krizlerden güçlenerek çıkar. Rüzgar mumu söndürür ama yangını büyütür.", action: "💡 <b>Ders:</b> Hatalardan ders çıkarıp güçlen." },
-      { title: "İLKELER (PRINCIPLES)", author: "RAY DALIO", quote: "Acı + Yansıtma = İlerleme. Gerçeklerle yüzleşmeyen insan başarıya ulaşamaz.", action: "💡 <b>Ders:</b> Hatalarını kaydet ve prensip çıkar." },
-      { title: "CAN'T HURT ME", author: "DAVID GOGGINS", quote: "Zihniniz bittiğinizi söylediğinde, kapasitenizin aslında sadece %40'ını kullanmışsınızdır.", action: "💡 <b>Ders:</b> Zorlandığın anda 5 dakika daha devam et." },
-      { title: "ESASÇILIK (ESSENTIALISM)", author: "GREG MCKEOWN", quote: "Daha az ama daha iyi. Her şeye 'evet' derseniz, hiçbir şeyde mükemmel olamazsınız.", action: "💡 <b>Ders:</b> Önemsiz bir göreve 'hayır' de." },
-      { title: "EGO DÜŞMANDIR", author: "RYAN HOLIDAY", quote: "Başlangıçta alçakgönüllü, başarıda merhametli, başarısızlıkta dirençli olun.", action: "💡 <b>Ders:</b> Kibir değil çalışma konuşsun." },
-      { title: "ETKİLİ İNSANLARIN 7 ALIŞKANLIĞI", author: "STEPHEN COVEY", quote: "Önemli olan şeyleri ilk sıraya koyun. Hayatınızı reaktif değil, proaktif yönetin.", action: "💡 <b>Ders:</b> Günün 1 numaralı önceliğini sabah bitir." },
-      { title: "İŞİNİ GÖSTER", author: "AUSTIN KLEON", quote: "Dahi olmanıza gerek yok; sürecinizi paylaşın, sizinle aynı tutkuyu paylaşanlar sizi bulacaktır.", action: "💡 <b>Ders:</b> Bugün ürettiğin bir şeyi paylaş." },
-      { title: "SAVAŞ SANATI", author: "SUN TZU", quote: "Muzaffer savaşçılar önce kazanır sonra savaşa girerler; strateji her şeydir.", action: "💡 <b>Ders:</b> Hazırlığını kusursuz yap." },
-      { title: "DOST KAZANMA SANATI", author: "DALE CARNEGIE", quote: "Bir insanın adı onun için en tatlı sestir. İnsanları eleştirmek yerine anlamaya çalışın.", action: "💡 <b>Ders:</b> Birine içten bir takdirde bulun." },
-      { title: "ENGEL YOLUN KENDİSİDİR", author: "RYAN HOLIDAY", quote: "Yolun üstündeki engel, yolun kendisi haline gelir.", action: "💡 <b>Ders:</b> Zorluğu gelişim fırsatı gör." },
-      { title: "AKIŞ (FLOW)", author: "MIHALY CSIKSZENTMIHALYI", quote: "Mutluluk, kendinizi bir göreve adadığınız anlarda kendiliğinden doğar.", action: "💡 <b>Ders:</b> Tek bir görevde akışa gir." },
-      { title: "ZENGİN BABA YOKSUL BABA", author: "ROBERT KIYOSAKI", quote: "Zenginler para için çalışmaz; paranın kendileri için çalışmasını sağlarlar.", action: "💡 <b>Ders:</b> Becerilerine yatırım yap." },
-      { title: "4 SAATLİK HAFTA", author: "TIM FERRISS", quote: "Yoğun olmak ile üretken olmak aynı şey değildir. Odaklanma süresi esastır.", action: "💡 <b>Ders:</b> En önemli 2 görevi seç." },
-      { title: "IKIGAI", author: "HÉCTOR GARCÍA", quote: "Tutkunuz ve yeteneğinizin kesiştiği nokta sizin İkigai'nizdir.", action: "💡 <b>Ders:</b> Heyecan veren tutkunu hatırla." }
-    ];
-
-    const BOOK_ROTATION_INTERVAL_MS = 45000; // 45 saniyede bir rahat okuma süresi
-
-    function renderDailyBookWisdom() {
-      const b = microBooks[currentBookIndex];
-      if (!b) return;
-      const titleBadge = document.getElementById('bookTitleBadge');
-      const indexBadge = document.getElementById('bookIndexBadge');
-      const authorEl = document.getElementById('bookAuthor');
-      const quoteEl = document.getElementById('bookQuote');
-      const actionEl = document.getElementById('bookAction');
-      const wrapper = document.getElementById('bookContentWrapper');
-
-      if (titleBadge) titleBadge.innerText = b.title;
-      if (indexBadge) indexBadge.innerText = `${currentBookIndex + 1} / ${microBooks.length}`;
-      if (authorEl) authorEl.innerText = b.author;
-      if (quoteEl) quoteEl.innerText = `"${b.quote}"`;
-      if (actionEl) actionEl.innerHTML = b.action;
-
-      if (wrapper) {
-        wrapper.style.opacity = '0.3';
-        setTimeout(() => { wrapper.style.opacity = '1'; }, 70);
-      }
-    }
-
-    function prevBookWisdom() {
-      currentBookIndex = (currentBookIndex - 1 + microBooks.length) % microBooks.length;
-      bookTimerProgress = 0;
-      renderDailyBookWisdom();
-      showToast(`📚 (${currentBookIndex + 1}/21) ${microBooks[currentBookIndex].title}`);
-    }
-
-    function nextBookWisdom(manual = false) {
-      currentBookIndex = (currentBookIndex + 1) % microBooks.length;
-      bookTimerProgress = 0;
-      renderDailyBookWisdom();
-      if (manual) showToast(`📚 (${currentBookIndex + 1}/21) ${microBooks[currentBookIndex].title}`);
-    }
-
-    function randomBookWisdom() {
-      currentBookIndex = Math.floor(Math.random() * microBooks.length);
-      bookTimerProgress = 0;
-      renderDailyBookWisdom();
-      showToast(`🎲 RASTGELE: ${microBooks[currentBookIndex].title}`);
-    }
-
-    setInterval(() => {
-      bookTimerProgress += 100;
-      const bar = document.getElementById('bookProgressBar');
-      if (bar) {
-        const pct = Math.min(100, Math.round((bookTimerProgress / BOOK_ROTATION_INTERVAL_MS) * 100));
-        bar.style.width = `${pct}%`;
-      }
-      if (bookTimerProgress >= BOOK_ROTATION_INTERVAL_MS) {
-        bookTimerProgress = 0;
-        nextBookWisdom(false);
-      }
-    }, 100);
-    renderDailyBookWisdom();
-
-        // 🔭 ASTRONOMİ TAKVİMİ MOTORU (21 GÖK OLAYI)
-    const astroCatalog = [
-      { id: "perseid", title: "Perseid Meteor Yağmuru Zirvesi", month: 7, day: 12, type: "meteor", typeLabel: "☄️ Meteor", badgeColor: "#FF4081", desc: "Yılın en görkemli gök taşı yağmuru. Saatte 100'e yakın kayan yıldız Türkiye semalarından çıplak gözle izlenebilecek.", tip: "⛺ İpucu: Şehir ışıklarından uzak açık alanda gece 01:00 sonrası izleyin.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "super_moon_1", title: "Süper Mavi Dolunay", month: 7, day: 19, type: "moon", typeLabel: "🌕 Süper Ay", badgeColor: "#FFAB00", desc: "Ay, Dünya'ya en yakın yörüngesinde; %14 daha büyük ve %30 daha parlak bir altın tepsi gibi doğacak.", tip: "📸 İpucu: Gün batımında ufuk çizgisine yakınken fotoğraflayın.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "saturn_opp", title: "Satürn Karşı Konumu (En Parlak Zamanı)", month: 8, day: 8, type: "planet", typeLabel: "🪐 Gezegen", badgeColor: "#00E5FF", desc: "Satürn Dünya'ya en yakın noktada; halkaları çıplak gözle ve dürbünle Türkiye'den sabaha kadar olağanüstü netlikte izlenebilecek.", tip: "🔭 İpucu: 7x50 dürbünle halkalarını net görebilirsiniz.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "partial_lunar_eclipse", title: "Parçalı Ay Tutulması", month: 8, day: 18, type: "moon", typeLabel: "🌕 Tutulma", badgeColor: "#FF4081", desc: "Türkiye'den gece yarısı net izlenecek tutulmada Ay'ın üst kısmı Dünya'nın karanlık gölgesine girecek.", tip: "☕ İpucu: Gece 03:40 sularında çıplak gözle izleyin.", visibility: "⭐⭐⭐⭐ (Yüksek)" },
-      { id: "autumn_equinox", title: "Sonbahar Ekinoksu (Gece-Gündüz Eşitliği)", month: 8, day: 22, type: "moon", typeLabel: "🍂 Ekinoks", badgeColor: "#FFAB00", desc: "Güneş tam doğudan doğup tam batıdan batar. Gece ve gündüz tüm Dünya'da eşit 12 saat sürer.", tip: "🧭 İpucu: Tam batı yönünde gün batımını seyredin.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "halley_orionid", title: "Orionid (Halley Kuyrukluyıldızı) Meteor Yağmuru", month: 9, day: 21, type: "meteor", typeLabel: "☄️ Meteor", badgeColor: "#FF4081", desc: "Tarihi Halley kuyruklu yıldızının bıraktığı toz parçacıkları Türkiye semalarında saatte 25 kayan yıldız üretecek.", tip: "🧭 İpucu: Doğu ufkuna, Avcı (Orion) takımyıldızına odaklanın.", visibility: "⭐⭐⭐⭐ (Çok Yüksek)" },
-      { id: "hunter_supermoon", title: "Avcı Süper Ayı (Yılın En Büyük Dolunayı)", month: 9, day: 17, type: "moon", typeLabel: "🌕 Süper Ay", badgeColor: "#FFAB00", desc: "2026 yılının Dünya'ya en yakın ve en parlak Süper Ayı. Gökyüzünde devasa turuncu/altın rengiyle parlayacak.", tip: "🌕 İpucu: Akşam 19:30'da doğu ufkunda doğuşunu kaçırmayın.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "leonid", title: "Leonid (Aslan) Meteor Fırtınası", month: 10, day: 17, type: "meteor", typeLabel: "☄️ Meteor", badgeColor: "#FF4081", desc: "Saniyede 71 km hızla atmosfere giren ve arkasında yeşilimsi izler bırakan hızlı ateş topları.", tip: "🦁 İpucu: Sabaha karşı 04:00'te Aslan takımyıldızına bakın.", visibility: "⭐⭐⭐⭐ (Yüksek)" },
-      { id: "jupiter_opp", title: "Jüpiter Karşı Konumu (4 Büyük Uydusuyla)", month: 11, day: 7, type: "planet", typeLabel: "🪐 Gezegen", badgeColor: "#00E5FF", desc: "Güneş sisteminin devi Jüpiter tüm gece boyunca gökyüzünün en parlak nesnesi olacak. Basit bir dürbünle 4 uydusu (Io, Europa, Ganymede, Callisto) görülebilir.", tip: "🔭 İpucu: Dürbünle baktığınızda yan yana 4 minik noktayı görebilirsiniz.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "geminid", title: "Geminid (İkizler) Meteor Fırtınası", month: 11, day: 14, type: "meteor", typeLabel: "☄️ Meteor", badgeColor: "#FF4081", desc: "Yılın tartışmasız 1 numaralı meteor şöleni. Saatte 120-150 çok parlak ve renkli meteor akışı bekleniyor.", tip: "❄️ İpucu: Gece yarısı 02:00'de termal kıyafetlerle gökyüzüne uzanın.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "winter_solstice", title: "Kış Gündönümü (En Uzun Gece)", month: 11, day: 21, type: "moon", typeLabel: "❄️ Gündönümü", badgeColor: "#00E5FF", desc: "Kuzey yarımkürede yılın en uzun gecesi ve en kısa gündüzü yaşanır. Kış mevsiminin astronomik başlangıcıdır.", tip: "☕ İpucu: Yılın en uzun yıldız gözlem gecesi.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "quadrantid", title: "Quadrantid Meteor Yağmuru", month: 0, day: 3, type: "meteor", typeLabel: "☄️ Meteor", badgeColor: "#FF4081", desc: "Ocak ayının ilk haftasında saatte 80-110 parlak meteor ile yeni yılın ilk büyük gökyüzü şöleni.", tip: "🌌 İpucu: Kuzeydoğu ufkuna bakın, gece 02:00 sonrası en yoğun haldedir.", visibility: "⭐⭐⭐⭐ (Yüksek)" },
-      { id: "venus_jupiter_conj", title: "Venüs - Jüpiter Büyük Kavuşumu", month: 1, day: 12, type: "rare", typeLabel: "💎 Yüzyılda Bir", badgeColor: "#00E5FF", desc: "Gökyüzünün en parlak iki gezegeni birbirine neredeyse değecek kadar yakınlaşacak (Çift Yıldız İllüzyonu).", tip: "✨ İpucu: Gün batımından 45 dakika sonra batı ufkuna bakın.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "spring_equinox", title: "İlkbahar Ekinoksu (Doğanın Uyanışı)", month: 2, day: 20, type: "moon", typeLabel: "🌱 Ekinoks", badgeColor: "#00E575", desc: "Güneş ışınları Ekvator'a dik gelir; gece ve gündüz eşitlenir, baharın astronomik başlangıcıdır.", tip: "🌸 İpucu: İlkbaharın gelişini kutlayın.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "lyrid", title: "Lyrid (Çalgı) Meteor Yağmuru", month: 3, day: 22, type: "meteor", typeLabel: "☄️ Meteor", badgeColor: "#FF4081", desc: "2700 yıldır kaydedilen en eski meteor yağmurlarından biri. Saatte 20 parlak ateş topu bekleniyor.", tip: "🎻 İpucu: Gece yarısından sonra Doğu-Kuzeydoğu ufkuna odaklanın.", visibility: "⭐⭐⭐⭐ (Yüksek)" },
-      { id: "eta_aquariid", title: "Eta Aquariid (Halley İkinci Geçişi)", month: 4, day: 6, type: "meteor", typeLabel: "☄️ Meteor", badgeColor: "#FF4081", desc: "Halley kuyruklu yıldızının ilkbahar geçişi kalıntıları. Saatte 50 çok hızlı kayan yıldız.", tip: "⏱️ İpucu: Şafak sökmeden hemen önce (03:30 - 04:30) en iyi zamandır.", visibility: "⭐⭐⭐⭐ (Yüksek)" },
-      { id: "venus_max_elong", title: "Venüs 'Akşam Yıldızı' En Parlak Evresi", month: 5, day: 1, type: "planet", typeLabel: "🪐 Gezegen", badgeColor: "#FFAB00", desc: "Venüs batı ufkunda fener gibi parlayarak çıplak gözle gündüz dahi fark edilebilecek parlaklığa ulaşacak.", tip: "🌅 İpucu: Akşam ezanından hemen sonra batı ufkuna bakın.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "summer_solstice", title: "Yaz Gündönümü (En Uzun Gün)", month: 5, day: 21, type: "moon", typeLabel: "☀️ Gündönümü", badgeColor: "#FFAA00", desc: "Yılın en uzun gündüzü ve en kısa gecesi. Astronomik yaz başlangıcı.", tip: "🌅 İpucu: Yılın en erken gün doğumunu izleyin.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "strawberry_supermoon", title: "Çilek Süper Dolunayı", month: 5, day: 29, type: "moon", typeLabel: "🌕 Süper Ay", badgeColor: "#FFAB00", desc: "Yazın ilk dolunayı; atmosferik kırılma nedeniyle ufukta pembe/kızıl tonlarda yükselecektir.", tip: "🍓 İpucu: Akşam 20:45'te doğu ufkuna bakın.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "super_blood_eclipse", title: "Yüzyılın Tam Ay Tutulması (Kanlı Ay)", month: 8, day: 7, type: "rare", typeLabel: "💎 Yüzyılda Bir", badgeColor: "#00E5FF", desc: "Ay tamamen Dünya'nın gölgesine girerek 1 saat 22 dakika boyunca kiremit kırmızısı renge bürünecek. Türkiye'den baştan sona çıplak gözle net.", tip: "🩸 İpucu: Gece 21:30'da başlayacak, teleskopa gerek yoktur.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" },
-      { id: "solar_eclipse_annular", title: "Halkalı Güneş Tutulması (Ateş Çemberi)", month: 1, day: 17, type: "rare", typeLabel: "💎 Yüzyılda Bir", badgeColor: "#FF4081", desc: "Ay Güneş'in tam ortasını kapatarak gökyüzünde 'Ateş Çemberi' oluşturacak. Türkiye'den parçalı gözlenecek.", tip: "🕶️ İpucu: Asla çıplak gözle bakmayın, mutlaka ISO filtreli gözlük kullanın.", visibility: "⭐⭐⭐⭐⭐ (Kusursuz)" }
-    ];
-
-    function toggleAstroSection() {
-      isAstroOpen = !isAstroOpen;
-      const body = document.getElementById('astroBodyContent');
-      const btn = document.getElementById('astroToggleBtn');
-      if (body) body.style.display = isAstroOpen ? 'block' : 'none';
-      if (btn) {
-        btn.innerText = isAstroOpen ? 'LİSTEYİ KAPAT ▴' : 'LİSTEYİ AÇ ▾';
-        btn.className = isAstroOpen ? 'hardware-tag active-orange' : 'hardware-tag';
-      }
-      if (isAstroOpen) {
-        renderAstroEvents();
-        localStorage.setItem('astro_viewed', 'true');
-        checkAchievements();
-      }
-    }
-
-    function filterAstroEvents(type) {
-      currentAstroFilter = type;
-      if (type === 'rare') localStorage.setItem('rare_viewed', 'true');
-      ['astroFilterAll', 'astroFilterRare', 'astroFilterMeteor', 'astroFilterMoon', 'astroFilterPlanet'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.remove('active-orange');
-      });
-      const activeBtn = document.getElementById(type === 'all' ? 'astroFilterAll' : (type === 'rare' ? 'astroFilterRare' : (type === 'meteor' ? 'astroFilterMeteor' : (type === 'moon' ? 'astroFilterMoon' : 'astroFilterPlanet'))));
-      if (activeBtn) activeBtn.classList.add('active-orange');
-      renderAstroEvents();
-      checkAchievements();
-      showToast(`FİLTRE // ${type.toUpperCase()}`);
-    }
-
-    function toggleAstroAccordion(idx) {
-      if (expandedAstroIndices.has(idx)) expandedAstroIndices.delete(idx);
-      else expandedAstroIndices.add(idx);
-      renderAstroEvents();
-    }
-
-    function openAstroModal(idx) {
-      toggleAstroAccordion(idx);
-    }
-
-    function renderAstroEvents() {
-      const now = new Date();
-      const currentYear = now.getFullYear();
-      const monthsTr = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-
-      let dynamicEvents = astroCatalog.map(ev => {
-        let eventDate = new Date(currentYear, ev.month, ev.day, 22, 0, 0);
-        if ((eventDate - now) < -(24 * 60 * 60 * 1000)) {
-          eventDate = new Date(currentYear + 1, ev.month, ev.day, 22, 0, 0);
-        }
-        const diffMs = eventDate - now;
-        const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-        const dateFormatted = `${ev.day} ${monthsTr[ev.month].toUpperCase()}`;
-        return { ...ev, eventDate, daysLeft, dateFormatted };
-      });
-      dynamicEvents.sort((a, b) => a.eventDate - b.eventDate);
-
-      // En Yakın Tarihli Gök Olayını Üst Kutuya Yaz (KAPALIYKEN DE HER ZAMAN GÖRÜNÜR)
-      if (dynamicEvents.length > 0) {
-        const top = dynamicEvents[0];
-        const fTitle = document.getElementById('astroFeaturedTitle');
-        const fDesc = document.getElementById('astroFeaturedDesc');
-        const fCount = document.getElementById('astroFeaturedCountdown');
-        if (fTitle) fTitle.innerText = top.title;
-        if (fDesc) fDesc.innerText = `${top.desc} • (${top.tip})`;
-        if (fCount) fCount.innerText = top.daysLeft <= 0 ? "🚨 BUGÜN GÖKYÜZÜNDE!" : `⏳ ${top.daysLeft} Gün (${top.dateFormatted})`;
-      }
-
-      const container = document.getElementById('astroEventsList');
-      if (!container) return;
-
-      currentDynamicEvents = currentAstroFilter === 'all' 
-        ? dynamicEvents 
-        : dynamicEvents.filter(e => e.type === currentAstroFilter);
-
-      container.innerHTML = currentDynamicEvents.map((e, idx) => {
-        const isExp = expandedAstroIndices.has(idx);
-        return `
-          <div style="background: var(--surface-2); border: 1px solid ${isExp ? 'var(--te-orange)' : 'var(--border)'}; border-radius: 4px; padding: 10px; cursor: pointer;" onclick="toggleAstroAccordion(${idx})">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-              <span class="hardware-tag">${e.typeLabel} // ${e.dateFormatted}</span>
-              <span class="hardware-tag ${e.daysLeft <= 7 ? 'active-orange' : ''}">⏳ ${e.daysLeft} GÜN</span>
-            </div>
-            <div style="font-size: 14px; font-weight: 700; color: #FFFFFF;">${e.title}</div>
-            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">${e.desc}</div>
-
-            ${isExp ? `
-              <div style="margin-top: 8px; padding: 8px; background: var(--surface-1); border-radius: 4px; font-size: 11px; color: var(--text-main); border-left: 2px solid var(--te-orange); display: flex; flex-direction: column; gap: 4px;">
-                <div>🧭 <b>Yön:</b> Doğu - Kuzeydoğu Ufku</div>
-                <div>🕒 <b>Saat:</b> Gece 01:00 - 04:30</div>
-                <div>🔭 <b>Ekipman:</b> Çıplak Gözle Net</div>
-                <div style="color: var(--te-green); font-family: var(--font-mono);">${e.visibility}</div>
-                <div style="color: var(--text-muted);">${e.tip}</div>
-              </div>
-            ` : ''}
-          </div>
+        rowsHtml += `
+          <tr>
+            <td style="color: var(--brass-gold); font-weight: 700;">${timeStr}</td>
+            <td>${temp}°C</td>
+            <td>%${hum}</td>
+            <td>${air}</td>
+            <td>${light}</td>
+          </tr>
         `;
-      }).join('');
-    }
-    renderAstroEvents();
-
-    // 🏆 32 ROZETLİ BAŞARILAR SİSTEMİ
-    const badgesList = [
-      { id: 'habits_first', name: 'İlk Adım', desc: 'Günün 1 Alışkanlığını Tamamla', icon: '🌱', xp: 50, check: () => habitsData.some(h => h.done) },
-      { id: 'habits_all', name: 'Truva Savaşçısı', desc: 'Günün Tüm Alışkanlıklarını Bitir', icon: '🛡️', xp: 100, check: () => habitsData.length > 0 && habitsData.every(h => h.done) },
-      { id: 'streak_3', name: 'Demir İrade', desc: '3 Günlük Seri Yakala', icon: '🔥', xp: 150, check: () => habitStreak >= 3 },
-      { id: 'streak_7', name: 'Ateş Fırtınası', desc: '7 Günlük Seri Yakala', icon: '⚡', xp: 300, check: () => habitStreak >= 7 },
-      { id: 'streak_14', name: 'Yenilmez Zihin', desc: '14 Günlük İrade Destanı', icon: '👑', xp: 500, check: () => habitStreak >= 14 },
-      { id: 'pomo_1', name: 'Lazer Odak', desc: '1 Pomodoro Bitir', icon: '⏱️', xp: 75, check: () => parseInt(localStorage.getItem('pomo_completed_count') || '0') >= 1 },
-      { id: 'pomo_5', name: 'Odak Maratoncusu', desc: '5 Pomodoro Bitir', icon: '🎯', xp: 200, check: () => parseInt(localStorage.getItem('pomo_completed_count') || '0') >= 5 },
-      { id: 'pomo_10', name: 'Süper Beyin', desc: '10 Pomodoro Seansı', icon: '🧠', xp: 400, check: () => parseInt(localStorage.getItem('pomo_completed_count') || '0') >= 10 },
-      { id: 'mood_log', name: 'Farkındalık', desc: 'Günün Ruh Halini Kaydet', icon: '🧘', xp: 50, check: () => true },
-      { id: 'book_reader', name: 'Kitap Kurdu', desc: 'Mikro Kitap Özetini Oku', icon: '📚', xp: 75, check: () => true },
-      { id: 'book_master', name: 'Kütüphane Bilgesi', desc: '21 Başyapıtı İncele', icon: '🏛️', xp: 500, check: () => true },
-      { id: 'stoic_mind', name: 'Stoacı Filozof', desc: 'Seneca & Marcus İlkelerini Oku', icon: '🗿', xp: 100, check: () => true },
-      { id: 'astro_fan', name: 'Yıldız Kaşifi', desc: 'Astronomi Takvimini Aç', icon: '🔭', xp: 75, check: () => isAstroOpen || !!localStorage.getItem('astro_viewed') },
-      { id: 'rare_watcher', name: 'Kozmik Yolcu', desc: 'Nadir Olayları Aç', icon: '💎', xp: 150, check: () => currentAstroFilter === 'rare' || !!localStorage.getItem('rare_viewed') },
-      { id: 'meteor_hunter', name: 'Meteor Avcısı', desc: 'Meteor Yağmurlarını İncele', icon: '☄️', xp: 120, check: () => currentAstroFilter === 'meteor' },
-      { id: 'moon_gazer', name: 'Ay Muhafızı', desc: 'Süper Ayları İncele', icon: '🌕', xp: 120, check: () => currentAstroFilter === 'moon' },
-      { id: 'planet_tracker', name: 'Gezegen Kaşifi', desc: 'Gezegenleri İncele', icon: '🪐', xp: 120, check: () => currentAstroFilter === 'planet' },
-      { id: 'expense_first', name: 'Bütçe Gurusu', desc: 'İlk Harcamanı Kaydet', icon: '💸', xp: 50, check: () => dailyExpenses.length > 0 },
-      { id: 'expense_master', name: 'Finansal Usta', desc: '5 Harcama Kaydı Ekle', icon: '💳', xp: 250, check: () => dailyExpenses.length >= 5 },
-      { id: 'note_taker', name: 'Fikir Kaşifi', desc: 'İlk Notunu Yaz', icon: '📝', xp: 50, check: () => userNotes.length > 0 },
-      { id: 'note_archivist', name: 'Fikir Koleksiyoncusu', desc: '5 Not Biriktir', icon: '🗂️', xp: 200, check: () => userNotes.length >= 5 },
-      { id: 'early_bird', name: 'Erken Kalkan', desc: 'Sabah Giriş Yap', icon: '🌅', xp: 100, check: () => new Date().getHours() < 12 },
-      { id: 'night_owl', name: 'Gece Baykuşu', desc: 'Gece Masada Odaklan', icon: '🌙', xp: 100, check: () => new Date().getHours() >= 18 },
-      { id: 'bell_ringer', name: 'Zil Çalan', desc: 'Masanın Zilini Çal', icon: '🔔', xp: 50, check: () => !!localStorage.getItem('chime_played') },
-      { id: 'saver_mode', name: 'Sinema Tutkunu', desc: 'Ekran Koruma Video Modu', icon: '🎬', xp: 75, check: () => currentScreenMode === 'screensaver' },
-      { id: 'hud_mode', name: 'Güneş Sistemi', desc: 'Güneş Sistemi HUD Modu', icon: '☀️', xp: 75, check: () => currentScreenMode === 'hud' },
-      { id: 'air_champion', name: 'Temiz Hava Elçisi', desc: 'Hava < 600 PPM İken Çalış', icon: '🍃', xp: 100, check: () => true },
-      { id: 'circadian_master', name: 'Işık Gurusu', desc: 'İdeal Işıkta Kal', icon: '💡', xp: 100, check: () => true },
-      { id: 'master_voyager', name: 'Kozmik Üstat', desc: 'En Az 12 Başarım Aç', icon: '👑', xp: 1000, check: function() { return badgesList.filter(b => b.id !== 'master_voyager' && b.check()).length >= 12; } }
-    ];
-
-    function toggleBadgesSection() {
-      isBadgesOpen = !isBadgesOpen;
-      const body = document.getElementById('badgesBodyContent');
-      const btn = document.getElementById('badgesToggleBtn');
-      if (body) body.style.display = isBadgesOpen ? 'block' : 'none';
-      if (btn) {
-        btn.innerText = isBadgesOpen ? 'ROZETLERİ KAPAT ▴' : 'ROZETLERİ AÇ ▾';
-        btn.className = isBadgesOpen ? 'hardware-tag active-orange' : 'hardware-tag';
       }
-      if (isBadgesOpen) renderAchievements();
+      tbody.innerHTML = rowsHtml;
     }
 
-    function showBadgeDetail(id) {
-      const badge = badgesList.find(b => b.id === id);
-      if (!badge) return;
-      const isUnlocked = badge.check();
-      const box = document.getElementById('badgeDetailBox');
-      const nameEl = document.getElementById('badgeDetailName');
-      const descEl = document.getElementById('badgeDetailDesc');
-      const xpEl = document.getElementById('badgeDetailXp');
+    // 📈 CHART.JS 24 SAATLİK GÜNLÜK GRAFİK
+    function initOrUpdateDailyChart() {
+      const canvas = document.getElementById('dailySensorChart');
+      if (!canvas) return;
 
-      if (box && nameEl && descEl && xpEl) {
-        nameEl.innerText = `${badge.icon} ${badge.name} ${isUnlocked ? '✓ [KAZANILDI]' : '[KİLİTLİ]'}`;
-        descEl.innerText = `${badge.desc}`;
-        xpEl.innerText = `+${badge.xp} XP`;
-        xpEl.style.color = isUnlocked ? "var(--te-green)" : "var(--te-amber)";
-        box.style.display = "block";
-      }
-      showToast(`${badge.name} (+${badge.xp} XP)`);
-    }
+      const labels = [];
+      const tempData = [];
+      const humData = [];
+      const airData = [];
 
-    function renderAchievements() {
-      const gridEl = document.getElementById('badgesGrid');
-      const guideEl = document.getElementById('allBadgesGuideList');
-      const levelTitleEl = document.getElementById('userLevelTitle');
-      const xpTextEl = document.getElementById('userXpText');
-      const xpBarEl = document.getElementById('userXpBar');
-
-      let unlockedCount = 0;
-      let earnedXp = 0;
-      const totalXp = badgesList.reduce((s, b) => s + b.xp, 0);
-
-      const rendered = badgesList.map(b => {
-        const isUnlocked = b.check();
-        if (isUnlocked) {
-          unlockedCount++;
-          earnedXp += b.xp;
-        }
-        return { ...b, isUnlocked };
-      });
-
-      if (gridEl) {
-        gridEl.innerHTML = rendered.map(b => `
-          <div onclick="showBadgeDetail('${b.id}')" style="cursor: pointer; background: ${b.isUnlocked ? 'var(--surface-3)' : 'var(--surface-2)'}; border: 1px solid ${b.isUnlocked ? 'var(--te-orange)' : 'var(--border)'}; border-radius: 4px; padding: 8px 2px; text-align: center;">
-            <div style="font-size: 18px; filter: ${b.isUnlocked ? 'none' : 'grayscale(0.8) opacity(0.4)'};">${b.icon}</div>
-            <div style="font-family: var(--font-mono); font-size: 8.5px; font-weight: 700; color: ${b.isUnlocked ? '#FFFFFF' : 'var(--text-dark)'}; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${b.name}</div>
-          </div>
-        `).join('');
+      for (let h = 0; h <= 23; h += 2) {
+        labels.push(`${h}:00`);
+        tempData.push((24.5 + Math.sin(h / 3.5) * 2.2).toFixed(1));
+        humData.push(Math.round(52 - Math.sin(h / 4) * 8));
+        airData.push(Math.round((420 + Math.sin(h / 2) * 40) / 10)); // scaled down for chart
       }
 
-      if (guideEl) {
-        guideEl.innerHTML = rendered.map(b => `
-          <div onclick="showBadgeDetail('${b.id}')" style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-2); padding: 6px 8px; border-radius: 4px; border: 1px solid ${b.isUnlocked ? 'rgba(0,229,117,0.3)' : 'var(--border)'}; cursor: pointer;">
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="font-size: 14px;">${b.icon}</span>
-              <div>
-                <div style="font-size: 11px; font-weight: 700; color: ${b.isUnlocked ? '#FFFFFF' : 'var(--text-muted)'};">${b.name}</div>
-                <div style="font-size: 9.5px; color: var(--text-dark);">${b.desc}</div>
-              </div>
-            </div>
-            <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: ${b.isUnlocked ? 'var(--te-green)' : 'var(--te-amber)'};">+${b.xp} XP</span>
-          </div>
-        `).join('');
+      if (dailyChartInstance) {
+        dailyChartInstance.destroy();
       }
 
-      if (xpTextEl) xpTextEl.innerText = `${earnedXp} / ${totalXp} XP`;
-      if (xpBarEl) xpBarEl.style.width = `${Math.min(100, Math.round((earnedXp / totalXp) * 100))}%`;
-
-      if (levelTitleEl) {
-        let lvl = 1;
-        let title = "ÇIRAK KAŞİF";
-        if (earnedXp >= 3500) { lvl = 10; title = "KOZMİK ÜSTAT 👑"; }
-        else if (earnedXp >= 2500) { lvl = 8; title = "GALAKTİK BİLGE ⚡"; }
-        else if (earnedXp >= 1500) { lvl = 5; title = "USTA STRATEJİST 🔥"; }
-        else if (earnedXp >= 600) { lvl = 2; title = "GAYRETLİ YOLCU 🌱"; }
-        levelTitleEl.innerText = `SEVİYE ${lvl} // ${title}`;
-      }
-    }
-
-    function checkAchievements() {
-      renderAchievements();
-    }
-    renderAchievements();
-
-    // 💸 HARCAMA MOTORU
-    function renderExpenses() {
-      const listEl = document.getElementById('expenseHistoryList');
-      const badgeEl = document.getElementById('dailyExpenseBadge');
-      if (!listEl) return;
-      const todayTotal = getTodayTotalExpense();
-      if (badgeEl) badgeEl.innerText = `BUGÜN: ${todayTotal} TL`;
-
-      if (dailyExpenses.length === 0) {
-        listEl.innerHTML = `<div style="font-family: var(--font-mono); font-size: 10.5px; color: var(--text-dark); text-align: center; padding: 6px;">[HARCAMA KAYDI YOK]</div>`;
-        return;
-      }
-
-      listEl.innerHTML = dailyExpenses.slice(-5).reverse().map(e => `
-        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-1); padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border);">
-          <span style="font-size: 11.5px; color: var(--text-main);">${e.category} (${e.note || ''})</span>
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--te-green);">+${e.amount} TL</span>
-            <span style="font-family: var(--font-mono); font-size: 9px; color: var(--text-dark); cursor: pointer;" onclick="deleteExpenseItem(${e.id})">✕</span>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function getTodayTotalExpense() {
-      const todayStr = new Date().toISOString().slice(0, 10);
-      return dailyExpenses.filter(e => e.date === todayStr).reduce((s, e) => s + e.amount, 0);
-    }
-
-    function addQuickExpense(amount, category) {
-      dailyExpenses.push({ id: Date.now(), amount, category, note: 'Hızlı Ekleme', date: new Date().toISOString().slice(0, 10) });
-      localStorage.setItem('daily_expenses', JSON.stringify(dailyExpenses));
-      renderExpenses();
-      checkAchievements();
-      showToast(`+${amount} TL ${category}`);
-    }
-
-    function handleCustomExpenseSubmit(e) {
-      e.preventDefault();
-      const aInput = document.getElementById('expenseAmountInput');
-      const nInput = document.getElementById('expenseNoteInput');
-      const amt = parseFloat(aInput.value);
-      if (!amt || amt <= 0) return;
-      dailyExpenses.push({ id: Date.now(), amount: amt, category: 'Diğer 📦', note: nInput.value.trim() || 'Harcama', date: new Date().toISOString().slice(0, 10) });
-      localStorage.setItem('daily_expenses', JSON.stringify(dailyExpenses));
-      aInput.value = "";
-      nInput.value = "";
-      renderExpenses();
-      checkAchievements();
-      showToast(`+${amt} TL Kaydedildi`);
-    }
-
-    function deleteExpenseItem(id) {
-      dailyExpenses = dailyExpenses.filter(e => e.id !== id);
-      localStorage.setItem('daily_expenses', JSON.stringify(dailyExpenses));
-      renderExpenses();
-      showToast("Harcama Silindi");
-    }
-    renderExpenses();
-
-        // 🧘 GÜNLÜK RUH HALİ & ZİHİN SKALASI MOTORU (GÜNLÜK KİLİTLEME VE FİKSE ETİKETLİ)
-    let currentMoodScore = parseInt(localStorage.getItem('daily_mood_score') || '5');
-    let moodHistory = JSON.parse(localStorage.getItem('user_mood_history') || '[]');
-    if (moodHistory.length === 0) {
-      moodHistory = [
-        { id: 1, date: "25 Ağu", time: "18:30", score: 4, label: "Mutlu 😊", note: "Verimli ve sakin bir gündü." },
-        { id: 2, date: "26 Ağu", time: "21:15", score: 5, label: "Muhteşem ✨", note: "Masa istasyonu kodlarını tamamladım!" },
-        { id: 3, date: "Bugün", time: "22:30", score: currentMoodScore, label: "Muhteşem ✨", note: "Tüm sistemler aktif ve çalışıyor." }
-      ];
-      localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
-    }
-
-    function getTodayIsoDate() {
-      const d = new Date();
-      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-    }
-
-    function initTodayMoodState() {
-      const todayKey = getTodayIsoDate();
-      const savedDate = localStorage.getItem('mood_locked_today_key');
-      const savedScore = localStorage.getItem('mood_locked_score');
-      const savedLabel = localStorage.getItem('mood_locked_label');
-
-      const badge = document.getElementById('moodStatusBadge');
-
-      if (savedDate === todayKey && savedScore) {
-        currentMoodScore = parseInt(savedScore);
-        [1, 2, 3, 4, 5].forEach(s => {
-          const el = document.getElementById(`moodBtn${s}`);
-          if (el) {
-            el.classList.toggle('active', s === currentMoodScore);
-            if (s === currentMoodScore) {
-              el.style.border = "1px solid var(--te-green)";
-              el.style.background = "rgba(82, 183, 136, 0.18)";
-            } else {
-              el.style.border = "";
-              el.style.background = "";
+      dailyChartInstance = new Chart(canvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Sıcaklık (°C)',
+              data: tempData,
+              borderColor: '#C86432',
+              backgroundColor: 'rgba(200, 100, 50, 0.1)',
+              borderWidth: 2,
+              tension: 0.35,
+              pointRadius: 2
+            },
+            {
+              label: 'Nem (%)',
+              data: humData,
+              borderColor: '#68A37C',
+              backgroundColor: 'transparent',
+              borderWidth: 2,
+              tension: 0.35,
+              pointRadius: 2
+            },
+            {
+              label: 'Hava (PPM/10)',
+              data: airData,
+              borderColor: '#D4AF37',
+              backgroundColor: 'transparent',
+              borderWidth: 1.5,
+              borderDash: [3, 3],
+              tension: 0.35,
+              pointRadius: 2
             }
-          }
-        });
-        if (badge) {
-          badge.innerText = `🔒 BUGÜNÜN MODU: ${savedLabel || currentMoodScore + '/5'} (KİLİTLİ)`;
-          badge.className = "hardware-tag active-green";
-        }
-      } else {
-        // Henüz bugün kaydedilmediyse
-        [1, 2, 3, 4, 5].forEach(s => {
-          const el = document.getElementById(`moodBtn${s}`);
-          if (el) el.classList.toggle('active', s === currentMoodScore);
-        });
-        if (badge) {
-          badge.innerText = "⏳ BUGÜNÜN RUH HALİNİ SEÇ";
-          badge.className = "hardware-tag active-orange";
-        }
-      }
-      renderMoodJournal();
-    }
-
-    function setDailyMood(score, label) {
-      currentMoodScore = score;
-      const todayKey = getTodayIsoDate();
-      
-      // Bugün için kalıcı olarak kilitle ve hafızaya sabitle
-      localStorage.setItem('mood_locked_today_key', todayKey);
-      localStorage.setItem('mood_locked_score', score.toString());
-      localStorage.setItem('mood_locked_label', label);
-      localStorage.setItem('daily_mood_score', score.toString());
-
-      [1, 2, 3, 4, 5].forEach(s => {
-        const el = document.getElementById(`moodBtn${s}`);
-        if (el) {
-          el.classList.toggle('active', s === score);
-          if (s === score) {
-            el.style.border = "1px solid var(--te-green)";
-            el.style.background = "rgba(82, 183, 136, 0.18)";
-          } else {
-            el.style.border = "";
-            el.style.background = "";
-          }
-        }
-      });
-
-      const badge = document.getElementById('moodStatusBadge');
-      if (badge) {
-        badge.innerText = `🔒 BUGÜNÜN MODU: ${label} (KİLİTLENDİ)`;
-        badge.className = "hardware-tag active-green";
-      }
-      
-      const timeStr = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-      const todayStr = new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
-      
-      // Eğer bugüne ait zaten bir girdi varsa güncelle, yoksa yeni ekle
-      const existingTodayIdx = moodHistory.findIndex(m => m.date === todayStr || m.date === "Bugün");
-      if (existingTodayIdx !== -1) {
-        moodHistory[existingTodayIdx].score = score;
-        moodHistory[existingTodayIdx].label = label;
-        moodHistory[existingTodayIdx].time = timeStr;
-      } else {
-        moodHistory.push({ id: Date.now(), date: todayStr, time: timeStr, score, label, note: 'Ruh hali kilitlendi.' });
-      }
-
-      localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
-
-      renderMoodJournal();
-      checkAchievements();
-      showToast(`🔒 Bugünün Ruh Hali Sabitlendi: ${label}`);
-      if (chartsInitialized) initAnalyticsCharts();
-    }
-
-    function renderMoodJournal() {
-      const listEl = document.getElementById('moodJournalList');
-      if (!listEl) return;
-      if (moodHistory.length === 0) {
-        listEl.innerHTML = `<div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dark); text-align: center; padding: 6px;">[HENÜZ RUH HALİ NOTU YOK]</div>`;
-        return;
-      }
-
-      listEl.innerHTML = moodHistory.slice().reverse().map(m => `
-        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-2); padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border);">
-          <div>
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--te-green);">${m.date} (${m.time || ''})</span>
-              <span class="hardware-tag" style="font-size: 8.5px; padding: 1px 4px;">${m.label || m.score + '/5'}</span>
-            </div>
-            <div style="font-size: 11px; color: var(--text-main); margin-top: 2px;">${m.note || 'Ruh hali kaydedildi.'}</div>
-          </div>
-          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dark); cursor: pointer; padding: 2px 4px;" onclick="deleteMoodEntry(${m.id || 0})">✕</span>
-        </div>
-      `).join('');
-    }
-
-    function handleMoodNoteSubmit(e) {
-      e.preventDefault();
-      const input = document.getElementById('moodNoteInput');
-      const text = input ? input.value.trim() : '';
-      if (!text) return;
-
-      const timeStr = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-      const todayStr = new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
-      const moodLabels = { 1: "Yorgun 😴", 2: "Durgun ☁️", 3: "Dengeli 🌿", 4: "Mutlu 😊", 5: "Muhteşem ✨" };
-
-      moodHistory.push({
-        id: Date.now(),
-        date: todayStr,
-        time: timeStr,
-        score: currentMoodScore,
-        label: moodLabels[currentMoodScore] || "Muhteşem ✨",
-        note: text
-      });
-      localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
-      input.value = '';
-      renderMoodJournal();
-      checkAchievements();
-      showToast("Zihin Notu Kaydedildi ✨");
-      if (chartsInitialized) initAnalyticsCharts();
-    }
-
-    function deleteMoodEntry(id) {
-      moodHistory = moodHistory.filter(m => m.id !== id);
-      localStorage.setItem('user_mood_history', JSON.stringify(moodHistory));
-      renderMoodJournal();
-      showToast("Not Silindi");
-    }
-
-    initTodayMoodState();
-
-    // 📝 KULLANICI NOT DEFTERİ MOTORU
-    function renderUserNotes() {
-      const listEl = document.getElementById('userNotesList');
-      const badgeEl = document.getElementById('userNotesCountBadge');
-      if (!listEl) return;
-      if (badgeEl) badgeEl.innerText = `${userNotes.length} NOT`;
-
-      if (userNotes.length === 0) {
-        listEl.innerHTML = `<div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dark); text-align: center; padding: 6px;">[NOT ARŞİVİ BOŞ]</div>`;
-        return;
-      }
-
-      listEl.innerHTML = userNotes.slice().reverse().map(n => `
-        <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: flex-start;">
-          <div style="flex: 1;">
-            <div style="font-size: 12px; color: var(--text-main); font-weight: 500; line-height: 1.4;">${n.text}</div>
-            <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-dark); margin-top: 4px;">📅 ${n.date || ''} ${n.time ? '• ' + n.time : ''}</div>
-          </div>
-          <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dark); cursor: pointer; padding: 0 4px;" onclick="deleteUserNote(${n.id})">✕</span>
-        </div>
-      `).join('');
-    }
-
-    function handleAddUserNoteSubmit(e) {
-      e.preventDefault();
-      const input = document.getElementById('userNoteInput');
-      const text = input ? input.value.trim() : '';
-      if (!text) return;
-
-      const dateStr = new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-      const timeStr = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-
-      userNotes.push({ id: Date.now(), text, date: dateStr, time: timeStr });
-      localStorage.setItem('saved_user_notes', JSON.stringify(userNotes));
-      input.value = '';
-      renderUserNotes();
-      checkAchievements();
-      showToast("Not Arşive Eklendi 📝");
-    }
-
-    function deleteUserNote(id) {
-      userNotes = userNotes.filter(n => n.id !== id);
-      localStorage.setItem('saved_user_notes', JSON.stringify(userNotes));
-      renderUserNotes();
-      showToast("Not Silindi 🗑️");
-    }
-    renderUserNotes();
-
-    // 📑 SAYFA GEÇİŞİ VE PERİYOTLU GRAFİK MOTORU// 📑 SAYFA GEÇİŞİ VE PERİYOTLU GRAFİK MOTORU (GÜNLÜK / AYLIK)
-    let activeMainTab = 'live';
-    let currentAnalyticsPeriod = 'daily';
-    let chartsInitialized = false;
-    let chartInstances = {};
-
-    function switchMainTab(tab) {
-      activeMainTab = tab;
-      document.getElementById('tabBtn1').classList.toggle('active', tab === 'live');
-      document.getElementById('tabBtn2').classList.toggle('active', tab === 'analytics');
-      document.getElementById('liveTabContent').style.display = tab === 'live' ? 'flex' : 'none';
-      document.getElementById('analyticsTabContent').style.display = tab === 'analytics' ? 'flex' : 'none';
-
-      if (tab === 'analytics') {
-        initAnalyticsCharts();
-        chartsInitialized = true;
-      }
-    }
-
-    function setAnalyticsPeriod(period) {
-      currentAnalyticsPeriod = period;
-      document.getElementById('periodBtnDaily').classList.toggle('active', period === 'daily');
-      document.getElementById('periodBtnMonthly').classList.toggle('active', period === 'monthly');
-
-      const label = period === 'daily' ? 'GÜNLÜK (24S)' : 'AYLIK (30G)';
-      ['chartPeriodTag1', 'chartPeriodTag2', 'chartPeriodTag3', 'chartPeriodTag4', 'chartPeriodTagMood'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerText = label;
-      });
-
-      initAnalyticsCharts();
-      showToast(`ZAMAN ARALIĞI // ${period.toUpperCase()}`);
-    }
-
-    function initAnalyticsCharts() {
-      try {
-        if (typeof Chart === 'undefined') return;
-
-        // Destroy previous instances to prevent canvas reuse errors
-        Object.keys(chartInstances).forEach(k => {
-          if (chartInstances[k]) chartInstances[k].destroy();
-        });
-        chartInstances = {};
-
-        const isDaily = currentAnalyticsPeriod === 'daily';
-        const labelsHours = ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "Şimdi"];
-        const labelsDays = ["1 Ağu", "6 Ağu", "11 Ağu", "16 Ağu", "21 Ağu", "26 Ağu", "Bugün"];
-        const timeLabels = isDaily ? labelsHours : labelsDays;
-
-        const opts = {
+          ]
+        },
+        options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { font: { family: 'JetBrains Mono', size: 9 }, color: '#8E95A0' } },
-            y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { font: { family: 'JetBrains Mono', size: 9 }, color: '#8E95A0' } }
-          }
-        };
-
-        // [AN-01] Sıcaklık
-        const c1 = document.getElementById('tempChart');
-        if (c1 && c1.getContext) {
-          const tempData = isDaily ? [22, 21, 24, 30, 29, 27, 28] : [27, 28, 29, 31, 30, 28, 28];
-          chartInstances.temp = new Chart(c1.getContext('2d'), {
-            type: 'line',
-            data: { labels: timeLabels, datasets: [{ label: 'Sıcaklık (°C)', data: tempData, borderColor: '#FF4F00', backgroundColor: 'rgba(255,79,0,0.12)', fill: true, tension: 0.35, pointRadius: 3 }] },
-            options: opts
-          });
-        }
-
-        // [AN-02] Ruh Hali (Mood Skalası)
-        const cMood = document.getElementById('moodChart');
-        if (cMood && cMood.getContext) {
-          const moodData = isDaily ? [4, 4, 5, 5, 4, 5, currentMoodScore] : [4, 5, 3, 4, 5, 4, currentMoodScore];
-          chartInstances.mood = new Chart(cMood.getContext('2d'), {
-            type: 'bar',
-            data: { labels: timeLabels, datasets: [{ label: 'Zihin Skoru (1-5)', data: moodData, backgroundColor: '#00E575', borderRadius: 4 }] },
-            options: { ...opts, scales: { ...opts.scales, y: { min: 1, max: 5, ticks: { stepSize: 1, color: '#8E95A0' } } } }
-          });
-        }
-
-        // [AN-03] Harcamalar
-        const c2 = document.getElementById('expenseCategoryChart');
-        if (c2 && c2.getContext) {
-          const expData = isDaily ? [120, 250, 400, 150] : [1450, 3200, 4800, 1950];
-          chartInstances.expense = new Chart(c2.getContext('2d'), {
-            type: 'doughnut',
-            data: { labels: ['Kahve', 'Yemek', 'Market', 'Diğer'], datasets: [{ data: expData, backgroundColor: ['#FF4F00', '#FFAA00', '#00E575', '#00D0FF'], borderWidth: 0 }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Space Grotesk', size: 10 }, color: '#F2F4F7' } } } }
-          });
-        }
-
-        // [AN-04] Işık
-        const c3 = document.getElementById('lightChart');
-        if (c3 && c3.getContext) {
-          const lightData = isDaily ? [0, 0, 20, 85, 90, 45, 10] : [65, 70, 68, 75, 80, 72, 70];
-          chartInstances.light = new Chart(c3.getContext('2d'), {
-            type: 'line',
-            data: { labels: timeLabels, datasets: [{ label: 'Işık %', data: lightData, borderColor: '#FFAA00', backgroundColor: 'rgba(255,170,0,0.12)', fill: true, tension: 0.35, pointRadius: 3 }] },
-            options: opts
-          });
-        }
-
-        // [AN-05] Hava Kalitesi
-        const c4 = document.getElementById('airChart');
-        if (c4 && c4.getContext) {
-          const airData = isDaily ? [420, 430, 450, 600, 550, 480, 435] : [440, 460, 480, 510, 490, 450, 435];
-          chartInstances.air = new Chart(c4.getContext('2d'), {
-            type: 'line',
-            data: { labels: timeLabels, datasets: [{ label: 'Hava PPM', data: airData, borderColor: '#00D0FF', backgroundColor: 'rgba(0,208,255,0.12)', fill: true, tension: 0.35, pointRadius: 3 }] },
-            options: opts
-          });
-        }
-      } catch (err) {}
-    }
-
-    // ====================================================
-    // 🌌 ASTRONOMİK GÜNEŞ, AY & ATMOSFER MOTORU
-    // ====================================================
-    
-    // 1. Yıldızları Gökyüzü Tuvaline Oluştur
-    function createCelestialStars() {
-      const canvas = document.getElementById('celestialSkyCanvas');
-      if (!canvas) return;
-      canvas.innerHTML = '';
-      const starCount = 65;
-      for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.className = 'celestial-star';
-        const size = Math.random() < 0.2 ? 2.5 : (Math.random() < 0.6 ? 1.5 : 1);
-        const top = Math.random() * 95;
-        const left = Math.random() * 98;
-        const duration = (Math.random() * 3 + 2).toFixed(1);
-        const maxOp = (Math.random() * 0.7 + 0.3).toFixed(2);
-        
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.top = `${top}%`;
-        star.style.left = `${left}%`;
-        star.style.setProperty('--twinkle-duration', `${duration}s`);
-        star.style.setProperty('--star-max-opacity', maxOp);
-        star.style.animationDelay = `${(Math.random() * 4).toFixed(1)}s`;
-        canvas.appendChild(star);
-      }
-    }
-
-    // 2. Ay Evresi Hesabı (Astronomik Sinodik Ay Döngüsü: 29.53059 Gün)
-    function calculateMoonPhase(date = new Date()) {
-      const knownNewMoon = new Date(2000, 0, 6, 18, 14); // Bilinen Yeni Ay referansı
-      const diffMs = date.getTime() - knownNewMoon.getTime();
-      const diffDays = diffMs / (1000 * 60 * 60 * 24);
-      const phase = (diffDays % 29.53058867) / 29.53058867;
-      
-      let phaseName = "";
-      let icon = "🌔";
-      let illumination = 0;
-
-      if (phase < 0.03 || phase > 0.97) {
-        phaseName = "YENİ AY";
-        icon = "🌑";
-        illumination = 1;
-      } else if (phase < 0.22) {
-        phaseName = "HİLAL (BÜYÜYEN)";
-        icon = "🌒";
-        illumination = Math.round(phase * 400);
-      } else if (phase < 0.28) {
-        phaseName = "İLK DÖRDÜN";
-        icon = "🌓";
-        illumination = 50;
-      } else if (phase < 0.47) {
-        phaseName = "ŞİŞKİN AY";
-        icon = "🌔";
-        illumination = Math.round(50 + (phase - 0.25) * 200);
-      } else if (phase < 0.53) {
-        phaseName = "DOLUNAY";
-        icon = "🌕";
-        illumination = 100;
-      } else if (phase < 0.72) {
-        phaseName = "ŞİŞKİN AY (KÜÇÜLEN)";
-        icon = "🌖";
-        illumination = Math.round(100 - (phase - 0.5) * 200);
-      } else if (phase < 0.78) {
-        phaseName = "SON DÖRDÜN";
-        icon = "🌗";
-        illumination = 50;
-      } else {
-        phaseName = "HİLAL (KÜÇÜLEN)";
-        icon = "🌘";
-        illumination = Math.round((1 - phase) * 400);
-      }
-
-      return { phase, phaseName, icon, illumination: Math.min(100, Math.max(1, illumination)) };
-    }
-
-    // 3. Gün Doğumu, Gün Batımı & Altın Saat Hesabı (İzmir/Türkiye Referansı: 38.4° N, 27.1° E)
-    function calculateSolarEphemeris() {
-      const now = new Date();
-      const startOfYear = new Date(now.getFullYear(), 0, 0);
-      const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
-
-      // Güneş sapma açısı (Declination)
-      const declination = 23.45 * Math.sin((360 / 365) * (dayOfYear - 81) * (Math.PI / 180));
-      const latRad = 38.384505 * (Math.PI / 180);
-      const decRad = declination * (Math.PI / 180);
-
-      // Güneş doğuş/batış saat açısı (Saat olarak)
-      const cosHourAngle = -Math.tan(latRad) * Math.tan(decRad);
-      const hourAngle = Math.acos(Math.max(-1, Math.min(1, cosHourAngle))) * (180 / Math.PI) / 15;
-
-      const solarNoonHour = 13.25; // Türkiye saatiyle öğle ortalama ~13:15
-      const sunriseHour = solarNoonHour - hourAngle;
-      const sunsetHour = solarNoonHour + hourAngle;
-      const goldenHourStart = sunsetHour - 0.75; // Gün batımından 45 dk önce
-
-      return { sunriseHour, solarNoonHour, goldenHourStart, sunsetHour };
-    }
-
-    function formatDecimalTime(decHour) {
-      const h = Math.floor(decHour);
-      const m = Math.floor((decHour - h) * 60);
-      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-    }
-
-    // 4. Atmosfer & Gökyüzü Canlı Güncelleyici
-    function updateCelestialAtmosphere() {
-      const now = new Date();
-      const currentDecHour = now.getHours() + (now.getMinutes() / 60) + (now.getSeconds() / 3600);
-      const { sunriseHour, solarNoonHour, goldenHourStart, sunsetHour } = calculateSolarEphemeris();
-      const moon = calculateMoonPhase(now);
-
-      const sunriseEl = document.getElementById('solarSunriseText');
-      const noonEl = document.getElementById('solarNoonText');
-      const goldenEl = document.getElementById('solarGoldenText');
-      const sunsetEl = document.getElementById('solarSunsetText');
-      const phaseTag = document.getElementById('celestialTimePhaseTag');
-      const moonTag = document.getElementById('lunarPhaseNameTag');
-      const nextEventEl = document.getElementById('celestialNextEventText');
-      const moonIllumEl = document.getElementById('lunarIlluminationText');
-      const sunOrb = document.getElementById('orbitSun');
-      const moonOrb = document.getElementById('orbitMoon');
-      const skyCanvas = document.getElementById('celestialSkyCanvas');
-
-      if (sunriseEl) sunriseEl.innerText = formatDecimalTime(sunriseHour);
-      if (noonEl) noonEl.innerText = formatDecimalTime(solarNoonHour);
-      if (goldenEl) goldenEl.innerText = formatDecimalTime(goldenHourStart);
-      if (sunsetEl) sunsetEl.innerText = formatDecimalTime(sunsetHour);
-      if (moonTag) moonTag.innerText = `${moon.icon} ${moon.phaseName}`;
-      if (moonIllumEl) moonIllumEl.innerText = `Ay Aydınlığı: %${moon.illumination}`;
-
-      // Gün Evresi ve Şasi Renk Teması
-      document.body.classList.remove('sky-dawn', 'sky-day', 'sky-golden', 'sky-dusk', 'sky-night');
-
-      let currentPhaseLabel = "GÜNDÜZ";
-      let starsVisible = false;
-
-      // Şafak (Dawn)
-      if (currentDecHour >= sunriseHour - 1 && currentDecHour < sunriseHour + 0.3) {
-        document.body.classList.add('sky-dawn');
-        currentPhaseLabel = "🌅 ŞAFAK & DOĞUŞ";
-        if (skyCanvas) skyCanvas.style.background = "radial-gradient(ellipse at 30% 90%, rgba(255, 119, 51, 0.22) 0%, rgba(18, 16, 25, 0.95) 75%)";
-      }
-      // Altın Saat (Golden Hour)
-      else if (currentDecHour >= goldenHourStart && currentDecHour < sunsetHour) {
-        document.body.classList.add('sky-golden');
-        currentPhaseLabel = "🌇 ALTIN SAAT";
-        if (skyCanvas) skyCanvas.style.background = "radial-gradient(ellipse at 70% 90%, rgba(255, 102, 0, 0.25) 0%, rgba(22, 18, 14, 0.95) 75%)";
-      }
-      // Alacakaranlık (Dusk)
-      else if (currentDecHour >= sunsetHour && currentDecHour < sunsetHour + 1.2) {
-        document.body.classList.add('sky-dusk');
-        currentPhaseLabel = "🌆 ALACAKARANLIK";
-        starsVisible = true;
-        if (skyCanvas) skyCanvas.style.background = "radial-gradient(ellipse at 80% 90%, rgba(90, 50, 140, 0.25) 0%, rgba(14, 16, 26, 0.98) 75%)";
-      }
-      // Gece (Night)
-      else if (currentDecHour >= sunsetHour + 1.2 || currentDecHour < sunriseHour - 1) {
-        document.body.classList.add('sky-night');
-        currentPhaseLabel = "🌌 YILDIZLI GECE";
-        starsVisible = true;
-        if (skyCanvas) skyCanvas.style.background = "radial-gradient(ellipse at 50% 30%, rgba(0, 229, 117, 0.03) 0%, rgba(7, 8, 10, 0.98) 90%)";
-      }
-      // Normal Gündüz
-      else {
-        document.body.classList.add('sky-day');
-        currentPhaseLabel = "☀️ GÜNDÜZ";
-        if (skyCanvas) skyCanvas.style.background = "radial-gradient(ellipse at 50% 10%, rgba(255, 79, 0, 0.04) 0%, rgba(12, 13, 14, 0.98) 85%)";
-      }
-
-      if (phaseTag) phaseTag.innerText = currentPhaseLabel;
-
-      // Yıldızların görünürlüğü
-      if (skyCanvas) {
-        const stars = skyCanvas.querySelectorAll('.celestial-star');
-        stars.forEach(s => {
-          s.style.display = starsVisible ? 'block' : 'none';
-        });
-      }
-
-      // Güneş ve Ay'ın Yörünge Pozisyonu (Orbit Arc)
-      // Güneş Yörüngesi: Doğu (%5) -> Zirve (%50) -> Batı (%95)
-      if (sunOrb) {
-        if (currentDecHour >= sunriseHour && currentDecHour <= sunsetHour) {
-          const sunProg = (currentDecHour - sunriseHour) / (sunsetHour - sunriseHour);
-          const sunX = Math.round(5 + sunProg * 88);
-          // Parabolik tepe hesabı (Ortada en yukarıda top: 4px, kenarlarda top: 28px)
-          const sunY = Math.round(28 - 24 * Math.sin(sunProg * Math.PI));
-          sunOrb.style.display = 'block';
-          sunOrb.style.left = `${sunX}%`;
-          sunOrb.style.top = `${sunY}px`;
-        } else {
-          sunOrb.style.display = 'none'; // Gece batmış durumda
-        }
-      }
-
-      // Ay Yörüngesi: Ay gece gökyüzünde yükselir
-      if (moonOrb) {
-        moonOrb.innerText = moon.icon;
-        let moonProg = 0;
-        let isMoonUp = false;
-
-        if (currentDecHour >= sunsetHour - 1) {
-          moonProg = (currentDecHour - (sunsetHour - 1)) / (24 - sunsetHour + sunriseHour + 1);
-          isMoonUp = true;
-        } else if (currentDecHour <= sunriseHour + 1) {
-          moonProg = ((24 - sunsetHour + 1) + currentDecHour) / (24 - sunsetHour + sunriseHour + 1);
-          isMoonUp = true;
-        }
-
-        if (isMoonUp) {
-          const moonX = Math.round(5 + moonProg * 88);
-          const moonY = Math.round(28 - 24 * Math.sin(Math.min(1, Math.max(0, moonProg)) * Math.PI));
-          moonOrb.style.display = 'block';
-          moonOrb.style.left = `${moonX}%`;
-          moonOrb.style.top = `${moonY}px`;
-        } else {
-          moonOrb.style.display = 'none';
-        }
-      }
-
-      // Kalan Süre Sayacı
-      if (nextEventEl) {
-        if (currentDecHour < sunriseHour) {
-          const diff = sunriseHour - currentDecHour;
-          const h = Math.floor(diff);
-          const m = Math.floor((diff - h) * 60);
-          nextEventEl.innerText = `⏳ Gün Doğumuna: ${h}s ${m}dk`;
-        } else if (currentDecHour < sunsetHour) {
-          const diff = sunsetHour - currentDecHour;
-          const h = Math.floor(diff);
-          const m = Math.floor((diff - h) * 60);
-          nextEventEl.innerText = `⏳ Gün Batımına: ${h}s ${m}dk`;
-        } else {
-          const diff = (24 - currentDecHour) + sunriseHour;
-          const h = Math.floor(diff);
-          const m = Math.floor((diff - h) * 60);
-          nextEventEl.innerText = `⏳ Gün Doğumuna: ${h}s ${m}dk`;
-        }
-      }
-    }
-
-    createCelestialStars();
-    updateCelestialAtmosphere();
-    setInterval(updateCelestialAtmosphere, 30000); // Her 30 saniyede bir canlı güncelle
-
-
-    // ====================================================
-    // 🌿 BONSAİ AĞACI, 🕯️ ZEN MUMU & 🛰️ ISS GEÇİŞ RADARI
-    // ====================================================
-
-    // 🕯️ ZEN MUMU ANİMASYON MOTORU (POMODORO İLE SENKRONİZE)
-    function updateZenCandle(remainingSec, totalSec, isRunning) {
-      const flame = document.getElementById('candleFlame');
-      const wax = document.getElementById('candleWax');
-      const smoke = document.getElementById('candleSmoke');
-      if (!flame || !wax) return;
-
-      if (isRunning) {
-        flame.style.opacity = '1';
-        flame.classList.remove('extinguished');
-        // Mum 25 dakikada 28px'ten 8px'e kadar yavaşça erir
-        const prog = remainingSec / totalSec; // 1 -> 0
-        const waxHeight = Math.max(8, Math.round(8 + prog * 20));
-        wax.style.height = `${waxHeight}px`;
-      } else {
-        if (flame.style.opacity === '1' && remainingSec === 0 && smoke) {
-          smoke.style.display = 'block';
-          setTimeout(() => { smoke.style.display = 'none'; }, 1500);
-        }
-        flame.style.opacity = '0';
-        flame.classList.add('extinguished');
-        if (remainingSec === totalSec) {
-          wax.style.height = '28px'; // Yeni muma dön
-        }
-      }
-    }
-
-    // 3. CANLI ISS GEÇİŞ ASİSTANI (GPS / İZMİR KOORDİNATLARI)
-    let userLat = 38.384505; // Evinizin Kesin Koordinatları
-    let userLon = 27.153363;
-    let userCityName = "Eviniz // İzmir (38.38°N, 27.15°E)";
-
-    function detectUserLocationForIss() {
-      if (navigator.geolocation) {
-        showToast("📍 Evinizin kesin GPS koordinatları alınıyor...");
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            userLat = pos.coords.latitude;
-            userLon = pos.coords.longitude;
-            userCityName = `Eviniz (${userLat.toFixed(2)}°N, ${userLon.toFixed(2)}°E)`;
-            calculateIssPassDetails();
-            showToast("✓ Evinizin kesin koordinatları kilitlendi!");
+          plugins: {
+            legend: { display: false }
           },
-          (err) => {
-            showToast("Konum izni alınamadı, İzmir koordinatları aktif.");
-            calculateIssPassDetails();
+          scales: {
+            x: {
+              grid: { color: 'rgba(255,255,255,0.04)' },
+              ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } }
+            },
+            y: {
+              grid: { color: 'rgba(255,255,255,0.04)' },
+              ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } }
+            }
           }
-        );
-      } else {
-        calculateIssPassDetails();
-      }
+        }
+      });
     }
 
-    function calculateIssPassDetails() {
-      const locText = document.getElementById('issTargetLocationText');
-      const passTimeEl = document.getElementById('issNextPassTimeText');
-      const dirText = document.getElementById('issLookDirectionText');
-
-      if (locText) locText.innerText = `HEDEF GÖZLEM NOKTASI: ${userCityName.toUpperCase()}`;
-
-      // Gerçekçi ISS Geçiş Hesaplayıcısı (ISS günde ~16 kez Dünya'yı turlar, akşamları 1-2 parlak geçiş verir)
-      const now = new Date();
-      const passHour = 21;
-      const passMinute = 38 + (now.getDate() % 15);
-      const passDuration = 5 + (now.getDate() % 3);
-
-      if (passTimeEl) {
-        passTimeEl.innerText = `🛰️ Bu Akşam: ${String(passHour).padStart(2,'0')}:${String(passMinute).padStart(2,'0')} - ${String(passHour).padStart(2,'0')}:${String(passMinute + passDuration).padStart(2,'0')} (${passDuration} Dakika)`;
-      }
-
-      if (dirText) {
-        dirText.innerHTML = `<strong>Güneybatı (SW)</strong> ufkundan doğup başınızın <strong>64° tepesinden</strong> geçerek <strong>Kuzeydoğuya (NE)</strong> doğru süzülecek. Çıplak gözle gökyüzünde <em>Venüs kadar parlak</em> beyaz bir yıldız gibi kayacak!`;
-      }
+    function refreshDailyChart() {
+      initOrUpdateDailyChart();
+      showToast("Grafik Verileri Yenilendi ↻");
     }
 
-    detectUserLocationForIss();
-
-
-    
-    // 🏆 32 TE-01 DONANIM ROZETLERİ MOTORU
-    const BADGES_DATABASE = [
-      { id: 'b_first_step', icon: '⚡', title: 'İLK ADIM', desc: 'Masa istasyonunu ilk kez açtınız.', req: 'Otomatik açıldı' },
-      { id: 'b_online_sync', icon: '📡', title: 'CANLI SENSÖR', desc: 'ESP32 canlı telemetrisi bağlandı.', req: 'Firebase senkronizasyonu' },
-      { id: 'b_pomo_1', icon: '🎯', title: 'ODAK ÇIRAGI', desc: 'İlk 25 dakikalık Pomodoro tamamlandı.', req: '1 Pomodoro seansı' },
-      { id: 'b_pomo_5', icon: '🔥', title: 'DERİN ÇALIŞMA', desc: '5 Pomodoro seansı tamamlandı.', req: '5 Pomodoro seansı' },
-      { id: 'b_pomo_10', icon: '👑', title: 'ODAK ÜSTADI', desc: '10 Pomodoro seansı tamamlandı.', req: '10 Pomodoro seansı' },
-      { id: 'b_habit_3', icon: '🌿', title: 'ALIŞKANLIK BAŞLANGICI', desc: '3 günlük alışkanlık serisi yakalandı.', req: '3 gün seri' },
-      { id: 'b_habit_7', icon: '💎', title: 'DEMİR DİSİPLİN', desc: '7 günlük kesintisiz alışkanlık serisi.', req: '7 gün seri' },
-      { id: 'b_pet_love', icon: '🐱', title: 'YULAF DOSTU', desc: 'Yulaf 10 kez sevildi ve beslendi.', req: 'Yulaf ile etkileşim' },
-      { id: 'b_bonsai_master', icon: '🪴', title: 'YEŞİL PARMAK', desc: 'Masabaşı Bonsai ağacı 5. aşamaya ulaştı.', req: 'Bonsai sulama' },
-      { id: 'b_astro_explorer', icon: '🪐', title: 'GÖK GEZGİNİ', desc: 'Tüm astronomi kataloğu incelendi.', req: 'Astronomi listesi' },
-      { id: 'b_iss_watcher', icon: '🛰️', title: 'UZAY GÖZCÜSÜ', desc: 'ISS canlı geçiş radarı kontrol edildi.', req: 'ISS Gözlem' },
-      { id: 'b_mood_tracker', icon: '📊', title: 'ZİHİN AYNASI', desc: 'Günlük ruh hali matrisi kaydedildi.', req: 'Ruh hali notu' },
-      { id: 'b_book_worm', icon: '📚', title: 'MİKRO BİLGE', desc: '5 farklı başyapıt özeti okundu.', req: 'Kitap özetleri' },
-      { id: 'b_expense_boss', icon: '💸', title: 'BÜTÇE KORUYUCU', desc: 'Günlük harcama kaydı tutuldu.', req: 'Harcama ekleme' },
-      { id: 'b_night_owl', icon: '🌙', title: 'GECE KARTALI', desc: 'Gece 23:00 sonrası yıldızlar altında çalışıldı.', req: 'Gece çalışması' },
-      { id: 'b_early_bird', icon: '🌅', title: 'ERKEN ŞAFAK', desc: 'Sabah 07:00 öncesi güne başlandı.', req: 'Sabah seansı' }
-    ];
-
-    function renderBadges() {
-      const grid = document.getElementById('badgesGrid');
-      const countEl = document.getElementById('unlockedBadgesCount');
-      if (!grid) return;
-
-      const pomoCount = parseInt(localStorage.getItem('pomo_completed_count') || '0');
-      const streak = parseInt(localStorage.getItem('habit_streak_count') || '0');
-      const hasMood = (localStorage.getItem('user_mood_today') || null) !== null;
-      const expenses = JSON.parse(localStorage.getItem('daily_expenses') || '[]');
-
-      let unlocked = 0;
-      grid.innerHTML = BADGES_DATABASE.map(b => {
-        let isAchieved = false;
-        if (b.id === 'b_first_step' || b.id === 'b_online_sync' || b.id === 'b_pet_love') isAchieved = true;
-        if (b.id === 'b_pomo_1' && pomoCount >= 1) isAchieved = true;
-        if (b.id === 'b_pomo_5' && pomoCount >= 5) isAchieved = true;
-        if (b.id === 'b_pomo_10' && pomoCount >= 10) isAchieved = true;
-        if (b.id === 'b_habit_3' && streak >= 3) isAchieved = true;
-        if (b.id === 'b_habit_7' && streak >= 7) isAchieved = true;
-        if (b.id === 'b_mood_tracker' && hasMood) isAchieved = true;
-        if (b.id === 'b_expense_boss' && expenses.length > 0) isAchieved = true;
-
-        if (isAchieved) unlocked++;
-
-        return `
-          <div style="background: ${isAchieved ? 'rgba(0,229,117,0.06)' : 'var(--surface-2)'}; border: 1px solid ${isAchieved ? 'rgba(0,229,117,0.3)' : 'var(--border)'}; border-radius: 4px; padding: 8px 10px; display: flex; align-items: center; gap: 8px;">
-            <div style="font-size: 20px; filter: ${isAchieved ? 'none' : 'grayscale(1) opacity(0.4)'};">${b.icon}</div>
-            <div>
-              <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: ${isAchieved ? 'var(--te-green)' : 'var(--text-muted)'};">${b.title}</div>
-              <div style="font-size: 9.5px; color: var(--text-dark);">${b.desc}</div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      if (countEl) countEl.innerText = `${unlocked} / ${BADGES_DATABASE.length} AÇILDI`;
+    function exportDataCsv() {
+      const history = generateMockMonthlyData();
+      let csvContent = "data:text/csv;charset=utf-8,Tarih,Sicaklik_C,Bagil_Nem_Yuzde,Hava_PPM,Puan\n";
+      history.forEach(r => {
+        csvContent += `${r.date},${r.temp},${r.hum},${r.air},${r.score}\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "MasaIstasyonu_Agustos_2026_Verileri.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("📥 CSV Raporu İndirildi!");
     }
 
-    function toggleBadgesList() {
-      isBadgesOpen = !isBadgesOpen;
-      const grid = document.getElementById('badgesGrid');
-      const btn = document.getElementById('btnToggleBadges');
-      if (grid) grid.className = isBadgesOpen ? 'badges-grid-expanded' : 'badges-grid-collapsed';
-      if (btn) btn.innerText = isBadgesOpen ? 'LİSTEYİ KAPA ▴' : 'TÜMÜNÜ GÖR ▾';
-    }
-    
-
-                
-    // ====================================================
-    // 🔔 NATIVE MOBİL BİLDİRİM & HATIRLATICI MOTORU
-    // ====================================================
-    let isNotificationSupported = 'Notification' in window;
-    let notificationPermission = isNotificationSupported ? Notification.permission : 'denied';
-
-    async function requestNotificationPermission(manual = false) {
-      if (!isNotificationSupported) {
-        showToast("⚠️ Bu tarayıcı bildirimleri desteklemiyor.");
-        return;
-      }
-
+    // 🔄 CANLI TELEMETRİ OKUMA
+    async function syncLiveSensors() {
       try {
-        const perm = await Notification.requestPermission();
-        notificationPermission = perm;
-        updateNotificationUi();
-        if (perm === 'granted') {
-          sendMobileNotification("🎯 Bildirimler Aktif!", "Masa İstasyonu artık Pomodoro, Zihin ve Göksel olayları telefonunuza bildirecek! 🐾", "icon-192.png");
-          showToast("🔔 Bildirim İzni Verildi & Test Gönderildi!");
-        } else {
-          showToast("⚠️ Bildirim izni verilmedi.");
+        const res = await fetch(FIREBASE_URL + "station.json" + FIREBASE_AUTH);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && typeof data === 'object') {
+            if (data.temp !== undefined) document.getElementById('tempVal').innerText = Number(data.temp).toFixed(1) + "°C";
+            if (data.humidity !== undefined) document.getElementById('humVal').innerText = "%" + data.humidity;
+            if (data.air !== undefined) {
+              document.getElementById('airVal').innerText = data.air + " PPM";
+              const airStatusEl = document.getElementById('airStatus');
+              if (airStatusEl) {
+                airStatusEl.innerText = data.air < 700 ? "Ferah & Temiz ✨" : (data.air < 1000 ? "Normal Seviye 🍃" : "Ağırlaştı ⚠️");
+              }
+            }
+            if (data.light !== undefined) {
+              document.getElementById('lightVal').innerText = data.light + "%";
+              const lightStatusEl = document.getElementById('lightStatus');
+              if (lightStatusEl) {
+                lightStatusEl.innerText = data.light > 40 ? "Aydınlık Çalışma Alanı 💡" : "Loş / Gece Ortamı 🌙";
+              }
+            }
+          }
         }
-      } catch (err) {
-        console.error(err);
-      }
-    }
+      } catch (e) {}
 
-    function updateNotificationUi() {
-      const tag = document.getElementById('notifStatusTag');
-      const btn = document.getElementById('btnRequestNotif');
-      if (tag) {
-        if (notificationPermission === 'granted') {
-          tag.innerText = "🔔 BİLDİRİMLER: AÇIK ✓";
-          tag.className = "hardware-tag active-green";
-        } else {
-          tag.innerText = "🔕 BİLDİRİMLER: KAPALI";
-          tag.className = "hardware-tag active-orange";
-        }
-      }
-      if (btn) {
-        btn.innerText = notificationPermission === 'granted' ? "TEST BİLDİRİMİ GÖNDER 📲" : "BİLDİRİM İZNİ VER 🔔";
-      }
-    }
-
-    function sendMobileNotification(title, body, icon = 'icon-192.png') {
-      if (notificationPermission !== 'granted') return;
-
-      // Telefonu titret (Haptic Feedback)
-      if (navigator.vibrate) {
-        navigator.vibrate([150, 80, 150]);
-      }
-
-      // ServiceWorker üzerinden veya doğrudan Native bildirim gönder
-      if ('serviceWorker' in navigator && navigator.serviceWorker.ready) {
-        navigator.serviceWorker.ready.then(reg => {
-          reg.showNotification(title, {
-            body: body,
-            icon: icon,
-            badge: icon,
-            vibrate: [150, 80, 150],
-            tag: 'masa-istasyonu-notif',
-            renotify: true
-          });
-        }).catch(() => {
-          new Notification(title, { body: body, icon: icon });
-        });
-      } else {
-        new Notification(title, { body: body, icon: icon });
-      }
-    }
-
-    function testNotificationClick() {
-      if (notificationPermission !== 'granted') {
-        requestNotificationPermission(true);
-      } else {
-        sendMobileNotification("🐱 Yulaf: Miyav! 🐾", "Masa İstasyonu arka planda canlı ve seni izliyor! Harika odaklandın. ✨", "icon-192.png");
-        showToast("📲 Test Bildirimi Telefonunuza İletildi!");
-      }
-    }
-
-    // 1. Pomodoro bittiğinde bildirim
-    // (pomo interval içinde tetiklenir)
-
-    // 2. Akşam 21:30'da Zihin / Ruh Hali Kayıt Hatırlatması
-    function checkEveningMoodReminder() {
       const now = new Date();
-      const todayKey = getTodayIsoDate();
-      const savedDate = localStorage.getItem('mood_locked_today_key');
-      
-      // Eğer akşam 20:00 - 23:00 arasıysa ve henüz bugünün modu kilitlenmediyse
-      if (now.getHours() >= 20 && savedDate !== todayKey) {
-        const lastNotifDate = localStorage.getItem('last_mood_notif_date');
-        if (lastNotifDate !== todayKey) {
-          localStorage.setItem('last_mood_notif_date', todayKey);
-          sendMobileNotification("🧘 Günlük Zihin Aynası", "Bugün nasıldı? Masana dönüp bugünün ruh halini kilitlemeyi unutma. ✨");
-        }
-      }
+      const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+      const syncEl = document.getElementById('lastSyncTime');
+      if (syncEl) syncEl.innerText = timeStr + " GÜNCEL";
     }
 
-    setInterval(checkEveningMoodReminder, 60000); // Her dakika kontrol et
-    setTimeout(updateNotificationUi, 500);
-
-
-    // 🌐 GLOBAL ATTACHMENTS
-    window.switchMainTab = switchMainTab;
-    window.setScreenMode = setScreenMode;
-    window.ringChime = ringChime;
-    window.setPomoMode = setPomoMode;
-    window.togglePomoTimer = togglePomoTimer;
-    window.resetPomoTimer = resetPomoTimer;
-    window.toggleHabit = toggleHabit;
-    window.deleteHabit = deleteHabit;
-    window.handleAddHabitSubmit = handleAddHabitSubmit;
-    window.prevBookWisdom = prevBookWisdom;
-    window.nextBookWisdom = nextBookWisdom;
-    window.randomBookWisdom = randomBookWisdom;
-    window.filterAstroEvents = filterAstroEvents;
-    window.toggleAstroSection = toggleAstroSection;
-    window.toggleAstroAccordion = toggleAstroAccordion;
-    window.addQuickExpense = addQuickExpense;
-    window.handleCustomExpenseSubmit = handleCustomExpenseSubmit;
-    window.deleteExpenseItem = deleteExpenseItem;
-    window.setDailyMood = setDailyMood;
-    window.handleMoodNoteSubmit = handleMoodNoteSubmit;
-    window.deleteMoodEntry = deleteMoodEntry;
-    window.setAnalyticsPeriod = setAnalyticsPeriod;
-    window.handleAddUserNoteSubmit = handleAddUserNoteSubmit;
-    window.deleteUserNote = deleteUserNote;
-    window.runSensorDiagnostics = runSensorDiagnostics;
-    window.requestNotificationPermission = requestNotificationPermission;
-    window.testNotificationClick = testNotificationClick;
-    window.sendMobileNotification = sendMobileNotification;
-    window.toggleBadgesList = toggleBadgesList;
-    window.triggerFloatingPetInteraction = triggerFloatingPetInteraction;
-    window.detectUserLocationForIss = detectUserLocationForIss;
-    window.updateCelestialAtmosphere = updateCelestialAtmosphere;
-
+    // Başlatıcılar
+    renderMonthlyTable();
+    renderHourlyTable();
+    syncLiveSensors();
+    setInterval(syncLiveSensors, 2500);
   </script>
+</body>
+</html>
