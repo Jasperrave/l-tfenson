@@ -726,16 +726,16 @@
           </div>
         </div>
 
-                <!-- 👤 [BLE-01] BLUETOOTH AKILLI KULLANICI KİMLİK & MESAFE RADARI -->
+                <!-- 🚨 [SES-01] AKUSTİK SENSÖR & ÇEVRE GÜVENLİK PANELİ -->
         <div style="margin-top: 10px; background: var(--surface-2); padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 16px;" id="bleIcon">📱</span>
+            <span style="font-size: 16px;">🔊</span>
             <div>
-              <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--te-green);" id="bleUserIdentityText">KULLANICI: DOĞRULANDI (JASPER)</div>
-              <div style="font-size: 9.5px; color: var(--text-muted);" id="bleUserSubText">Telefon BLE Yakınlığı: ~0.8m // Masada Oturuyor</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--te-green);" id="sensorVoiceStatus">HOPARLÖR SESLİ UYARI: AKTİF</div>
+              <div style="font-size: 9.5px; color: var(--text-muted);" id="sensorVoiceSub">MQ-135 Kirli Hava (>1000 PPM) & Işık Alarmları Devrede</div>
             </div>
           </div>
-          <span class="hardware-tag active-green" id="bleSignalTag">📡 -58 dBm</span>
+          <span class="hardware-tag active-green" id="voiceAlertTag">D26 HOPARLÖR // OK</span>
         </div>
 
         <!-- Canlı Hava Kalitesi Spektrumu -->
@@ -1722,30 +1722,36 @@
         if (specPpm) specPpm.innerText = a + " PPM";
 
         
-        // 4 Kademeli BLE Radar Konum Çözümleyici
-        const bleIdEl = document.getElementById('bleUserIdentityText');
-        const bleSubEl = document.getElementById('bleUserSubText');
-        const bleTagEl = document.getElementById('bleSignalTag');
-        const bleIconEl = document.getElementById('bleIcon');
+        // 🚨 Akustik Sensör ve Çevre Güvenlik Paneli
+        const voiceStatusEl = document.getElementById('sensorVoiceStatus');
+        const voiceSubEl = document.getElementById('sensorVoiceSub');
+        const voiceTagEl = document.getElementById('voiceAlertTag');
 
-        const zone = data.zone || (data.user_present ? "MASA_BASI" : "UZAKTA");
-        const zoneLabel = data.zone_label || (data.user_present ? "🪑 Masada Oturuyor" : "Alt Katta / Uzakta 💤");
-        const rssiVal = data.rssi !== undefined ? data.rssi : -58;
-        const distEst = data.dist_m !== undefined ? data.dist_m : "0.8m";
-
-        if (bleIdEl) {
-          if (zone === "MASA_BASI") {
-            bleIdEl.innerText = "KULLANICI: EFE BURAK // MASADA OTURUYOR 🪑";
-            bleIdEl.style.color = "var(--te-green)";
-          } else if (zone === "ODADA") {
-            bleIdEl.innerText = "KULLANICI: EFE BURAK // ODANIN İÇİNDE 🚪";
-            bleIdEl.style.color = "var(--te-cyan)";
-          } else if (zone === "UST_KAT") {
-            bleIdEl.innerText = "KULLANICI: EFE BURAK // ÜST KATTA 🪜";
-            bleIdEl.style.color = "var(--te-amber)";
+        if (voiceStatusEl) {
+          if (a > 1000) {
+            voiceStatusEl.innerText = "🚨 DİKKAT: KİRLİ HAVA UYARISI AKTİF!";
+            voiceStatusEl.style.color = "var(--te-red)";
+            if (voiceSubEl) voiceSubEl.innerText = `PPM Seviyesi (${a} PPM) Kritik Eşiği Aştı! Havalandırın.`;
+            if (voiceTagEl) {
+              voiceTagEl.className = "hardware-tag active-red";
+              voiceTagEl.innerText = "SESLİ ALARM 🚨";
+            }
+          } else if (l < 15) {
+            voiceStatusEl.innerText = "💡 GÖZ SAĞLIĞI: LOŞ / KARANLIK ORTAM";
+            voiceStatusEl.style.color = "var(--te-amber)";
+            if (voiceSubEl) voiceSubEl.innerText = "Işık seviyesi düşük. Çalışma lambasını açmanız önerilir.";
+            if (voiceTagEl) {
+              voiceTagEl.className = "hardware-tag active-orange";
+              voiceTagEl.innerText = "LOŞ IŞIK 🌙";
+            }
           } else {
-            bleIdEl.innerText = "KULLANICI: ALT KATTA / UZAKTA 💤";
-            bleIdEl.style.color = "var(--text-muted)";
+            voiceStatusEl.innerText = "🔊 HOPARLÖR SESLİ UYARI: AKTİF";
+            voiceStatusEl.style.color = "var(--te-green)";
+            if (voiceSubEl) voiceSubEl.innerText = "MQ-135 Kirli Hava (>1000 PPM) & Işık Alarmları Devrede";
+            if (voiceTagEl) {
+              voiceTagEl.className = "hardware-tag active-green";
+              voiceTagEl.innerText = "D26 HOPARLÖR // OK";
+            }
           }
         }
 
