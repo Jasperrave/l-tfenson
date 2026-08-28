@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google" content="notranslate">
-  <title>Masa İstasyonu // 360° KONUM & POSTÜR LABORATUVARI</title>
+  <title>Masa İstasyonu // PROFESYONEL TELEMETRİ KOKPİTİ</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1F1510">
@@ -21,14 +21,15 @@
 
   <style>
     :root {
-      /* 🪵 VINTAGE CEVİZ, PIRINÇ & TERAS BİYOLOJİK PALETİ */
-      --wood-dark: #160E09;
-      --wood-chassis: #22160F;
+      /* 🪵 VINTAGE CEVİZ, PIRINÇ & TELEMETRİ PALETİ */
+      --wood-dark: #140D08;
+      --wood-chassis: #1F140D;
       --wood-border: #442E1F;
       --wood-highlight: #6E4930;
-      --felt-tray: #121914;
-      --felt-recess: #0B100C;
+      --felt-tray: #101612;
+      --felt-recess: #0A0F0B;
       --brass-gold: #D4AF37;
+      --brass-light: #F3E5AB;
       --brass-dim: rgba(212, 175, 55, 0.15);
       --copper-orange: #C86432;
       --sage-green: #68A37C;
@@ -57,10 +58,10 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 10px 8px 90px 8px;
+      padding: 10px 8px 100px 8px;
       background-image: 
-        radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.09) 0%, transparent 70%),
-        linear-gradient(180deg, #22160F 0%, #160E09 100%);
+        radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.11) 0%, transparent 70%),
+        linear-gradient(180deg, #1F140D 0%, #140D08 100%);
     }
 
     .drawer-box {
@@ -76,16 +77,16 @@
       position: sticky;
       top: 6px;
       z-index: 1000;
-      background: rgba(18, 25, 20, 0.95);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(16, 22, 18, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 2px solid var(--wood-border);
       border-radius: 8px;
       padding: 10px 14px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.85), 0 1px 0 rgba(255,255,255,0.1);
     }
 
-    /* 🗄️ DOLAP ÇEKMECESİ */
+    /* 🗄️ DOLAP ÇEKMECESİ (3D Pirinç Vidalar ile) */
     .drawer-tray {
       background: var(--felt-tray);
       border: 2px solid var(--wood-border);
@@ -93,22 +94,33 @@
       padding: 14px;
       position: relative;
       box-shadow: 
-        inset 0 4px 12px rgba(0,0,0,0.85),
-        0 6px 16px rgba(0,0,0,0.65),
+        inset 0 4px 14px rgba(0,0,0,0.9),
+        0 6px 18px rgba(0,0,0,0.7),
         0 1px 0 rgba(255,255,255,0.08);
     }
 
-    .drawer-tray::before, .drawer-tray::after {
+    /* 3D Pirinç Vida Başları */
+    .screw {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #FFE79A 20%, #B8860B 80%, #684805 100%);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.8), 0 1px 2px rgba(0,0,0,0.9);
+    }
+    .screw::after {
       content: "";
       position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--brass-gold);
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.8), 0 0 2px rgba(212,175,55,0.6);
+      top: 3px;
+      left: 1px;
+      width: 5px;
+      height: 1px;
+      background: #3B2803;
     }
-    .drawer-tray::before { top: 6px; left: 6px; }
-    .drawer-tray::after { top: 6px; right: 6px; }
+    .screw.tl { top: 6px; left: 6px; transform: rotate(25deg); }
+    .screw.tr { top: 6px; right: 6px; transform: rotate(115deg); }
+    .screw.bl { bottom: 6px; left: 6px; transform: rotate(65deg); }
+    .screw.br { bottom: 6px; right: 6px; transform: rotate(145deg); }
 
     .brass-header {
       display: flex;
@@ -138,7 +150,7 @@
       padding: 3px 7px;
       border-radius: 3px;
       border: 1px solid rgba(212, 175, 55, 0.3);
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.45);
       color: var(--brass-gold);
       letter-spacing: 0.04em;
       display: inline-flex;
@@ -263,6 +275,28 @@
     .comp-sub {
       font-size: 11px;
       color: var(--text-muted);
+    }
+
+    /* 📊 VINTAGE SVG ANALOG GAUGE STYLES */
+    .gauge-wrapper {
+      position: relative;
+      width: 100%;
+      height: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .gauge-svg {
+      width: 120px;
+      height: 60px;
+      overflow: visible;
+    }
+
+    .gauge-needle {
+      transform-origin: 60px 52px;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .shelf-tabs {
@@ -413,11 +447,58 @@
       text-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
     }
 
+    /* ⚡ MOBİL ALT HIZLI AKSİYON DOCK BARI */
+    .mobile-quick-dock {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 20px);
+      max-width: 520px;
+      background: rgba(22, 15, 10, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid var(--brass-gold);
+      border-radius: 28px;
+      padding: 6px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.95), 0 0 12px rgba(212,175,55,0.25);
+      z-index: 9999;
+    }
+
+    .dock-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-bright);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: all 0.15s;
+    }
+
+    .dock-btn:active {
+      transform: scale(0.92);
+      background: rgba(212, 175, 55, 0.2);
+    }
+
+    .dock-icon {
+      font-size: 16px;
+    }
+
     #toast {
       position: fixed;
-      bottom: 20px;
+      top: 20px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
+      transform: translateX(-50%) translateY(-100px);
       background: #261A12;
       border: 1px solid var(--brass-gold);
       color: var(--text-bright);
@@ -454,7 +535,7 @@
             <span class="live-pulse-dot"></span>
             <span>ESP32 CANLI</span>
           </span>
-          <button type="button" class="brass-btn" onclick="ringDeskChime()" style="padding: 4px 8px; font-size: 10px;">🔔 Masayı Çaldır</button>
+          <button type="button" class="brass-btn" onclick="ringDeskChime()" style="padding: 4px 8px; font-size: 10px;">🔔 Masayı Çal</button>
         </div>
       </div>
     </div>
@@ -474,8 +555,8 @@
         <button type="button" class="brass-btn" onclick="triggerPostureAlertTest()" style="padding: 2px 6px; font-size: 9px; border-color: var(--purple-focus); color: var(--purple-focus);">Test Et 🔔</button>
       </div>
 
-      <div style="font-size: 10px; color: var(--text-muted); line-height: 1.3;" id="ergoRoutingInfo">
-        ✓ <b>Konum Farkındalığı:</b> Evdeyken masa buzzerı ve Yulaf devreye girer. Okuldayken / dışarıdayken masa ASLA boşuna ötmez; bildirim doğrudan Mac ekranına gelir!
+      <div style="font-size: 10px; color: var(--text-muted); line-height: 1.3;">
+        ✓ <b>Konum Duyarlı:</b> Evdeyken masa buzzerı çalar. Okuldayken bildirim doğrudan Mac ekranına patlar!
       </div>
     </div>
 
@@ -500,7 +581,7 @@
     <div class="circadian-pill-bar">
       <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
         <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-5: TERASTA YILDIZLAR ALTINDA DİNLENME</span>
-        <span style="color: var(--text-muted);" id="circadianPhaseTime">23:08 // ŞİRİNYER</span>
+        <span style="color: var(--text-muted);" id="circadianPhaseTime">23:10 // ŞİRİNYER</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="circadianProgressFill" style="width: 90%;"></div>
@@ -521,12 +602,13 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- 1. RAF: ANLIK SENSÖR TELEMETRİSİ & SPOTIFY -->
+    <!-- 1. RAF: ANLIK SENSÖR TELEMETRİSİ & ANALOG GÖSTERGELER -->
     <!-- ==================================================== -->
     <div id="shelfSensorsContent" style="display: flex; flex-direction: column; gap: 12px;">
       
       <!-- 💻 SPOTIFY ÇALAR -->
       <div class="drawer-tray">
+        <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
         <div class="brass-header">
           <div class="brass-label"><span>[SPOTIFY-01]</span> SPOTIFY EVRENSEL BULUT ÇALAR</div>
           <span class="brass-tag active-green" id="macStatusBadge">
@@ -557,6 +639,7 @@
 
       <!-- 🎯 POMODORO SAYACI -->
       <div class="drawer-tray">
+        <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
         <div class="brass-header">
           <div class="brass-label"><span>[POMODORO-01]</span> ODAKLANMA VE ÇALIŞMA SAYACI</div>
           <span class="brass-tag" id="pomoSessionBadge">🍅 0 TUR TAMAM</span>
@@ -574,10 +657,11 @@
         </div>
       </div>
 
-      <!-- 📊 ANLIK SENSÖRLER -->
+      <!-- 📊 ANLIK SENSÖRLER & ANALOG İBRELİ GÖSTERGELER -->
       <div class="drawer-tray">
+        <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
         <div class="brass-header">
-          <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL METROLOJİ</div>
+          <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL METROLOJİ & ANALOG İBRELER</div>
           <span class="brass-tag" id="lastSyncTime">
             <span class="live-pulse-dot"></span>
             <span id="relativeTimeText">ŞİMDİ GÜNCEL</span>
@@ -585,25 +669,64 @@
         </div>
 
         <div class="telemetry-grid">
+          <!-- HAVA KALİTESİ ANALOG GAUGE -->
+          <div class="tray-compartment">
+            <div class="comp-label"><span>HAVA KALİTESİ</span><span class="brass-tag active-green">● D33</span></div>
+            <div class="comp-val" id="airVal">435 PPM</div>
+            
+            <div class="gauge-wrapper">
+              <svg class="gauge-svg" viewBox="0 0 120 60">
+                <!-- Arc Tracks -->
+                <path d="M 15 52 A 45 45 0 0 1 105 52" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6" stroke-linecap="round"/>
+                <path d="M 15 52 A 45 45 0 0 1 50 18" fill="none" stroke="#2ECC71" stroke-width="6" stroke-linecap="round"/>
+                <path d="M 50 18 A 45 45 0 0 1 80 20" fill="none" stroke="#F1C40F" stroke-width="6"/>
+                <path d="M 80 20 A 45 45 0 0 1 105 52" fill="none" stroke="#E74C3C" stroke-width="6" stroke-linecap="round"/>
+                <!-- Needle -->
+                <g id="airGaugeNeedle" class="gauge-needle" style="transform: rotate(-60deg);">
+                  <line x1="60" y1="52" x2="60" y2="16" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="60" cy="52" r="4.5" fill="#D4AF37"/>
+                  <circle cx="60" cy="52" r="2" fill="#1A110B"/>
+                </g>
+              </svg>
+            </div>
+            <div class="comp-sub" id="airStatus" style="text-align: center;">Ferah & Temiz ✨</div>
+          </div>
+
+          <!-- IŞIK SEVİYESİ ANALOG GAUGE -->
+          <div class="tray-compartment">
+            <div class="comp-label"><span>IŞIK SEVİYESİ</span><span class="brass-tag active-green">● D32</span></div>
+            <div class="comp-val" id="lightVal">65%</div>
+            
+            <div class="gauge-wrapper">
+              <svg class="gauge-svg" viewBox="0 0 120 60">
+                <!-- Arc Tracks -->
+                <path d="M 15 52 A 45 45 0 0 1 105 52" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6" stroke-linecap="round"/>
+                <path d="M 15 52 A 45 45 0 0 1 50 18" fill="none" stroke="#3498DB" stroke-width="6" stroke-linecap="round"/>
+                <path d="M 50 18 A 45 45 0 0 1 85 22" fill="none" stroke="#D4AF37" stroke-width="6"/>
+                <path d="M 85 22 A 45 45 0 0 1 105 52" fill="none" stroke="#E67E22" stroke-width="6" stroke-linecap="round"/>
+                <!-- Needle -->
+                <g id="lightGaugeNeedle" class="gauge-needle" style="transform: rotate(20deg);">
+                  <line x1="60" y1="52" x2="60" y2="16" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="60" cy="52" r="4.5" fill="#D4AF37"/>
+                  <circle cx="60" cy="52" r="2" fill="#1A110B"/>
+                </g>
+              </svg>
+            </div>
+            <div class="comp-sub" id="lightStatus" style="text-align: center;">Gece Dinlenme Ortamı 🌙</div>
+          </div>
+
+          <!-- SICAKLIK -->
           <div class="tray-compartment">
             <div class="comp-label"><span>SICAKLIK</span><span class="brass-tag pending-amber">BEKLEMEDE ⏳</span></div>
             <div class="comp-val" id="tempVal">--.-°C</div>
             <div class="comp-sub">BME280 Lehim Bekliyor</div>
           </div>
+
+          <!-- BAĞIL NEM -->
           <div class="tray-compartment">
             <div class="comp-label"><span>BAĞIL NEM</span><span class="brass-tag pending-amber">BEKLEMEDE ⏳</span></div>
             <div class="comp-val" id="humVal">--%</div>
             <div class="comp-sub">BME280 Lehim Bekliyor</div>
-          </div>
-          <div class="tray-compartment">
-            <div class="comp-label"><span>HAVA KALİTESİ</span><span class="brass-tag active-green">● AKTİF (D33)</span></div>
-            <div class="comp-val" id="airVal">435 PPM</div>
-            <div class="comp-sub">Ferah & Temiz ✨</div>
-          </div>
-          <div class="tray-compartment">
-            <div class="comp-label"><span>IŞIK SEVİYESİ</span><span class="brass-tag active-green">● AKTİF (D32)</span></div>
-            <div class="comp-val" id="lightVal">65%</div>
-            <div class="comp-sub">Gece Dinlenme Ortamı 🌙</div>
           </div>
         </div>
 
@@ -622,6 +745,7 @@
       
       <!-- 🏆 AI VERİMLİLİK VE SAĞLIK KOKPİTİ -->
       <div class="drawer-tray">
+        <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
         <div class="brass-header">
           <div class="brass-label"><span>[AI-LAB-01]</span> KİŞİSEL BİLİŞSEL & POSTÜR İNDEKSİ</div>
           <span class="brass-tag active-purple">POSTÜR ASİSTANI AKTİF</span>
@@ -678,6 +802,7 @@
 
       <!-- 🔬 ÇEVRESEL KOŞULLAR VE ODAK KORELASYON KARTLARI -->
       <div class="drawer-tray">
+        <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
         <div class="brass-header">
           <div class="brass-label"><span>[AI-KEŞİF]</span> SİSTEMİN SİZİN HAKKINIZDA ÖĞRENDİKLERİ</div>
           <span class="brass-tag active-green">KANITA DAYALI BULGULAR</span>
@@ -707,6 +832,7 @@
       
       <!-- 💻 MACBOOK DOĞRUDAN TELEMETRİ -->
       <div class="drawer-tray">
+        <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
         <div class="brass-header">
           <div class="brass-label"><span>[MAC-DIRECT]</span> MACBOOK GERÇEK EKRAN & UYGULAMA MOTORU</div>
           <span class="brass-tag active-green">● DOĞRUDAN MACOS API</span>
@@ -716,12 +842,12 @@
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); text-transform: uppercase;">BUGÜNKÜ GERÇEK AKTİF MAC SÜRESİ</div>
-              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 30 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 32 dk</div>
               <div style="font-size: 10px; color: var(--sage-green);">✓ IODisplayWrangler: Uyku modundaki sahte süreler %100 elendi.</div>
             </div>
             <div style="text-align: right;">
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">KESİNTİSİZ OTURMA</div>
-              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">50 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">52 dk</div>
               <div style="font-size: 9.5px; color: var(--text-muted);">Ergonomi Limiti: 90 dk</div>
             </div>
           </div>
@@ -736,6 +862,7 @@
 
       <!-- 📱 TELEFON DOĞRUDAN ENTEGRASYON BÖLMESİ -->
       <div class="drawer-tray">
+        <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
         <div class="brass-header">
           <div class="brass-label"><span>[PHONE-DIRECT]</span> TELEFON EKRAN SÜRESİ & SENKRONU</div>
           <span class="brass-tag active-cyan">● BULUT KÖPRÜSÜ</span>
@@ -761,6 +888,7 @@
     <!-- ==================================================== -->
     <div id="shelfDailyContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
+        <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
         <div class="brass-header">
           <div class="brass-label"><span>[GRAFİK-01]</span> AKTİF SENSÖR EĞRİSİ</div>
           <button type="button" class="brass-btn" onclick="refreshDailyChart()" style="padding: 2px 6px; font-size: 9.5px;">Yenile ↻</button>
@@ -777,6 +905,7 @@
     <!-- ==================================================== -->
     <div id="shelfAnalysisContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
+        <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
         <div class="brass-header">
           <div class="brass-label"><span>[BİLGE-AI]</span> 360° YAZ YAŞAMI & POSTÜR REHBERİ</div>
           <span class="brass-tag active-green">YAZ YAŞAM KAMPI 🏖️</span>
@@ -807,6 +936,7 @@
     <!-- ==================================================== -->
     <div id="shelfEventsContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
+        <div class="screw tl"></div><div class="screw tr"></div><div class="screw bl"></div><div class="screw br"></div>
         <div class="brass-header">
           <div class="brass-label"><span>[GÜNLÜK-SES]</span> MASA NEDEN ÖTTÜ? // BUGÜNÜN GÜNLÜĞÜ</div>
           <span class="brass-tag active-green">GÜNLÜK SIFIRLANIR</span>
@@ -818,11 +948,62 @@
 
   </div>
 
+  <!-- ⚡ MOBİL ALT HIZLI AKSİYON DOCK BARI (Thumb-Friendly) -->
+  <div class="mobile-quick-dock">
+    <button type="button" class="dock-btn" onclick="ringDeskChime()">
+      <span class="dock-icon">🔔</span>
+      <span>Zil Çal</span>
+    </button>
+    <button type="button" class="dock-btn" onclick="startPomodoro(25, 'FOCUS')">
+      <span class="dock-icon">🎯</span>
+      <span>25 Dk Odak</span>
+    </button>
+    <button type="button" class="dock-btn" onclick="triggerPostureAlertTest()">
+      <span class="dock-icon">🧘‍♂️</span>
+      <span>Postür Test</span>
+    </button>
+    <button type="button" class="dock-btn" onclick="wakeDeskScreen()">
+      <span class="dock-icon">💡</span>
+      <span>Ekranı Yak</span>
+    </button>
+  </div>
+
   <div id="toast">İŞLEM TAMAMLANDI</div>
 
   <script>
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
     const FIREBASE_AUTH = "?auth=seDMOC3iMWa7SNERZxASLx4qZJVfbo81uoRSc7tJ";
+
+    // 🔊 DOKUNSAL SES & HAPTIC ENGINE (Web Audio API)
+    let audioCtx = null;
+    function playTactileFeedback() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.03);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.03);
+      } catch(e) {}
+
+      // Mobil Haptic Titreşim
+      if (navigator.vibrate) {
+        navigator.vibrate(12);
+      }
+    }
+
+    // Tüm butonlara otomatik dokunsal geri bildirim ekle
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('button') || e.target.closest('.shelf-tab-item')) {
+        playTactileFeedback();
+      }
+    });
 
     let dailyChartInstance = null;
     let cognitiveChartInstance = null;
@@ -848,8 +1029,35 @@
       setTimeout(() => t.classList.remove('show'), 2200);
     }
 
+    // 📊 SVG ANALOG İBRE GÜNCELLEME MOTORU
+    function updateAnalogGauges(air, light) {
+      // Hava Kalitesi: 400 PPM = -75 deg, 1800 PPM = +75 deg
+      const airClamped = Math.min(1800, Math.max(380, air));
+      const airAngle = -75 + ((airClamped - 380) / (1800 - 380)) * 150;
+      const airNeedle = document.getElementById('airGaugeNeedle');
+      if (airNeedle) airNeedle.style.transform = `rotate(${airAngle.toFixed(1)}deg)`;
+
+      // Işık Seviyesi: %0 = -75 deg, %100 = +75 deg
+      const lightClamped = Math.min(100, Math.max(0, light));
+      const lightAngle = -75 + (lightClamped / 100) * 150;
+      const lightNeedle = document.getElementById('lightGaugeNeedle');
+      if (lightNeedle) lightNeedle.style.transform = `rotate(${lightAngle.toFixed(1)}deg)`;
+    }
+
+    async function wakeDeskScreen() {
+      showToast("💡 Masadaki OLED Ekran 60sn Uyandırıldı!");
+      try {
+        const wakeUntilUnix = Math.floor(Date.now() / 1000) + 60;
+        await fetch(FIREBASE_URL + "control/screen_wake_until.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(wakeUntilUnix)
+        });
+      } catch (e) {}
+    }
+
     async function triggerPostureAlertTest() {
-      showToast("🧘‍♂️ Postür & Göz Uyarısı Masada Çalınıyor!");
+      showToast("🧘‍♂️ Postür & Göz Uyarısı Çalınıyor!");
       try {
         await fetch(FIREBASE_URL + "control/ergo_alert.json" + FIREBASE_AUTH, {
           method: "PUT",
@@ -1091,6 +1299,9 @@
               liveLight = parseInt(data.light);
               document.getElementById('lightVal').innerText = liveLight + "%";
             }
+
+            // Analog İbreleri Güncelle
+            updateAnalogGauges(liveAir, liveLight);
 
             const roomBadge = document.getElementById('roomPresenceBadge');
             if (roomBadge) {
