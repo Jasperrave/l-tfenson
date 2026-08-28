@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google" content="notranslate">
-  <title>Masa İstasyonu // 360° YAZ YAŞAMI & VERİMLİLİK LABORATUVARI</title>
+  <title>Masa İstasyonu // 360° POSTÜR, GÖZ & VERİMLİLİK LABORATUVARI</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1F1510">
@@ -348,29 +348,6 @@
       line-height: 1.5;
     }
 
-    .event-card {
-      background: var(--felt-recess);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 6px;
-      padding: 10px;
-      margin-bottom: 8px;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-
-    .event-time {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--brass-gold);
-      background: rgba(0,0,0,0.4);
-      padding: 3px 6px;
-      border-radius: 3px;
-      border: 1px solid rgba(212,175,55,0.2);
-      white-space: nowrap;
-    }
-
     .eq-bar-box {
       display: inline-flex;
       gap: 3px;
@@ -482,6 +459,26 @@
       </div>
     </div>
 
+    <!-- 👀 20-20-20 GÖZ & DİK DURUŞ (POSTÜR) KOÇU KARTI -->
+    <div style="background: rgba(187,134,252,0.08); border: 1.5px solid var(--purple-focus); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono);">
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 10px;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span>👀</span>
+          <span style="color: var(--purple-focus); font-weight: 800;">20-20-20 GÖZ & POSTÜR KOÇU</span>
+        </div>
+        <button type="button" class="brass-btn" onclick="triggerPostureAlertTest()" style="padding: 3px 8px; font-size: 9.5px; border-color: var(--purple-focus); color: var(--purple-focus);">🔔 Postürü Çal (Test)</button>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 11px; padding-top: 4px; color: var(--text-bright);">
+        <span>Sonraki Göz & Duruş Molası: <b style="color: var(--purple-focus);" id="ergoCountdownText">14:15 dk</b></span>
+        <span style="color: var(--sage-green);">🧘‍♂️ Omuzları Geri Al</span>
+      </div>
+
+      <div style="font-size: 10px; color: var(--text-muted); line-height: 1.3;">
+        💡 <b>Ergonomi Kuralı:</b> Her 20 dakikada bir 20 saniye uzağa (terasa) bakın, omurganızı dikleştirin ve çenenizi içeri alın. Masadaki Yulaf zille hatırlatır!
+      </div>
+    </div>
+
     <!-- 📍 KONUM, TERAS YAŞAM KAMPI & TERMODİNAMİK DIŞ HAVA KARTI -->
     <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(212,175,55,0.25); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono);">
       <div style="display: flex; justify-content: space-between; align-items: center; font-size: 10px;">
@@ -492,7 +489,6 @@
         <span class="brass-tag active-cyan" id="outdoorWeatherPill">🌤️ 22°C // İMBAT</span>
       </div>
 
-      <!-- Teras & Oda Durumu -->
       <div style="display: flex; justify-content: space-between; font-size: 10.5px; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 5px; color: var(--text-bright);">
         <span>🌌 Teras (Efe): <b style="color: var(--cyan-air);" id="outdoorCompareText">22.0°C</b></span>
         <span>🗄️ Alt Kat Oda: <b style="color: var(--amber-glow);" id="indoorCompareText">26.4°C</b></span>
@@ -504,7 +500,7 @@
     <div class="circadian-pill-bar">
       <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
         <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-5: TERASTA YILDIZLAR ALTINDA DİNLENME</span>
-        <span style="color: var(--text-muted);" id="circadianPhaseTime">22:48 // ŞİRİNYER</span>
+        <span style="color: var(--text-muted);" id="circadianPhaseTime">23:05 // ŞİRİNYER</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="circadianProgressFill" style="width: 90%;"></div>
@@ -627,8 +623,8 @@
       <!-- 🏆 AI VERİMLİLİK VE SAĞLIK KOKPİTİ -->
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[AI-LAB-01]</span> KİŞİSEL BİLİŞSEL & VERİMLİLİK İNDEKSİ</div>
-          <span class="brass-tag active-green" id="labOverallBadge">YAZ ADAPTİF MODU</span>
+          <div class="brass-label"><span>[AI-LAB-01]</span> KİŞİSEL BİLİŞSEL & POSTÜR İNDEKSİ</div>
+          <span class="brass-tag active-purple">POSTÜR ASİSTANI AKTİF</span>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px;">
@@ -643,20 +639,20 @@
 
           <div class="lab-metric-card">
             <div class="lab-metric-header">
-              <span>⚡ ORT. FLOW SÜRESİ</span>
-              <span style="color: var(--brass-gold);">46 Dk</span>
+              <span>🧘‍♂️ POSTÜR MOLASI</span>
+              <span style="color: var(--purple-focus);">20 Dk</span>
             </div>
-            <div class="lab-metric-value" id="labAvgFlowDurationText">46 Dk / Blok</div>
-            <div style="font-size: 9.5px; color: var(--text-muted);">Kesintisiz Odaklanma</div>
+            <div class="lab-metric-value" style="color: var(--purple-focus);">20-20-20 Kuralı</div>
+            <div style="font-size: 9.5px; color: var(--text-muted);">Otomatik Zil & Göz Koçu</div>
           </div>
 
           <div class="lab-metric-card">
             <div class="lab-metric-header">
-              <span>🏖️ YAZ YAŞAM ESNEKLİĞİ</span>
+              <span>🏖️ YAZ YAŞAM UYUMU</span>
               <span style="color: var(--cyan-air);">Teras</span>
             </div>
             <div class="lab-metric-value" style="color: var(--cyan-air);">Açık Hava</div>
-            <div style="font-size: 9.5px; color: var(--text-muted);">Oda Dışı Yaşam Uyumu</div>
+            <div style="font-size: 9.5px; color: var(--text-muted);">Oda Dışı Esnek Yaşam</div>
           </div>
 
           <div class="lab-metric-card">
@@ -687,17 +683,17 @@
           <span class="brass-tag active-green">KANITA DAYALI BULGULAR</span>
         </div>
 
-        <div class="insight-card" style="border-left-color: var(--cyan-air);">
-          <div class="insight-title" style="color: var(--cyan-air);"><span>🏖️</span> <span>YAZ MEVSİMİ & ODA KULLANIM MANTIĞI</span></div>
+        <div class="insight-card" style="border-left-color: var(--purple-focus);">
+          <div class="insight-title" style="color: var(--purple-focus);"><span>🧘‍♂️</span> <span>20-20-20 POSTÜR VE GÖZ SAĞLIĞI</span></div>
           <div class="insight-body">
-            Yaz mevsimi olduğu için gününüzün büyük kısmı doğal olarak terasta ve dışarıda geçiyor. Masanız gün boyu serin ve sessiz nöbette bekler; odaya saatlerce girmemeniz sistem tarafından <b>tamamen normal bir yaz yaşam rutini</b> olarak değerlendirilir ve verimlilik puanınızı asla düşürmez ✨.
+            Mac başında kesintisiz 20 dakika çalıştığınızda masanızdaki buzzer iki tonlu nazik bir çan çalar ve Yulaf gözlerini sağa sola çevirerek <b>20 saniye boyunca uzağa (terasa) bakmanızı</b> ve omurganızı dikleştirmenizi hatırlatır.
           </div>
         </div>
 
-        <div class="insight-card" style="border-left-color: var(--purple-focus);">
-          <div class="insight-title" style="color: var(--purple-focus);"><span>🧬</span> <span>BİLİŞSEL ZİRVE PENCERENİZ</span></div>
+        <div class="insight-card" style="border-left-color: var(--cyan-air);">
+          <div class="insight-title" style="color: var(--cyan-air);"><span>🏖️</span> <span>YAZ MEVSİMİ & ODA KULLANIM MANTIĞI</span></div>
           <div class="insight-body">
-            Verilerinize göre en yüksek kodlama hızına ve en uzun kesintisiz derin çalışmaya <b>10:00 - 12:30</b> ve <b>16:30 - 18:00</b> saatleri arasında ulaşıyorsunuz.
+            Yaz mevsimi olduğu için gününüzün büyük kısmı doğal olarak terasta ve dışarıda geçiyor. Masanız gün boyu serin ve sessiz nöbette bekler; odaya saatlerce girmemeniz verimlilik puanınızı asla düşürmez ✨.
           </div>
         </div>
       </div>
@@ -720,12 +716,12 @@
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); text-transform: uppercase;">BUGÜNKÜ GERÇEK AKTİF MAC SÜRESİ</div>
-              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 26 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 28 dk</div>
               <div style="font-size: 10px; color: var(--sage-green);">✓ IODisplayWrangler: Uyku modundaki sahte süreler %100 elendi.</div>
             </div>
             <div style="text-align: right;">
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">KESİNTİSİZ OTURMA</div>
-              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">46 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">48 dk</div>
               <div style="font-size: 9.5px; color: var(--text-muted);">Ergonomi Limiti: 90 dk</div>
             </div>
           </div>
@@ -782,26 +778,26 @@
     <div id="shelfAnalysisContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[BİLGE-AI]</span> 360° YAZ YAŞAMI & TERAS REHBERİ</div>
+          <div class="brass-label"><span>[BİLGE-AI]</span> 360° YAZ YAŞAMI & POSTÜR REHBERİ</div>
           <span class="brass-tag active-green">YAZ YAŞAM KAMPI 🏖️</span>
         </div>
 
-        <div class="insight-card" style="border-left-color: var(--cyan-air);">
-          <div class="insight-title" style="color: var(--cyan-air);"><span>🏖️</span> <span>YAZ MEVSİMİ & TERASTA YAŞAM</span></div>
-          <div class="insight-body" id="outdoorInsightText">
-            İzmir Buca Şirinyer'de terasınızda hava şu an <b>22°C</b> ve <b>%53 nem</b>. Yaz mevsimi dolayısıyla vaktinizi terasta ve dışarıda geçirmeniz en doğal yaşam şeklidir. Masanız odada sessizce serin nöbette bekler 🍃.
+        <div class="insight-card" style="border-left-color: var(--purple-focus);">
+          <div class="insight-title" style="color: var(--purple-focus);"><span>🧘‍♂️</span> <span>ERGONOMİ & BOYUN SAĞLIĞI TAVSİYESİ</span></div>
+          <div class="insight-body">
+            Göz seviyenizi monitörün üst üçte birlik hizasına ayarlayın. Her 20 dakikada bir omurganızı dikleştirip derin bir nefes almak boyun fıtığı ve göz kuruluğu riskini <b>%80 azaltır</b>.
           </div>
         </div>
 
-        <div class="insight-card" style="border-left-color: var(--sage-green);">
-          <div class="insight-title" style="color: var(--sage-green);"><span>🌙</span> <span>TERAS UYKU BİYOLOJİSİ</span></div>
-          <div class="insight-body" id="lightInsightText">
-            Terasta açık havada uyumak, yapay ışıklardan uzak kalarak melatonin hormonunu en doğal ve en yüksek seviyede salgılamanızı sağlar.
+        <div class="insight-card" style="border-left-color: var(--cyan-air);">
+          <div class="insight-title" style="color: var(--cyan-air);"><span>🏖️</span> <span>TERAS YAŞAMI</span></div>
+          <div class="insight-body" id="outdoorInsightText">
+            İzmir Buca Şirinyer'de terasınızda hava şu an <b>22°C</b> ve <b>%53 nem</b>. Açık havada yıldızlar altında dinlenme zamanı 🌌.
           </div>
         </div>
 
         <div style="background: rgba(212,175,55,0.08); border: 1px dashed var(--brass-gold); border-radius: 6px; padding: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--brass-gold);">
-          💬 <b>YULAF'IN YAZ VE TERAS NOTU:</b> <span id="liveAdviceText" style="color: var(--text-bright);">İnceleniyor...</span>
+          💬 <b>YULAF'IN POSTÜR & TERAS NOTU:</b> <span id="liveAdviceText" style="color: var(--text-bright);">İnceleniyor...</span>
         </div>
       </div>
     </div>
@@ -835,7 +831,6 @@
     let liveHum = 48;
     let liveAir = 435;
     let liveLight = 65;
-    let lastSyncTimestamp = Date.now();
 
     let bucaOutsideTemp = 22;
     let bucaOutsideHum = 53;
@@ -851,6 +846,17 @@
       t.innerText = msg;
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    async function triggerPostureAlertTest() {
+      showToast("🧘‍♂️ Postür & Göz Uyarısı Masada Çalınıyor!");
+      try {
+        await fetch(FIREBASE_URL + "control/ergo_alert.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify("EYE_POSTURE")
+        });
+      } catch (e) {}
     }
 
     async function startPomodoro(minutes, mode) {
@@ -1121,6 +1127,7 @@
             const contSec = macData.continuous_work_sec || 0;
             const screenTimeEl = document.getElementById('trueMacScreenTime');
             const contEl = document.getElementById('continuousWorkText');
+            const ergoEl = document.getElementById('ergoCountdownText');
 
             if (screenTimeEl) {
               const h = Math.floor(screenSec / 3600);
@@ -1131,6 +1138,14 @@
               const ch = Math.floor(contSec / 3600);
               const cm = Math.floor((contSec % 3600) / 60);
               contEl.innerText = `${ch > 0 ? ch + ' sa ' : ''}${cm} dk`;
+            }
+
+            // 🧘‍♂️ 20-20-20 Postür Geri Sayımı
+            if (ergoEl) {
+              const remainingToErgo = Math.max(0, 1200 - (contSec % 1200));
+              const em = Math.floor(remainingToErgo / 60);
+              const es = remainingToErgo % 60;
+              ergoEl.innerText = `${em < 10 ? '0' : ''}${em}:${es < 10 ? '0' : ''}${es} dk`;
             }
 
             if (macData.apps_breakdown && typeof macData.apps_breakdown === 'object') {
