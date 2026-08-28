@@ -157,12 +157,6 @@
       background: rgba(77, 208, 225, 0.1);
     }
 
-    .brass-tag.pending-amber {
-      color: var(--amber-glow);
-      border-color: rgba(232, 158, 75, 0.4);
-      background: rgba(232, 158, 75, 0.1);
-    }
-
     .live-pulse-dot {
       width: 6px;
       height: 6px;
@@ -405,7 +399,6 @@
       100% { height: 16px; }
     }
 
-    /* 🧬 SİRKADİYEN & BİYORİTİM İLERLEME ÇUBUĞU */
     .circadian-pill-bar {
       background: rgba(0,0,0,0.5);
       border: 1px solid rgba(212, 175, 55, 0.2);
@@ -559,8 +552,8 @@
     <!-- 🧬 SİRKADİYEN BİYORİTİM & ZAMAN FAZI ÇUBUĞU -->
     <div class="circadian-pill-bar">
       <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
-        <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-4: MELATONİN & UYKU BİYOLOJİSİ</span>
-        <span style="color: var(--text-muted);" id="circadianPhaseTime">22:30 // GECE</span>
+        <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-5: MELATONİN & UYKU BİYOLOJİSİ</span>
+        <span style="color: var(--text-muted);" id="circadianPhaseTime">22:35 // ŞİRİNYER</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="circadianProgressFill" style="width: 90%;"></div>
@@ -573,6 +566,7 @@
     <!-- 🎛️ ÇEKMECE RAFLARI ARASI GEÇİŞ -->
     <div class="shelf-tabs">
       <div class="shelf-tab-item active" id="tabSensors" onclick="switchShelf('sensors')">📊 METROLOJİ</div>
+      <div class="shelf-tab-item" id="tabScreenTime" onclick="switchShelf('screentime')">⏱️ EKRAN SÜRESİ</div>
       <div class="shelf-tab-item" id="tabDaily" onclick="switchShelf('daily')">📅 GRAFİK</div>
       <div class="shelf-tab-item" id="tabMonthly" onclick="switchShelf('monthly')">🗂️ ARŞİV</div>
       <div class="shelf-tab-item" id="tabAnalysis" onclick="switchShelf('analysis')">💡 360° AI BİLGE</div>
@@ -720,24 +714,49 @@
           <button type="button" class="brass-btn brass-btn-gold" onclick="wakeScreenCustom()" style="flex: 1; padding: 8px 12px; font-size: 11px;">🌙 Ekranı Aç</button>
         </div>
       </div>
+    </div>
 
-      <!-- 📖 AÇILIR KAPANIR REHBER -->
-      <div class="guide-accordion">
-        <div class="guide-header" onclick="toggleGuide()">
-          <span>📖 SİRKADİYEN & ÇEVRESEL ZEKA REHBERİ</span>
-          <span id="guideArrow" style="transition: transform 0.2s;">▼</span>
+    <!-- ==================================================== -->
+    <!-- ⏱️ YENİ RAF: GERÇEK EKRAN SÜRESİ & UYGULAMA DAĞILIMI -->
+    <!-- ==================================================== -->
+    <div id="shelfScreenTimeContent" style="display: none; flex-direction: column; gap: 12px;">
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[EKRAN-01]</span> MAC & TELEFON GERÇEK EKRAN SÜRESİ</div>
+          <span class="brass-tag active-green">UYKU HATASI ELENDİ ✅</span>
         </div>
-        <div class="guide-content" id="guideContent">
-          <div class="guide-item">
-            <b style="color: var(--brass-gold);">📍 Termodinamik Havalandırma:</b><br>
-            • Dışarısı Şirinyer'de odadan daha serinse (ΔT < 0), pencere açılarak doğal soğutma yapılır.<br>
-            • Dışarısı sıcaksa (gündüz) pencerelerin kapalı tutulması tavsiye edilir.
+
+        <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 12px; margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); text-transform: uppercase;">BUGÜNKÜ GERÇEK AKTİF MAC SÜRESİ</div>
+              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 15 dk</div>
+              <div style="font-size: 10.5px; color: var(--sage-green);">✓ Mac uyurken geçen sahte süreler sayılmaz.</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">KESİNTİSİZ OTURMA</div>
+              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">35 dk</div>
+              <div style="font-size: 9.5px; color: var(--text-muted);">Mola Hedefi: 90 dk</div>
+            </div>
           </div>
-          <div class="guide-item">
-            <b style="color: var(--cyan-air);">🌙 Sirkadiyen Saat Evreleri:</b><br>
-            • <b>07:00 - 09:30:</b> Kortizol uyanışı, sabah tazeliği.<br>
-            • <b>09:30 - 18:30:</b> Yüksek odak, çalışma aydınlatması.<br>
-            • <b>21:30 - 06:30:</b> Melatonin salgısı, loş ışık & kaliteli uyku.
+        </div>
+
+        <div class="brass-header" style="margin-top: 6px;">
+          <div class="brass-label" style="font-size: 10px;"><span>[UYGULAMALAR]</span> EN ÇOK KULLANILAN PROGRAMLAR</div>
+        </div>
+
+        <div id="appBreakdownContainer" style="display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 11px;">
+          <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+            <span style="color: var(--brass-gold);">💻 Antigravity / IDE</span>
+            <span>45 dk (%60)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+            <span style="color: var(--cyan-air);">🌐 Google Chrome</span>
+            <span>20 dk (%27)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+            <span style="color: #1DB954;">🎵 Spotify</span>
+            <span>10 dk (%13)</span>
           </div>
         </div>
       </div>
@@ -1008,7 +1027,6 @@
     }
     setInterval(updatePomoTimerUI, 1000);
 
-    // 🧬 SİRKADİYEN & BİYORİTİM HESAPLAMA MOTORU
     function updateCircadianPhaseUI() {
       const now = new Date();
       const curH = now.getHours();
@@ -1044,7 +1062,6 @@
     }
     setInterval(updateCircadianPhaseUI, 5000);
 
-    // 🏆 360° AKILLI YAŞAM BİYOSKORU HESABI
     function calculateDailyProductivityScore() {
       const curH = new Date().getHours();
       const isNight = (curH >= 21 || curH < 7);
@@ -1068,11 +1085,8 @@
         scoreEl.style.color = total >= 85 ? "var(--sage-green)" : (total >= 70 ? "var(--brass-gold)" : "var(--amber-glow)");
       }
       if (sumEl) {
-        if (isNight) {
-          sumEl.innerText = "🌙 Gece dinlenme, melatonin koruması ve uyku biyolojisi devrede.";
-        } else {
-          sumEl.innerText = total >= 90 ? "🏆 Kusursuz hava, dengeli ışık & yüksek odak!" : "✨ Verimli bir çalışma ortamı mevcut.";
-        }
+        if (isNight) sumEl.innerText = "🌙 Gece dinlenme, melatonin koruması ve uyku biyolojisi devrede.";
+        else sumEl.innerText = total >= 90 ? "🏆 Kusursuz hava, dengeli ışık & yüksek odak!" : "✨ Verimli bir çalışma ortamı mevcut.";
       }
     }
 
@@ -1109,12 +1123,14 @@
 
     function switchShelf(shelfId) {
       document.getElementById('shelfSensorsContent').style.display = (shelfId === 'sensors') ? 'flex' : 'none';
+      document.getElementById('shelfScreenTimeContent').style.display = (shelfId === 'screentime') ? 'flex' : 'none';
       document.getElementById('shelfDailyContent').style.display = (shelfId === 'daily') ? 'flex' : 'none';
       document.getElementById('shelfMonthlyContent').style.display = (shelfId === 'monthly') ? 'flex' : 'none';
       document.getElementById('shelfAnalysisContent').style.display = (shelfId === 'analysis') ? 'flex' : 'none';
       document.getElementById('shelfEventsContent').style.display = (shelfId === 'events') ? 'flex' : 'none';
 
       document.getElementById('tabSensors').classList.toggle('active', shelfId === 'sensors');
+      document.getElementById('tabScreenTime').classList.toggle('active', shelfId === 'screentime');
       document.getElementById('tabDaily').classList.toggle('active', shelfId === 'daily');
       document.getElementById('tabMonthly').classList.toggle('active', shelfId === 'monthly');
       document.getElementById('tabAnalysis').classList.toggle('active', shelfId === 'analysis');
@@ -1385,7 +1401,6 @@
       showToast("Grafik ve Kayıtlar Güncellendi ↻");
     }
 
-    // 💡 360° DERİN BİLGE YAŞAM ANALİZ MOTORU
     function generateSmartInsights() {
       const curH = new Date().getHours();
       const isNight = (curH >= 21 || curH < 7);
@@ -1486,9 +1501,7 @@
               liveAir = parseInt(data.air);
               document.getElementById('airVal').innerText = liveAir + " PPM";
               const airStatusEl = document.getElementById('airStatus');
-              if (airStatusEl) {
-                airStatusEl.innerText = liveAir < 700 ? "Ferah & Temiz ✨" : (liveAir < 1000 ? "Normal Seviye 🍃" : "Ağırlaştı / Havalandır 🪟");
-              }
+              if (airStatusEl) airStatusEl.innerText = liveAir < 700 ? "Ferah & Temiz ✨" : (liveAir < 1000 ? "Normal Seviye 🍃" : "Ağırlaştı / Havalandır 🪟");
             }
 
             if (data.light !== undefined) {
@@ -1521,7 +1534,7 @@
           }
         }
 
-        // 💻 Mac & Spotify Telemetrisi
+        // 💻 Mac & Spotify & Ekran Süresi Telemetrisi
         const resMac = await fetch(FIREBASE_URL + "mac.json" + FIREBASE_AUTH);
         if (resMac.ok) {
           const macData = await resMac.json();
@@ -1544,14 +1557,52 @@
             if (cpuEl) cpuEl.innerText = `%${macData.cpu || 15}`;
             if (battEl) battEl.innerText = `%${macData.battery || 100} ${macData.charging ? '⚡' : ''}`;
 
+            // ⏱️ Gerçek Ekran Süresi Güncellemesi
+            const screenSec = macData.total_screen_sec || 0;
+            const contSec = macData.continuous_work_sec || 0;
+            const screenTimeEl = document.getElementById('trueMacScreenTime');
+            const contEl = document.getElementById('continuousWorkText');
+
+            if (screenTimeEl) {
+              const h = Math.floor(screenSec / 3600);
+              const m = Math.floor((screenSec % 3600) / 60);
+              screenTimeEl.innerText = `${h > 0 ? h + ' sa ' : ''}${m} dk`;
+            }
+            if (contEl) {
+              const ch = Math.floor(contSec / 3600);
+              const cm = Math.floor((contSec % 3600) / 60);
+              contEl.innerText = `${ch > 0 ? ch + ' sa ' : ''}${cm} dk`;
+            }
+
+            // Uygulama Dağılımı Render
+            if (macData.apps_breakdown && typeof macData.apps_breakdown === 'object') {
+              const appContainer = document.getElementById('appBreakdownContainer');
+              if (appContainer) {
+                const entries = Object.entries(macData.apps_breakdown).sort((a, b) => b[1] - a[1]);
+                let totalS = Math.max(1, screenSec);
+                appContainer.innerHTML = entries.map(([app, sec]) => {
+                  let mins = Math.max(1, Math.round(sec / 60));
+                  let pct = Math.round((sec / totalS) * 100);
+                  let icon = "💻";
+                  if (app.indexOf("Chrome") >= 0 || app.indexOf("Safari") >= 0) icon = "🌐";
+                  else if (app.indexOf("Spotify") >= 0) icon = "🎵";
+                  else if (app.indexOf("Terminal") >= 0) icon = "⌨️";
+                  return `
+                    <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+                      <span style="color: var(--brass-gold);">${icon} ${app}</span>
+                      <span>${mins} dk (%${pct})</span>
+                    </div>
+                  `;
+                }).join('');
+              }
+            }
+
             if (macData.buca_temp) {
               bucaOutsideTemp = macData.buca_temp;
               bucaOutsideHum = macData.buca_hum;
               bucaOutsideDesc = macData.buca_desc;
               const pillEl = document.getElementById('outdoorWeatherPill');
-              if (pillEl) {
-                pillEl.innerHTML = `🌤️ ${bucaOutsideTemp}°C // ${bucaOutsideDesc.toUpperCase()}`;
-              }
+              if (pillEl) pillEl.innerHTML = `🌤️ ${bucaOutsideTemp}°C // ${bucaOutsideDesc.toUpperCase()}`;
 
               const inCompEl = document.getElementById('indoorCompareText');
               const outCompEl = document.getElementById('outdoorCompareText');
