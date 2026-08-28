@@ -7,7 +7,7 @@
   <title>AGY-1976 // ANA TELEMETRİ KONSOLU</title>
   
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#050302">
+  <meta name="theme-color" content="#0A0806">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -22,38 +22,39 @@
 
   <style>
     :root {
-      /* 📻 FOTOREALİSTİK 1970'LER TÜRKÇE DONANIM PALETİ */
-      --room-ambient: #050302;
-      --walnut-core: #1C0F08;
-      --walnut-bevel: #2E190E;
+      /* 🎛️ FOTOREALİSTİK ANALOG STÜDYO ŞASİ PALETİ */
+      --chassis-bg: #0C0A08;
+      --panel-dark: #16120E;
+      --panel-border-light: #543E2C;
+      --panel-border-dark: #070504;
 
-      --faceplate-matte: #161311;
-      --faceplate-bevel-light: #524235;
-      --faceplate-bevel-dark: #060403;
-
-      --brass-bright: #FFE89E;
       --brass-gold: #D4AF37;
-      --brass-dark: #6E5316;
+      --brass-light: #FFEAA7;
+      --brass-dark: #7A5B15;
 
-      --led-red: #FF2B2B;
-      --led-red-glow: rgba(255, 43, 43, 0.7);
-      --led-red-ghost: #220505;
+      --steel-bright: #E2E8F0;
+      --steel-mid: #94A3B8;
+      --steel-dark: #334155;
 
-      --led-amber: #FFA21A;
-      --led-amber-glow: rgba(255, 162, 26, 0.7);
-      --led-amber-ghost: #221202;
+      --led-red: #FF3333;
+      --led-red-glow: rgba(255, 51, 51, 0.65);
+      --led-red-ghost: #260505;
+
+      --led-amber: #FFA500;
+      --led-amber-glow: rgba(255, 165, 0, 0.65);
+      --led-amber-ghost: #281402;
 
       --led-green: #2ED573;
-      --led-green-glow: rgba(46, 213, 115, 0.7);
-      --led-green-ghost: #04200D;
+      --led-green-glow: rgba(46, 213, 115, 0.65);
+      --led-green-ghost: #04240F;
 
-      --vfd-cyan: #00F0FF;
-      --vfd-cyan-glow: rgba(0, 240, 255, 0.65);
-      --vfd-cyan-ghost: #011A1C;
+      --vfd-cyan: #00F2FE;
+      --vfd-cyan-glow: rgba(0, 242, 254, 0.6);
+      --vfd-cyan-ghost: #021F24;
 
-      --dial-parchment: #EDE2C0;
-      --dial-tungsten: #FFF8E7;
-      --dial-ink: #140E08;
+      --parchment-bg: #EFE6CD;
+      --parchment-glow: #FFF9E6;
+      --dial-ink: #18120B;
       --dial-red: #C0392B;
 
       --font-dseg: "DSEG7-Classic", monospace;
@@ -69,56 +70,56 @@
     }
 
     body {
-      background-color: var(--room-ambient);
-      color: #E2D5C3;
+      background-color: var(--chassis-bg);
+      color: #E2D7C8;
       font-family: var(--font-mono);
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 12px 6px calc(115px + env(safe-area-inset-bottom)) 6px;
+      align-items: flex-start;
+      padding: 16px 12px calc(115px + env(safe-area-inset-bottom)) 12px;
       background-image: 
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 4px),
-        linear-gradient(180deg, #18100A 0%, #050302 100%);
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px),
+        radial-gradient(ellipse at 50% 0%, #22170E 0%, #0C0A08 70%);
       background-attachment: fixed;
       overflow-x: hidden;
     }
 
-    /* 🪵 MASİF CEVİZ YAN YANAKLARLA KUŞATILMIŞ ANA RACK KASASI */
-    .studio-hardware-rack {
+    /* 🎛️ MERKEZİ RACK ŞASİSİ (KUSURSUZ HİZALAMA) */
+    .master-rack-chassis {
       width: 100%;
-      max-width: 530px;
+      max-width: 600px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 12px;
       position: relative;
-      background: linear-gradient(90deg, #1C0F08 0%, #100804 3%, transparent 6%, transparent 94%, #100804 97%, #1C0F08 100%);
-      padding: 0 8px;
     }
 
     /* 📌 STICKY KONSOL BAŞLIĞI */
     .sticky-console-header {
       position: sticky;
-      top: 6px;
+      top: 8px;
       z-index: 1000;
-      background: linear-gradient(180deg, #2B231D 0%, #15100D 100%);
-      border: 2px solid #3D2F23;
-      border-top: 1.5px solid #6E543F;
+      background: linear-gradient(180deg, #2E2218 0%, #17110B 100%);
+      border: 2px solid #4A3625;
+      border-top: 1.5px solid #7D5D42;
       border-bottom: 3px solid #080604;
       border-radius: 4px;
-      padding: 8px 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.98), inset 0 1px 0 rgba(255,255,255,0.2);
+      padding: 10px 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.2);
     }
 
-    /* 🎛️ DÖKÜM ALÜMİNYUM ŞASİ MODÜLÜ */
+    /* 🎛️ GERÇEK METAL MODÜL ŞASİSİ */
     .hardware-module {
       background: 
         repeating-linear-gradient(90deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 4px),
-        linear-gradient(180deg, #1C1612 0%, #0E0B08 100%);
-      border: 2px solid #36261A;
-      border-top: 2px solid #58412F;
-      border-bottom: 3px solid #070503;
-      border-radius: 5px;
-      padding: 14px 12px 12px 12px;
+        linear-gradient(180deg, #1C1611 0%, #100C09 100%);
+      border: 2px solid #3A2A1D;
+      border-top: 2px solid #634832;
+      border-bottom: 3px solid #060403;
+      border-radius: 6px;
+      padding: 16px 14px 14px 14px;
       position: relative;
       box-shadow: 
         0 8px 24px rgba(0,0,0,0.95),
@@ -126,31 +127,31 @@
         inset 0 -3px 8px rgba(0,0,0,0.9);
     }
 
-    /* 🔩 CNC İŞLENMİŞ VİDA SVG */
+    /* 🔩 CNC İŞLENMİŞ PASLANMAZ ÇELİK VİDALAR */
     .cnc-screw-svg {
       position: absolute;
-      width: 15px;
-      height: 15px;
+      width: 18px;
+      height: 18px;
       pointer-events: none;
-      filter: drop-shadow(0 1.5px 2px rgba(0,0,0,0.95));
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.95));
     }
-    .cnc-screw-svg.tl { top: 4px; left: 4px; }
-    .cnc-screw-svg.tr { top: 4px; right: 4px; }
-    .cnc-screw-svg.bl { bottom: 4px; left: 4px; }
-    .cnc-screw-svg.br { bottom: 4px; right: 4px; }
+    .cnc-screw-svg.tl { top: 5px; left: 5px; }
+    .cnc-screw-svg.tr { top: 5px; right: 5px; }
+    .cnc-screw-svg.bl { bottom: 5px; left: 5px; }
+    .cnc-screw-svg.br { bottom: 5px; right: 5px; }
 
     .module-engrave-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-bottom: 6px;
-      border-bottom: 1.5px solid rgba(212, 175, 55, 0.2);
-      margin-bottom: 10px;
+      border-bottom: 1.5px solid rgba(212, 175, 55, 0.25);
+      margin-bottom: 12px;
     }
 
     .plate-title {
       font-family: var(--font-din);
-      font-size: 9.5px;
+      font-size: 10px;
       font-weight: 800;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -163,19 +164,19 @@
 
     .status-badge-die {
       font-family: var(--font-mono);
-      font-size: 8.5px;
+      font-size: 9px;
       font-weight: 800;
       letter-spacing: 0.08em;
-      padding: 3px 6px;
+      padding: 3px 8px;
       background: #080604;
-      border: 1px solid #3E2D1E;
-      border-bottom: 1.5px solid #58412B;
-      border-radius: 2px;
+      border: 1px solid #443221;
+      border-bottom: 1.5px solid #634832;
+      border-radius: 3px;
       color: var(--brass-gold);
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.9);
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
 
     .pilot-jewel-lamp {
@@ -193,14 +194,14 @@
       100% { opacity: 0.8; transform: scale(0.96); }
     }
 
-    /* 📟 7-SEGMENT DİJİTAL TÜP PENCERESİ */
+    /* 📟 FÜME AKRİLİK PENCERELİ 7-SEGMENT EKRANLAR */
     .smoked-display-bezel {
       background: #050302;
-      border: 2px solid #1A120B;
+      border: 2px solid #1C140E;
       border-top: 2.5px solid #080503;
-      border-bottom: 2px solid #483424;
+      border-bottom: 2px solid #543E2C;
       border-radius: 4px;
-      padding: 6px 10px;
+      padding: 8px 12px;
       position: relative;
       overflow: hidden;
       box-shadow: inset 0 4px 12px rgba(0,0,0,0.98), 0 2px 6px rgba(0,0,0,0.85);
@@ -247,15 +248,15 @@
     .cyan-tube .ghost-layer { color: var(--vfd-cyan-ghost); }
     .cyan-tube .active-layer { color: var(--vfd-cyan); text-shadow: 0 0 14px var(--vfd-cyan-glow); }
 
-    /* 🎛️ İŞLENMİŞ METALİK KARE BUTONLAR */
+    /* 🎛️ İŞLENMİŞ DÖKÜM KARE TUŞLAR */
     .tactile-rocker-btn {
       font-family: var(--font-din);
       font-size: 10px;
       font-weight: 800;
       letter-spacing: 0.08em;
-      padding: 8px 14px;
-      border-radius: 3px;
-      border: 1.5px solid #4D3927;
+      padding: 9px 16px;
+      border-radius: 4px;
+      border: 1.5px solid #543E2C;
       border-top: 1.5px solid rgba(255,255,255,0.3);
       border-bottom: 2.5px solid #0A0604;
       background: linear-gradient(180deg, #3C2B1D 0%, #1A120B 100%);
@@ -264,7 +265,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
       box-shadow: 0 3px 8px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.15);
       transition: transform 0.08s ease, background 0.1s ease;
       touch-action: manipulation;
@@ -289,26 +290,31 @@
     /* ======================================================= */
     /* 📻 MİKROMETRİK HASSASİYETTE ANALOG VU METRELER         */
     /* ======================================================= */
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
     .recessed-vu-die-housing {
       background: #040201;
       border: 2px solid #1C120A;
       border-top: 2px solid #080503;
-      border-bottom: 2.5px solid #44301F;
-      border-radius: 4px;
-      padding: 6px 6px 4px 6px;
+      border-bottom: 2.5px solid #543E2C;
+      border-radius: 5px;
+      padding: 6px;
       box-shadow: 
-        inset 0 5px 14px rgba(0,0,0,0.98),
+        inset 0 6px 16px rgba(0,0,0,0.98),
         0 3px 8px rgba(0,0,0,0.9);
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
     .vu-dial-chamber {
-      background: radial-gradient(ellipse at 50% 15%, var(--dial-tungsten) 0%, var(--dial-parchment) 65%, #C2AE7B 100%);
+      background: radial-gradient(ellipse at 50% 15%, var(--parchment-glow) 0%, var(--parchment-bg) 65%, #C2AE7B 100%);
       border-radius: 3px;
-      padding: 4px;
+      padding: 6px 4px 4px 4px;
       width: 100%;
       position: relative;
       overflow: hidden;
@@ -323,14 +329,14 @@
       content: "";
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 32%, transparent 58%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.12) 32%, transparent 58%);
       pointer-events: none;
       z-index: 10;
     }
 
-    .vu-text-strip {
+    .vu-header-title {
       font-family: var(--font-din);
-      font-size: 8.5px;
+      font-size: 9px;
       font-weight: 800;
       color: #382618;
       letter-spacing: 0.12em;
@@ -343,53 +349,47 @@
 
     .vu-svg-canvas {
       width: 100%;
-      height: 72px;
+      height: 86px;
       overflow: visible;
       z-index: 2;
     }
 
-    /* İbre (Galvanometre Rotasyon Merkezi: 100, 80) */
+    /* İbre (Galvanometre Rotasyon Merkezi: 120, 115) */
     .galvanometer-needle {
-      transform-origin: 100px 80px;
+      transform-origin: 120px 115px;
       transition: transform 0.7s cubic-bezier(0.2, 1.4, 0.4, 1);
-      filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.4));
+      filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.45));
     }
 
     .vu-digital-sub {
       font-family: var(--font-mono);
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 800;
       color: #140E06;
-      margin-top: 2px;
+      margin-top: 3px;
       z-index: 5;
       letter-spacing: -0.02em;
     }
 
     .vu-caption {
       font-family: var(--font-din);
-      font-size: 8.5px;
+      font-size: 9px;
       font-weight: 800;
       color: #523D2A;
       letter-spacing: 0.06em;
       z-index: 5;
     }
 
-    .telemetry-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-    }
-
-    /* 🎛️ MEKANİK DÖNER SEÇİCİ BANT (CHANNEL ROTARY SELECTOR) */
+    /* 🎛️ KANAL SEÇİCİ BANT (CHANNEL ROTARY SELECTOR) */
     .channel-rotary-bar {
       display: flex;
       background: #080604;
-      border: 1.5px solid #2B1D12;
+      border: 1.5px solid #2E1F14;
       border-top: 1.5px solid #140D08;
-      border-bottom: 2px solid #483424;
-      border-radius: 3px;
-      padding: 3px;
-      gap: 3px;
+      border-bottom: 2px solid #543E2C;
+      border-radius: 4px;
+      padding: 4px;
+      gap: 4px;
       overflow-x: auto;
       scrollbar-width: none;
     }
@@ -398,12 +398,12 @@
     .rotary-tab {
       flex: 1;
       font-family: var(--font-din);
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 800;
       letter-spacing: 0.06em;
       text-align: center;
-      padding: 6px 4px;
-      border-radius: 2px;
+      padding: 7px 4px;
+      border-radius: 3px;
       cursor: pointer;
       color: #8C7B6C;
       white-space: nowrap;
@@ -424,15 +424,15 @@
       bottom: calc(10px + env(safe-area-inset-bottom));
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - 16px);
-      max-width: 520px;
-      background: linear-gradient(180deg, #241A13 0%, #0F0A06 100%);
+      width: calc(100% - 20px);
+      max-width: 540px;
+      background: linear-gradient(180deg, #281D14 0%, #110B07 100%);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 2px solid var(--brass-gold);
       border-top: 1.5px solid #FFEAA7;
       border-radius: 28px;
-      padding: 5px 12px;
+      padding: 6px 14px;
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -443,16 +443,16 @@
     .dock-btn {
       background: transparent;
       border: none;
-      color: #E2D5C3;
+      color: #E2D7C8;
       font-family: var(--font-din);
-      font-size: 9.5px;
+      font-size: 10px;
       font-weight: 800;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 2px;
       cursor: pointer;
-      padding: 3px 6px;
+      padding: 4px 6px;
       border-radius: 6px;
       transition: transform 0.1s ease;
       touch-action: manipulation;
@@ -463,7 +463,7 @@
     }
 
     .dock-icon {
-      font-size: 15px;
+      font-size: 16px;
     }
 
     #toast {
@@ -474,8 +474,8 @@
       background: #1C130D;
       border: 1.5px solid var(--brass-gold);
       color: var(--brass-gold);
-      padding: 7px 16px;
-      border-radius: 3px;
+      padding: 8px 18px;
+      border-radius: 4px;
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 800;
@@ -498,26 +498,29 @@
   <svg style="display: none;">
     <defs>
       <radialGradient id="cncScrewGrad" cx="30%" cy="30%" r="70%">
-        <stop offset="0%" stop-color="#FFF9E0" />
-        <stop offset="20%" stop-color="#D4AF37" />
-        <stop offset="55%" stop-color="#7A5612" />
-        <stop offset="85%" stop-color="#362204" />
-        <stop offset="100%" stop-color="#120B01" />
+        <stop offset="0%" stop-color="#FFFFFF" />
+        <stop offset="20%" stop-color="#CBD5E1" />
+        <stop offset="55%" stop-color="#64748B" />
+        <stop offset="85%" stop-color="#334155" />
+        <stop offset="100%" stop-color="#0F172A" />
       </radialGradient>
       <g id="machinedScrewSymbol">
-        <circle cx="8" cy="8" r="7.5" fill="#040201" stroke="#26170B" stroke-width="0.8"/>
-        <circle cx="8" cy="8" r="6.2" fill="url(#cncScrewGrad)"/>
-        <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.4"/>
-        <g transform="rotate(38 8 8)">
-          <rect x="2.4" y="6.8" width="11.2" height="2.4" rx="0.3" fill="#120A02"/>
-          <rect x="2.7" y="7.1" width="10.6" height="1.1" fill="#040201"/>
-          <line x1="2.7" y1="9.2" x2="13.3" y2="9.2" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+        <!-- Deep Counterbore Hole -->
+        <circle cx="9" cy="9" r="8.5" fill="#040201" stroke="#26170B" stroke-width="0.8"/>
+        <!-- Screw Dome with Specular Highlight -->
+        <circle cx="9" cy="9" r="7.2" fill="url(#cncScrewGrad)"/>
+        <circle cx="9" cy="9" r="7" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/>
+        <!-- Cross / Slotted Groove -->
+        <g transform="rotate(38 9 9)">
+          <rect x="2.5" y="7.8" width="13" height="2.4" rx="0.3" fill="#090E17"/>
+          <rect x="7.8" y="2.5" width="2.4" height="13" rx="0.3" fill="#090E17"/>
+          <line x1="2.7" y1="10.2" x2="15.3" y2="10.2" stroke="rgba(255,255,255,0.4)" stroke-width="0.5"/>
         </g>
       </g>
     </defs>
   </svg>
 
-  <div class="studio-hardware-rack">
+  <div class="master-rack-chassis">
 
     <!-- 📌 1. STICKY KONSOL BAŞLIĞI -->
     <div class="sticky-console-header">
@@ -525,22 +528,22 @@
         <div class="plate-title">
           <span>⚙️ AGY-1976 // ANA TELEMETRİ KONSOLU</span>
         </div>
-        <div style="display: flex; gap: 6px; align-items: center;">
+        <div style="display: flex; gap: 8px; align-items: center;">
           <span class="status-badge-die" style="color: #2ED573; border-color: rgba(46,213,115,0.4);" id="liveStatusBadge">
             <span class="pilot-jewel-lamp"></span>
             <span>ESP32 ÇEVRİMİÇİ</span>
           </span>
-          <button type="button" class="tactile-rocker-btn" onclick="ringDeskChime()" style="padding: 3px 8px; font-size: 9.5px;">🔔 ZİLİ ÇAL</button>
+          <button type="button" class="tactile-rocker-btn" onclick="ringDeskChime()" style="padding: 4px 10px; font-size: 9.5px;">🔔 ZİLİ ÇAL</button>
         </div>
       </div>
     </div>
 
     <!-- 👀 20-20-20 ERGONOMİ & DİK DURUŞ MODÜLÜ -->
     <div class="hardware-module">
-      <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
-      <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
-      <svg class="cnc-screw-svg bl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(45 8 8)"/></svg>
-      <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
+      <svg class="cnc-screw-svg tl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol"/></svg>
+      <svg class="cnc-screw-svg tr" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(90 9 9)"/></svg>
+      <svg class="cnc-screw-svg bl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(45 9 9)"/></svg>
+      <svg class="cnc-screw-svg br" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(135 9 9)"/></svg>
       
       <div class="module-engrave-header">
         <div class="plate-title"><span>[KANAL-0] 20-20-20 DİK DURUŞ SAYACI</span></div>
@@ -550,23 +553,23 @@
       <div class="smoked-display-bezel amber-tube">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
-            <div style="font-size: 8px; color: #8C7B6C; letter-spacing: 0.1em; margin-bottom: 2px;">MOLAYA KALAN SÜRE:</div>
-            <div class="tube-cluster" style="font-size: 32px;">
+            <div style="font-size: 8.5px; color: #8C7B6C; letter-spacing: 0.1em; margin-bottom: 3px;">MOLAYA KALAN SÜRE:</div>
+            <div class="tube-cluster" style="font-size: 34px;">
               <span class="ghost-layer">88:88</span>
               <span class="active-layer" id="ergoCountdownText">12:33</span>
             </div>
           </div>
-          <button type="button" class="tactile-rocker-btn" onclick="triggerPostureAlertTest()" style="padding: 4px 10px; font-size: 9px; border-color: var(--brass-gold); color: var(--brass-gold);">TEST ET 🔔</button>
+          <button type="button" class="tactile-rocker-btn" onclick="triggerPostureAlertTest()" style="padding: 5px 12px; font-size: 9.5px; border-color: var(--brass-gold); color: var(--brass-gold);">TEST ET 🔔</button>
         </div>
       </div>
     </div>
 
     <!-- 📍 TERAS & BUCA METEOROLOJİ TELEMETRİSİ -->
     <div class="hardware-module">
-      <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
-      <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
-      <svg class="cnc-screw-svg bl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(45 8 8)"/></svg>
-      <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
+      <svg class="cnc-screw-svg tl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol"/></svg>
+      <svg class="cnc-screw-svg tr" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(90 9 9)"/></svg>
+      <svg class="cnc-screw-svg bl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(45 9 9)"/></svg>
+      <svg class="cnc-screw-svg br" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(135 9 9)"/></svg>
       
       <div class="module-engrave-header">
         <div class="plate-title"><span>[ORTAM] İZMİR BUCA METEOROLOJİ // ŞİRİNYER</span></div>
@@ -574,7 +577,7 @@
       </div>
 
       <div class="smoked-display-bezel">
-        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px;">
+        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11.5px;">
           <span>TERAS (EFE): <b style="color: var(--vfd-cyan);" id="outdoorCompareText">22.0°C</b></span>
           <span>ALT ODA: <b style="color: var(--led-amber);" id="indoorCompareText">26.4°C</b></span>
           <span>İSTASYON: <b style="color: #2ED573;">NÖBETTE</b></span>
@@ -594,14 +597,14 @@
     <!-- ==================================================== -->
     <!-- 1. KANAL: ANLIK SENSÖR VU METRELERİ -->
     <!-- ==================================================== -->
-    <div id="channelSensorsContent" style="display: flex; flex-direction: column; gap: 10px;">
+    <div id="channelSensorsContent" style="display: flex; flex-direction: column; gap: 12px;">
       
       <!-- 💻 SPOTIFY ÇALAR -->
       <div class="hardware-module">
-        <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
-        <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
-        <svg class="cnc-screw-svg bl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(45 8 8)"/></svg>
-        <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
+        <svg class="cnc-screw-svg tl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol"/></svg>
+        <svg class="cnc-screw-svg tr" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(90 9 9)"/></svg>
+        <svg class="cnc-screw-svg bl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(45 9 9)"/></svg>
+        <svg class="cnc-screw-svg br" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(135 9 9)"/></svg>
         
         <div class="module-engrave-header">
           <div class="plate-title"><span>[SES-01] SPOTIFY BULUT ÇALAR</span></div>
@@ -611,10 +614,10 @@
         <div class="smoked-display-bezel green-tube">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div style="overflow: hidden;">
-              <div style="font-size: 12px; font-weight: 800; color: #2ED573; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="spotifyTrackText">MÜZİK BEKLENİYOR...</div>
-              <div style="font-size: 9.5px; color: #8C7B6C; margin-top: 2px;" id="spotifyArtistText">MAC VEYA TELEFONDAN SPOTIFY AÇIN // DJ YULAF</div>
+              <div style="font-size: 13px; font-weight: 800; color: #2ED573; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="spotifyTrackText">MÜZİK BEKLENİYOR...</div>
+              <div style="font-size: 10px; color: #8C7B6C; margin-top: 2px;" id="spotifyArtistText">MAC VEYA TELEFONDAN SPOTIFY AÇIN // DJ YULAF</div>
             </div>
-            <div style="text-align: right; font-size: 10px; color: var(--brass-gold); white-space: nowrap;">
+            <div style="text-align: right; font-size: 10.5px; color: var(--brass-gold); white-space: nowrap;">
               <div>CPU: <b id="macCpuText">%15</b></div>
               <div>PİL: <b id="macBattText" style="color: #2ED573;">%11 ⚡</b></div>
             </div>
@@ -624,24 +627,24 @@
 
       <!-- 🎯 POMODORO VFD SAYAÇ -->
       <div class="hardware-module">
-        <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
-        <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
-        <svg class="cnc-screw-svg bl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(45 8 8)"/></svg>
-        <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
+        <svg class="cnc-screw-svg tl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol"/></svg>
+        <svg class="cnc-screw-svg tr" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(90 9 9)"/></svg>
+        <svg class="cnc-screw-svg bl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(45 9 9)"/></svg>
+        <svg class="cnc-screw-svg br" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(135 9 9)"/></svg>
         
         <div class="module-engrave-header">
           <div class="plate-title"><span>[SAYAÇ-01] ODAKLANMA & POMODORO</span></div>
           <span class="status-badge-die" id="pomoSessionBadge">TUR: 0</span>
         </div>
 
-        <div class="smoked-display-bezel red-tube" style="text-align: center; padding: 10px;">
-          <div style="font-size: 8.5px; color: #8C7B6C; letter-spacing: 0.1em;" id="pomoStatusText">HAZIR // SEANS BAŞLATIN</div>
-          <div class="tube-cluster" style="font-size: 44px; margin: 4px 0;">
+        <div class="smoked-display-bezel red-tube" style="text-align: center; padding: 12px;">
+          <div style="font-size: 9px; color: #8C7B6C; letter-spacing: 0.1em;" id="pomoStatusText">HAZIR // SEANS BAŞLATIN</div>
+          <div class="tube-cluster" style="font-size: 48px; margin: 6px 0;">
             <span class="ghost-layer">88:88</span>
             <span class="active-layer" id="pomoDisplay">25:00</span>
           </div>
           
-          <div style="display: flex; gap: 6px; justify-content: center; margin-top: 6px;">
+          <div style="display: flex; gap: 8px; justify-content: center; margin-top: 8px;">
             <button type="button" class="tactile-rocker-btn tactile-rocker-gold" onclick="startPomodoro(25, 'FOCUS')">25 DK ODAK</button>
             <button type="button" class="tactile-rocker-btn" onclick="startPomodoro(5, 'BREAK')">5 DK MOLA</button>
             <button type="button" class="tactile-rocker-btn" onclick="stopPomodoro()">DURDUR</button>
@@ -651,10 +654,10 @@
 
       <!-- 📊 MİKROMETRİK ÇİFT KANAL VU METRELER (SIFAM / NAGRA STANDARD) -->
       <div class="hardware-module">
-        <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
-        <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
-        <svg class="cnc-screw-svg bl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(45 8 8)"/></svg>
-        <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
+        <svg class="cnc-screw-svg tl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol"/></svg>
+        <svg class="cnc-screw-svg tr" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(90 9 9)"/></svg>
+        <svg class="cnc-screw-svg bl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(45 9 9)"/></svg>
+        <svg class="cnc-screw-svg br" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(135 9 9)"/></svg>
         
         <div class="module-engrave-header">
           <div class="plate-title"><span>[METROLOJİ] ÇİFT KANAL ANALOG VU METRE</span></div>
@@ -665,52 +668,45 @@
           <!-- 1. HAVA KALİTESİ VU METRE (MQ-135) -->
           <div class="recessed-vu-die-housing">
             <div class="vu-dial-chamber">
-              <div class="vu-text-strip">
+              <div class="vu-header-title">
                 <span>HAVA KALİTESİ</span>
                 <span>MQ-135</span>
               </div>
               
-              <svg class="vu-svg-canvas" viewBox="0 0 200 90">
-                <!-- 1. Ana Skala Yayları: Siyah Normal Bölge (-45° ila +15°), Kırmızı Tehlike Bölgesi (+15° ila +45°) -->
-                <path d="M 52 44.5 A 68 68 0 0 1 117.6 14.3" fill="none" stroke="#1C140E" stroke-width="2.5" stroke-linecap="round"/>
-                <path d="M 117.6 14.3 A 68 68 0 0 1 148 44.5" fill="none" stroke="#C0392B" stroke-width="3.5" stroke-linecap="round"/>
+              <svg class="vu-svg-canvas" viewBox="0 0 240 130">
+                <!-- 1. Rakamlar (Yayların ÜSTÜNDE ve DIŞINDA, Sıfır Çakışma) -->
+                <text x="43.6" y="38.6" fill="#2E2015" font-size="10" font-family="JetBrains Mono" font-weight="800" text-anchor="middle" dominant-baseline="middle">400</text>
+                <text x="92.0" y="10.7" fill="#2E2015" font-size="9.5" font-family="JetBrains Mono" font-weight="700" text-anchor="middle" dominant-baseline="middle">800</text>
+                <text x="148.0" y="10.7" fill="#C0392B" font-size="9.5" font-family="JetBrains Mono" font-weight="700" text-anchor="middle" dominant-baseline="middle">1200</text>
+                <text x="196.4" y="38.6" fill="#C0392B" font-size="10" font-family="JetBrains Mono" font-weight="800" text-anchor="middle" dominant-baseline="middle">1800</text>
 
-                <!-- 2. Radyal Çentik Çizgileri (Trigonometrik Hassasiyet) -->
-                <!-- -45° (400) -->
-                <line x1="52" y1="44.5" x2="57.5" y2="49.5" stroke="#1C140E" stroke-width="1.8"/>
-                <!-- -30° (600) -->
-                <line x1="66" y1="26.1" x2="70" y2="33" stroke="#1C140E" stroke-width="1.2"/>
-                <!-- -15° (800) -->
-                <line x1="82.4" y1="14.3" x2="84.5" y2="21.5" stroke="#1C140E" stroke-width="1.5"/>
-                <!-- 0° (1000 - İbre Sıfırı) -->
-                <line x1="100" y1="12" x2="100" y2="20" stroke="#1C140E" stroke-width="2"/>
-                <!-- +15° (1200 - Kırmızı Başlangıcı) -->
-                <line x1="117.6" y1="14.3" x2="115.5" y2="21.5" stroke="#C0392B" stroke-width="1.8"/>
-                <!-- +30° (1500) -->
-                <line x1="134" y1="26.1" x2="130" y2="33" stroke="#C0392B" stroke-width="1.5"/>
-                <!-- +45° (1800) -->
-                <line x1="148" y1="44.5" x2="142.5" y2="49.5" stroke="#C0392B" stroke-width="2"/>
+                <!-- 2. Radyal Çentik Çizgileri -->
+                <!-- -45° --> <line x1="56.4" y1="51.4" x2="50.7" y2="45.7" stroke="#18120B" stroke-width="2"/>
+                <!-- -30° --> <line x1="75.0" y1="37.1" x2="71.0" y2="30.1" stroke="#18120B" stroke-width="1.4"/>
+                <!-- -15° --> <line x1="96.7" y1="28.1" x2="94.6" y2="20.3" stroke="#18120B" stroke-width="1.8"/>
+                <!-- 0° -->   <line x1="120.0" y1="25.0" x2="120.0" y2="17.0" stroke="#18120B" stroke-width="2.2"/>
+                <!-- +15° --> <line x1="143.3" y1="28.1" x2="145.4" y2="20.3" stroke="#C0392B" stroke-width="2"/>
+                <!-- +30° --> <line x1="165.0" y1="37.1" x2="169.0" y2="30.1" stroke="#C0392B" stroke-width="1.6"/>
+                <!-- +45° --> <line x1="183.6" y1="51.4" x2="189.3" y2="45.7" stroke="#C0392B" stroke-width="2.2"/>
 
-                <!-- 3. Rakamlar (Çentiklerin Altında Ferah Yerleşim, Sıfır Çakışma) -->
-                <text x="63" y="60" fill="#2E2015" font-size="8.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">400</text>
-                <text x="83" y="34" fill="#2E2015" font-size="8" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">800</text>
-                <text x="100" y="32" fill="#2E2015" font-size="8" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">1000</text>
-                <text x="137" y="60" fill="#C0392B" font-size="8.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">1800</text>
+                <!-- 3. Ana Skala Yayları: Siyah Normal (-45° -> +15°), Kırmızı Tehlike (+15° -> +45°) -->
+                <path d="M 56.4 51.4 A 90 90 0 0 1 143.3 28.1" fill="none" stroke="#18120B" stroke-width="2.8" stroke-linecap="round"/>
+                <path d="M 143.3 28.1 A 90 90 0 0 1 183.6 51.4" fill="none" stroke="#C0392B" stroke-width="3.6" stroke-linecap="round"/>
 
-                <!-- 4. Alt Kadran Etiketi -->
-                <text x="100" y="58" fill="#523D2A" font-size="7" font-family="Space Grotesk" font-weight="800" letter-spacing="1" text-anchor="middle">PPM GAZ İNDEKSİ</text>
+                <!-- 4. Merkez Alt Etiket (İbre Altında Ferah Alan) -->
+                <text x="120" y="68" fill="#523D2A" font-size="8" font-family="Space Grotesk" font-weight="800" letter-spacing="1.5" text-anchor="middle">PPM GAZ İNDEKSİ</text>
 
-                <!-- 5. Galvanometre İbresi (Dönme Merkezi: 100, 80) -->
-                <g id="airGaugeNeedle" class="galvanometer-needle" style="transform: rotate(-60deg);">
+                <!-- 5. Galvanometre İbresi (Rotasyon Merkezi: 120, 115) -->
+                <g id="airGaugeNeedle" class="galvanometer-needle" style="transform: rotate(-45deg);">
                   <!-- İbre Gövdesi -->
-                  <line x1="100" y1="80" x2="100" y2="14" stroke="#140E06" stroke-width="1.6" stroke-linecap="round"/>
+                  <line x1="120" y1="115" x2="120" y2="22" stroke="#18120B" stroke-width="1.8" stroke-linecap="round"/>
                   <!-- Kırmızı Gösterge Ucu -->
-                  <line x1="100" y1="28" x2="100" y2="14" stroke="#C0392B" stroke-width="1.8" stroke-linecap="round"/>
+                  <line x1="120" y1="42" x2="120" y2="22" stroke="#C0392B" stroke-width="2.2" stroke-linecap="round"/>
                   <!-- Karşı Ağırlık Kuyruğu -->
-                  <line x1="100" y1="80" x2="100" y2="88" stroke="#140E06" stroke-width="2.5"/>
-                  <!-- Merkez Döner Kapak -->
-                  <circle cx="100" cy="80" r="7" fill="#1C140E" stroke="#000" stroke-width="1"/>
-                  <circle cx="100" cy="80" r="2.5" fill="#D4AF37"/>
+                  <line x1="120" y1="115" x2="120" y2="125" stroke="#18120B" stroke-width="3"/>
+                  <!-- Merkez Döner Başlık -->
+                  <circle cx="120" cy="115" r="10" fill="#1C140E" stroke="#000" stroke-width="1.2"/>
+                  <circle cx="120" cy="115" r="3.5" fill="#D4AF37"/>
                 </g>
               </svg>
 
@@ -722,41 +718,41 @@
           <!-- 2. IŞIK SEVİYESİ VU METRE (LDR) -->
           <div class="recessed-vu-die-housing">
             <div class="vu-dial-chamber">
-              <div class="vu-text-strip">
+              <div class="vu-header-title">
                 <span>IŞIK SEVİYESİ</span>
                 <span>FOTOMETRİK</span>
               </div>
               
-              <svg class="vu-svg-canvas" viewBox="0 0 200 90">
-                <!-- 1. Ana Skala Yayları: Gece / Normal Bölge (-45° ila +20°), Yüksek Işık Bölgesi (+20° ila +45°) -->
-                <path d="M 52 44.5 A 68 68 0 0 1 123.3 16.1" fill="none" stroke="#1C140E" stroke-width="2.5" stroke-linecap="round"/>
-                <path d="M 123.3 16.1 A 68 68 0 0 1 148 44.5" fill="none" stroke="#D35400" stroke-width="3.5" stroke-linecap="round"/>
+              <svg class="vu-svg-canvas" viewBox="0 0 240 130">
+                <!-- 1. Rakamlar (Yayların ÜSTÜNDE ve DIŞINDA) -->
+                <text x="43.6" y="38.6" fill="#2E2015" font-size="10" font-family="JetBrains Mono" font-weight="800" text-anchor="middle" dominant-baseline="middle">%0</text>
+                <text x="92.0" y="10.7" fill="#2E2015" font-size="9.5" font-family="JetBrains Mono" font-weight="700" text-anchor="middle" dominant-baseline="middle">%30</text>
+                <text x="148.0" y="10.7" fill="#D35400" font-size="9.5" font-family="JetBrains Mono" font-weight="700" text-anchor="middle" dominant-baseline="middle">%70</text>
+                <text x="196.4" y="38.6" fill="#D35400" font-size="10" font-family="JetBrains Mono" font-weight="800" text-anchor="middle" dominant-baseline="middle">%100</text>
 
                 <!-- 2. Çentikler -->
-                <line x1="52" y1="44.5" x2="57.5" y2="49.5" stroke="#1C140E" stroke-width="1.8"/>
-                <line x1="66" y1="26.1" x2="70" y2="33" stroke="#1C140E" stroke-width="1.2"/>
-                <line x1="82.4" y1="14.3" x2="84.5" y2="21.5" stroke="#1C140E" stroke-width="1.5"/>
-                <line x1="100" y1="12" x2="100" y2="20" stroke="#1C140E" stroke-width="2"/>
-                <line x1="123.3" y1="16.1" x2="120.5" y2="22.5" stroke="#D35400" stroke-width="1.8"/>
-                <line x1="134" y1="26.1" x2="130" y2="33" stroke="#D35400" stroke-width="1.5"/>
-                <line x1="148" y1="44.5" x2="142.5" y2="49.5" stroke="#D35400" stroke-width="2"/>
+                <!-- -45° --> <line x1="56.4" y1="51.4" x2="50.7" y2="45.7" stroke="#18120B" stroke-width="2"/>
+                <!-- -30° --> <line x1="75.0" y1="37.1" x2="71.0" y2="30.1" stroke="#18120B" stroke-width="1.4"/>
+                <!-- -15° --> <line x1="96.7" y1="28.1" x2="94.6" y2="20.3" stroke="#18120B" stroke-width="1.8"/>
+                <!-- 0° -->   <line x1="120.0" y1="25.0" x2="120.0" y2="17.0" stroke="#18120B" stroke-width="2.2"/>
+                <!-- +15° --> <line x1="143.3" y1="28.1" x2="145.4" y2="20.3" stroke="#D35400" stroke-width="2"/>
+                <!-- +30° --> <line x1="165.0" y1="37.1" x2="169.0" y2="30.1" stroke="#D35400" stroke-width="1.6"/>
+                <!-- +45° --> <line x1="183.6" y1="51.4" x2="189.3" y2="45.7" stroke="#D35400" stroke-width="2.2"/>
 
-                <!-- 3. Rakamlar (Net & Düzenli) -->
-                <text x="63" y="60" fill="#2E2015" font-size="8.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">%0</text>
-                <text x="83" y="34" fill="#2E2015" font-size="8" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">%30</text>
-                <text x="100" y="32" fill="#2E2015" font-size="8" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">%50</text>
-                <text x="137" y="60" fill="#D35400" font-size="8.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">%100</text>
+                <!-- 3. Skala Yayları -->
+                <path d="M 56.4 51.4 A 90 90 0 0 1 143.3 28.1" fill="none" stroke="#18120B" stroke-width="2.8" stroke-linecap="round"/>
+                <path d="M 143.3 28.1 A 90 90 0 0 1 183.6 51.4" fill="none" stroke="#D35400" stroke-width="3.6" stroke-linecap="round"/>
 
-                <!-- 4. Alt Kadran Etiketi -->
-                <text x="100" y="58" fill="#523D2A" font-size="7" font-family="Space Grotesk" font-weight="800" letter-spacing="1" text-anchor="middle">LÜKS / AYDINLIK</text>
+                <!-- 4. Merkez Alt Etiket -->
+                <text x="120" y="68" fill="#523D2A" font-size="8" font-family="Space Grotesk" font-weight="800" letter-spacing="1.5" text-anchor="middle">LÜKS / AYDINLIK</text>
 
                 <!-- 5. İbre -->
                 <g id="lightGaugeNeedle" class="galvanometer-needle" style="transform: rotate(20deg);">
-                  <line x1="100" y1="80" x2="100" y2="14" stroke="#140E06" stroke-width="1.6" stroke-linecap="round"/>
-                  <line x1="100" y1="28" x2="100" y2="14" stroke="#D35400" stroke-width="1.8" stroke-linecap="round"/>
-                  <line x1="100" y1="80" x2="100" y2="88" stroke="#140E06" stroke-width="2.5"/>
-                  <circle cx="100" cy="80" r="7" fill="#1C140E" stroke="#000" stroke-width="1"/>
-                  <circle cx="100" cy="80" r="2.5" fill="#D4AF37"/>
+                  <line x1="120" y1="115" x2="120" y2="22" stroke="#18120B" stroke-width="1.8" stroke-linecap="round"/>
+                  <line x1="120" y1="42" x2="120" y2="22" stroke="#D35400" stroke-width="2.2" stroke-linecap="round"/>
+                  <line x1="120" y1="115" x2="120" y2="125" stroke="#18120B" stroke-width="3"/>
+                  <circle cx="120" cy="115" r="10" fill="#1C140E" stroke="#000" stroke-width="1.2"/>
+                  <circle cx="120" cy="115" r="3.5" fill="#D4AF37"/>
                 </g>
               </svg>
 
@@ -767,27 +763,27 @@
 
           <!-- SICAKLIK -->
           <div class="smoked-display-bezel amber-tube">
-            <div style="font-size: 8px; color: #8C7B6C;">SICAKLIK [BME280]</div>
-            <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
+            <div style="font-size: 8.5px; color: #8C7B6C;">SICAKLIK [BME280]</div>
+            <div class="tube-cluster" style="font-size: 26px; margin-top: 2px;">
               <span class="ghost-layer">88.8</span>
               <span class="active-layer" id="tempVal">--.-</span>
             </div>
-            <div style="font-size: 8px; color: #8C7B6C;">°C // BEKLEMEDE</div>
+            <div style="font-size: 8.5px; color: #8C7B6C;">°C // BEKLEMEDE</div>
           </div>
 
           <!-- BAĞIL NEM -->
           <div class="smoked-display-bezel amber-tube">
-            <div style="font-size: 8px; color: #8C7B6C;">BAĞIL NEM [BME280]</div>
-            <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
+            <div style="font-size: 8.5px; color: #8C7B6C;">BAĞIL NEM [BME280]</div>
+            <div class="tube-cluster" style="font-size: 26px; margin-top: 2px;">
               <span class="ghost-layer">88</span>
               <span class="active-layer" id="humVal">--</span>
             </div>
-            <div style="font-size: 8px; color: #8C7B6C;">% // BEKLEMEDE</div>
+            <div style="font-size: 8.5px; color: #8C7B6C;">% // BEKLEMEDE</div>
           </div>
         </div>
 
         <!-- 🛡️ PIR RADAR -->
-        <div style="margin-top: 8px; background: #040201; border: 1px solid #20150D; border-radius: 2px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center; font-size: 10px;">
+        <div style="margin-top: 10px; background: #040201; border: 1px solid #20150D; border-radius: 3px; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px;">
           <span style="color: #8C7B6C;">RADAR [PIR D27]:</span>
           <b id="roomPresenceBadge" style="color: #2ED573;">SESSİZ NÖBETTE</b>
         </div>
@@ -797,38 +793,38 @@
     <!-- ==================================================== -->
     <!-- 2. KANAL: VERİMLİLİK LAB -->
     <!-- ==================================================== -->
-    <div id="channelProductivityLabContent" style="display: none; flex-direction: column; gap: 10px;">
+    <div id="channelProductivityLabContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="hardware-module">
-        <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
-        <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
-        <svg class="cnc-screw-svg bl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(45 8 8)"/></svg>
-        <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
+        <svg class="cnc-screw-svg tl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol"/></svg>
+        <svg class="cnc-screw-svg tr" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(90 9 9)"/></svg>
+        <svg class="cnc-screw-svg bl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(45 9 9)"/></svg>
+        <svg class="cnc-screw-svg br" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(135 9 9)"/></svg>
         
         <div class="module-engrave-header">
           <div class="plate-title"><span>[LAB-01] BİLİŞSEL VERİMLİLİK</span></div>
           <span class="status-badge-die" style="color: #2ED573;">KALİBRE EDİLDİ</span>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 8px;">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px;">
           <div class="smoked-display-bezel green-tube">
-            <div style="font-size: 8px; color: #8C7B6C;">DERİN ÇALIŞMA ORANI</div>
-            <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
+            <div style="font-size: 8.5px; color: #8C7B6C;">DERİN ÇALIŞMA ORANI</div>
+            <div class="tube-cluster" style="font-size: 26px; margin-top: 2px;">
               <span class="ghost-layer">88</span>
               <span class="active-layer" id="labDeepWorkRatioText">82</span>
             </div>
-            <div style="font-size: 8px; color: #8C7B6C;">% ÜRETİM</div>
+            <div style="font-size: 8.5px; color: #8C7B6C;">% ÜRETİM</div>
           </div>
           <div class="smoked-display-bezel amber-tube">
-            <div style="font-size: 8px; color: #8C7B6C;">POSTÜR DÖNGÜSÜ</div>
-            <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
+            <div style="font-size: 8.5px; color: #8C7B6C;">POSTÜR DÖNGÜSÜ</div>
+            <div class="tube-cluster" style="font-size: 26px; margin-top: 2px;">
               <span class="ghost-layer">88:88</span>
               <span class="active-layer">20:20</span>
             </div>
-            <div style="font-size: 8px; color: #8C7B6C;">DK:SN</div>
+            <div style="font-size: 8.5px; color: #8C7B6C;">DK:SN</div>
           </div>
         </div>
 
-        <div style="position: relative; height: 150px; width: 100%;">
+        <div style="position: relative; height: 160px; width: 100%;">
           <canvas id="hourlyCognitiveChart"></canvas>
         </div>
       </div>
@@ -837,12 +833,12 @@
     <!-- ==================================================== -->
     <!-- 3. KANAL: CİHAZ EKRAN SÜRELERİ -->
     <!-- ==================================================== -->
-    <div id="channelScreenTimeContent" style="display: none; flex-direction: column; gap: 10px;">
+    <div id="channelScreenTimeContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="hardware-module">
-        <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
-        <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
-        <svg class="cnc-screw-svg bl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(45 8 8)"/></svg>
-        <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
+        <svg class="cnc-screw-svg tl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol"/></svg>
+        <svg class="cnc-screw-svg tr" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(90 9 9)"/></svg>
+        <svg class="cnc-screw-svg bl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(45 9 9)"/></svg>
+        <svg class="cnc-screw-svg br" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(135 9 9)"/></svg>
         
         <div class="module-engrave-header">
           <div class="plate-title"><span>[MAC-DOĞRUDAN] EKRAN SÜRESİ</span></div>
@@ -852,35 +848,35 @@
         <div class="smoked-display-bezel amber-tube">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <div style="font-size: 8px; color: #8C7B6C;">BUGÜNKÜ AKTİF SÜRE:</div>
+              <div style="font-size: 8.5px; color: #8C7B6C;">BUGÜNKÜ AKTİF SÜRE:</div>
               <div class="tube-cluster" style="font-size: 28px; margin-top: 2px;">
                 <span class="ghost-layer">88:88:88</span>
                 <span class="active-layer" id="trueMacScreenTime">01:37:00</span>
               </div>
             </div>
             <div style="text-align: right;">
-              <div style="font-size: 8px; color: #8C7B6C;">KESİNTİSİZ:</div>
-              <div class="tube-cluster" style="font-size: 20px;">
+              <div style="font-size: 8.5px; color: #8C7B6C;">KESİNTİSİZ:</div>
+              <div class="tube-cluster" style="font-size: 22px;">
                 <span class="ghost-layer">88</span>
                 <span class="active-layer" id="continuousWorkText">57</span>
               </div>
-              <div style="font-size: 8px; color: #8C7B6C;">DAKİKA</div>
+              <div style="font-size: 8.5px; color: #8C7B6C;">DAKİKA</div>
             </div>
           </div>
         </div>
 
-        <div class="module-engrave-header" style="margin-top: 10px;">
+        <div class="module-engrave-header" style="margin-top: 12px;">
           <div class="plate-title"><span>UYGULAMA DAĞILIMI</span></div>
         </div>
 
-        <div id="appBreakdownContainer" style="display: flex; flex-direction: column; gap: 4px;"></div>
+        <div id="appBreakdownContainer" style="display: flex; flex-direction: column; gap: 6px;"></div>
       </div>
 
       <div class="hardware-module">
-        <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
-        <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
-        <svg class="cnc-screw-svg bl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(45 8 8)"/></svg>
-        <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
+        <svg class="cnc-screw-svg tl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol"/></svg>
+        <svg class="cnc-screw-svg tr" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(90 9 9)"/></svg>
+        <svg class="cnc-screw-svg bl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(45 9 9)"/></svg>
+        <svg class="cnc-screw-svg br" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(135 9 9)"/></svg>
         
         <div class="module-engrave-header">
           <div class="plate-title"><span>[TELEFON-DOĞRUDAN] EKRAN SÜRESİ</span></div>
@@ -890,13 +886,13 @@
         <div class="smoked-display-bezel cyan-tube">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <div style="font-size: 8px; color: #8C7B6C;">TELEFON SÜRESİ:</div>
+              <div style="font-size: 8.5px; color: #8C7B6C;">TELEFON SÜRESİ:</div>
               <div class="tube-cluster" style="font-size: 28px; margin-top: 2px;">
                 <span class="ghost-layer">88:88:88</span>
                 <span class="active-layer" id="phoneScreenTimeVal">02:05:00</span>
               </div>
             </div>
-            <div style="font-size: 9px; color: var(--vfd-cyan);" id="phoneModelSub">TELEFON // %78</div>
+            <div style="font-size: 10px; color: var(--vfd-cyan);" id="phoneModelSub">TELEFON // %78</div>
           </div>
         </div>
       </div>
@@ -905,19 +901,19 @@
     <!-- ==================================================== -->
     <!-- 4. KANAL: GRAFİK -->
     <!-- ==================================================== -->
-    <div id="channelDailyContent" style="display: none; flex-direction: column; gap: 10px;">
+    <div id="channelDailyContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="hardware-module">
-        <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
-        <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
-        <svg class="cnc-screw-svg bl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(45 8 8)"/></svg>
-        <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
+        <svg class="cnc-screw-svg tl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol"/></svg>
+        <svg class="cnc-screw-svg tr" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(90 9 9)"/></svg>
+        <svg class="cnc-screw-svg bl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(45 9 9)"/></svg>
+        <svg class="cnc-screw-svg br" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(135 9 9)"/></svg>
         
         <div class="module-engrave-header">
           <div class="plate-title"><span>[GRAFİK] SENSÖR GÜNLÜK EĞRİSİ</span></div>
-          <button type="button" class="tactile-rocker-btn" onclick="refreshDailyChart()" style="padding: 2px 6px; font-size: 9px;">YENİLE ↻</button>
+          <button type="button" class="tactile-rocker-btn" onclick="refreshDailyChart()" style="padding: 3px 8px; font-size: 9.5px;">YENİLE ↻</button>
         </div>
 
-        <div style="position: relative; height: 160px; width: 100%;">
+        <div style="position: relative; height: 170px; width: 100%;">
           <canvas id="dailySensorChart"></canvas>
         </div>
       </div>
@@ -926,19 +922,19 @@
     <!-- ==================================================== -->
     <!-- 5. KANAL: TELEMETRİ GÜNLÜĞÜ -->
     <!-- ==================================================== -->
-    <div id="channelAnalysisContent" style="display: none; flex-direction: column; gap: 10px;">
+    <div id="channelAnalysisContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="hardware-module">
-        <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
-        <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
-        <svg class="cnc-screw-svg bl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(45 8 8)"/></svg>
-        <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
+        <svg class="cnc-screw-svg tl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol"/></svg>
+        <svg class="cnc-screw-svg tr" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(90 9 9)"/></svg>
+        <svg class="cnc-screw-svg bl" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(45 9 9)"/></svg>
+        <svg class="cnc-screw-svg br" viewBox="0 0 18 18"><use href="#machinedScrewSymbol" transform="rotate(135 9 9)"/></svg>
         
         <div class="module-engrave-header">
           <div class="plate-title"><span>[GÜNLÜK] SİSTEM TELEMETRİSİ</span></div>
         </div>
 
         <div class="smoked-display-bezel">
-          <div style="font-size: 11px; color: #2ED573; line-height: 1.6;">
+          <div style="font-size: 11px; color: #2ED573; line-height: 1.7;">
             > İSTASYON: ÇEVRİMİÇİ (PORT 80)<br>
             > ÇİFT KANALLI POSTÜR: HAZIR<br>
             > PIR HAREKET: 0 ALGILAMA (GECE MODU)<br>
@@ -1029,13 +1025,13 @@
     }
 
     function updateAnalogGauges(air, light) {
-      // Skala: 400 PPM = -45°, 1800 PPM = +45°
+      // Skala: 400 PPM = -45°, 1800 PPM = +45° (Tam simetrik)
       const airClamped = Math.min(1800, Math.max(400, air));
       const airAngle = -45 + ((airClamped - 400) / (1800 - 400)) * 90;
       const airNeedle = document.getElementById('airGaugeNeedle');
       if (airNeedle) airNeedle.style.transform = `rotate(${airAngle.toFixed(1)}deg)`;
 
-      // Skala: %0 = -45°, %100 = +45°
+      // Skala: %0 = -45°, %100 = +45° (Tam simetrik)
       const lightClamped = Math.min(100, Math.max(0, light));
       const lightAngle = -45 + (lightClamped / 100) * 90;
       const lightNeedle = document.getElementById('lightGaugeNeedle');
@@ -1313,9 +1309,9 @@
                   let mins = Math.max(1, Math.round(sec / 60));
                   let pct = Math.round((sec / totalS) * 100);
                   return `
-                    <div style="display: flex; justify-content: space-between; padding: 4px 8px; background: #040302; border: 1px solid #20160F; border-radius: 2px; font-size: 10px;">
-                      <span style="color: var(--brass-gold);">${app.toUpperCase()}</span>
-                      <span style="color: #E2D5C3;">${mins} DK (%${pct})</span>
+                    <div style="display: flex; justify-content: space-between; padding: 5px 10px; background: #040302; border: 1px solid #20160F; border-radius: 3px; font-size: 10.5px;">
+                      <span style="color: var(--brass-gold); font-weight: bold;">${app.toUpperCase()}</span>
+                      <span style="color: #E2D7C8;">${mins} DK (%${pct})</span>
                     </div>
                   `;
                 }).join('');
