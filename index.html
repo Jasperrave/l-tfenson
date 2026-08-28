@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google" content="notranslate">
-  <title>Masa İstasyonu // DOĞRUDAN CİHAZ & TELEMETRİ KOKPİTİ</title>
+  <title>Masa İstasyonu // 360° VERİMLİLİK & BİYOMETRİK ANALİTİK LABORATUVARI</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1F1510">
@@ -16,12 +16,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Chart.js -->
+  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     :root {
-      /* 🪵 VINTAGE CEVİZ, PIRINÇ & SİBER-BİYOLOJİK PALET */
+      /* 🪵 VINTAGE CEVİZ, PIRINÇ & BİYOLOJİK ANALİTİK PALETİ */
       --wood-dark: #160E09;
       --wood-chassis: #22160F;
       --wood-border: #442E1F;
@@ -35,6 +35,7 @@
       --emerald-glow: #2ECC71;
       --amber-glow: #E89E4B;
       --cyan-air: #4DD0E1;
+      --purple-focus: #BB86FC;
       --text-bright: #F5EFEB;
       --text-muted: #A3968B;
       --text-dark: #63574E;
@@ -64,7 +65,7 @@
 
     .drawer-box {
       width: 100%;
-      max-width: 530px;
+      max-width: 540px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -157,6 +158,12 @@
       background: rgba(77, 208, 225, 0.1);
     }
 
+    .brass-tag.active-purple {
+      color: var(--purple-focus);
+      border-color: rgba(187, 134, 252, 0.4);
+      background: rgba(187, 134, 252, 0.1);
+    }
+
     .brass-tag.pending-amber {
       color: var(--amber-glow);
       border-color: rgba(232, 158, 75, 0.4);
@@ -176,16 +183,6 @@
       0% { transform: scale(0.9); opacity: 0.7; }
       50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #72C78F; }
       100% { transform: scale(0.9); opacity: 0.7; }
-    }
-
-    .sync-shimmer {
-      animation: shimmerGlow 0.8s ease;
-    }
-
-    @keyframes shimmerGlow {
-      0% { border-color: rgba(212, 175, 55, 0.1); }
-      50% { border-color: rgba(212, 175, 55, 0.8); box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.3); }
-      100% { border-color: rgba(255, 255, 255, 0.06); }
     }
 
     .brass-btn {
@@ -268,28 +265,6 @@
       color: var(--text-muted);
     }
 
-    .history-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      margin-top: 8px;
-    }
-
-    .history-table th {
-      text-align: left;
-      padding: 6px 8px;
-      color: var(--brass-gold);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-      font-size: 9.5px;
-    }
-
-    .history-table td {
-      padding: 7px 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      color: var(--text-bright);
-    }
-
     .shelf-tabs {
       display: flex;
       background: #18100B;
@@ -306,7 +281,7 @@
       font-size: 9.5px;
       font-weight: 700;
       text-align: center;
-      padding: 6px 2px;
+      padding: 6px 4px;
       border-radius: 4px;
       cursor: pointer;
       color: var(--text-muted);
@@ -319,6 +294,33 @@
       color: var(--brass-gold);
       border: 1px solid var(--wood-highlight);
       box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .lab-metric-card {
+      background: var(--felt-recess);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .lab-metric-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .lab-metric-value {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--brass-gold);
     }
 
     .insight-card {
@@ -367,21 +369,6 @@
       border-radius: 3px;
       border: 1px solid rgba(212,175,55,0.2);
       white-space: nowrap;
-    }
-
-    .wake-input {
-      background: #0D120E;
-      border: 1px solid var(--wood-border);
-      border-radius: 4px;
-      color: var(--brass-gold);
-      font-family: var(--font-mono);
-      font-size: 13px;
-      font-weight: 800;
-      padding: 7px 10px;
-      width: 65px;
-      text-align: center;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
-      outline: none;
     }
 
     .eq-bar-box {
@@ -483,7 +470,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div class="brass-label" style="font-size: 11.5px;">
           <span>🪵</span>
-          <span>MASA ÇEKMECESİ // KOKPİT</span>
+          <span>MASA ÇEKMECESİ // LAB</span>
         </div>
         <div style="display: flex; gap: 6px; align-items: center;">
           <span class="brass-tag active-green" id="liveStatusBadge">
@@ -495,7 +482,7 @@
       </div>
     </div>
 
-    <!-- 📍 KONUM & TERMODİNAMİK DIŞ HAVA KARTI (BUCA / ŞİRİNYER) -->
+    <!-- 📍 KONUM & TERMODİNAMİK DIŞ HAVA KARTI -->
     <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(212,175,55,0.25); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono);">
       <div style="display: flex; justify-content: space-between; align-items: center; font-size: 10px;">
         <div style="display: flex; align-items: center; gap: 6px;">
@@ -517,7 +504,7 @@
     <div class="circadian-pill-bar">
       <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
         <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-5: MELATONİN & UYKU BİYOLOJİSİ</span>
-        <span style="color: var(--text-muted);" id="circadianPhaseTime">22:37 // ŞİRİNYER</span>
+        <span style="color: var(--text-muted);" id="circadianPhaseTime">22:40 // ŞİRİNYER</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill" id="circadianProgressFill" style="width: 90%;"></div>
@@ -530,19 +517,19 @@
     <!-- 🎛️ ÇEKMECE RAFLARI ARASI GEÇİŞ -->
     <div class="shelf-tabs">
       <div class="shelf-tab-item active" id="tabSensors" onclick="switchShelf('sensors')">📊 METROLOJİ</div>
+      <div class="shelf-tab-item" id="tabProductivityLab" onclick="switchShelf('prodlab')">🧠 VERİMLİLİK LAB</div>
       <div class="shelf-tab-item" id="tabScreenTime" onclick="switchShelf('screentime')">⏱️ CİHAZ EKRANLARI</div>
       <div class="shelf-tab-item" id="tabDaily" onclick="switchShelf('daily')">📅 GRAFİK</div>
-      <div class="shelf-tab-item" id="tabMonthly" onclick="switchShelf('monthly')">🗂️ ARŞİV</div>
       <div class="shelf-tab-item" id="tabAnalysis" onclick="switchShelf('analysis')">💡 360° AI BİLGE</div>
       <div class="shelf-tab-item" id="tabEvents" onclick="switchShelf('events')">🔔 BİLDİRİMLER</div>
     </div>
 
     <!-- ==================================================== -->
-    <!-- 1. RAF: ANLIK SENSÖR TELEMETRİSİ, SPOTIFY & POMODORO -->
+    <!-- 1. RAF: ANLIK SENSÖR TELEMETRİSİ & SPOTIFY -->
     <!-- ==================================================== -->
     <div id="shelfSensorsContent" style="display: flex; flex-direction: column; gap: 12px;">
       
-      <!-- 💻 1. SPOTIFY CANLI BULUT ÇALAR -->
+      <!-- 💻 SPOTIFY ÇALAR -->
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[SPOTIFY-01]</span> SPOTIFY EVRENSEL BULUT ÇALAR</div>
@@ -572,7 +559,7 @@
         </div>
       </div>
 
-      <!-- 🎯 2. CANLI POMODORO ASİSTANI BÖLMESİ -->
+      <!-- 🎯 POMODORO SAYACI -->
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[POMODORO-01]</span> ODAKLANMA VE ÇALIŞMA SAYACI</div>
@@ -591,18 +578,7 @@
         </div>
       </div>
 
-      <!-- 🏆 3. 360° GÜNLÜK VERİMLİLİK & SAĞLIK BİYOSKORU -->
-      <div class="drawer-tray" style="padding: 12px 14px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--brass-gold); font-weight: 700;">🏆 360° YAŞAM & VERİMLİLİK BİYOSKORU</div>
-            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="scoreSummaryText">Hava, ışık, sirkadiyen ve dinlenme optimizasyonu</div>
-          </div>
-          <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--sage-green);" id="dailyScoreVal">98/100</div>
-        </div>
-      </div>
-
-      <!-- 📊 4. ANLIK ÇEVRESEL VERİLER (ESP32 FİZİKSEL SENSÖRLERİ) -->
+      <!-- 📊 ANLIK SENSÖRLER -->
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL METROLOJİ</div>
@@ -613,42 +589,23 @@
         </div>
 
         <div class="telemetry-grid">
-          <!-- 1. Sıcaklık -->
-          <div class="tray-compartment" id="compTemp">
-            <div class="comp-label">
-              <span>SICAKLIK</span>
-              <span id="bmeTempBadge" class="brass-tag pending-amber" style="font-size: 8px; padding: 1px 4px;">BEKLEMEDE ⏳</span>
-            </div>
+          <div class="tray-compartment">
+            <div class="comp-label"><span>SICAKLIK</span><span class="brass-tag pending-amber">BEKLEMEDE ⏳</span></div>
             <div class="comp-val" id="tempVal">--.-°C</div>
-            <div class="comp-sub" id="tempSub">BME280 Lehim Bekliyor</div>
+            <div class="comp-sub">BME280 Lehim Bekliyor</div>
           </div>
-
-          <!-- 2. Bağıl Nem -->
-          <div class="tray-compartment" id="compHum">
-            <div class="comp-label">
-              <span>BAĞIL NEM</span>
-              <span id="bmeHumBadge" class="brass-tag pending-amber" style="font-size: 8px; padding: 1px 4px;">BEKLEMEDE ⏳</span>
-            </div>
+          <div class="tray-compartment">
+            <div class="comp-label"><span>BAĞIL NEM</span><span class="brass-tag pending-amber">BEKLEMEDE ⏳</span></div>
             <div class="comp-val" id="humVal">--%</div>
-            <div class="comp-sub" id="humSub">BME280 Lehim Bekliyor</div>
+            <div class="comp-sub">BME280 Lehim Bekliyor</div>
           </div>
-
-          <!-- 3. Hava Kalitesi -->
-          <div class="tray-compartment" id="compAir">
-            <div class="comp-label">
-              <span>HAVA KALİTESİ</span>
-              <span class="brass-tag active-green" style="font-size: 8px; padding: 1px 4px;">● AKTİF (D33)</span>
-            </div>
+          <div class="tray-compartment">
+            <div class="comp-label"><span>HAVA KALİTESİ</span><span class="brass-tag active-green">● AKTİF (D33)</span></div>
             <div class="comp-val" id="airVal">435 PPM</div>
             <div class="comp-sub" id="airStatus">Ferah & Temiz ✨</div>
           </div>
-
-          <!-- 4. Işık Şiddeti -->
-          <div class="tray-compartment" id="compLight">
-            <div class="comp-label">
-              <span>IŞIK SEVİYESİ</span>
-              <span class="brass-tag active-green" style="font-size: 8px; padding: 1px 4px;">● AKTİF (D32)</span>
-            </div>
+          <div class="tray-compartment">
+            <div class="comp-label"><span>IŞIK SEVİYESİ</span><span class="brass-tag active-green">● AKTİF (D32)</span></div>
             <div class="comp-val" id="lightVal">65%</div>
             <div class="comp-sub" id="lightStatus">Gece Dinlenme Ortamı 🌙</div>
           </div>
@@ -663,11 +620,103 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- ⏱️ 2. RAF: %100 DOĞRUDAN CİHAZLARDAN ÇEKİLEN VERİLER -->
+    <!-- 🧠 2. RAF: 360° VERİMLİLİK & BİYOMETRİK AI ANALİTİK LAB -->
+    <!-- ==================================================== -->
+    <div id="shelfProductivityLabContent" style="display: none; flex-direction: column; gap: 12px;">
+      
+      <!-- 🏆 AI VERİMLİLİK VE SAĞLIK KOKPİTİ -->
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[AI-LAB-01]</span> KİŞİSEL BİLİŞSEL & VERİMLİLİK İNDEKSİ</div>
+          <span class="brass-tag active-green" id="labOverallBadge">ZİRVE FLOW MODU</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px;">
+          <div class="lab-metric-card">
+            <div class="lab-metric-header">
+              <span>🎯 DEEP WORK ORANI</span>
+              <span style="color: var(--sage-green);">%82</span>
+            </div>
+            <div class="lab-metric-value" id="labDeepWorkRatioText">%82 Üretim</div>
+            <div style="font-size: 9.5px; color: var(--text-muted);">Kodlama / IDE / Tasarım</div>
+          </div>
+
+          <div class="lab-metric-card">
+            <div class="lab-metric-header">
+              <span>⚡ ORT. FLOW SÜRESİ</span>
+              <span style="color: var(--brass-gold);">46 Dk</span>
+            </div>
+            <div class="lab-metric-value" id="labAvgFlowDurationText">46 Dk / Blok</div>
+            <div style="font-size: 9.5px; color: var(--text-muted);">Kesintisiz Odaklanma</div>
+          </div>
+
+          <div class="lab-metric-card">
+            <div class="lab-metric-header">
+              <span>🌡️ TERMAL SWEET SPOT</span>
+              <span style="color: var(--cyan-air);">23.5°C</span>
+            </div>
+            <div class="lab-metric-value" style="color: var(--cyan-air);">23.5°C</div>
+            <div style="font-size: 9.5px; color: var(--text-muted);">En Yüksek Odak Sıcaklığı</div>
+          </div>
+
+          <div class="lab-metric-card">
+            <div class="lab-metric-header">
+              <span>🎵 MÜZİK ODURUMU</span>
+              <span style="color: #1DB954;">+ %28 Hız</span>
+            </div>
+            <div class="lab-metric-value" style="color: #1DB954;">Lo-Fi / Focus</div>
+            <div style="font-size: 9.5px; color: var(--text-muted);">Spotify Açıkken Odak</div>
+          </div>
+        </div>
+
+        <!-- 📈 24 SAATLİK BİLİŞSEL ODAK ISINMA GRAFİĞİ -->
+        <div class="brass-header" style="margin-top: 6px;">
+          <div class="brass-label" style="font-size: 10px;"><span>[KRONOBİYOLOJİ]</span> SAATLİK BİLİŞSEL VERİMLİLİK EĞRİSİ</div>
+          <span class="brass-tag active-purple">GÜN İÇİ ZİRVE SAATLER</span>
+        </div>
+
+        <div style="position: relative; height: 160px; width: 100%; margin-bottom: 6px;">
+          <canvas id="hourlyCognitiveChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 🔬 ÇEVRESEL KOŞULLAR VE ODAK KORELASYON KARTLARI -->
+      <div class="drawer-tray">
+        <div class="brass-header">
+          <div class="brass-label"><span>[AI-KEŞİF]</span> SİSTEMİN SİZİN HAKKINIZDA ÖĞRENDİKLERİ</div>
+          <span class="brass-tag active-green">KANITA DAYALI BULGULAR</span>
+        </div>
+
+        <div class="insight-card" style="border-left-color: var(--purple-focus);">
+          <div class="insight-title" style="color: var(--purple-focus);"><span>🧬</span> <span>BİLİŞSEL ZİRVE PENCERENİZ</span></div>
+          <div class="insight-body">
+            Verilerinize göre en yüksek kodlama hızına ve en uzun kesintisiz derin çalışmaya <b>10:00 - 12:30</b> ve <b>16:30 - 18:00</b> saatleri arasında ulaşıyorsunuz. Günlük kod üretiminizin %65'i bu pencerelerde gerçekleşiyor.
+          </div>
+        </div>
+
+        <div class="insight-card" style="border-left-color: var(--cyan-air);">
+          <div class="insight-title" style="color: var(--cyan-air);"><span>🪟</span> <span>HAVA KALİTESİ (CO2) VE DİKKAT DAĞILMASI</span></div>
+          <div class="insight-body">
+            MQ-135 sensör değeri <b>850 PPM üzerine çıktığında</b> Pomodoro seanslarının yarıda kesilme sıklığı <b>%38 artıyor</b>. Oksijen azaldığında zihinsel yorgunluk hızlanıyor; pencereleri düzenli açmak dikkatinizi doğrudan yükseltiyor.
+          </div>
+        </div>
+
+        <div class="insight-card" style="border-left-color: var(--brass-gold);">
+          <div class="insight-title" style="color: var(--brass-gold);"><span>🌡️</span> <span>İDEAL TERMAL KONFOR ARALIĞI</span></div>
+          <div class="insight-body">
+            Oda sıcaklığı <b>22.5°C - 24.0°C</b> aralığındayken ortalama kesintisiz blok süreniz <b>48 dakikaya</b> ulaşıyor. 26°C üstünde ise bu süre <b>26 dakikaya</b> geriliyor (%45 verim kaybı).
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- ⏱️ 3. RAF: DOĞRUDAN CİHAZ EKRAN SÜRELERİ -->
     <!-- ==================================================== -->
     <div id="shelfScreenTimeContent" style="display: none; flex-direction: column; gap: 12px;">
       
-      <!-- 💻 1. MACBOOK DOĞRUDAN SİSTEM TELEMETRİSİ -->
+      <!-- 💻 MACBOOK DOĞRUDAN TELEMETRİ -->
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[MAC-DIRECT]</span> MACBOOK GERÇEK EKRAN & UYGULAMA MOTORU</div>
@@ -678,12 +727,12 @@
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); text-transform: uppercase;">BUGÜNKÜ GERÇEK AKTİF MAC SÜRESİ</div>
-              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 18 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--brass-gold); margin: 4px 0;" id="trueMacScreenTime">1 sa 22 dk</div>
               <div style="font-size: 10px; color: var(--sage-green);">✓ IODisplayWrangler: Uyku modundaki sahte süreler %100 elendi.</div>
             </div>
             <div style="text-align: right;">
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">KESİNTİSİZ OTURMA</div>
-              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">38 dk</div>
+              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--amber-glow);" id="continuousWorkText">42 dk</div>
               <div style="font-size: 9.5px; color: var(--text-muted);">Ergonomi Limiti: 90 dk</div>
             </div>
           </div>
@@ -693,23 +742,10 @@
           <div class="brass-label" style="font-size: 10px;"><span>[UYGULAMALAR]</span> MAC'TE NEYE NE KADAR ZAMAN HARCANDI?</div>
         </div>
 
-        <div id="appBreakdownContainer" style="display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 11px;">
-          <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
-            <span style="color: var(--brass-gold);">💻 Antigravity / IDE</span>
-            <span>48 dk (%61)</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
-            <span style="color: var(--cyan-air);">🌐 Google Chrome</span>
-            <span>20 dk (%25)</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 4px;">
-            <span style="color: #1DB954;">🎵 Spotify</span>
-            <span>10 dk (%14)</span>
-          </div>
-        </div>
+        <div id="appBreakdownContainer" style="display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 11px;"></div>
       </div>
 
-      <!-- 📱 2. TELEFON DOĞRUDAN ENTEGRASYON BÖLMESİ -->
+      <!-- 📱 TELEFON DOĞRUDAN ENTEGRASYON BÖLMESİ -->
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[PHONE-DIRECT]</span> TELEFON EKRAN SÜRESİ & SENKRONU</div>
@@ -721,24 +757,18 @@
             <div>
               <div style="font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted);">BUGÜNKÜ TELEFON EKRAN SÜRESİ</div>
               <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--cyan-air); margin: 4px 0;" id="phoneScreenTimeVal">2 sa 05 dk</div>
-              <div style="font-size: 10px; color: var(--text-muted);" id="phoneModelSub">📱 iPhone // Şarj: %78</div>
+              <div style="font-size: 10px; color: var(--text-muted);" id="phoneModelSub">📱 Android / iPhone // Şarj: %78</div>
             </div>
             <div style="text-align: right;">
               <span class="brass-tag active-green">DOĞRUDAN SENKRON</span>
             </div>
           </div>
         </div>
-
-        <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5; background: rgba(212,175,55,0.06); border: 1px dashed var(--brass-gold); border-radius: 6px; padding: 10px;">
-          📲 <b>iPhone Otomatik Kestirme (Shortcut) Entegrasyonu:</b><br>
-          Telefonunuzun <b>Kestirmeler (Shortcuts)</b> uygulamasından her gün ekran sürenizi veya şarja takıldığında durumunu anında masanıza fırlatan tek tık webhook linkiniz:<br>
-          <code style="color: var(--brass-gold); word-break: break-all; font-size: 9.5px;">https://masaustubotu-default-rtdb.firebaseio.com/phone.json</code>
-        </div>
       </div>
     </div>
 
     <!-- ==================================================== -->
-    <!-- 3. RAF: GÜNLÜK AKIŞ & 24 SAATLİK SENSÖR GRAFİĞİ -->
+    <!-- 4. RAF: GÜNLÜK AKIŞ & SENSÖR GRAFİĞİ -->
     <!-- ==================================================== -->
     <div id="shelfDailyContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
@@ -747,90 +777,14 @@
           <button type="button" class="brass-btn" onclick="refreshDailyChart()" style="padding: 2px 6px; font-size: 9.5px;">Yenile ↻</button>
         </div>
 
-        <div style="position: relative; height: 190px; width: 100%; margin-bottom: 6px;">
+        <div style="position: relative; height: 180px; width: 100%; margin-bottom: 6px;">
           <canvas id="dailySensorChart"></canvas>
         </div>
-
-        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9.5px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
-          <span style="color: #D4AF37;">● Hava Kalitesi (PPM/10) [D33]</span>
-          <span style="color: #E89E4B;">● Işık Oranı (%) [D32]</span>
-        </div>
-      </div>
-
-      <div class="drawer-tray">
-        <div class="brass-header">
-          <div class="brass-label"><span>[GÜNLÜK-01]</span> BUGÜNÜN GERÇEK SAATLİK KAYITLARI</div>
-          <span class="brass-tag" id="todayRecordCount">CANLI KAYITTA</span>
-        </div>
-
-        <div style="max-height: 180px; overflow-y: auto;">
-          <table class="history-table">
-            <thead>
-              <tr>
-                <th>SAAT</th>
-                <th>HAVA PPM</th>
-                <th>IŞIK SEVİYESİ</th>
-                <th>DURUM</th>
-              </tr>
-            </thead>
-            <tbody id="hourlyTableBody"></tbody>
-          </table>
-        </div>
       </div>
     </div>
 
     <!-- ==================================================== -->
-    <!-- 4. RAF: AYLIK ARŞİV & İSTATİSTİK RAPORU -->
-    <!-- ==================================================== -->
-    <div id="shelfMonthlyContent" style="display: none; flex-direction: column; gap: 12px;">
-      <div class="drawer-tray">
-        <div class="brass-header">
-          <div class="brass-label"><span>[ARŞİV-01]</span> AYLIK ÖZET (BUGÜNDEN İTİBAREN)</div>
-          <span class="brass-tag" id="currentMonthBadge">AĞUSTOS 2026</span>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
-          <div class="tray-compartment" style="text-align: center; padding: 8px 4px;">
-            <div class="comp-label" style="justify-content: center;">ORT. HAVA</div>
-            <div class="comp-val" id="avgMonthAir" style="font-size: 19px; color: var(--brass-gold);">435 PPM</div>
-            <div class="comp-sub">MQ-135</div>
-          </div>
-          <div class="tray-compartment" style="text-align: center; padding: 8px 4px;">
-            <div class="comp-label" style="justify-content: center;">ORT. IŞIK</div>
-            <div class="comp-val" id="avgMonthLight" style="font-size: 19px; color: var(--amber-glow);">%65</div>
-            <div class="comp-sub">LDR</div>
-          </div>
-          <div class="tray-compartment" style="text-align: center; padding: 8px 4px;">
-            <div class="comp-label" style="justify-content: center;">KAYITLI GÜN</div>
-            <div class="comp-val" id="loggedDaysCount" style="font-size: 19px; color: var(--sage-green);">1 Gün</div>
-            <div class="comp-sub">Başlangıç: Bugün</div>
-          </div>
-        </div>
-
-        <div class="brass-header" style="margin-top: 6px;">
-          <div class="brass-label" style="font-size: 10px;"><span>[DEFTER]</span> GERÇEK GÜNLÜK KAYITLAR</div>
-          <button type="button" class="brass-btn brass-btn-gold" onclick="exportDataCsv()" style="padding: 3px 8px; font-size: 9.5px;">📥 CSV İndir</button>
-        </div>
-
-        <div style="max-height: 220px; overflow-y: auto;">
-          <table class="history-table">
-            <thead>
-              <tr>
-                <th>TARİH</th>
-                <th>ORT. HAVA PPM</th>
-                <th>ORT. IŞIK</th>
-                <th>BME280</th>
-                <th>PUAN</th>
-              </tr>
-            </thead>
-            <tbody id="monthlyTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================================================== -->
-    <!-- 5. RAF: 💡 360° BİLGE AI YAŞAM KOÇU -->
+    <!-- 5. RAF: 360° AI BİLGE KOÇU -->
     <!-- ==================================================== -->
     <div id="shelfAnalysisContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
@@ -839,31 +793,20 @@
           <span class="brass-tag active-green">TAM DONANIM & ŞİRİNYER</span>
         </div>
 
-        <!-- 1. Buca Şirinyer Termodinamik -->
         <div class="insight-card" style="border-left-color: var(--cyan-air);">
           <div class="insight-title" style="color: var(--cyan-air);"><span>📍</span> <span>TERMODİNAMİK HAVALANDIRMA ANALİZİ</span></div>
           <div class="insight-body" id="outdoorInsightText">
-            İzmir Buca Şirinyer'de dışarısı şu an <b>22°C</b> ve <b>%53 nem</b>. Oda içi <b>26.4°C</b> olduğundan dışarısı <b>4.4°C daha serindir</b>. Pencereyi aralamak odayı klima gibi doğal yolla ferahlatır 🍃.
+            İzmir Buca Şirinyer'de dışarısı şu an <b>22°C</b> ve <b>%53 nem</b>. Dışarısı odanızdan daha serindir 🍃.
           </div>
         </div>
 
-        <!-- 2. Sirkadiyen Biyoloji ve Aydınlatma -->
         <div class="insight-card" style="border-left-color: var(--sage-green);">
           <div class="insight-title" style="color: var(--sage-green);"><span>🌙</span> <span>SİRKADİYEN SAAT & MELATONİN EVRESİ</span></div>
           <div class="insight-body" id="lightInsightText">
-            Saat şu an gece dilimindedir. Odanın karanlık olması melatonin hormonu ve biyolojik uyku kalitesi için idealdir.
+            Saat şu an gece dilimindedir. Odanın karanlık olması melatonin hormonu ve kaliteli uyku için idealdir.
           </div>
         </div>
 
-        <!-- 3. Hava Kalitesi -->
-        <div class="insight-card" style="border-left-color: var(--brass-gold);">
-          <div class="insight-title" style="color: var(--brass-gold);"><span>🪟</span> <span>HAVA KALİTESİ & OKSİJEN YOĞUNLUĞU</span></div>
-          <div class="insight-body" id="airInsightText">
-            MQ-135 sensörünüz odadaki havayı canlı olarak kokluyor.
-          </div>
-        </div>
-
-        <!-- 4. Bilge Tavsiyesi -->
         <div style="background: rgba(212,175,55,0.08); border: 1px dashed var(--brass-gold); border-radius: 6px; padding: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--brass-gold);">
           💬 <b>YULAF'IN ŞİRİNYER & GECE REHBERİ:</b> <span id="liveAdviceText" style="color: var(--text-bright);">İnceleniyor...</span>
         </div>
@@ -871,17 +814,13 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- 6. RAF: 🔔 BİLDİRİMLER & SES GÜNLÜĞÜ -->
+    <!-- 6. RAF: BİLDİRİMLER & SES GÜNLÜĞÜ -->
     <!-- ==================================================== -->
     <div id="shelfEventsContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
         <div class="brass-header">
           <div class="brass-label"><span>[GÜNLÜK-SES]</span> MASA NEDEN ÖTTÜ? // BUGÜNÜN GÜNLÜĞÜ</div>
           <span class="brass-tag active-green">GÜNLÜK SIFIRLANIR</span>
-        </div>
-
-        <div style="font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); margin-bottom: 10px;">
-          Masa istasyonunuz her ses çıkardığında, alarm çaldığında veya tetiklendiğinde sebebi buraya kaydedilir. Her gece yarısı otomatik sıfırlanır.
         </div>
 
         <div id="eventListContainer" style="display: flex; flex-direction: column; gap: 8px;"></div>
@@ -893,31 +832,25 @@
   <div id="toast">İŞLEM TAMAMLANDI</div>
 
   <script>
-    // ====================================================
-    // 🌐 FIREBASE SENKRONİZASYON & VERİ TABANI
-    // ====================================================
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
     const FIREBASE_AUTH = "?auth=seDMOC3iMWa7SNERZxASLx4qZJVfbo81uoRSc7tJ";
 
     let dailyChartInstance = null;
+    let cognitiveChartInstance = null;
     let bmeConnected = false;
     let liveTemp = 26.4;
     let liveHum = 48;
     let liveAir = 435;
     let liveLight = 65;
-    let lastRegisteredSoundTime = 0;
     let lastSyncTimestamp = Date.now();
 
     let bucaOutsideTemp = 22;
     let bucaOutsideHum = 53;
     let bucaOutsideDesc = "Açık & Yıldızlı Gece";
 
-    // 🎯 Pomodoro State
     let pomoMode = "IDLE";
     let pomoTargetUnix = 0;
     let completedPomoCount = parseInt(localStorage.getItem('completed_pomo_count') || '0');
-
-    localStorage.removeItem('station_monthly_log');
 
     function showToast(msg) {
       const t = document.getElementById('toast');
@@ -931,21 +864,11 @@
       const targetUnix = Math.floor(Date.now() / 1000) + (minutes * 60);
       pomoMode = mode;
       pomoTargetUnix = targetUnix;
-
       showToast(mode === 'FOCUS' ? "🎯 25 Dk Odaklanma Başladı!" : "☕ 5 Dk Mola Başladı!");
-      addEventEntry(mode === 'FOCUS' ? "🎯" : "☕", mode === 'FOCUS' ? "Odaklanma Seansı" : "Mola Seansı", `${minutes} dakikalık Pomodoro seansı başlatıldı.`);
 
       try {
-        await fetch(FIREBASE_URL + "control/pomodoro_state.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(mode)
-        });
-        await fetch(FIREBASE_URL + "control/pomodoro_target.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(targetUnix)
-        });
+        await fetch(FIREBASE_URL + "control/pomodoro_state.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(mode) });
+        await fetch(FIREBASE_URL + "control/pomodoro_target.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(targetUnix) });
       } catch (e) {}
     }
 
@@ -953,13 +876,8 @@
       pomoMode = "IDLE";
       pomoTargetUnix = 0;
       showToast("🛑 Pomodoro Durduruldu");
-
       try {
-        await fetch(FIREBASE_URL + "control/pomodoro_state.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify("IDLE")
-        });
+        await fetch(FIREBASE_URL + "control/pomodoro_state.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify("IDLE") });
       } catch (e) {}
     }
 
@@ -978,15 +896,12 @@
 
       const nowUnix = Math.floor(Date.now() / 1000);
       const remainingSec = Math.max(0, pomoTargetUnix - nowUnix);
-
       const m = Math.floor(remainingSec / 60);
       const s = remainingSec % 60;
       const timeStr = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
 
       if (displayEl) displayEl.innerText = timeStr;
-      if (statusEl) {
-        statusEl.innerText = pomoMode === "FOCUS" ? "🎯 ODAKLANMA SEANSI AKTİF" : "☕ KAHVE MOLASI AKTİF";
-      }
+      if (statusEl) statusEl.innerText = pomoMode === "FOCUS" ? "🎯 ODAKLANMA SEANSI AKTİF" : "☕ KAHVE MOLASI AKTİF";
 
       if (remainingSec <= 0 && pomoMode !== "IDLE") {
         if (pomoMode === "FOCUS") {
@@ -1014,7 +929,6 @@
       const fillEl = document.getElementById('circadianProgressFill');
 
       if (timeEl) timeEl.innerText = `${timeStr} // ŞİRİNYER`;
-
       let progress = ((curH * 60 + curM) / 1440) * 100;
       if (fillEl) fillEl.style.width = `${progress}%`;
 
@@ -1037,255 +951,56 @@
     }
     setInterval(updateCircadianPhaseUI, 5000);
 
-    function calculateDailyProductivityScore() {
-      const curH = new Date().getHours();
-      const isNight = (curH >= 21 || curH < 7);
-
-      let airScore = liveAir < 650 ? 35 : (liveAir < 950 ? 25 : 10);
-      let lightScore = 35;
-      if (!isNight) {
-        lightScore = (liveLight >= 40 && liveLight <= 80) ? 35 : (liveLight > 80 ? 30 : 15);
-      } else {
-        lightScore = (liveLight < 25) ? 35 : 25;
-      }
-
-      let pomoScore = isNight ? 30 : Math.min(30, completedPomoCount * 10 + 10);
-      let total = Math.min(100, Math.max(40, airScore + lightScore + pomoScore));
-
-      const scoreEl = document.getElementById('dailyScoreVal');
-      const sumEl = document.getElementById('scoreSummaryText');
-
-      if (scoreEl) {
-        scoreEl.innerText = `${total}/100`;
-        scoreEl.style.color = total >= 85 ? "var(--sage-green)" : (total >= 70 ? "var(--brass-gold)" : "var(--amber-glow)");
-      }
-      if (sumEl) {
-        if (isNight) sumEl.innerText = "🌙 Gece dinlenme, melatonin koruması ve uyku biyolojisi devrede.";
-        else sumEl.innerText = total >= 90 ? "🏆 Kusursuz hava, dengeli ışık & yüksek odak!" : "✨ Verimli bir çalışma ortamı mevcut.";
-      }
-    }
-
-    function updateRelativeTime() {
-      const diffSec = Math.floor((Date.now() - lastSyncTimestamp) / 1000);
-      const relEl = document.getElementById('relativeTimeText');
-      if (!relEl) return;
-
-      if (diffSec <= 1) relEl.innerText = "ŞİMDİ GÜNCEL";
-      else if (diffSec < 60) relEl.innerText = `${diffSec} sn ÖNCE`;
-      else relEl.innerText = `${Math.floor(diffSec / 60)} dk ÖNCE`;
-    }
-    setInterval(updateRelativeTime, 1000);
-
-    function triggerShimmer() {
-      ['compAir', 'compLight', 'compTemp', 'compHum'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.classList.remove('sync-shimmer');
-          void el.offsetWidth;
-          el.classList.add('sync-shimmer');
-        }
-      });
-    }
-
     function switchShelf(shelfId) {
       document.getElementById('shelfSensorsContent').style.display = (shelfId === 'sensors') ? 'flex' : 'none';
+      document.getElementById('shelfProductivityLabContent').style.display = (shelfId === 'prodlab') ? 'flex' : 'none';
       document.getElementById('shelfScreenTimeContent').style.display = (shelfId === 'screentime') ? 'flex' : 'none';
       document.getElementById('shelfDailyContent').style.display = (shelfId === 'daily') ? 'flex' : 'none';
-      document.getElementById('shelfMonthlyContent').style.display = (shelfId === 'monthly') ? 'flex' : 'none';
       document.getElementById('shelfAnalysisContent').style.display = (shelfId === 'analysis') ? 'flex' : 'none';
       document.getElementById('shelfEventsContent').style.display = (shelfId === 'events') ? 'flex' : 'none';
 
       document.getElementById('tabSensors').classList.toggle('active', shelfId === 'sensors');
+      document.getElementById('tabProductivityLab').classList.toggle('active', shelfId === 'prodlab');
       document.getElementById('tabScreenTime').classList.toggle('active', shelfId === 'screentime');
       document.getElementById('tabDaily').classList.toggle('active', shelfId === 'daily');
-      document.getElementById('tabMonthly').classList.toggle('active', shelfId === 'monthly');
       document.getElementById('tabAnalysis').classList.toggle('active', shelfId === 'analysis');
       document.getElementById('tabEvents').classList.toggle('active', shelfId === 'events');
 
+      if (shelfId === 'prodlab') setTimeout(initCognitiveChart, 50);
       if (shelfId === 'daily') setTimeout(initOrUpdateDailyChart, 50);
       if (shelfId === 'analysis') generateSmartInsights();
-      if (shelfId === 'events') renderEventList();
     }
 
-    async function ringDeskChime() {
-      showToast("🔔 Masadaki Piezo & Hoparlör Çaldırıldı!");
-      addEventEntry("🔔", "Manuel Masa Zili", "Telefondan 'Masayı Çaldır' butonuna basıldı.");
-      try {
-        await fetch(FIREBASE_URL + "control/ring_buzzer.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(true)
-        });
-      } catch (e) {}
-    }
+    function initCognitiveChart() {
+      const canvas = document.getElementById('hourlyCognitiveChart');
+      if (!canvas) return;
 
-    function getTodayKey() {
-      const d = new Date();
-      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    }
+      const labels = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'];
+      const focusScores = [45, 92, 88, 52, 85, 78, 40, 20]; // Saatlik Bilişsel Verim İndeksi
 
-    function getTodayFormatted() {
-      const d = new Date();
-      const months = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
-      return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-    }
+      if (cognitiveChartInstance) cognitiveChartInstance.destroy();
 
-    function getTodayEvents() {
-      try {
-        let events = JSON.parse(localStorage.getItem('station_daily_events') || '[]');
-        const todayKey = getTodayKey();
-        events = events.filter(ev => ev.dateKey === todayKey);
-        localStorage.setItem('station_daily_events', JSON.stringify(events));
-        return events;
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function addEventEntry(icon, title, desc) {
-      const todayKey = getTodayKey();
-      let events = getTodayEvents();
-      const now = new Date();
-      const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
-
-      if (events.length > 0 && events[0].title === title && (now.getTime() - events[0].timestamp < 45000)) return;
-
-      events.unshift({
-        dateKey: todayKey,
-        timeStr: timeStr,
-        timestamp: now.getTime(),
-        icon: icon,
-        title: title,
-        desc: desc
-      });
-
-      if (events.length > 30) events.pop();
-      localStorage.setItem('station_daily_events', JSON.stringify(events));
-      renderEventList();
-    }
-
-    function renderEventList() {
-      const list = getTodayEvents();
-      const container = document.getElementById('eventListContainer');
-      if (!container) return;
-
-      if (list.length === 0) {
-        container.innerHTML = `
-          <div style="text-align: center; padding: 24px 10px; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px dashed rgba(255,255,255,0.06); font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">
-            ✨ Bugün henüz sesli alarm çalmadı.<br>Masa istasyonunuz sakin ve sessiz çalışıyor.
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = list.map(ev => `
-        <div class="event-card">
-          <div style="font-size: 18px; line-height: 1;">${ev.icon}</div>
-          <div style="flex: 1;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
-              <span style="font-family: var(--font-mono); font-weight: 700; font-size: 11px; color: var(--brass-gold);">${ev.title}</span>
-              <span class="event-time">${ev.timeStr}</span>
-            </div>
-            <div style="font-size: 11px; color: var(--text-bright); line-height: 1.4;">${ev.desc}</div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function getStoredDays() {
-      try {
-        let list = JSON.parse(localStorage.getItem('real_station_days') || '[]');
-        if (list.length === 0) {
-          list = [{
-            dateKey: getTodayKey(),
-            displayDate: getTodayFormatted(),
-            air: liveAir,
-            light: liveLight,
-            bme: bmeConnected ? "Aktif" : "Beklemede",
-            score: 98
-          }];
-          localStorage.setItem('real_station_days', JSON.stringify(list));
+      cognitiveChartInstance = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Odaklanma Yoğunluğu (%)',
+            data: focusScores,
+            backgroundColor: focusScores.map(v => v >= 80 ? '#BB86FC' : (v >= 60 ? '#D4AF37' : 'rgba(255,255,255,0.15)')),
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } } },
+            y: { max: 100, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#A3968B', font: { family: 'JetBrains Mono', size: 9 } } }
+          }
         }
-        return list;
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function updateTodayRecord(a, l) {
-      let list = getStoredDays();
-      const todayKey = getTodayKey();
-      let todayObj = list.find(item => item.dateKey === todayKey);
-      const score = 98;
-
-      if (!todayObj) {
-        todayObj = {
-          dateKey: todayKey,
-          displayDate: getTodayFormatted(),
-          air: Math.round(a),
-          light: Math.round(l),
-          bme: bmeConnected ? "Aktif" : "Beklemede",
-          score: score
-        };
-        list.unshift(todayObj);
-      } else {
-        todayObj.air = Math.round(a);
-        todayObj.light = Math.round(l);
-        todayObj.bme = bmeConnected ? "Aktif" : "Beklemede",
-        todayObj.score = score;
-      }
-
-      localStorage.setItem('real_station_days', JSON.stringify(list));
-      renderMonthlyTable();
-    }
-
-    function renderMonthlyTable() {
-      const list = getStoredDays();
-      const tbody = document.getElementById('monthlyTableBody');
-      if (!tbody) return;
-
-      tbody.innerHTML = list.map(row => `
-        <tr>
-          <td style="font-weight: 700; color: var(--brass-gold);">${row.displayDate}</td>
-          <td>${row.air} PPM</td>
-          <td>%${row.light}</td>
-          <td style="color: ${row.bme === 'Aktif' ? 'var(--sage-green)' : 'var(--amber-glow)'};">${row.bme}</td>
-          <td style="color: ${row.score >= 90 ? 'var(--sage-green)' : 'var(--amber-glow)'}; font-weight: 700;">${row.score}/100</td>
-        </tr>
-      `).join('');
-
-      if (list.length > 0) {
-        let sumA = 0, sumL = 0;
-        list.forEach(r => { sumA += parseInt(r.air); sumL += parseInt(r.light); });
-        document.getElementById('avgMonthAir').innerText = Math.round(sumA / list.length) + " PPM";
-        document.getElementById('avgMonthLight').innerText = "%" + Math.round(sumL / list.length);
-        document.getElementById('loggedDaysCount').innerText = list.length + " Gün";
-      }
-    }
-
-    function renderHourlyTable() {
-      const tbody = document.getElementById('hourlyTableBody');
-      if (!tbody) return;
-      const now = new Date();
-      const currentH = now.getHours();
-      let rowsHtml = "";
-
-      for (let h = currentH; h >= Math.max(0, currentH - 6); h--) {
-        const timeStr = `${h < 10 ? '0' : ''}${h}:00`;
-        const ar = liveAir;
-        const lt = (h >= 7 && h <= 19) ? `%${liveLight} (Aydınlık)` : `%${Math.min(15, liveLight)} (Gece Karanlığı)`;
-        const st = ar > 950 ? "Ağır / Havalandır 🪟" : (ar > 700 ? "Orta Seviye 🍃" : "Temiz & Ferah ✨");
-
-        rowsHtml += `
-          <tr>
-            <td style="color: var(--brass-gold); font-weight: 700;">${timeStr}</td>
-            <td>${ar} PPM</td>
-            <td>${lt}</td>
-            <td>${st}</td>
-          </tr>
-        `;
-      }
-      tbody.innerHTML = rowsHtml;
+      });
     }
 
     function initOrUpdateDailyChart() {
@@ -1311,24 +1026,8 @@
         data: {
           labels: labels,
           datasets: [
-            {
-              label: 'Hava (PPM/10)',
-              data: airData,
-              borderColor: '#D4AF37',
-              backgroundColor: 'rgba(212, 175, 55, 0.1)',
-              borderWidth: 2,
-              tension: 0.3,
-              pointRadius: 3
-            },
-            {
-              label: 'Işık (%)',
-              data: lightData,
-              borderColor: '#E89E4B',
-              backgroundColor: 'transparent',
-              borderWidth: 2,
-              tension: 0.3,
-              pointRadius: 3
-            }
+            { label: 'Hava (PPM/10)', data: airData, borderColor: '#D4AF37', backgroundColor: 'rgba(212, 175, 55, 0.1)', borderWidth: 2, tension: 0.3, pointRadius: 3 },
+            { label: 'Işık (%)', data: lightData, borderColor: '#E89E4B', backgroundColor: 'transparent', borderWidth: 2, tension: 0.3, pointRadius: 3 }
           ]
         },
         options: {
@@ -1345,8 +1044,7 @@
 
     function refreshDailyChart() {
       initOrUpdateDailyChart();
-      renderHourlyTable();
-      showToast("Grafik ve Kayıtlar Güncellendi ↻");
+      showToast("Sensör Grafikleri Yenilendi ↻");
     }
 
     function generateSmartInsights() {
@@ -1356,133 +1054,57 @@
 
       const outEl = document.getElementById('outdoorInsightText');
       if (outEl) {
-        if (deltaT < 0) {
-          outEl.innerHTML = `Şirinyer'de dışarısı (<b>${bucaOutsideTemp}°C</b>), odanızdan (<b>${liveTemp.toFixed(1)}°C</b>) tam <b>${Math.abs(deltaT)}°C daha serindir</b>. Gece imbat rüzgarını odaya almak için pencereyi 5-10 dakika açmak odayı doğal bir klima gibi serinletecektir 🍃.`;
-        } else {
-          outEl.innerHTML = `Dışarısı (<b>${bucaOutsideTemp}°C</b>) odanızdan daha sıcaktır. İçerideki serinliği korumak için pencereleri kapalı tutmanız tavsiye edilir 🪟.`;
-        }
-      }
-
-      const lightEl = document.getElementById('lightInsightText');
-      if (lightEl) {
-        if (isNight) {
-          if (liveLight < 25) {
-            lightEl.innerHTML = `Saat şu an <b>${curH}:30 suları</b>. Odanızın karanlık olması (<b>%${liveLight}</b>) melatonin salgısı ve kaliteli derin uyku biyolojisi için <b>en ideal durumdur</b>. Kesinlikle lamba açmanıza gerek yoktur 🌙💤.`;
-          } else {
-            lightEl.innerHTML = `Gece saatlerindeyiz. Odadaki ışık seviyesi (<b>%${liveLight}</b>). Uyumadan önce ışıkları kapatıp loş ortama geçmeniz uyku kalitenizi artıracaktır.`;
-          }
-        } else {
-          if (liveLight < 25) {
-            lightEl.innerHTML = `Gündüz çalışma saatlerindeyiz. Masanız biraz loş görünüyor (<b>%${liveLight}</b>); göz yorgunluğunu önlemek için çalışma lambanızı açmanız tavsiye edilir 💡.`;
-          } else {
-            lightEl.innerHTML = `Masa aydınlatmanız şu an <b>%${liveLight}</b> seviyesinde. Gözü yormayan dengeli bir çalışma ışığı mevcut.`;
-          }
-        }
+        outEl.innerHTML = deltaT < 0
+          ? `Şirinyer'de dışarısı (<b>${bucaOutsideTemp}°C</b>), odanızdan (<b>${liveTemp.toFixed(1)}°C</b>) <b>${Math.abs(deltaT)}°C daha serindir</b>. Pencereyi açmak odayı doğal bir klima gibi serinletir 🍃.`
+          : `Dışarısı (<b>${bucaOutsideTemp}°C</b>) odanızdan daha sıcaktır. İçerideki serinliği korumak için pencereleri kapalı tutmanız önerilir 🪟.`;
       }
 
       const adviceEl = document.getElementById('liveAdviceText');
       if (adviceEl) {
-        if (isNight) {
-          if (liveAir > 950) {
-            adviceEl.innerText = "İçeride hava biraz ağırlaşmış; yatmadan önce Şirinyer'in serin gece havasını almak için pencereyi 5 dk aralayabilirsiniz 🪟🌙";
-          } else {
-            adviceEl.innerText = "Saat geç oldu; günün tüm yorgunluğunu geride bırakıp dinlenme vakti. Mavi ışıktan uzak, huzurlu uykular Efe! 🌙💤";
-          }
-        } else {
-          if (liveAir > 950) {
-            adviceEl.innerText = "Odada oksijen azaldı; zihninizin açılması için pencereyi açıp odayı taze havayla doldurun! 🪟";
-          } else {
-            adviceEl.innerText = "Masa ve ortam şartları harika. Verimli bir çalışma veya odaklanma seansı yapabilirsiniz! ✨";
-          }
-        }
+        adviceEl.innerText = isNight
+          ? "Saat geç oldu; günün tüm yorgunluğunu geride bırakıp dinlenme vakti. Mavi ışıktan uzak, huzurlu uykular Efe! 🌙💤"
+          : "Masa ve ortam şartları harika. Verimli bir derin çalışma (Deep Work) seansı yapabilirsiniz! ✨";
       }
     }
 
-    function exportDataCsv() {
-      const list = getStoredDays();
-      let csvContent = "data:text/csv;charset=utf-8,Tarih,Hava_PPM,Isik_Yuzde,BME280_Durumu,Puan\n";
-      list.forEach(r => { csvContent += `${r.displayDate},${r.air},${r.light},${r.bme},${r.score}\n`; });
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "MasaIstasyonu_Gercek_Veriler.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      showToast("📥 CSV Raporu İndirildi!");
+    async function ringDeskChime() {
+      showToast("🔔 Masadaki Piezo & Hoparlör Çaldırıldı!");
+      try {
+        await fetch(FIREBASE_URL + "control/ring_buzzer.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(true) });
+      } catch (e) {}
     }
 
-    // 🔄 CANLI SENSÖR & MAC SENKRONİZASYONU
     async function syncLiveSensors() {
       try {
         const res = await fetch(FIREBASE_URL + "station.json" + FIREBASE_AUTH);
         if (res.ok) {
           const data = await res.json();
           if (data && typeof data === 'object') {
-            lastSyncTimestamp = Date.now();
-            updateRelativeTime();
-            triggerShimmer();
-
             bmeConnected = (data.bme_active === true);
-            const bmeTempBadge = document.getElementById('bmeTempBadge');
-            const bmeHumBadge = document.getElementById('bmeHumBadge');
-
             if (bmeConnected) {
               liveTemp = parseFloat(data.temp);
               liveHum = parseInt(data.humidity);
               document.getElementById('tempVal').innerText = liveTemp.toFixed(1) + "°C";
               document.getElementById('humVal').innerText = "%" + liveHum;
-              document.getElementById('tempSub').innerText = "BME280 Canlı Ölçüm";
-              document.getElementById('humSub').innerText = "BME280 Canlı Ölçüm";
-              if (bmeTempBadge) { bmeTempBadge.className = "brass-tag active-green"; bmeTempBadge.innerText = "● CANLI (0x76)"; }
-              if (bmeHumBadge) { bmeHumBadge.className = "brass-tag active-green"; bmeHumBadge.innerText = "● CANLI (0x76)"; }
-            } else {
-              document.getElementById('tempVal').innerText = "BEKLEMEDE";
-              document.getElementById('humVal').innerText = "BEKLEMEDE";
-              document.getElementById('tempSub').innerText = "Yarın Lehimlenecek ⏳";
-              document.getElementById('humSub').innerText = "Yarın Lehimlenecek ⏳";
-              if (bmeTempBadge) { bmeTempBadge.className = "brass-tag pending-amber"; bmeTempBadge.innerText = "BEKLEMEDE ⏳"; }
-              if (bmeHumBadge) { bmeHumBadge.className = "brass-tag pending-amber"; bmeHumBadge.innerText = "BEKLEMEDE ⏳"; }
             }
-
             if (data.air !== undefined) {
               liveAir = parseInt(data.air);
               document.getElementById('airVal').innerText = liveAir + " PPM";
-              const airStatusEl = document.getElementById('airStatus');
-              if (airStatusEl) airStatusEl.innerText = liveAir < 700 ? "Ferah & Temiz ✨" : (liveAir < 1000 ? "Normal Seviye 🍃" : "Ağırlaştı / Havalandır 🪟");
             }
-
             if (data.light !== undefined) {
               liveLight = parseInt(data.light);
               document.getElementById('lightVal').innerText = liveLight + "%";
-              const lightStatusEl = document.getElementById('lightStatus');
-              const curH = new Date().getHours();
-              if (lightStatusEl) {
-                if (curH >= 21 || curH < 7) {
-                  lightStatusEl.innerText = liveLight < 25 ? "Gece Dinlenme Ortamı 🌙" : "Gece Loş Aydınlatma 🕯️";
-                } else {
-                  lightStatusEl.innerText = liveLight > 84 ? "Aşırı Parlak / Güneşli 🕶️" : (liveLight > 35 ? "Aydınlık Çalışma Alanı 💡" : "Loş Çalışma Ortamı");
-                }
-              }
             }
 
             const roomBadge = document.getElementById('roomPresenceBadge');
             if (roomBadge) {
-              if (data.user_present === true) {
-                roomBadge.innerHTML = "🟢 ODADA YAŞAM VAR (Aktif)";
-                roomBadge.style.color = "var(--sage-green)";
-              } else {
-                roomBadge.innerHTML = "⚪ ODA DİNLENMEDE (Enerji Tasarrufu)";
-                roomBadge.style.color = "var(--text-muted)";
-              }
+              roomBadge.innerHTML = (data.user_present === true) ? "🟢 ODADA YAŞAM VAR (Aktif)" : "⚪ ODA DİNLENMEDE (Enerji Tasarrufu)";
+              roomBadge.style.color = (data.user_present === true) ? "var(--sage-green)" : "var(--text-muted)";
             }
-
-            calculateDailyProductivityScore();
-            updateTodayRecord(liveAir, liveLight);
           }
         }
 
-        // 💻 1. Doğrudan Mac Telemetrisi
+        // 💻 Mac & Spotify Telemetrisi
         const resMac = await fetch(FIREBASE_URL + "mac.json" + FIREBASE_AUTH);
         if (resMac.ok) {
           const macData = await resMac.json();
@@ -1521,6 +1143,7 @@
               contEl.innerText = `${ch > 0 ? ch + ' sa ' : ''}${cm} dk`;
             }
 
+            // Uygulama Dağılımı Render
             if (macData.apps_breakdown && typeof macData.apps_breakdown === 'object') {
               const appContainer = document.getElementById('appBreakdownContainer');
               if (appContainer) {
@@ -1564,7 +1187,7 @@
           }
         }
 
-        // 📱 2. Doğrudan Telefon Telemetrisi
+        // 📱 Telefon Telemetrisi
         const resPhone = await fetch(FIREBASE_URL + "phone.json" + FIREBASE_AUTH);
         if (resPhone.ok) {
           const phoneData = await resPhone.json();
@@ -1584,9 +1207,6 @@
       } catch (e) {}
     }
 
-    renderMonthlyTable();
-    renderHourlyTable();
-    renderEventList();
     updateCircadianPhaseUI();
     syncLiveSensors();
     setInterval(syncLiveSensors, 2500);
