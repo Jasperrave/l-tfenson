@@ -1485,8 +1485,16 @@
 
             const locPill = document.getElementById('macLocationPill');
             if (locPill) {
-              locPill.innerText = (macData.mac_location === "SCHOOL_MOBILE") ? "KONUM: OKULDA" : "KONUM: EVDE";
-              locPill.style.color = (macData.mac_location === "SCHOOL_MOBILE") ? "#00F2FE" : "#2ED573";
+              if (macData.mac_location === "HOME_TERRACE") {
+                locPill.innerText = "KONUM: TERASTA 🌿";
+                locPill.style.color = "#00F2FE";
+              } else if (macData.mac_location === "HOME_DESK") {
+                locPill.innerText = "KONUM: MASA BAŞINDA 🏠";
+                locPill.style.color = "#2ED573";
+              } else {
+                locPill.innerText = "KONUM: OKULDA / DIŞARIDA 🎒";
+                locPill.style.color = "#FFA500";
+              }
             }
 
             const screenSec = macData.total_screen_sec || 0;
