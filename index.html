@@ -1702,30 +1702,53 @@
 
         if (specPpm) specPpm.innerText = a + " PPM";
 
-        // BLE Kullanıcı Kimlik & Yakınlık Telemetrisi
+        
+        // 4 Kademeli BLE Radar Konum Çözümleyici
         const bleIdEl = document.getElementById('bleUserIdentityText');
         const bleSubEl = document.getElementById('bleUserSubText');
         const bleTagEl = document.getElementById('bleSignalTag');
         const bleIconEl = document.getElementById('bleIcon');
 
-        const isUserHere = data.user_present !== undefined ? data.user_present : true;
+        const zone = data.zone || (data.user_present ? "MASA_BASI" : "UZAKTA");
+        const zoneLabel = data.zone_label || (data.user_present ? "🪑 Masada Oturuyor" : "Alt Katta / Uzakta 💤");
         const rssiVal = data.rssi !== undefined ? data.rssi : -58;
-        const distEst = data.dist_m !== undefined ? data.dist_m : (rssiVal > -65 ? "0.8m" : "2.5m");
+        const distEst = data.dist_m !== undefined ? data.dist_m : "0.8m";
 
         if (bleIdEl) {
-          bleIdEl.innerText = isUserHere ? "KULLANICI: DOĞRULANDI (JASPER)" : "MASADA KİMSE YOK";
-          bleIdEl.style.color = isUserHere ? "var(--te-green)" : "var(--text-muted)";
+          if (zone === "MASA_BASI") {
+            bleIdEl.innerText = "KULLANICI: EFE BURAK // MASADA OTURUYOR 🪑";
+            bleIdEl.style.color = "var(--te-green)";
+          } else if (zone === "ODADA") {
+            bleIdEl.innerText = "KULLANICI: EFE BURAK // ODANIN İÇİNDE 🚪";
+            bleIdEl.style.color = "var(--te-cyan)";
+          } else if (zone === "UST_KAT") {
+            bleIdEl.innerText = "KULLANICI: EFE BURAK // ÜST KATTA 🪜";
+            bleIdEl.style.color = "var(--te-amber)";
+          } else {
+            bleIdEl.innerText = "KULLANICI: ALT KATTA / UZAKTA 💤";
+            bleIdEl.style.color = "var(--text-muted)";
+          }
         }
+
         if (bleSubEl) {
-          bleSubEl.innerText = isUserHere ? `Telefon BLE Yakınlığı: ~${distEst} // Masada Oturuyor` : "Telefon Algılanmadı // Bekleme Modu";
+          bleSubEl.innerText = `Mesafe: ~${distEst} // ${zoneLabel}`;
         }
+
         if (bleTagEl) {
-          bleTagEl.innerText = isUserHere ? `📡 ${rssiVal} dBm` : "📴 KAPSAMA DIŞI";
-          bleTagEl.className = isUserHere ? "hardware-tag active-green" : "hardware-tag active-orange";
+          bleTagEl.innerText = `📡 ${rssiVal} dBm`;
+          if (zone === "MASA_BASI") bleTagEl.className = "hardware-tag active-green";
+          else if (zone === "ODADA") bleTagEl.className = "hardware-tag active-cyan";
+          else if (zone === "UST_KAT") bleTagEl.className = "hardware-tag active-orange";
+          else bleTagEl.className = "hardware-tag";
         }
+
         if (bleIconEl) {
-          bleIconEl.innerText = isUserHere ? "👤" : "💤";
+          if (zone === "MASA_BASI") bleIconEl.innerText = "🪑";
+          else if (zone === "ODADA") bleIconEl.innerText = "🚪";
+          else if (zone === "UST_KAT") bleIconEl.innerText = "🪜";
+          else bleIconEl.innerText = "💤";
         }
+
 
         if (gauge) {
           const pct = Math.max(5, Math.min(95, (a / 2000) * 100));
