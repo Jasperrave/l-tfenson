@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="google" content="notranslate">
-  <title>Masa İstasyonu // DOLAP ÇEKMECESİ & TELEMETRİ ARŞİVİ</title>
+  <title>Masa İstasyonu // ULTRA-ZEKİ YAŞAM & TELEMETRİ KOKPİTİ</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1F1510">
@@ -21,18 +21,20 @@
 
   <style>
     :root {
-      /* 🪵 AHŞAP DOLAP & CEVİZ ÇEKMECE PALETİ */
-      --wood-dark: #1A110B;
-      --wood-chassis: #261A12;
-      --wood-border: #4A3323;
-      --wood-highlight: #704E35;
-      --felt-tray: #141C16;
-      --felt-recess: #0D120E;
+      /* 🪵 VINTAGE CEVİZ, PIRINÇ & SİBER-BİYOLOJİK PALET */
+      --wood-dark: #160E09;
+      --wood-chassis: #22160F;
+      --wood-border: #442E1F;
+      --wood-highlight: #6E4930;
+      --felt-tray: #121914;
+      --felt-recess: #0B100C;
       --brass-gold: #D4AF37;
       --brass-dim: rgba(212, 175, 55, 0.15);
       --copper-orange: #C86432;
       --sage-green: #68A37C;
+      --emerald-glow: #2ECC71;
       --amber-glow: #E89E4B;
+      --cyan-air: #4DD0E1;
       --text-bright: #F5EFEB;
       --text-muted: #A3968B;
       --text-dark: #63574E;
@@ -54,34 +56,32 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 12px 10px 80px 10px;
+      padding: 10px 8px 90px 8px;
       background-image: 
-        radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 70%),
-        linear-gradient(180deg, #261A12 0%, #1A110B 100%);
+        radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.09) 0%, transparent 70%),
+        linear-gradient(180deg, #22160F 0%, #160E09 100%);
     }
 
     .drawer-box {
       width: 100%;
-      max-width: 520px;
+      max-width: 530px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     /* 📌 STICKY HEADER */
     .sticky-drawer-header {
       position: sticky;
-      top: 8px;
+      top: 6px;
       z-index: 1000;
-      background: rgba(20, 28, 22, 0.94);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(18, 25, 20, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 2px solid var(--wood-border);
       border-radius: 8px;
       padding: 10px 14px;
-      box-shadow: 
-        0 8px 24px rgba(0,0,0,0.7),
-        0 1px 0 rgba(255,255,255,0.1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.1);
     }
 
     /* 🗄️ DOLAP ÇEKMECESİ */
@@ -92,8 +92,8 @@
       padding: 14px;
       position: relative;
       box-shadow: 
-        inset 0 4px 12px rgba(0,0,0,0.8),
-        0 6px 16px rgba(0,0,0,0.6),
+        inset 0 4px 12px rgba(0,0,0,0.85),
+        0 6px 16px rgba(0,0,0,0.65),
         0 1px 0 rgba(255,255,255,0.08);
     }
 
@@ -149,6 +149,12 @@
       color: #72C78F;
       border-color: rgba(114, 199, 143, 0.4);
       background: rgba(114, 199, 143, 0.1);
+    }
+
+    .brass-tag.active-cyan {
+      color: var(--cyan-air);
+      border-color: rgba(77, 208, 225, 0.4);
+      background: rgba(77, 208, 225, 0.1);
     }
 
     .brass-tag.pending-amber {
@@ -399,6 +405,31 @@
       100% { height: 16px; }
     }
 
+    /* 🧬 SİRKADİYEN & BİYORİTİM İLERLEME ÇUBUĞU */
+    .circadian-pill-bar {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .progress-track {
+      height: 6px;
+      background: #0D120E;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #D4AF37 0%, #68A37C 50%, #4DD0E1 100%);
+      transition: width 0.5s ease;
+    }
+
     .guide-accordion {
       background: var(--felt-recess);
       border: 1px solid var(--wood-border);
@@ -495,7 +526,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div class="brass-label" style="font-size: 11.5px;">
           <span>🪵</span>
-          <span>MASA ÇEKMECESİ // TELEMETRİ</span>
+          <span>MASA ÇEKMECESİ // KOKPİT</span>
         </div>
         <div style="display: flex; gap: 6px; align-items: center;">
           <span class="brass-tag active-green" id="liveStatusBadge">
@@ -507,14 +538,35 @@
       </div>
     </div>
 
-    <!-- 📍 KONUM & CANLI DIŞ HAVA DURUMU (BUCA / ŞİRİNYER) -->
-    <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(212,175,55,0.25); border-radius: 6px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 10px;">
-      <div style="display: flex; align-items: center; gap: 6px;">
-        <span>📍</span>
-        <span style="color: var(--brass-gold); font-weight: 700;">İZMİR / BUCA (ŞİRİNYER)</span>
+    <!-- 📍 KONUM & TERMODİNAMİK DIŞ HAVA KARTI (BUCA / ŞİRİNYER) -->
+    <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(212,175,55,0.25); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono);">
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 10px;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span>📍</span>
+          <span style="color: var(--brass-gold); font-weight: 700;">İZMİR / BUCA (ŞİRİNYER - EFELER 328 SK)</span>
+        </div>
+        <span class="brass-tag active-cyan" id="outdoorWeatherPill">🌤️ 22°C // İMBAT</span>
       </div>
-      <div id="outdoorWeatherPill" style="color: var(--sage-green); font-weight: 700;">
-        🌤️ DIŞARISI: 22°C // AÇIK GECE 🌌
+
+      <!-- Termodinamik Karşılaştırma -->
+      <div style="display: flex; justify-content: space-between; font-size: 10.5px; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 5px; color: var(--text-bright);">
+        <span>🗄️ Oda İçi: <b style="color: var(--amber-glow);" id="indoorCompareText">26.4°C</b></span>
+        <span>🌤️ Dış Şirinyer: <b style="color: var(--cyan-air);" id="outdoorCompareText">22.0°C</b></span>
+        <span>ΔT Farkı: <b style="color: #72C78F;" id="deltaTempText">-4.4°C Serin 🍃</b></span>
+      </div>
+    </div>
+
+    <!-- 🧬 SİRKADİYEN BİYORİTİM & ZAMAN FAZI ÇUBUĞU -->
+    <div class="circadian-pill-bar">
+      <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px;">
+        <span style="color: var(--brass-gold); font-weight: 700;" id="circadianPhaseTitle">🌙 FAZ-4: MELATONİN & UYKU BİYOLOJİSİ</span>
+        <span style="color: var(--text-muted);" id="circadianPhaseTime">22:30 // GECE</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="circadianProgressFill" style="width: 90%;"></div>
+      </div>
+      <div style="font-size: 10.5px; color: var(--text-muted); line-height: 1.3;" id="circadianBioSub">
+        Mavi ışıktan uzak durulması gereken biyolojik dinlenme evresi.
       </div>
     </div>
 
@@ -523,7 +575,7 @@
       <div class="shelf-tab-item active" id="tabSensors" onclick="switchShelf('sensors')">📊 METROLOJİ</div>
       <div class="shelf-tab-item" id="tabDaily" onclick="switchShelf('daily')">📅 GRAFİK</div>
       <div class="shelf-tab-item" id="tabMonthly" onclick="switchShelf('monthly')">🗂️ ARŞİV</div>
-      <div class="shelf-tab-item" id="tabAnalysis" onclick="switchShelf('analysis')">💡 YORUMCU</div>
+      <div class="shelf-tab-item" id="tabAnalysis" onclick="switchShelf('analysis')">💡 360° AI BİLGE</div>
       <div class="shelf-tab-item" id="tabEvents" onclick="switchShelf('events')">🔔 BİLDİRİMLER</div>
     </div>
 
@@ -532,10 +584,10 @@
     <!-- ==================================================== -->
     <div id="shelfSensorsContent" style="display: flex; flex-direction: column; gap: 12px;">
       
-      <!-- 💻 1. SPOTIFY & MAC HUD BÖLMESİ -->
+      <!-- 💻 1. SPOTIFY CANLI BULUT ÇALAR -->
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[SPOTIFY-01]</span> SPOTIFY CANLI BULUT ÇALAR</div>
+          <div class="brass-label"><span>[SPOTIFY-01]</span> SPOTIFY EVRENSEL BULUT ÇALAR</div>
           <span class="brass-tag active-green" id="macStatusBadge">
             <span class="live-pulse-dot"></span>
             <span>BULUT KÖPRÜSÜ AKTİF</span>
@@ -581,21 +633,21 @@
         </div>
       </div>
 
-      <!-- 🏆 3. GÜNLÜK VERİMLİLİK & SAĞLIK SKORU BÖLMESİ -->
+      <!-- 🏆 3. 360° GÜNLÜK VERİMLİLİK & SAĞLIK BİYOSKORU -->
       <div class="drawer-tray" style="padding: 12px 14px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
-            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--brass-gold); font-weight: 700;">🏆 GÜNLÜK VERİMLİLİK & SAĞLIK SKORU</div>
-            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="scoreSummaryText">Gece dinlenme ve biyolojik uyku modu devrede</div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--brass-gold); font-weight: 700;">🏆 360° YAŞAM & VERİMLİLİK BİYOSKORU</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="scoreSummaryText">Hava, ışık, sirkadiyen ve dinlenme optimizasyonu</div>
           </div>
-          <div style="font-family: var(--font-mono); font-size: 24px; font-weight: 800; color: var(--sage-green);" id="dailyScoreVal">98/100</div>
+          <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--sage-green);" id="dailyScoreVal">98/100</div>
         </div>
       </div>
 
       <!-- 📊 4. ANLIK ÇEVRESEL VERİLER -->
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL VERİLER</div>
+          <div class="brass-label"><span>[RAF-01]</span> ANLIK ÇEVRESEL METROLOJİ</div>
           <span class="brass-tag" id="lastSyncTime">
             <span class="live-pulse-dot"></span>
             <span id="relativeTimeText">ŞİMDİ GÜNCEL</span>
@@ -669,26 +721,23 @@
         </div>
       </div>
 
-      <!-- 📖 AÇILIR KAPANIR SENSÖR & ÇEVRE REHBERİ -->
+      <!-- 📖 AÇILIR KAPANIR REHBER -->
       <div class="guide-accordion">
         <div class="guide-header" onclick="toggleGuide()">
-          <span>📖 SENSÖR, KONUM & İDEAL DEĞERLER KILAVUZU</span>
+          <span>📖 SİRKADİYEN & ÇEVRESEL ZEKA REHBERİ</span>
           <span id="guideArrow" style="transition: transform 0.2s;">▼</span>
         </div>
         <div class="guide-content" id="guideContent">
           <div class="guide-item">
-            <b style="color: var(--brass-gold);">📍 Konum: İzmir / Buca (Şirinyer - Efeler Mah. 328 Sk No:83):</b><br>
-            • Sistem Buca'nın canlı dış sıcaklığını, nemini ve rüzgarını takip eder.<br>
-            • Gece dışarısı serinlediğinde pencereleri açarak odayı doğal yolla soğutmanızı tavsiye eder.
+            <b style="color: var(--brass-gold);">📍 Termodinamik Havalandırma:</b><br>
+            • Dışarısı Şirinyer'de odadan daha serinse (ΔT < 0), pencere açılarak doğal soğutma yapılır.<br>
+            • Dışarısı sıcaksa (gündüz) pencerelerin kapalı tutulması tavsiye edilir.
           </div>
           <div class="guide-item">
-            <b style="color: #1DB954;">🎵 Spotify & Mac Entegrasyonu:</b><br>
-            • Telefon veya Mac'ten Spotify açıldığında masada <b>DJ Yulaf (Kulaklık 🎧 & Notalar ♪ ♫)</b> belirir.<br>
-            • Mac CPU > %75 olduğunda <b>Matrix Hacker Yulaf 💻</b> belirir.
-          </div>
-          <div class="guide-item">
-            <b style="color: var(--sage-green);">🌙 Gece Biyolojisi & Melatonin:</b><br>
-            • Saat 21:30'dan sonra karanlık oda uykuyu desteklediği için sistem "Lamba aç" demez, kaliteli uyku tavsiye eder.
+            <b style="color: var(--cyan-air);">🌙 Sirkadiyen Saat Evreleri:</b><br>
+            • <b>07:00 - 09:30:</b> Kortizol uyanışı, sabah tazeliği.<br>
+            • <b>09:30 - 18:30:</b> Yüksek odak, çalışma aydınlatması.<br>
+            • <b>21:30 - 06:30:</b> Melatonin salgısı, loş ışık & kaliteli uyku.
           </div>
         </div>
       </div>
@@ -787,45 +836,42 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- 4. RAF: 💡 GERÇEKÇİ & DERİN AKILLI YORUMCU -->
+    <!-- 4. RAF: 💡 360° BİLGE AI YAŞAM KOÇU -->
     <!-- ==================================================== -->
     <div id="shelfAnalysisContent" style="display: none; flex-direction: column; gap: 12px;">
       <div class="drawer-tray">
         <div class="brass-header">
-          <div class="brass-label"><span>[YORUMCU]</span> GERÇEKÇİ MEKAN & ZAMAN ANALİZİ</div>
-          <span class="brass-tag active-green">BUCA & SİRKADİYEN ZEKA</span>
+          <div class="brass-label"><span>[BİLGE-AI]</span> 360° SİRKADİYEN & ÇEVRESEL ANALİZ</div>
+          <span class="brass-tag active-green">TAM DONANIM & ŞİRİNYER</span>
         </div>
 
-        <div class="insight-card" style="border-left-color: #D4AF37;">
-          <div class="insight-title" style="color: #D4AF37;"><span>📍</span> <span>BUCA / ŞİRİNYER DIŞ HAVA & İKLİM</span></div>
+        <!-- 1. Buca Şirinyer Termodinamik -->
+        <div class="insight-card" style="border-left-color: var(--cyan-air);">
+          <div class="insight-title" style="color: var(--cyan-air);"><span>📍</span> <span>TERMODİNAMİK HAVALANDIRMA ANALİZİ</span></div>
           <div class="insight-body" id="outdoorInsightText">
-            İzmir Buca Şirinyer'de dışarısı şu an <b>22°C</b> ve <b>%53 nem</b> ile açık bir yaz gecesi. Tatlı bir imbat rüzgarı (21 km/s) esiyor.
+            İzmir Buca Şirinyer'de dışarısı şu an <b>22°C</b> ve <b>%53 nem</b>. Oda içi <b>26.4°C</b> olduğundan dışarısı <b>4.4°C daha serindir</b>. Pencereyi aralamak odayı klima gibi doğal yolla ferahlatır 🍃.
           </div>
         </div>
 
-        <div class="insight-card" style="border-left-color: var(--amber-glow);">
-          <div class="insight-title" style="color: var(--amber-glow);"><span>🔬</span> <span>BAĞLI DONANIM TESPİTİ</span></div>
-          <div class="insight-body" id="hardwareInsightText">
-            Şu anda istasyonunuzda <b>MQ-135 (Hava Kalitesi)</b>, <b>LDR (Işık Seviyesi)</b>, <b>PIR (Oda Muhafızı)</b> ve <b>Spotify Bulut Çaları</b> aktiftir. BME280 yarın lehimlenecektir.
+        <!-- 2. Sirkadiyen Biyoloji ve Aydınlatma -->
+        <div class="insight-card" style="border-left-color: var(--sage-green);">
+          <div class="insight-title" style="color: var(--sage-green);"><span>🌙</span> <span>SİRKADİYEN SAAT & MELATONİN EVRESİ</span></div>
+          <div class="insight-body" id="lightInsightText">
+            Saat şu an gece dilimindedir. Odanın karanlık olması melatonin hormonu ve biyolojik uyku kalitesi için idealdir.
           </div>
         </div>
 
-        <div class="insight-card">
-          <div class="insight-title"><span>🪟</span> <span>HAVA KALİTESİ & PENCERE DURUMU</span></div>
+        <!-- 3. Hava Kalitesi -->
+        <div class="insight-card" style="border-left-color: var(--brass-gold);">
+          <div class="insight-title" style="color: var(--brass-gold);"><span>🪟</span> <span>HAVA KALİTESİ & OKSİJEN YOĞUNLUĞU</span></div>
           <div class="insight-body" id="airInsightText">
             MQ-135 sensörünüz odadaki havayı canlı olarak kokluyor.
           </div>
         </div>
 
-        <div class="insight-card" style="border-left-color: var(--sage-green);">
-          <div class="insight-title" style="color: var(--sage-green);"><span>🌙</span> <span>SİRKADİYEN IŞIK & UYKU BİYOLOJİSİ</span></div>
-          <div class="insight-body" id="lightInsightText">
-            LDR sensörünüz masanızın ışık şiddetini ölçüyor.
-          </div>
-        </div>
-
+        <!-- 4. Bilge Tavsiyesi -->
         <div style="background: rgba(212,175,55,0.08); border: 1px dashed var(--brass-gold); border-radius: 6px; padding: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--brass-gold);">
-          💬 <b>YULAF'IN ŞİRİNYER & GECE TAVSİYESİ:</b> <span id="liveAdviceText" style="color: var(--text-bright);">İnceleniyor...</span>
+          💬 <b>YULAF'IN ŞİRİNYER & GECE REHBERİ:</b> <span id="liveAdviceText" style="color: var(--text-bright);">İnceleniyor...</span>
         </div>
       </div>
     </div>
@@ -962,19 +1008,53 @@
     }
     setInterval(updatePomoTimerUI, 1000);
 
-    // 🏆 AKILLI ZAMAN & MEVSİM DUYARLI VERİMLİLİK HESABI
+    // 🧬 SİRKADİYEN & BİYORİTİM HESAPLAMA MOTORU
+    function updateCircadianPhaseUI() {
+      const now = new Date();
+      const curH = now.getHours();
+      const curM = now.getMinutes();
+      const timeStr = `${curH < 10 ? '0' : ''}${curH}:${curM < 10 ? '0' : ''}${curM}`;
+
+      const titleEl = document.getElementById('circadianPhaseTitle');
+      const timeEl = document.getElementById('circadianPhaseTime');
+      const subEl = document.getElementById('circadianBioSub');
+      const fillEl = document.getElementById('circadianProgressFill');
+
+      if (timeEl) timeEl.innerText = `${timeStr} // ŞİRİNYER`;
+
+      let progress = ((curH * 60 + curM) / 1440) * 100;
+      if (fillEl) fillEl.style.width = `${progress}%`;
+
+      if (curH >= 6 && curH < 9) {
+        if (titleEl) titleEl.innerText = "🌅 FAZ-1: KORTİZOL UYANIŞI & SABAH TAZELİĞİ";
+        if (subEl) subEl.innerText = "Doğal gün ışığı alıp pencereleri açarak zihni uyandırma evresi.";
+      } else if (curH >= 9 && curH < 14) {
+        if (titleEl) titleEl.innerText = "☀️ FAZ-2: ZİRVE ODAKLANMA & ANALİTİK ZEKA";
+        if (subEl) subEl.innerText = "Günün en yüksek bilişsel verimlilik ve derin çalışma (Deep Work) evresi.";
+      } else if (curH >= 14 && curH < 18) {
+        if (titleEl) titleEl.innerText = "🌆 FAZ-3: İKİNCİ ÇALIŞMA DALGASI & DİKKAT";
+        if (subEl) subEl.innerText = "Yaratıcı işler ve günlük görevleri tamamlama evresi.";
+      } else if (curH >= 18 && curH < 22) {
+        if (titleEl) titleEl.innerText = "🍵 FAZ-4: AKŞAM DİNGİNLİĞİ & GEVŞEME";
+        if (subEl) subEl.innerText = "Günün yorgunluğunu geride bırakıp loş ışığa geçiş zamanı.";
+      } else {
+        if (titleEl) titleEl.innerText = "🌙 FAZ-5: MELATONİN & DERİN DİNLENME";
+        if (subEl) subEl.innerText = "Mavi ışıktan uzak durulması gereken biyolojik derin uyku evresi.";
+      }
+    }
+    setInterval(updateCircadianPhaseUI, 5000);
+
+    // 🏆 360° AKILLI YAŞAM BİYOSKORU HESABI
     function calculateDailyProductivityScore() {
       const curH = new Date().getHours();
       const isNight = (curH >= 21 || curH < 7);
 
       let airScore = liveAir < 650 ? 35 : (liveAir < 950 ? 25 : 10);
-      
-      // Gece saatinde oda karanlıksa TAM PUAN (+35) verilir çünkü gece karanlık olmak zorundadır!
       let lightScore = 35;
       if (!isNight) {
         lightScore = (liveLight >= 40 && liveLight <= 80) ? 35 : (liveLight > 80 ? 30 : 15);
       } else {
-        lightScore = (liveLight < 25) ? 35 : 25; // Gece karanlık oda = mükemmel uyku
+        lightScore = (liveLight < 25) ? 35 : 25;
       }
 
       let pomoScore = isNight ? 30 : Math.min(30, completedPomoCount * 10 + 10);
@@ -1305,14 +1385,19 @@
       showToast("Grafik ve Kayıtlar Güncellendi ↻");
     }
 
-    // 💡 DERİN AKILLI SİRKADİYEN & MEKAN ANALİZ MOTORU
+    // 💡 360° DERİN BİLGE YAŞAM ANALİZ MOTORU
     function generateSmartInsights() {
       const curH = new Date().getHours();
       const isNight = (curH >= 21 || curH < 7);
+      const deltaT = (bucaOutsideTemp - liveTemp).toFixed(1);
 
       const outEl = document.getElementById('outdoorInsightText');
       if (outEl) {
-        outEl.innerHTML = `İzmir Buca Şirinyer'de dışarısı şu an <b>${bucaOutsideTemp}°C</b> ve <b>%${bucaOutsideHum} nem</b> (${bucaOutsideDesc}). Dışarısı odanızdan (${liveTemp.toFixed(1)}°C) daha serin olduğu için pencereyi aralamak odaya ferah bir gece esintisi getirir 🍃.`;
+        if (deltaT < 0) {
+          outEl.innerHTML = `Şirinyer'de dışarısı (<b>${bucaOutsideTemp}°C</b>), odanızdan (<b>${liveTemp.toFixed(1)}°C</b>) tam <b>${Math.abs(deltaT)}°C daha serindir</b>. Gece imbat rüzgarını odaya almak için pencereyi 5-10 dakika açmak odayı doğal bir klima gibi serinletecektir 🍃.`;
+        } else {
+          outEl.innerHTML = `Dışarısı (<b>${bucaOutsideTemp}°C</b>) odanızdan daha sıcaktır. İçerideki serinliği korumak için pencereleri kapalı tutmanız tavsiye edilir 🪟.`;
+        }
       }
 
       const lightEl = document.getElementById('lightInsightText');
@@ -1336,7 +1421,7 @@
       if (adviceEl) {
         if (isNight) {
           if (liveAir > 950) {
-            adviceEl.innerText = "İçeride hava biraz ağırlaşmış; yatmadan önce Şirinyer'in 22°C'lik serin gece havasını almak için pencereyi 5 dk aralayabilirsiniz 🪟🌙";
+            adviceEl.innerText = "İçeride hava biraz ağırlaşmış; yatmadan önce Şirinyer'in serin gece havasını almak için pencereyi 5 dk aralayabilirsiniz 🪟🌙";
           } else {
             adviceEl.innerText = "Saat geç oldu; günün tüm yorgunluğunu geride bırakıp dinlenme vakti. Mavi ışıktan uzak, huzurlu uykular Efe! 🌙💤";
           }
@@ -1401,7 +1486,9 @@
               liveAir = parseInt(data.air);
               document.getElementById('airVal').innerText = liveAir + " PPM";
               const airStatusEl = document.getElementById('airStatus');
-              if (airStatusEl) airStatusEl.innerText = liveAir < 700 ? "Ferah & Temiz ✨" : (liveAir < 1000 ? "Normal Seviye 🍃" : "Ağırlaştı / Havalandır 🪟");
+              if (airStatusEl) {
+                airStatusEl.innerText = liveAir < 700 ? "Ferah & Temiz ✨" : (liveAir < 1000 ? "Normal Seviye 🍃" : "Ağırlaştı / Havalandır 🪟");
+              }
             }
 
             if (data.light !== undefined) {
@@ -1463,7 +1550,18 @@
               bucaOutsideDesc = macData.buca_desc;
               const pillEl = document.getElementById('outdoorWeatherPill');
               if (pillEl) {
-                pillEl.innerHTML = `🌤️ DIŞARISI: ${bucaOutsideTemp}°C // ${bucaOutsideDesc.toUpperCase()}`;
+                pillEl.innerHTML = `🌤️ ${bucaOutsideTemp}°C // ${bucaOutsideDesc.toUpperCase()}`;
+              }
+
+              const inCompEl = document.getElementById('indoorCompareText');
+              const outCompEl = document.getElementById('outdoorCompareText');
+              const deltaEl = document.getElementById('deltaTempText');
+              if (inCompEl) inCompEl.innerText = `${liveTemp.toFixed(1)}°C`;
+              if (outCompEl) outCompEl.innerText = `${bucaOutsideTemp}.0°C`;
+              if (deltaEl) {
+                let diff = (bucaOutsideTemp - liveTemp).toFixed(1);
+                deltaEl.innerText = diff < 0 ? `${diff}°C Serin 🍃` : `+${diff}°C Sıcak`;
+                deltaEl.style.color = diff < 0 ? "var(--sage-green)" : "var(--amber-glow)";
               }
             }
           }
@@ -1474,6 +1572,7 @@
     renderMonthlyTable();
     renderHourlyTable();
     renderEventList();
+    updateCircadianPhaseUI();
     syncLiveSensors();
     setInterval(syncLiveSensors, 2500);
   </script>
