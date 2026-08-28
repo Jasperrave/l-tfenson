@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="google" content="notranslate">
-  <title>AGY-1976 // MASTER STUDIO TELEMETRY RACK</title>
+  <title>AGY-1976 // ANA TELEMETRİ KONSOLU</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#050302">
@@ -22,7 +22,7 @@
 
   <style>
     :root {
-      /* 📻 FOTOREALİSTİK 1970'LER DONANIM PALETİ */
+      /* 📻 FOTOREALİSTİK 1970'LER TÜRKÇE DONANIM PALETİ */
       --room-ambient: #050302;
       --walnut-core: #1C0F08;
       --walnut-bevel: #2E190E;
@@ -82,7 +82,7 @@
       justify-content: center;
       padding: 12px 6px calc(115px + env(safe-area-inset-bottom)) 6px;
       background-image: 
-        radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 60%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 4px),
         linear-gradient(180deg, #1A110A 0%, #050302 100%);
       background-attachment: fixed;
       overflow-x: hidden;
@@ -217,7 +217,6 @@
         0 2px 6px rgba(0,0,0,0.85);
     }
 
-    /* Akrilik Cam Parlaması */
     .smoked-display-bezel::before {
       content: "";
       position: absolute;
@@ -326,7 +325,6 @@
       box-shadow: inset 0 0 12px rgba(184, 150, 80, 0.4);
     }
 
-    /* 🔍 KONVEKS MİNERAL CAM MERCEK YANSIMASI */
     .vu-dial-chamber::before {
       content: "";
       position: absolute;
@@ -509,12 +507,9 @@
         <stop offset="100%" stop-color="#120B01" />
       </radialGradient>
       <g id="machinedScrewSymbol">
-        <!-- Deep Counterbore Hole -->
         <circle cx="8" cy="8" r="7.5" fill="#040201" stroke="#26170B" stroke-width="0.8"/>
-        <!-- Screw Dome with Specular Highlight -->
         <circle cx="8" cy="8" r="6.2" fill="url(#cncScrewGrad)"/>
         <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.4"/>
-        <!-- Slotted Groove with Depth -->
         <g transform="rotate(38 8 8)">
           <rect x="2.4" y="6.8" width="11.2" height="2.4" rx="0.3" fill="#120A02"/>
           <rect x="2.7" y="7.1" width="10.6" height="1.1" fill="#040201"/>
@@ -526,18 +521,18 @@
 
   <div class="studio-hardware-rack">
 
-    <!-- 📌 1. STICKY CONSOLE HEADER -->
+    <!-- 📌 1. STICKY KONSOL BAŞLIĞI -->
     <div class="sticky-console-header">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div class="plate-title">
-          <span>⚙️ AGY-1976 // MASTER TELEMETRY RACK</span>
+          <span>⚙️ AGY-1976 // ANA TELEMETRİ KONSOLU</span>
         </div>
         <div style="display: flex; gap: 6px; align-items: center;">
           <span class="status-badge-die" style="color: #2ED573; border-color: rgba(46,213,115,0.4);" id="liveStatusBadge">
             <span class="pilot-jewel-lamp"></span>
-            <span>ESP32 ON-LINE</span>
+            <span>ESP32 ÇEVRİMİÇİ</span>
           </span>
-          <button type="button" class="tactile-rocker-btn" onclick="ringDeskChime()" style="padding: 3px 8px; font-size: 9.5px;">🔔 CHIME</button>
+          <button type="button" class="tactile-rocker-btn" onclick="ringDeskChime()" style="padding: 3px 8px; font-size: 9.5px;">🔔 ZİLİ ÇAL</button>
         </div>
       </div>
     </div>
@@ -550,20 +545,20 @@
       <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
       
       <div class="module-engrave-header">
-        <div class="plate-title"><span>[CH-0] 20-20-20 POSTURE TIMER</span></div>
-        <span class="status-badge-die" style="color: #2ED573;" id="macLocationPill">LOC: HOME_DESK</span>
+        <div class="plate-title"><span>[KANAL-0] 20-20-20 DİK DURUŞ SAYACI</span></div>
+        <span class="status-badge-die" style="color: #2ED573;" id="macLocationPill">KONUM: EVDE (MASA BAŞINDA)</span>
       </div>
 
       <div class="smoked-display-bezel amber-tube">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
-            <div style="font-size: 8px; color: #8C7B6C; letter-spacing: 0.1em; margin-bottom: 2px;">COUNTDOWN TO BREAK:</div>
+            <div style="font-size: 8px; color: #8C7B6C; letter-spacing: 0.1em; margin-bottom: 2px;">MOLAYA KALAN SÜRE:</div>
             <div class="tube-cluster" style="font-size: 32px;">
               <span class="ghost-layer">88:88</span>
               <span class="active-layer" id="ergoCountdownText">12:33</span>
             </div>
           </div>
-          <button type="button" class="tactile-rocker-btn" onclick="triggerPostureAlertTest()" style="padding: 4px 10px; font-size: 9px; border-color: var(--brass-gold); color: var(--brass-gold);">TEST 🔔</button>
+          <button type="button" class="tactile-rocker-btn" onclick="triggerPostureAlertTest()" style="padding: 4px 10px; font-size: 9px; border-color: var(--brass-gold); color: var(--brass-gold);">TEST ET 🔔</button>
         </div>
       </div>
     </div>
@@ -576,26 +571,26 @@
       <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
       
       <div class="module-engrave-header">
-        <div class="plate-title"><span>[ENV] BUCA METEOROLOGY // SHIRINYER</span></div>
-        <span class="status-badge-die" style="color: var(--vfd-cyan);" id="outdoorWeatherPill">22°C // IMBAT</span>
+        <div class="plate-title"><span>[ORTAM] İZMİR BUCA METEOROLOJİ // ŞİRİNYER</span></div>
+        <span class="status-badge-die" style="color: var(--vfd-cyan);" id="outdoorWeatherPill">22°C // İMBAT</span>
       </div>
 
       <div class="smoked-display-bezel">
         <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px;">
-          <span>TERRACE: <b style="color: var(--vfd-cyan);" id="outdoorCompareText">22.0°C</b></span>
-          <span>ROOM: <b style="color: var(--led-amber);" id="indoorCompareText">26.4°C</b></span>
-          <span>STATION: <b style="color: #2ED573;">STANDBY</b></span>
+          <span>TERAS (EFE): <b style="color: var(--vfd-cyan);" id="outdoorCompareText">22.0°C</b></span>
+          <span>ALT ODA: <b style="color: var(--led-amber);" id="indoorCompareText">26.4°C</b></span>
+          <span>İSTASYON: <b style="color: #2ED573;">NÖBETTE</b></span>
         </div>
       </div>
     </div>
 
-    <!-- 🎛️ CHANNEL ROTARY SELECTOR -->
+    <!-- 🎛️ KANAL SEÇİCİ BANT -->
     <div class="channel-rotary-bar">
-      <div class="rotary-tab active" id="tabSensors" onclick="switchChannel('sensors')">CH.1 VU METERS</div>
-      <div class="rotary-tab" id="tabProductivityLab" onclick="switchChannel('prodlab')">CH.2 LAB INDEX</div>
-      <div class="rotary-tab" id="tabScreenTime" onclick="switchChannel('screentime')">CH.3 RUN TIME</div>
-      <div class="rotary-tab" id="tabDaily" onclick="switchChannel('daily')">CH.4 CHART</div>
-      <div class="rotary-tab" id="tabAnalysis" onclick="switchChannel('analysis')">CH.5 TELEMETRY</div>
+      <div class="rotary-tab active" id="tabSensors" onclick="switchChannel('sensors')">K.1 VU METRE</div>
+      <div class="rotary-tab" id="tabProductivityLab" onclick="switchChannel('prodlab')">K.2 VERİMLİLİK</div>
+      <div class="rotary-tab" id="tabScreenTime" onclick="switchChannel('screentime')">K.3 EKRAN SÜRESİ</div>
+      <div class="rotary-tab" id="tabDaily" onclick="switchChannel('daily')">K.4 GRAFİK</div>
+      <div class="rotary-tab" id="tabAnalysis" onclick="switchChannel('analysis')">K.5 GÜNLÜK</div>
     </div>
 
     <!-- ==================================================== -->
@@ -603,7 +598,7 @@
     <!-- ==================================================== -->
     <div id="channelSensorsContent" style="display: flex; flex-direction: column; gap: 10px;">
       
-      <!-- 💻 SPOTIFY TUNER -->
+      <!-- 💻 SPOTIFY ÇALAR -->
       <div class="hardware-module">
         <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
         <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
@@ -611,25 +606,25 @@
         <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
         
         <div class="module-engrave-header">
-          <div class="plate-title"><span>[AUDIO-01] SPOTIFY FM TUNER</span></div>
-          <span class="status-badge-die" style="color: #2ED573;">ONLINE</span>
+          <div class="plate-title"><span>[SES-01] SPOTIFY BULUT ÇALAR</span></div>
+          <span class="status-badge-die" style="color: #2ED573;">AKTİF</span>
         </div>
 
         <div class="smoked-display-bezel green-tube">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div style="overflow: hidden;">
-              <div style="font-size: 12px; font-weight: 800; color: #2ED573; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="spotifyTrackText">WAITING FOR AUDIO...</div>
-              <div style="font-size: 9.5px; color: #8C7B6C; margin-top: 2px;" id="spotifyArtistText">OPEN SPOTIFY ON MAC/PHONE // DJ YULAF</div>
+              <div style="font-size: 12px; font-weight: 800; color: #2ED573; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="spotifyTrackText">MÜZİK BEKLENİYOR...</div>
+              <div style="font-size: 9.5px; color: #8C7B6C; margin-top: 2px;" id="spotifyArtistText">MAC VEYA TELEFONDAN SPOTIFY AÇIN // DJ YULAF</div>
             </div>
             <div style="text-align: right; font-size: 10px; color: var(--brass-gold); white-space: nowrap;">
               <div>CPU: <b id="macCpuText">%15</b></div>
-              <div>BATT: <b id="macBattText" style="color: #2ED573;">%11 ⚡</b></div>
+              <div>PİL: <b id="macBattText" style="color: #2ED573;">%11 ⚡</b></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 🎯 POMODORO VFD TIMER -->
+      <!-- 🎯 POMODORO VFD SAYAÇ -->
       <div class="hardware-module">
         <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
         <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
@@ -637,26 +632,26 @@
         <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
         
         <div class="module-engrave-header">
-          <div class="plate-title"><span>[TIMER-01] INTERVAL COUNTER</span></div>
-          <span class="status-badge-die" id="pomoSessionBadge">LAP: 0</span>
+          <div class="plate-title"><span>[SAYAÇ-01] ODAKLANMA & POMODORO</span></div>
+          <span class="status-badge-die" id="pomoSessionBadge">TUR: 0</span>
         </div>
 
         <div class="smoked-display-bezel red-tube" style="text-align: center; padding: 10px;">
-          <div style="font-size: 8.5px; color: #8C7B6C; letter-spacing: 0.1em;" id="pomoStatusText">STANDBY // READY</div>
+          <div style="font-size: 8.5px; color: #8C7B6C; letter-spacing: 0.1em;" id="pomoStatusText">HAZIR // SEANS BAŞLATIN</div>
           <div class="tube-cluster" style="font-size: 44px; margin: 4px 0;">
             <span class="ghost-layer">88:88</span>
             <span class="active-layer" id="pomoDisplay">25:00</span>
           </div>
           
           <div style="display: flex; gap: 6px; justify-content: center; margin-top: 6px;">
-            <button type="button" class="tactile-rocker-btn tactile-rocker-gold" onclick="startPomodoro(25, 'FOCUS')">25M FOCUS</button>
-            <button type="button" class="tactile-rocker-btn" onclick="startPomodoro(5, 'BREAK')">5M BREAK</button>
-            <button type="button" class="tactile-rocker-btn" onclick="stopPomodoro()">STOP</button>
+            <button type="button" class="tactile-rocker-btn tactile-rocker-gold" onclick="startPomodoro(25, 'FOCUS')">25 DK ODAK</button>
+            <button type="button" class="tactile-rocker-btn" onclick="startPomodoro(5, 'BREAK')">5 DK MOLA</button>
+            <button type="button" class="tactile-rocker-btn" onclick="stopPomodoro()">DURDUR</button>
           </div>
         </div>
       </div>
 
-      <!-- 📊 DUAL ANALOG VU METERS -->
+      <!-- 📊 ÇİFT KANAL ANALOG VU METRELER -->
       <div class="hardware-module">
         <svg class="cnc-screw-svg tl" viewBox="0 0 16 16"><use href="#machinedScrewSymbol"/></svg>
         <svg class="cnc-screw-svg tr" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(90 8 8)"/></svg>
@@ -664,8 +659,8 @@
         <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
         
         <div class="module-engrave-header">
-          <div class="plate-title"><span>[METROLOGY] DUAL-CHANNEL VU</span></div>
-          <span class="status-badge-die" id="lastSyncTime">LIVE</span>
+          <div class="plate-title"><span>[METROLOJİ] ÇİFT KANAL VU METRE</span></div>
+          <span class="status-badge-die" id="lastSyncTime">CANLI</span>
         </div>
 
         <div class="telemetry-grid">
@@ -673,7 +668,7 @@
           <div class="recessed-vu-die-housing">
             <div class="vu-dial-chamber">
               <div class="vu-text-strip">
-                <span>AIR PPM</span>
+                <span>HAVA PPM</span>
                 <span>MQ-135</span>
               </div>
               
@@ -695,7 +690,7 @@
               </svg>
 
               <div class="vu-digital-sub" id="airVal">435 PPM</div>
-              <div class="vu-caption" id="airStatus">CLEAN AIR</div>
+              <div class="vu-caption" id="airStatus">TEMİZ HAVA</div>
             </div>
           </div>
 
@@ -703,8 +698,8 @@
           <div class="recessed-vu-die-housing">
             <div class="vu-dial-chamber">
               <div class="vu-text-strip">
-                <span>LIGHT %</span>
-                <span>PHOTOMETRIC</span>
+                <span>IŞIK %</span>
+                <span>FOTOMETRİK</span>
               </div>
               
               <svg class="vu-svg-canvas" viewBox="0 0 125 58">
@@ -725,35 +720,35 @@
               </svg>
 
               <div class="vu-digital-sub" id="lightVal">65%</div>
-              <div class="vu-caption" id="lightStatus">AMBIENT</div>
+              <div class="vu-caption" id="lightStatus">ORTAM IŞIĞI</div>
             </div>
           </div>
 
           <!-- SICAKLIK -->
           <div class="smoked-display-bezel amber-tube">
-            <div style="font-size: 8px; color: #8C7B6C;">TEMP [BME280]</div>
+            <div style="font-size: 8px; color: #8C7B6C;">SICAKLIK [BME280]</div>
             <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
               <span class="ghost-layer">88.8</span>
               <span class="active-layer" id="tempVal">--.-</span>
             </div>
-            <div style="font-size: 8px; color: #8C7B6C;">°C // PENDING</div>
+            <div style="font-size: 8px; color: #8C7B6C;">°C // BEKLEMEDE</div>
           </div>
 
           <!-- BAĞIL NEM -->
           <div class="smoked-display-bezel amber-tube">
-            <div style="font-size: 8px; color: #8C7B6C;">HUMIDITY [BME280]</div>
+            <div style="font-size: 8px; color: #8C7B6C;">BAĞIL NEM [BME280]</div>
             <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
               <span class="ghost-layer">88</span>
               <span class="active-layer" id="humVal">--</span>
             </div>
-            <div style="font-size: 8px; color: #8C7B6C;">% // PENDING</div>
+            <div style="font-size: 8px; color: #8C7B6C;">% // BEKLEMEDE</div>
           </div>
         </div>
 
         <!-- 🛡️ PIR RADAR -->
         <div style="margin-top: 8px; background: #040201; border: 1px solid #20150D; border-radius: 2px; padding: 4px 8px; display: flex; justify-content: space-between; align-items: center; font-size: 10px;">
           <span style="color: #8C7B6C;">RADAR [PIR D27]:</span>
-          <b id="roomPresenceBadge" style="color: #2ED573;">STANDBY_WATCH</b>
+          <b id="roomPresenceBadge" style="color: #2ED573;">SESSİZ NÖBETTE</b>
         </div>
       </div>
     </div>
@@ -769,26 +764,26 @@
         <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
         
         <div class="module-engrave-header">
-          <div class="plate-title"><span>[LAB-01] COGNITIVE TELEMETRY</span></div>
-          <span class="status-badge-die" style="color: #2ED573;">CALIBRATED</span>
+          <div class="plate-title"><span>[LAB-01] BİLİŞSEL VERİMLİLİK</span></div>
+          <span class="status-badge-die" style="color: #2ED573;">KALİBRE EDİLDİ</span>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 8px;">
           <div class="smoked-display-bezel green-tube">
-            <div style="font-size: 8px; color: #8C7B6C;">DEEP WORK RATIO</div>
+            <div style="font-size: 8px; color: #8C7B6C;">DERİN ÇALIŞMA ORANI</div>
             <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
               <span class="ghost-layer">88</span>
               <span class="active-layer" id="labDeepWorkRatioText">82</span>
             </div>
-            <div style="font-size: 8px; color: #8C7B6C;">% PRODUCTION</div>
+            <div style="font-size: 8px; color: #8C7B6C;">% ÜRETİM</div>
           </div>
           <div class="smoked-display-bezel amber-tube">
-            <div style="font-size: 8px; color: #8C7B6C;">POSTURE CYCLE</div>
+            <div style="font-size: 8px; color: #8C7B6C;">POSTÜR DÖNGÜSÜ</div>
             <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
               <span class="ghost-layer">88:88</span>
               <span class="active-layer">20:20</span>
             </div>
-            <div style="font-size: 8px; color: #8C7B6C;">MIN:SEC</div>
+            <div style="font-size: 8px; color: #8C7B6C;">DK:SN</div>
           </div>
         </div>
 
@@ -809,32 +804,32 @@
         <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
         
         <div class="module-engrave-header">
-          <div class="plate-title"><span>[MAC-DIRECT] IODISPLAY RUNTIME</span></div>
-          <span class="status-badge-die" style="color: #2ED573;">ACTIVE</span>
+          <div class="plate-title"><span>[MAC-DOĞRUDAN] EKRAN SÜRESİ</span></div>
+          <span class="status-badge-die" style="color: #2ED573;">AKTİF</span>
         </div>
 
         <div class="smoked-display-bezel amber-tube">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <div style="font-size: 8px; color: #8C7B6C;">ACTIVE RUNTIME:</div>
+              <div style="font-size: 8px; color: #8C7B6C;">BUGÜNKÜ AKTİF SÜRE:</div>
               <div class="tube-cluster" style="font-size: 28px; margin-top: 2px;">
                 <span class="ghost-layer">88:88:88</span>
                 <span class="active-layer" id="trueMacScreenTime">01:37:00</span>
               </div>
             </div>
             <div style="text-align: right;">
-              <div style="font-size: 8px; color: #8C7B6C;">CONTINUOUS:</div>
+              <div style="font-size: 8px; color: #8C7B6C;">KESİNTİSİZ:</div>
               <div class="tube-cluster" style="font-size: 20px;">
                 <span class="ghost-layer">88</span>
                 <span class="active-layer" id="continuousWorkText">57</span>
               </div>
-              <div style="font-size: 8px; color: #8C7B6C;">MINUTES</div>
+              <div style="font-size: 8px; color: #8C7B6C;">DAKİKA</div>
             </div>
           </div>
         </div>
 
         <div class="module-engrave-header" style="margin-top: 10px;">
-          <div class="plate-title"><span>APPLICATION METRICS</span></div>
+          <div class="plate-title"><span>UYGULAMA DAĞILIMI</span></div>
         </div>
 
         <div id="appBreakdownContainer" style="display: flex; flex-direction: column; gap: 4px;"></div>
@@ -847,20 +842,20 @@
         <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
         
         <div class="module-engrave-header">
-          <div class="plate-title"><span>[PHONE-DIRECT] SCREEN RUNTIME</span></div>
-          <span class="status-badge-die" style="color: var(--vfd-cyan);">SYNC</span>
+          <div class="plate-title"><span>[TELEFON-DOĞRUDAN] EKRAN SÜRESİ</span></div>
+          <span class="status-badge-die" style="color: var(--vfd-cyan);">SENKRON</span>
         </div>
 
         <div class="smoked-display-bezel cyan-tube">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <div style="font-size: 8px; color: #8C7B6C;">PHONE RUNTIME:</div>
+              <div style="font-size: 8px; color: #8C7B6C;">TELEFON SÜRESİ:</div>
               <div class="tube-cluster" style="font-size: 28px; margin-top: 2px;">
                 <span class="ghost-layer">88:88:88</span>
                 <span class="active-layer" id="phoneScreenTimeVal">02:05:00</span>
               </div>
             </div>
-            <div style="font-size: 9px; color: var(--vfd-cyan);" id="phoneModelSub">PHONE // 78%</div>
+            <div style="font-size: 9px; color: var(--vfd-cyan);" id="phoneModelSub">TELEFON // %78</div>
           </div>
         </div>
       </div>
@@ -877,8 +872,8 @@
         <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
         
         <div class="module-engrave-header">
-          <div class="plate-title"><span>[CHART] SENSOR LOG CURVE</span></div>
-          <button type="button" class="tactile-rocker-btn" onclick="refreshDailyChart()" style="padding: 2px 6px; font-size: 9px;">REFRESH ↻</button>
+          <div class="plate-title"><span>[GRAFİK] SENSÖR GÜNLÜK EĞRİSİ</span></div>
+          <button type="button" class="tactile-rocker-btn" onclick="refreshDailyChart()" style="padding: 2px 6px; font-size: 9px;">YENİLE ↻</button>
         </div>
 
         <div style="position: relative; height: 160px; width: 100%;">
@@ -898,15 +893,15 @@
         <svg class="cnc-screw-svg br" viewBox="0 0 16 16"><use href="#machinedScrewSymbol" transform="rotate(135 8 8)"/></svg>
         
         <div class="module-engrave-header">
-          <div class="plate-title"><span>[LOG] SYSTEM TELEMETRY</span></div>
+          <div class="plate-title"><span>[GÜNLÜK] SİSTEM TELEMETRİSİ</span></div>
         </div>
 
         <div class="smoked-display-bezel">
           <div style="font-size: 11px; color: #2ED573; line-height: 1.6;">
-            > STATION: ONLINE (PORT 80)<br>
-            > DUAL-CHANNEL ERGO: READY<br>
-            > PIR MOTION: 0 DETECTIONS (NIGHT RUN)<br>
-            > TERRACE WEATHER: 22°C // 53% RH
+            > İSTASYON: ÇEVRİMİÇİ (PORT 80)<br>
+            > ÇİFT KANALLI POSTÜR: HAZIR<br>
+            > PIR HAREKET: 0 ALGILAMA (GECE MODU)<br>
+            > TERAS HAVASI: 22°C // %53 BAĞIL NEM
           </div>
         </div>
       </div>
@@ -918,23 +913,23 @@
   <div class="mobile-quick-dock">
     <button type="button" class="dock-btn" onclick="ringDeskChime()">
       <span class="dock-icon">🔔</span>
-      <span>CHIME</span>
+      <span>ZİL ÇAL</span>
     </button>
     <button type="button" class="dock-btn" onclick="startPomodoro(25, 'FOCUS')">
       <span class="dock-icon">🎯</span>
-      <span>25M FOCUS</span>
+      <span>25 DK ODAK</span>
     </button>
     <button type="button" class="dock-btn" onclick="triggerPostureAlertTest()">
       <span class="dock-icon">🧘‍♂️</span>
-      <span>ERGO TEST</span>
+      <span>POSTÜR TEST</span>
     </button>
     <button type="button" class="dock-btn" onclick="wakeDeskScreen()">
       <span class="dock-icon">💡</span>
-      <span>DISPLAY WAKE</span>
+      <span>EKRANI YAK</span>
     </button>
   </div>
 
-  <div id="toast">ACTION EXECUTED</div>
+  <div id="toast">İŞLEM TAMAMLANDI</div>
 
   <script>
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
@@ -1005,7 +1000,7 @@
     }
 
     async function wakeDeskScreen() {
-      showToast("DISPLAY WAKE: 60 SEC");
+      showToast("OLED EKRAN 60 SANİYE UYANDIRILDI");
       try {
         const wakeUntilUnix = Math.floor(Date.now() / 1000) + 60;
         await fetch(FIREBASE_URL + "control/screen_wake_until.json" + FIREBASE_AUTH, {
@@ -1017,7 +1012,7 @@
     }
 
     async function triggerPostureAlertTest() {
-      showToast("ERGO ALERT TEST TRIGGERED");
+      showToast("POSTÜR UYARISI ÇALDIRILDI");
       try {
         await fetch(FIREBASE_URL + "control/ergo_alert.json" + FIREBASE_AUTH, {
           method: "PUT",
@@ -1031,7 +1026,7 @@
       const targetUnix = Math.floor(Date.now() / 1000) + (minutes * 60);
       pomoMode = mode;
       pomoTargetUnix = targetUnix;
-      showToast(mode === 'FOCUS' ? "25M FOCUS SESSION" : "5M BREAK SESSION");
+      showToast(mode === 'FOCUS' ? "25 DK ODAKLANMA SEANSI BAŞLADI" : "5 DK MOLA BAŞLADI");
 
       try {
         await fetch(FIREBASE_URL + "control/pomodoro_state.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(mode) });
@@ -1042,7 +1037,7 @@
     async function stopPomodoro() {
       pomoMode = "IDLE";
       pomoTargetUnix = 0;
-      showToast("TIMER STOPPED");
+      showToast("SAYAÇ DURDURULDU");
       try {
         await fetch(FIREBASE_URL + "control/pomodoro_state.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify("IDLE") });
       } catch (e) {}
@@ -1053,11 +1048,11 @@
       const statusEl = document.getElementById('pomoStatusText');
       const badgeEl = document.getElementById('pomoSessionBadge');
 
-      if (badgeEl) badgeEl.innerText = `LAP: ${completedPomoCount}`;
+      if (badgeEl) badgeEl.innerText = `TUR: ${completedPomoCount}`;
 
       if (pomoMode === "IDLE" || pomoTargetUnix === 0) {
         if (displayEl) displayEl.innerText = "25:00";
-        if (statusEl) statusEl.innerText = "STANDBY // READY";
+        if (statusEl) statusEl.innerText = "HAZIR // SEANS BAŞLATIN";
         return;
       }
 
@@ -1068,16 +1063,16 @@
       const timeStr = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
 
       if (displayEl) displayEl.innerText = timeStr;
-      if (statusEl) statusEl.innerText = pomoMode === "FOCUS" ? "FOCUS ACTIVE" : "BREAK ACTIVE";
+      if (statusEl) statusEl.innerText = pomoMode === "FOCUS" ? "ODAKLANMA AKTİF" : "MOLA AKTİF";
 
       if (remainingSec <= 0 && pomoMode !== "IDLE") {
         if (pomoMode === "FOCUS") {
           completedPomoCount++;
           localStorage.setItem('completed_pomo_count', completedPomoCount.toString());
-          showToast("FOCUS COMPLETE! STARTING BREAK");
+          showToast("ODAKLANMA BİTTİ! MOLA BAŞLIYOR ☕");
           startPomodoro(5, "BREAK");
         } else {
-          showToast("BREAK COMPLETE!");
+          showToast("MOLA TAMAMLANDI!");
           stopPomodoro();
         }
       }
@@ -1173,11 +1168,11 @@
 
     function refreshDailyChart() {
       initOrUpdateDailyChart();
-      showToast("CHART REFRESHED");
+      showToast("GRAFİK YENİLENDİ");
     }
 
     async function ringDeskChime() {
-      showToast("CHIME TRIGGERED");
+      showToast("MASA ZİLİ ÇALDIRILDI");
       try {
         await fetch(FIREBASE_URL + "control/ring_buzzer.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(true) });
       } catch (e) {}
@@ -1209,7 +1204,7 @@
 
             const roomBadge = document.getElementById('roomPresenceBadge');
             if (roomBadge) {
-              roomBadge.innerHTML = (data.user_present === true) ? "OCCUPIED" : "STANDBY_WATCH";
+              roomBadge.innerHTML = (data.user_present === true) ? "ODADA YAŞAM VAR" : "SESSİZ NÖBETTE";
               roomBadge.style.color = "#2ED573";
             }
           }
@@ -1229,8 +1224,8 @@
               trackEl.innerText = macData.spotify_track.toUpperCase();
               artistEl.innerText = `${macData.spotify_artist.toUpperCase()} // DJ YULAF`;
             } else {
-              trackEl.innerText = "WAITING FOR AUDIO...";
-              artistEl.innerText = "OPEN SPOTIFY ON MAC/PHONE // DJ YULAF";
+              trackEl.innerText = "MÜZİK BEKLENİYOR...";
+              artistEl.innerText = "MAC VEYA TELEFONDAN SPOTIFY AÇIN // DJ YULAF";
             }
 
             if (cpuEl) cpuEl.innerText = `%${macData.cpu || 15}`;
@@ -1238,7 +1233,7 @@
 
             const locPill = document.getElementById('macLocationPill');
             if (locPill) {
-              locPill.innerText = (macData.mac_location === "SCHOOL_MOBILE") ? "LOC: SCHOOL_MOBILE" : "LOC: HOME_DESK";
+              locPill.innerText = (macData.mac_location === "SCHOOL_MOBILE") ? "KONUM: DIŞARIDA / OKULDA" : "KONUM: EVDE (MASA BAŞINDA)";
               locPill.style.color = (macData.mac_location === "SCHOOL_MOBILE") ? "var(--vfd-cyan)" : "#2ED573";
             }
 
@@ -1256,7 +1251,7 @@
             }
             if (contEl) {
               const cm = Math.floor(contSec / 60);
-              contEl.innerText = `${cm < 10 ? '0' : ''}${cm}`;
+              contEl.innerText = `${cm}`;
             }
 
             if (ergoEl) {
@@ -1277,7 +1272,7 @@
                   return `
                     <div style="display: flex; justify-content: space-between; padding: 4px 8px; background: #040302; border: 1px solid #20160F; border-radius: 2px; font-size: 10px;">
                       <span style="color: var(--brass-gold);">${app.toUpperCase()}</span>
-                      <span style="color: #E2D5C3;">${mins}M (%${pct})</span>
+                      <span style="color: #E2D5C3;">${mins} DK (%${pct})</span>
                     </div>
                   `;
                 }).join('');
@@ -1288,7 +1283,7 @@
               bucaOutsideTemp = macData.buca_temp;
               bucaOutsideHum = macData.buca_hum;
               const pillEl = document.getElementById('outdoorWeatherPill');
-              if (pillEl) pillEl.innerText = `${bucaOutsideTemp}°C // IMBAT`;
+              if (pillEl) pillEl.innerText = `${bucaOutsideTemp}°C // İMBAT`;
 
               const inCompEl = document.getElementById('indoorCompareText');
               const outCompEl = document.getElementById('outdoorCompareText');
