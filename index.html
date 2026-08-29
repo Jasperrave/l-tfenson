@@ -802,6 +802,7 @@
 
       if (isManual) showToast(`FAN KADEME ${level} GÖNDERİLDİ 🌪️`);
       try {
+        fetch("http://192.168.1.45/fan?level=" + level, { mode: "no-cors" }).catch(()=>{});
         await fetch(FIREBASE_URL + "control/uppatvind_fan.json" + FIREBASE_AUTH, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
