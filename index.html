@@ -151,8 +151,11 @@
       </div>
     </div>
 
-    <!-- Quick Buttons: Brown Noise, OLED Mode, Audio Mute, Desk Buzzer -->
+    <!-- Quick Buttons: NTFY Push, Brown Noise, OLED Mode, Mute, Desk Buzzer -->
     <div class="flex items-center gap-1.5">
+      <button onclick="sendNtfyTestPush()" id="ntfyBtn" title="Telefona ve Mac'e Bildirim Gönder (NTFY)" class="btn-tactile p-2 rounded-xl bg-purple-500/20 border border-purple-500/40 hover:bg-purple-500/30 text-purple-300 text-xs font-mono">
+        <span>📲</span>
+      </button>
       <button onclick="toggleBrownNoise()" id="brownNoiseBtn" title="Derin Odak Sesi (Kahverengi Gürültü)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-400 text-xs font-mono">
         <span id="brownNoiseIcon">🌊</span>
       </button>
@@ -169,7 +172,35 @@
   </header>
 
   <!-- ======================================================= -->
-  <!-- 🌿 2. AKILLI ODA & HAVALANDIRMA ASİSTANI (SADE DİL)     -->
+  <!-- 📲 2. NTFY AÇIK KAYNAK TELEFON & MAC BİLDİRİM KARTI    -->
+  <!-- ======================================================= -->
+  <section class="glass-card p-3.5 flex items-center justify-between border-purple-500/20 bg-gradient-to-r from-purple-950/40 via-slate-900/60 to-slate-950/80">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-sm">
+        📲
+      </div>
+      <div>
+        <h3 class="font-display font-bold text-xs text-white tracking-wide flex items-center gap-1.5">
+          NTFY BİLDİRİM KANALI
+          <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">OPEN SOURCE</span>
+        </h3>
+        <p class="text-[10px] font-mono text-slate-400">
+          Kanal: <a href="https://ntfy.sh/jasper_agy1976" target="_blank" class="text-cyan-400 underline font-bold">ntfy.sh/jasper_agy1976</a>
+        </p>
+      </div>
+    </div>
+    <div class="flex items-center gap-1.5">
+      <button onclick="sendNtfyTestPush()" class="btn-tactile px-3 py-1.5 rounded-lg bg-purple-500/20 border border-purple-500/40 hover:bg-purple-500/30 text-purple-300 text-[10px] font-mono font-bold">
+        TEST GÖNDER 🚀
+      </button>
+      <a href="https://ntfy.sh/jasper_agy1976" target="_blank" class="btn-tactile px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-300 text-[10px] font-mono font-bold flex items-center gap-1">
+        ABONE OL 🔗
+      </a>
+    </div>
+  </section>
+
+  <!-- ======================================================= -->
+  <!-- 🌿 3. AKILLI ODA & HAVALANDIRMA ASİSTANI (SADE DİL)     -->
   <!-- ======================================================= -->
   <section class="glass-card p-4 flex flex-col gap-3 border-emerald-500/20 bg-gradient-to-b from-slate-900/90 to-slate-950/90">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
@@ -227,7 +258,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🌪️ 3. IKEA UPPÅTVIND AKILLI HAVA ROBOTU & OTONOM PİLOT  -->
+  <!-- 🌪️ 4. IKEA UPPÅTVIND AKILLI HAVA ROBOTU & OTONOM PİLOT  -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-4 border-cyan-500/20">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
@@ -287,7 +318,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🌿 4. MASA ORTAM SENSÖRLERİ (BME280, MQ-135, LDR)       -->
+  <!-- 🌿 5. MASA ORTAM SENSÖRLERİ (BME280, MQ-135, LDR)       -->
   <!-- ======================================================= -->
   <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
     <!-- Sıcaklık -->
@@ -352,7 +383,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🎵 5. CANLI SPOTIFY & MÜZİK OYNATMA                     -->
+  <!-- 🎵 6. CANLI SPOTIFY & MÜZİK OYNATMA                     -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-3">
     <div class="flex items-center justify-between">
@@ -399,7 +430,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- ⏱️ 6. ODAKLANMA & MAC EKRAN SÜRESİ                      -->
+  <!-- ⏱️ 7. ODAKLANMA & MAC EKRAN SÜRESİ                      -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-4">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
@@ -449,7 +480,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🐹 7. CANLI YULAF CYBER-OLED COMPANION                  -->
+  <!-- 🐹 8. CANLI YULAF CYBER-OLED COMPANION                  -->
   <!-- ======================================================= -->
   <section class="glass-card p-4 flex items-center gap-3.5">
     <canvas id="yulafPixelCanvas" width="32" height="32" class="w-14 h-14 rounded-xl bg-slate-950 border border-emerald-500/30 shadow-lg shadow-emerald-500/10 image-pixelated shrink-0"></canvas>
@@ -463,7 +494,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 📈 8. CANLI TELEMETRİ GRAFİĞİ & CSV İNDİRME             -->
+  <!-- 📈 9. CANLI TELEMETRİ GRAFİĞİ & CSV İNDİRME             -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-3">
     <div class="flex items-center justify-between">
@@ -489,11 +520,12 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🧠 JAVASCRIPT: ADVANCED PSYCHROMETRICS & SENSOR CHECKS  -->
+  <!-- 🧠 JAVASCRIPT: ADVANCED PSYCHROMETRICS & NTFY PUSH      -->
   <!-- ======================================================= -->
   <script>
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
     const FIREBASE_AUTH = "";
+    const NTFY_TOPIC = "jasper_agy1976";
 
     // Raw & Filtered State Variables
     let liveAir = 450;
@@ -505,7 +537,6 @@
     let lastSyncTime = Date.now();
     let currentPresence = "HOME_DESK";
 
-    // Sensor Fault Detection & Diagnostics (FDD)
     let sensorDiagnostics = {
       bme280Valid: true,
       mq135Valid: true,
@@ -545,6 +576,27 @@
         document.body.classList.remove('oled-mode');
         document.getElementById('oledIcon').innerText = '🌙';
         showToast("CYBER DARK MODU AKTİF ☀️", "☀️");
+      }
+    }
+
+    /* 📲 NTFY OPEN SOURCE PUSH NOTIFICATION SENDER */
+    async function sendNtfyTestPush() {
+      playBeep(850, 0.04);
+      showToast("NTFY BİLDİRİMİ GÖNDERİLİYOR... 📲", "📲");
+      try {
+        await fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+          method: 'POST',
+          headers: {
+            'Title': 'AGY-1976 Masa İstasyonu 🚀',
+            'Priority': 'default',
+            'Tags': 'robot,zap,bell',
+            'Click': 'https://jasperrave.github.io/l-tfenson/'
+          },
+          body: 'Test Bildirimi: Masa Kokpiti ve NTFY Bildirim Köprüsü başarıyla bağlı!'
+        });
+        showToast("TELEFONUNA BİLDİRİM GİTTİ! 🔔", "🔔");
+      } catch(e) {
+        showToast("BİLDİRİM GÖNDERİLEMEDİ ⚠️", "⚠️");
       }
     }
 
@@ -895,7 +947,6 @@
     }
 
     function computePsychrometrics(tIn, rhIn, tOut, rhOut) {
-      // Arka planda formüller kusursuz çalışır
       const pSatIn = 0.61121 * Math.exp((18.678 - tIn / 234.5) * (tIn / (257.14 + tIn)));
       const pVIn = pSatIn * (rhIn / 100);
       const alphaIn = Math.log(pVIn / 0.61121);
@@ -939,7 +990,6 @@
       document.getElementById('inTempLabel').innerText = `${liveTemp.toFixed(1)}°C`;
       document.getElementById('outTempLabel').innerText = (tOut !== null) ? `${tOut.toFixed(1)}°C` : '--';
       
-      // Halk Diliyle Sade Kartlar
       const deltaEl = document.getElementById('deltaTempText');
       const badgeEl = document.getElementById('ventStatusBadge');
       const adviceEl = document.getElementById('thermoAdviceText');
@@ -952,17 +1002,14 @@
 
       if (mentalEl) mentalEl.innerText = `%${p.mentalScore}`;
 
-      // Hava Ferahlığı
       if (p.enthalpyIn < 50) enthEl.innerText = "Çok Ferah 🍃";
       else if (p.enthalpyIn < 62) enthEl.innerText = "İdeal ve Temiz ⚡";
       else enthEl.innerText = "Ağır ve Nemli ☀️";
 
-      // Rutubet / Terleme
       if (p.dewMargin > 5) dewEl.innerText = "Sıfır Nem Riski 🛡️";
       else if (p.dewMargin > 2) dewEl.innerText = "Hafif Nem Var 💧";
       else dewEl.innerText = "Rutubet Uyarısı ⚠️";
 
-      // Hissedilen Ortam
       if (Math.abs(p.pmv) < 0.4) pmvEl.innerText = "Tam Kıvamında 😌";
       else if (p.pmv > 0.4) pmvEl.innerText = "Hafif Sıcak 🔥";
       else pmvEl.innerText = "Hafif Serin ❄️";
@@ -1096,7 +1143,6 @@
             lastSyncTime = Date.now();
             updateHeartbeatUI(true);
 
-            // Sanitize & Validate Sensors
             const validated = sanitizeAndValidateSensors(
               parseFloat(sData.temp),
               parseInt(sData.humidity),
@@ -1114,7 +1160,6 @@
             document.getElementById('liveAirText').innerHTML = `${liveAir}<span class="text-xs text-slate-400"> PPM</span>`;
             document.getElementById('liveLightText').innerHTML = `${liveLight}<span class="text-sm text-slate-400">%</span>`;
 
-            // Progress Bars
             const tBar = document.getElementById('tempProgressBar');
             const hBar = document.getElementById('humProgressBar');
             const aBar = document.getElementById('airProgressBar');
