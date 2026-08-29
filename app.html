@@ -4,18 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="google" content="notranslate">
-  <title>AGY-1976 // Cyber-Nordic Telemetri & Mekatronik Kokpiti</title>
+  <title>AGY-1976 // MASA İSTASYONU KOKPİTİ</title>
   
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#090B0E">
+  <meta name="theme-color" content="#07090C">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- GOOGLE FONTS: Inter, Space Grotesk, JetBrains Mono, DSEG7 -->
+  <!-- GOOGLE FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dseg@0.46.0/css/dseg.css">
 
   <!-- TAILWIND CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -27,21 +26,17 @@
           colors: {
             brand: {
               dark: '#07090C',
-              card: '#0F1318',
-              cardBorder: 'rgba(255, 255, 255, 0.08)',
+              card: '#0D1117',
               cyan: '#00F2FE',
-              cyanGlow: 'rgba(0, 242, 254, 0.4)',
               emerald: '#10B981',
               amber: '#F59E0B',
-              rose: '#F43F5E',
-              violet: '#8B5CF6'
+              rose: '#F43F5E'
             }
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
-            display: ['"Space Grotesk"', 'sans-serif'],
-            dseg: ['"DSEG7-Classic"', 'monospace']
+            display: ['"Space Grotesk"', 'sans-serif']
           }
         }
       }
@@ -58,43 +53,24 @@
     }
     body {
       background-color: #06080B;
-      background-image: 
-        radial-gradient(ellipse at 50% 0%, #151C24 0%, #06080B 75%);
+      background-image: radial-gradient(ellipse at 50% 0%, #111720 0%, #06080B 75%);
       background-attachment: fixed;
       color: #E2E8F0;
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
-      padding-bottom: calc(90px + env(safe-area-inset-bottom));
+      padding-bottom: 24px;
     }
 
-    /* Glassmorphic Luxury Cards */
     .glass-card {
-      background: linear-gradient(180deg, rgba(17, 23, 31, 0.75) 0%, rgba(10, 14, 20, 0.85) 100%);
+      background: linear-gradient(180deg, rgba(15, 20, 28, 0.75) 0%, rgba(9, 13, 19, 0.9) 100%);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-top: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
       border-radius: 1rem;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    .glass-card:hover {
-      border-color: rgba(0, 242, 254, 0.25);
-      box-shadow: 0 12px 35px -8px rgba(0, 242, 254, 0.12);
     }
 
-    /* Cyber Glow Accents */
-    .glow-cyan {
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.35);
-    }
-    .glow-emerald {
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
-    }
-    .glow-amber {
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
-    }
-
-    /* Tactile Interactive Buttons */
     .btn-tactile {
       transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
@@ -104,10 +80,9 @@
       transform: scale(0.96);
     }
 
-    /* Audio Spectrum Bars Animation */
     @keyframes barBounce {
       0%, 100% { height: 4px; }
-      50% { height: 22px; }
+      50% { height: 20px; }
     }
     .audio-bar {
       width: 3px;
@@ -121,7 +96,6 @@
     .audio-bar:nth-child(4) { animation-delay: 0.2s; }
     .audio-bar:nth-child(5) { animation-delay: 0.4s; }
 
-    /* Custom Toast */
     #cyberToast {
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       transform: translateY(-80px) translateX(-50%);
@@ -133,61 +107,61 @@
 </head>
 <body class="p-3 md:p-6 max-w-2xl mx-auto flex flex-col gap-4">
 
-  <!-- 🚀 TOAST NOTIFICATION -->
-  <div id="cyberToast" class="fixed top-4 left-1/2 z-50 px-4 py-2 rounded-xl bg-slate-900/90 border border-brand-cyan/40 text-brand-cyan font-mono text-xs font-bold shadow-2xl flex items-center gap-2 backdrop-blur-md pointer-events-none opacity-0">
+  <!-- 🚀 TOAST BİLDİRİMİ -->
+  <div id="cyberToast" class="fixed top-4 left-1/2 z-50 px-4 py-2 rounded-xl bg-slate-900/95 border border-cyan-500/40 text-cyan-400 font-mono text-xs font-bold shadow-2xl flex items-center gap-2 backdrop-blur-md pointer-events-none opacity-0">
     <span id="toastIcon">⚡</span>
     <span id="toastMsg">KOMUT GÖNDERİLDİ</span>
   </div>
 
   <!-- ======================================================= -->
-  <!-- 🎛️ 1. HEADER: BRAND, STATUS & ACTION BAR               -->
+  <!-- 🎛️ 1. HEADER: BRAND, STATUS & CANLI BUTONLAR           -->
   <!-- ======================================================= -->
   <header class="glass-card p-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <div class="relative flex items-center justify-center w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-brand-cyan font-display font-black text-sm">
+      <div class="relative flex items-center justify-center w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-display font-black text-sm">
         AGY
         <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
         <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
       </div>
       <div>
         <h1 class="font-display font-bold text-sm tracking-wide text-white flex items-center gap-2">
-          AGY-1976 COCKPIT
+          AGY-1976 KOKPİTİ
           <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" id="headerBucaPill">22°C // BUCA İMBAT</span>
         </h1>
         <p class="text-[11px] font-mono text-slate-400" id="headerPresenceText">ESP32 CANLI • MASA BAŞINDA 🏠</p>
       </div>
     </div>
 
-    <!-- Quick Audio & Ping Buttons -->
+    <!-- Quick Buttons -->
     <div class="flex items-center gap-2">
       <button onclick="toggleAudioMute()" id="muteBtn" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs flex items-center gap-1.5 font-mono">
         <span id="muteIcon">🔊</span>
       </button>
-      <button onclick="ringDeskChime()" class="btn-tactile px-3 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 hover:bg-cyan-500/25 text-brand-cyan text-xs font-mono font-bold flex items-center gap-1.5">
-        🔔 ZİL
+      <button onclick="ringDeskChime()" class="btn-tactile px-3 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 hover:bg-cyan-500/25 text-cyan-400 text-xs font-mono font-bold flex items-center gap-1.5">
+        🔔 ZİLİ ÇAL
       </button>
     </div>
   </header>
 
   <!-- ======================================================= -->
-  <!-- 🌪️ 2. HERO: IKEA UPPÅTVIND SMART AIR PURIFIER ROBOT    -->
+  <!-- 🌪️ 2. IKEA UPPÅTVIND AKILLI HAVA ROBOTU                 -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-4 border-cyan-500/20">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
       <div class="flex items-center gap-2.5">
-        <div class="p-2 rounded-lg bg-cyan-500/10 text-brand-cyan text-base">🌪️</div>
+        <div class="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 text-base">🌪️</div>
         <div>
-          <h2 class="font-display font-bold text-sm text-white tracking-wide">IKEA UPPÅTVIND ROBOTU</h2>
-          <p class="text-[10px] font-mono text-slate-400">24V BLDC CENTRIFUGAL FAN • I2C SLAVE [0x28]</p>
+          <h2 class="font-display font-bold text-sm text-white tracking-wide">IKEA UPPÅTVIND HAVA ROBOTU</h2>
+          <p class="text-[10px] font-mono text-slate-400">24V BLDC FAN • 3D KARBON + H13 HEPA</p>
         </div>
       </div>
       <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[10px] font-bold">
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span id="uppatvindStatusLabel">ÇİP AKTİF</span>
+        <span id="uppatvindStatusLabel">HAZIR</span>
       </div>
     </div>
 
-    <!-- Fan Speed Segmented Tactile Selector -->
+    <!-- Fan Speed 4-Segment Button Bar -->
     <div class="grid grid-cols-4 gap-2 bg-slate-900/80 p-1.5 rounded-xl border border-slate-800">
       <button onclick="setUppatvindFan(0)" id="fanBtn0" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white transition-all flex flex-col items-center gap-0.5">
         <span>⏻</span>
@@ -207,7 +181,7 @@
       </button>
     </div>
 
-    <!-- Telemetry Badges (RPM, PWM, Filter Health) -->
+    <!-- Live Telemetry Badges (RPM, PWM, Filter) -->
     <div class="grid grid-cols-3 gap-2 text-center font-mono">
       <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center">
         <span class="text-[10px] text-slate-400">FAN DEVRİ</span>
@@ -215,9 +189,9 @@
         <span class="text-[9px] text-slate-500">RPM (TACHO)</span>
       </div>
       <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center">
-        <span class="text-[10px] text-slate-400">PWM SİNYALİ</span>
+        <span class="text-[10px] text-slate-400">PWM GÜCÜ</span>
         <span class="text-lg font-bold text-emerald-400 font-mono tracking-tight" id="fanPwmVal">170</span>
-        <span class="text-[9px] text-slate-500">0-255 GÖREV</span>
+        <span class="text-[9px] text-slate-500">0-255 DÖNGÜ</span>
       </div>
       <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center">
         <span class="text-[10px] text-slate-400">FİLTRE SAĞLIĞI</span>
@@ -226,7 +200,7 @@
       </div>
     </div>
 
-    <!-- Thermodynamic Sensor Fusion Strip -->
+    <!-- Real-time Thermodynamic Sensor Fusion -->
     <div class="p-3 rounded-xl bg-slate-900/40 border border-slate-800/80 grid grid-cols-4 gap-2 text-center font-mono text-[11px]">
       <div>
         <div class="text-[9px] text-slate-400">ÇİY NOKTASI</div>
@@ -248,7 +222,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🌿 3. ENVIRONMENTAL SENSOR MATRIX                       -->
+  <!-- 🌿 3. MASA ORTAM SENSÖRLERİ (BME280, MQ-135, LDR)       -->
   <!-- ======================================================= -->
   <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
     <!-- Sıcaklık -->
@@ -296,7 +270,7 @@
       </div>
     </div>
 
-    <!-- Işık Yoğunluğu (LDR) -->
+    <!-- Işık (LDR) -->
     <div class="glass-card p-4 flex flex-col justify-between">
       <div class="flex items-center justify-between text-xs text-slate-400 font-mono">
         <span>GÜN IŞIĞI</span>
@@ -313,16 +287,16 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🎵 4. SPOTIFY REEL & MEDIA CONTROL DECK                 -->
+  <!-- 🎵 4. CANLI SPOTIFY & MÜZİK OYNATMA                     -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2.5">
         <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-sm">
-          📻
+          🎵
         </div>
         <div>
-          <h3 class="font-display font-bold text-sm text-white tracking-wide">AKAI GX-77 // SPOTIFY TEYP</h3>
+          <h3 class="font-display font-bold text-sm text-white tracking-wide">CANLI SPOTIFY SENKRONU</h3>
           <p class="text-[10px] font-mono text-slate-400" id="spotifyLocationText">KONUM: MASA BAŞINDA 🏠</p>
         </div>
       </div>
@@ -345,7 +319,7 @@
       </div>
     </div>
 
-    <!-- Playback Tactile Buttons -->
+    <!-- Real Spotify AppleScript Controls -->
     <div class="grid grid-cols-3 gap-2">
       <button onclick="sendSpotifyCommand('prev')" class="btn-tactile py-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60 hover:bg-slate-700 text-xs font-mono font-bold text-slate-300 flex items-center justify-center gap-1.5">
         <span>⏮</span> GERİ
@@ -360,7 +334,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- ⏱️ 5. POMODORO & PRODUCTIVITY LAB                       -->
+  <!-- ⏱️ 5. ODAKLANMA & MAC EKRAN SÜRESİ                      -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-4">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
@@ -374,10 +348,10 @@
       <span class="text-[11px] font-mono font-bold text-amber-400 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20" id="pomoStateBadge">HAZIR</span>
     </div>
 
-    <!-- Big Digital Countdown Display -->
+    <!-- Countdown Display -->
     <div class="py-4 rounded-xl bg-slate-950/80 border border-slate-800/80 flex flex-col items-center justify-center shadow-inner">
       <div class="font-mono text-4xl font-black text-amber-400 tracking-wider" id="pomoCountdownDisplay">25:00</div>
-      <p class="text-[10px] font-mono text-slate-500 mt-1" id="pomoSubText">DERİN ÇALIŞMA BLOKU</p>
+      <p class="text-[10px] font-mono text-slate-500 mt-1" id="pomoSubText">DERİN ÇALIŞMA SEANSI</p>
     </div>
 
     <!-- Timer Controls -->
@@ -393,7 +367,7 @@
       </button>
     </div>
 
-    <!-- Mac Screen Time Telemetry -->
+    <!-- Mac Active Screen Telemetry -->
     <div class="grid grid-cols-2 gap-2 text-center font-mono text-xs pt-2 border-t border-slate-800/60">
       <div class="p-2.5 rounded-lg bg-slate-900/40 border border-slate-800">
         <div class="text-[10px] text-slate-400">BUGÜNKÜ MAC SÜRESİ</div>
@@ -407,62 +381,13 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- ⚡ 6. 4-CHANNEL 5V POWER RELAY BANK                     -->
-  <!-- ======================================================= -->
-  <section class="glass-card p-5 flex flex-col gap-3">
-    <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
-      <div class="flex items-center gap-2.5">
-        <div class="p-2 rounded-lg bg-violet-500/10 text-violet-400 text-base">⚡</div>
-        <div>
-          <h3 class="font-display font-bold text-sm text-white tracking-wide">4 KANALLI GÜÇ RÖLELERİ</h3>
-          <p class="text-[10px] font-mono text-slate-400">OPTO-İZOLE MANYETİK GÜÇ DAĞITIMI</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-2 gap-2.5 font-mono text-xs">
-      <button onclick="toggleRelay(1)" id="relayBtn1" class="btn-tactile p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 flex items-center justify-between text-slate-300">
-        <div class="text-left">
-          <div class="font-bold">💡 RÖLE 1</div>
-          <div class="text-[10px] text-slate-500">Masa Lambası</div>
-        </div>
-        <span class="w-3 h-3 rounded-full bg-slate-700" id="relayDot1"></span>
-      </button>
-
-      <button onclick="toggleRelay(2)" id="relayBtn2" class="btn-tactile p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 flex items-center justify-between text-slate-300">
-        <div class="text-left">
-          <div class="font-bold">📻 RÖLE 2</div>
-          <div class="text-[10px] text-slate-500">Stüdyo Amfisi</div>
-        </div>
-        <span class="w-3 h-3 rounded-full bg-slate-700" id="relayDot2"></span>
-      </button>
-
-      <button onclick="toggleRelay(3)" id="relayBtn3" class="btn-tactile p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 flex items-center justify-between text-slate-300">
-        <div class="text-left">
-          <div class="font-bold">🌿 RÖLE 3</div>
-          <div class="text-[10px] text-slate-500">Teras Işığı</div>
-        </div>
-        <span class="w-3 h-3 rounded-full bg-slate-700" id="relayDot3"></span>
-      </button>
-
-      <button onclick="toggleRelay(4)" id="relayBtn4" class="btn-tactile p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 flex items-center justify-between text-slate-300">
-        <div class="text-left">
-          <div class="font-bold">⚡ RÖLE 4</div>
-          <div class="text-[10px] text-slate-500">Yedek 5V Hat</div>
-        </div>
-        <span class="w-3 h-3 rounded-full bg-slate-700" id="relayDot4"></span>
-      </button>
-    </div>
-  </section>
-
-  <!-- ======================================================= -->
-  <!-- 🐹 7. LIVE YULAF PIXEL OLED COMPANION                   -->
+  <!-- 🐹 6. CANLI YULAF CYBER-OLED COMPANION                  -->
   <!-- ======================================================= -->
   <section class="glass-card p-4 flex items-center gap-3.5">
     <canvas id="yulafPixelCanvas" width="32" height="32" class="w-14 h-14 rounded-xl bg-slate-950 border border-emerald-500/30 shadow-lg shadow-emerald-500/10 image-pixelated shrink-0"></canvas>
     <div class="flex flex-col gap-1 overflow-hidden">
       <div class="flex items-center justify-between">
-        <span class="font-display font-bold text-xs text-emerald-400">HAMSTER YULAF // CYBER COMPANION</span>
+        <span class="font-display font-bold text-xs text-emerald-400">HAMSTER YULAF // VİRTUAL OLED</span>
         <span class="font-mono text-[9px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20" id="yulafMoodPill">DURUM: NÖBETTE 🐾</span>
       </div>
       <p class="font-mono text-xs text-slate-300 italic truncate" id="yulafSpeechText">"Oda havası temiz, çalışmaya hazırım Jasper!"</p>
@@ -470,13 +395,13 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 📈 8. YOKOGAWA-76 STRIP-CHART RECORDER                  -->
+  <!-- 📈 7. CANLI TELEMETRİ GRAFİĞİ & CSV İNDİRME             -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2">
         <span class="text-base">📈</span>
-        <h3 class="font-display font-bold text-sm text-white tracking-wide">YOKOGAWA-76 TELEMETRİ ÇİZİCİSİ</h3>
+        <h3 class="font-display font-bold text-sm text-white tracking-wide">24 SAATLİK SENSÖR GEÇMİŞİ</h3>
       </div>
       <button onclick="exportTelemetryCSV()" class="btn-tactile px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-cyan-400 font-mono text-[10px] font-bold flex items-center gap-1 hover:bg-slate-700">
         💾 CSV İNDİR
@@ -485,7 +410,7 @@
 
     <!-- Chart Period Selector -->
     <div class="flex gap-1.5 font-mono text-[10px]">
-      <button onclick="changeChartPeriod('24h')" id="chartBtn24h" class="btn-tactile px-3 py-1 rounded-lg bg-cyan-500/15 text-brand-cyan border border-cyan-500/30 font-bold">24 SAAT</button>
+      <button onclick="changeChartPeriod('24h')" id="chartBtn24h" class="btn-tactile px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 font-bold">24 SAAT</button>
       <button onclick="changeChartPeriod('7d')" id="chartBtn7d" class="btn-tactile px-3 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700">7 GÜN</button>
       <button onclick="changeChartPeriod('30d')" id="chartBtn30d" class="btn-tactile px-3 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700">30 GÜN</button>
     </div>
@@ -496,25 +421,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- ⚡ 9. FROSTED GLASS MOBILE ACTION DOCK                  -->
-  <!-- ======================================================= -->
-  <nav class="fixed bottom-3 left-1/2 -translate-x-1/2 w-[calc(100%-24px)] max-w-xl bg-slate-900/80 border border-white/10 backdrop-blur-xl rounded-2xl p-2 flex items-center justify-around shadow-2xl z-40">
-    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="btn-tactile flex flex-col items-center gap-1 text-slate-400 hover:text-white font-mono text-[9px] font-bold">
-      <span class="text-base">🎛️</span> KOKPİT
-    </button>
-    <button onclick="setUppatvindFan(3)" class="btn-tactile flex flex-col items-center gap-1 text-cyan-400 font-mono text-[9px] font-bold">
-      <span class="text-base">🌪️</span> TURBO FAN
-    </button>
-    <button onclick="sendSpotifyCommand('playpause')" class="btn-tactile flex flex-col items-center gap-1 text-emerald-400 font-mono text-[9px] font-bold">
-      <span class="text-base">⏯️</span> SPOTIFY
-    </button>
-    <button onclick="ringDeskChime()" class="btn-tactile flex flex-col items-center gap-1 text-amber-400 font-mono text-[9px] font-bold">
-      <span class="text-base">🔔</span> ZİL
-    </button>
-  </nav>
-
-  <!-- ======================================================= -->
-  <!-- 🧠 JAVASCRIPT: LOGIC, WEB AUDIO & TELEMETRY SYNC        -->
+  <!-- 🧠 JAVASCRIPT: LOGIC & TELEMETRY SYNC                   -->
   <!-- ======================================================= -->
   <script>
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
@@ -524,7 +431,6 @@
     let liveLight = 40;
     let liveTemp = 26.4;
     let liveHum = 54;
-    let bmeConnected = true;
 
     let pomoMode = "IDLE";
     let pomoSecondsRemaining = 1500;
@@ -566,25 +472,6 @@
       } catch(e) {}
     }
 
-    function playRelaySound() {
-      if (soundMuted) return;
-      if (navigator.vibrate) navigator.vibrate([15, 8, 15]);
-      try {
-        const ctx = getAudioContext();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "triangle";
-        osc.frequency.setValueAtTime(200, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 0.06);
-        gain.gain.setValueAtTime(0.35, ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.06);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.06);
-      } catch(e) {}
-    }
-
     function toggleAudioMute() {
       soundMuted = !soundMuted;
       document.getElementById('muteIcon').innerText = soundMuted ? '🔇' : '🔊';
@@ -604,7 +491,7 @@
       }, 2200);
     }
 
-    /* 🐹 CANLI YULAF PIXEL OLED ANIMATION */
+    /* 🐹 CANLI YULAF PIXEL ANIMATION */
     let yulafFrame = 0;
     function renderYulaf() {
       const cvs = document.getElementById('yulafPixelCanvas');
@@ -670,7 +557,7 @@
 
     /* 🌪️ UPPÅTVIND FAN CONTROLS */
     async function setUppatvindFan(level) {
-      playRelaySound();
+      playBeep(600, 0.04);
       [0, 1, 2, 3].forEach(i => {
         const btn = document.getElementById(`fanBtn${i}`);
         if (btn) {
@@ -749,34 +636,6 @@
       }
     }
 
-    /* ⚡ 4-CHANNEL RELAYS */
-    let relayStates = { 1: false, 2: false, 3: false, 4: false };
-    async function toggleRelay(num) {
-      playRelaySound();
-      relayStates[num] = !relayStates[num];
-      const dot = document.getElementById(`relayDot${num}`);
-      const btn = document.getElementById(`relayBtn${num}`);
-
-      if (dot && btn) {
-        if (relayStates[num]) {
-          dot.className = 'w-3 h-3 rounded-full bg-emerald-400 shadow-md shadow-emerald-500/50';
-          btn.className = 'btn-tactile p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-emerald-300';
-        } else {
-          dot.className = 'w-3 h-3 rounded-full bg-slate-700';
-          btn.className = 'btn-tactile p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between text-slate-300';
-        }
-      }
-
-      showToast(`RÖLE ${num} ${relayStates[num] ? 'AÇILDI' : 'KAPATILDI'} ⚡`);
-      try {
-        await fetch(FIREBASE_URL + `control/relay_${num}.json` + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(relayStates[num])
-        });
-      } catch(e) {}
-    }
-
     /* 🎵 SPOTIFY & BUZZER */
     async function sendSpotifyCommand(action) {
       playBeep(700, 0.03);
@@ -810,7 +669,7 @@
         const b = document.getElementById(`chartBtn${p}`);
         if (b) {
           b.className = (p === period) 
-            ? 'btn-tactile px-3 py-1 rounded-lg bg-cyan-500/15 text-brand-cyan border border-cyan-500/30 font-bold'
+            ? 'btn-tactile px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 font-bold'
             : 'btn-tactile px-3 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700';
         }
       });
@@ -882,7 +741,7 @@
       showToast("CSV RAPORU İNDİRİLDİ 💾");
     }
 
-    /* 🔄 LIVE FIREBASE TELEMETRY SYNC */
+    /* 🔄 REALTIME FIREBASE SYNC */
     async function syncData() {
       try {
         const resStation = await fetch(FIREBASE_URL + "station.json" + FIREBASE_AUTH);
