@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="google" content="notranslate">
-  <title>AGY-1976 // TERMODİNAMİK KOKPİTİ</title>
+  <title>AGY-1976 // MASA İSTASYONU KOKPİTİ</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#000000">
@@ -27,6 +27,7 @@
           colors: {
             brand: {
               dark: '#06080B',
+              card: '#0D1117',
               oled: '#000000',
               cyan: '#00F2FE',
               emerald: '#10B981',
@@ -64,7 +65,7 @@
       color: #E2E8F0;
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
-      padding-bottom: 24px;
+      padding-bottom: 32px;
       transition: background-color 0.3s ease, background-image 0.3s ease;
     }
 
@@ -80,13 +81,13 @@
     }
 
     .glass-card {
-      background: linear-gradient(180deg, rgba(15, 20, 28, 0.75) 0%, rgba(9, 13, 19, 0.9) 100%);
+      background: linear-gradient(180deg, rgba(15, 20, 28, 0.8) 0%, rgba(9, 13, 19, 0.95) 100%);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-top: 1px solid rgba(255, 255, 255, 0.16);
       box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
-      border-radius: 1rem;
+      border-radius: 1.1rem;
     }
 
     .btn-tactile {
@@ -126,7 +127,7 @@
 <body class="p-3 md:p-6 max-w-2xl mx-auto flex flex-col gap-3.5">
 
   <!-- 🚀 TOAST BİLDİRİMİ -->
-  <div id="cyberToast" class="fixed top-4 left-1/2 z-50 px-4 py-2 rounded-xl bg-slate-900/95 border border-cyan-500/40 text-cyan-400 font-mono text-xs font-bold shadow-2xl flex items-center gap-2 backdrop-blur-md pointer-events-none opacity-0">
+  <div id="cyberToast" class="fixed top-4 left-1/2 z-50 px-4 py-2.5 rounded-xl bg-slate-900/95 border border-cyan-500/40 text-cyan-400 font-mono text-xs font-bold shadow-2xl flex items-center gap-2 backdrop-blur-md pointer-events-none opacity-0">
     <span id="toastIcon">⚡</span>
     <span id="toastMsg">KOMUT GÖNDERİLDİ</span>
   </div>
@@ -136,7 +137,7 @@
   <!-- ======================================================= -->
   <header class="glass-card p-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <div class="relative flex items-center justify-center w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-display font-black text-sm">
+      <div class="relative flex items-center justify-center w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-display font-black text-sm shadow-inner">
         AGY
         <span id="pulseRing" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
         <span id="pulseDot" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
@@ -152,15 +153,18 @@
       </div>
     </div>
 
-    <!-- Quick Buttons: OLED Mode, Audio Mute, Desk Buzzer -->
+    <!-- Quick Buttons: Brown Noise, OLED Mode, Audio Mute, Desk Buzzer -->
     <div class="flex items-center gap-1.5">
-      <button onclick="toggleOledMode()" id="oledBtn" title="Saf OLED Gece Modu (O)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
+      <button onclick="toggleBrownNoise()" id="brownNoiseBtn" title="Biofilik Odak Ambiyansı (Kahverengi Gürültü)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-400 text-xs font-mono">
+        <span id="brownNoiseIcon">🌊</span>
+      </button>
+      <button onclick="toggleOledMode()" id="oledBtn" title="Saf OLED Gece Modu (Kısayol: O)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
         <span id="oledIcon">🌙</span>
       </button>
-      <button onclick="toggleAudioMute()" id="muteBtn" title="Ses Efektleri (M)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
+      <button onclick="toggleAudioMute()" id="muteBtn" title="Ses Efektleri (Kısayol: M)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
         <span id="muteIcon">🔊</span>
       </button>
-      <button onclick="ringDeskChime()" title="Masa Zili (B)" class="btn-tactile px-3 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 hover:bg-cyan-500/25 text-cyan-400 text-xs font-mono font-bold flex items-center gap-1.5">
+      <button onclick="ringDeskChime()" title="Masa Zili (Kısayol: B)" class="btn-tactile px-3 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 hover:bg-cyan-500/25 text-cyan-400 text-xs font-mono font-bold flex items-center gap-1.5">
         🔔 ZİL
       </button>
     </div>
@@ -178,7 +182,7 @@
           <p class="text-[9px] font-mono text-slate-400">ASHRAE-55 • ARDEN BUCK ENTALPİ & ÇİY FÜZYONU</p>
         </div>
       </div>
-      <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" id="ventStatusBadge">PENCERE AÇILABİLİR 🌿</span>
+      <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" id="ventStatusBadge">PENCERE AÇILABİLİR 🌿</span>
     </div>
 
     <!-- Smart Guidance Speech Box -->
@@ -414,10 +418,13 @@
       <p class="text-[10px] font-mono text-slate-500 mt-1" id="pomoSubText">DERİN ÇALIŞMA SEANSI</p>
     </div>
 
-    <!-- Timer Controls -->
-    <div class="grid grid-cols-3 gap-2 font-mono text-xs">
+    <!-- Timer Controls (25m Focus / 90m Flow / 5m Break / Stop) -->
+    <div class="grid grid-cols-4 gap-1.5 font-mono text-xs">
       <button onclick="startPomodoro(25, 'FOCUS')" class="btn-tactile py-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold hover:bg-amber-500/25">
         25 DK ODAK
+      </button>
+      <button onclick="startPomodoro(90, 'FOCUS')" class="btn-tactile py-2.5 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-300 font-bold hover:bg-purple-500/25">
+        90 DK AKIŞ
       </button>
       <button onclick="startPomodoro(5, 'BREAK')" class="btn-tactile py-2.5 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 font-bold hover:bg-cyan-500/25">
         5 DK MOLA
@@ -507,6 +514,8 @@
     let soundMuted = false;
     let oledMode = localStorage.getItem('agy_oled_mode') === 'true';
     let audioCtx = null;
+    let brownNoiseNode = null;
+    let brownNoiseActive = false;
     let syncIntervalId = null;
     let isAppVisible = true;
 
@@ -526,6 +535,45 @@
         document.body.classList.remove('oled-mode');
         document.getElementById('oledIcon').innerText = '🌙';
         showToast("CYBER DARK MODU AKTİF ☀️", "☀️");
+      }
+    }
+
+    /* 🌊 WEB AUDIO SYNTHESIZED BROWN NOISE */
+    function toggleBrownNoise() {
+      const btn = document.getElementById('brownNoiseBtn');
+      const ctx = getAudioContext();
+      if (!brownNoiseActive) {
+        // Synthesize pure brown noise in-browser (zero internet)
+        const bufferSize = ctx.sampleRate * 2;
+        const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let lastOut = 0.0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          output[i] = (lastOut + (0.02 * white)) / 1.02;
+          lastOut = output[i];
+          output[i] *= 3.5; // Gain boost
+        }
+        brownNoiseNode = ctx.createBufferSource();
+        brownNoiseNode.buffer = noiseBuffer;
+        brownNoiseNode.loop = true;
+        const gainNode = ctx.createGain();
+        gainNode.gain.setValueAtTime(0.12, ctx.currentTime);
+        brownNoiseNode.connect(gainNode);
+        gainNode.connect(ctx.destination);
+        brownNoiseNode.start();
+        brownNoiseActive = true;
+        btn.className = 'btn-tactile p-2 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-xs font-mono shadow-lg shadow-cyan-500/10';
+        showToast("BİOFİLİK KAHVERENGİ GÜRÜLTÜ AÇILDI 🌊", "🌊");
+      } else {
+        if (brownNoiseNode) {
+          brownNoiseNode.stop();
+          brownNoiseNode.disconnect();
+          brownNoiseNode = null;
+        }
+        brownNoiseActive = false;
+        btn.className = 'btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-400 text-xs font-mono';
+        showToast("KAHVERENGİ GÜRÜLTÜ SUSTURULDU", "🔇");
       }
     }
 
