@@ -98,20 +98,19 @@
     }
 
     @keyframes barBounce {
-      0%, 100% { height: 4px; }
-      50% { height: 20px; }
+      0%, 100% { height: 3px; }
+      50% { height: 14px; }
     }
     .audio-bar {
-      width: 3px;
-      background: #00F2FE;
+      width: 2px;
+      background: #10B981;
       border-radius: 2px;
-      animation: barBounce 1.2s ease-in-out infinite;
+      animation: barBounce 1.1s ease-in-out infinite;
     }
     .audio-bar:nth-child(1) { animation-delay: 0.1s; }
     .audio-bar:nth-child(2) { animation-delay: 0.3s; }
-    .audio-bar:nth-child(3) { animation-delay: 0.5s; }
-    .audio-bar:nth-child(4) { animation-delay: 0.2s; }
-    .audio-bar:nth-child(5) { animation-delay: 0.4s; }
+    .audio-bar:nth-child(3) { animation-delay: 0.2s; }
+    .audio-bar:nth-child(4) { animation-delay: 0.4s; }
 
     #cyberToast {
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -153,7 +152,7 @@
 
     <!-- Quick Buttons: NTFY Push, Brown Noise, OLED Mode, Mute, Desk Buzzer -->
     <div class="flex items-center gap-1.5">
-      <button onclick="sendNtfyTestPush()" id="ntfyBtn" title="Telefona ve Mac'e Bildirim Gönder (NTFY)" class="btn-tactile p-2 rounded-xl bg-purple-500/20 border border-purple-500/40 hover:bg-purple-500/30 text-purple-300 text-xs font-mono">
+      <button onclick="sendNtfyTestPush()" id="ntfyBtn" title="Telefona Bildirim Gönder (NTFY)" class="btn-tactile p-2 rounded-xl bg-purple-500/20 border border-purple-500/40 hover:bg-purple-500/30 text-purple-300 text-xs font-mono">
         <span>📲</span>
       </button>
       <button onclick="toggleBrownNoise()" id="brownNoiseBtn" title="Derin Odak Sesi (Kahverengi Gürültü)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-400 text-xs font-mono">
@@ -172,30 +171,41 @@
   </header>
 
   <!-- ======================================================= -->
-  <!-- 📲 2. NTFY AÇIK KAYNAK TELEFON & MAC BİLDİRİM KARTI    -->
+  <!-- 🎵 2. MİNİK & CANLI SPOTIFY KONTROL ÇUBUĞU (SLIM BAR)    -->
   <!-- ======================================================= -->
-  <section class="glass-card p-3.5 flex items-center justify-between border-purple-500/20 bg-gradient-to-r from-purple-950/40 via-slate-900/60 to-slate-950/80">
-    <div class="flex items-center gap-2.5">
-      <div class="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-sm">
-        📲
+  <section class="glass-card px-3.5 py-2.5 flex items-center justify-between gap-2.5 border-emerald-500/20 bg-gradient-to-r from-slate-950/90 via-slate-900/80 to-slate-950/90">
+    <div class="flex items-center gap-2.5 overflow-hidden flex-1 min-w-0">
+      <div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs shrink-0" id="spotifyStatusIcon">
+        🎵
       </div>
-      <div>
-        <h3 class="font-display font-bold text-xs text-white tracking-wide flex items-center gap-1.5">
-          NTFY BİLDİRİM KANALI
-          <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">OPEN SOURCE</span>
-        </h3>
-        <p class="text-[10px] font-mono text-slate-400">
-          Kanal: <a href="https://ntfy.sh/jasper_agy1976" target="_blank" class="text-cyan-400 underline font-bold">ntfy.sh/jasper_agy1976</a>
-        </p>
+      <div class="overflow-hidden min-w-0 flex-1">
+        <div class="font-mono text-xs font-bold text-white truncate flex items-center gap-1.5" id="spotifyTrackTitle">
+          <span>MÜZİK BEKLENİYOR...</span>
+        </div>
+        <div class="font-mono text-[10px] text-slate-400 truncate mt-0.5" id="spotifyArtistTitle">SPOTIFY BAĞLANTISI AKTİF // DJ YULAF</div>
       </div>
     </div>
-    <div class="flex items-center gap-1.5">
-      <button onclick="sendNtfyTestPush()" class="btn-tactile px-3 py-1.5 rounded-lg bg-purple-500/20 border border-purple-500/40 hover:bg-purple-500/30 text-purple-300 text-[10px] font-mono font-bold">
-        TEST GÖNDER 🚀
+
+    <!-- Mini Visualizer Bars -->
+    <div class="hidden sm:flex items-end gap-0.5 h-4 px-1.5 py-0.5 rounded bg-slate-900/90 border border-slate-800 shrink-0" id="audioVisualizerWrap">
+      <div class="audio-bar"></div>
+      <div class="audio-bar"></div>
+      <div class="audio-bar"></div>
+      <div class="audio-bar"></div>
+    </div>
+
+    <!-- Slim Tactile Buttons (Gerçekten Cihazda Çalar) -->
+    <div class="flex items-center gap-1.5 shrink-0 font-mono">
+      <button onclick="sendSpotifyCommand('prev')" title="Önceki Parça" class="btn-tactile w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs flex items-center justify-center">
+        ⏮
       </button>
-      <a href="https://ntfy.sh/jasper_agy1976" target="_blank" class="btn-tactile px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-300 text-[10px] font-mono font-bold flex items-center gap-1">
-        ABONE OL 🔗
-      </a>
+      <button onclick="sendSpotifyCommand('playpause')" id="spotifyPlayBtn" title="Oynat / Durdur [Space]" class="btn-tactile px-3 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 hover:bg-emerald-500/30 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1 shadow-md shadow-emerald-500/10">
+        <span id="spotifyPlayIcon">⏯</span>
+        <span class="text-[10px] hidden xs:inline" id="spotifyPlayLabel">ÇAL</span>
+      </button>
+      <button onclick="sendSpotifyCommand('next')" title="Sonraki Parça" class="btn-tactile w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs flex items-center justify-center">
+        ⏭
+      </button>
     </div>
   </section>
 
@@ -383,54 +393,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🎵 6. CANLI SPOTIFY & MÜZİK OYNATMA                     -->
-  <!-- ======================================================= -->
-  <section class="glass-card p-5 flex flex-col gap-3">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-sm">
-          🎵
-        </div>
-        <div>
-          <h3 class="font-display font-bold text-sm text-white tracking-wide">CANLI SPOTIFY SENKRONU</h3>
-          <p class="text-[10px] font-mono text-slate-400" id="spotifyLocationText">KONUM: MASA BAŞINDA 🏠 [Kısayol: Space]</p>
-        </div>
-      </div>
-
-      <!-- Animated Spectrum Bars -->
-      <div class="flex items-end gap-1 h-6 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800" id="audioVisualizerWrap">
-        <div class="audio-bar"></div>
-        <div class="audio-bar"></div>
-        <div class="audio-bar"></div>
-        <div class="audio-bar"></div>
-        <div class="audio-bar"></div>
-      </div>
-    </div>
-
-    <!-- Current Song Banner -->
-    <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
-      <div class="overflow-hidden">
-        <div class="font-mono text-xs font-bold text-white truncate" id="spotifyTrackTitle">MÜZİK BEKLENİYOR...</div>
-        <div class="font-mono text-[11px] text-slate-400 truncate mt-0.5" id="spotifyArtistTitle">SPOTIFY AÇIN // DJ YULAF</div>
-      </div>
-    </div>
-
-    <!-- Real Spotify AppleScript Controls -->
-    <div class="grid grid-cols-3 gap-2">
-      <button onclick="sendSpotifyCommand('prev')" class="btn-tactile py-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60 hover:bg-slate-700 text-xs font-mono font-bold text-slate-300 flex items-center justify-center gap-1.5">
-        <span>⏮</span> GERİ
-      </button>
-      <button onclick="sendSpotifyCommand('playpause')" class="btn-tactile py-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 hover:bg-emerald-500/25 text-xs font-mono font-bold text-emerald-400 flex items-center justify-center gap-1.5">
-        <span>⏯</span> OYNAT / DUR [Space]
-      </button>
-      <button onclick="sendSpotifyCommand('next')" class="btn-tactile py-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60 hover:bg-slate-700 text-xs font-mono font-bold text-slate-300 flex items-center justify-center gap-1.5">
-        İLERİ <span>⏭</span>
-      </button>
-    </div>
-  </section>
-
-  <!-- ======================================================= -->
-  <!-- ⏱️ 7. ODAKLANMA & MAC EKRAN SÜRESİ                      -->
+  <!-- ⏱️ 6. ODAKLANMA & MAC EKRAN SÜRESİ                      -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-4">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
@@ -480,7 +443,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🐹 8. CANLI YULAF CYBER-OLED COMPANION                  -->
+  <!-- 🐹 7. CANLI YULAF CYBER-OLED COMPANION                  -->
   <!-- ======================================================= -->
   <section class="glass-card p-4 flex items-center gap-3.5">
     <canvas id="yulafPixelCanvas" width="32" height="32" class="w-14 h-14 rounded-xl bg-slate-950 border border-emerald-500/30 shadow-lg shadow-emerald-500/10 image-pixelated shrink-0"></canvas>
@@ -494,7 +457,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 📈 9. CANLI TELEMETRİ GRAFİĞİ & CSV İNDİRME             -->
+  <!-- 📈 8. CANLI TELEMETRİ GRAFİĞİ & CSV İNDİRME             -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-3">
     <div class="flex items-center justify-between">
@@ -520,7 +483,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🧠 JAVASCRIPT: ADVANCED PSYCHROMETRICS & NTFY PUSH      -->
+  <!-- 🧠 JAVASCRIPT: ADVANCED PSYCHROMETRICS & SPOTIFY ENGINE -->
   <!-- ======================================================= -->
   <script>
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
@@ -536,6 +499,7 @@
     let autoPilot = true;
     let lastSyncTime = Date.now();
     let currentPresence = "HOME_DESK";
+    let isSpotifyPlaying = false;
 
     let sensorDiagnostics = {
       bme280Valid: true,
@@ -780,8 +744,7 @@
       ctx.fillRect(24, 16 - wOff, 4, 1);
 
       // Headphones if Spotify Playing
-      const trackTitle = document.getElementById('spotifyTrackTitle');
-      if (trackTitle && !trackTitle.innerText.includes('BEKLENİYOR')) {
+      if (isSpotifyPlaying) {
         ctx.fillStyle = '#00F2FE';
         ctx.fillRect(4, 8, 3, 8);
         ctx.fillRect(25, 8, 3, 8);
@@ -899,10 +862,17 @@
       }
     }
 
-    /* 🎵 SPOTIFY & BUZZER */
+    /* 🎵 GERÇEK SPOTIFY KOMUT MOTORU (NATIVE MAC OYNATMA) */
     async function sendSpotifyCommand(action) {
       playBeep(700, 0.03);
-      showToast(`SPOTIFY: ${action.toUpperCase()}`);
+      showToast(`SPOTIFY: ${action === 'playpause' ? (isSpotifyPlaying ? 'DURDURULUYOR' : 'ÇALINIYOR') : action.toUpperCase()} 🎵`);
+      
+      // Anlık iyimser UI güncellemesi
+      if (action === 'playpause') {
+        isSpotifyPlaying = !isSpotifyPlaying;
+        updateSpotifyPlayBtnState(isSpotifyPlaying);
+      }
+
       try {
         await fetch(FIREBASE_URL + "control/spotify_cmd.json" + FIREBASE_AUTH, {
           method: "PUT",
@@ -910,6 +880,25 @@
           body: JSON.stringify(action)
         });
       } catch(e) {}
+    }
+
+    function updateSpotifyPlayBtnState(isPlaying) {
+      const playIcon = document.getElementById('spotifyPlayIcon');
+      const playLabel = document.getElementById('spotifyPlayLabel');
+      const playBtn = document.getElementById('spotifyPlayBtn');
+      const viz = document.getElementById('audioVisualizerWrap');
+
+      if (isPlaying) {
+        if (playIcon) playIcon.innerText = "⏸";
+        if (playLabel) playLabel.innerText = "DUR";
+        if (playBtn) playBtn.className = "btn-tactile px-3 h-8 rounded-lg bg-emerald-500/25 border border-emerald-500/50 hover:bg-emerald-500/35 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1 shadow-lg shadow-emerald-500/20";
+        if (viz) viz.style.opacity = "1";
+      } else {
+        if (playIcon) playIcon.innerText = "▶";
+        if (playLabel) playLabel.innerText = "ÇAL";
+        if (playBtn) playBtn.className = "btn-tactile px-3 h-8 rounded-lg bg-slate-800/90 border border-slate-700 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center justify-center gap-1";
+        if (viz) viz.style.opacity = "0.3";
+      }
     }
 
     async function ringDeskChime() {
@@ -1177,23 +1166,23 @@
           if (mData && typeof mData === 'object') {
             const trackEl = document.getElementById('spotifyTrackTitle');
             const artistEl = document.getElementById('spotifyArtistTitle');
-            if (mData.spotify_playing && mData.spotify_track) {
+            isSpotifyPlaying = (mData.spotify_playing === true);
+            updateSpotifyPlayBtnState(isSpotifyPlaying);
+
+            if (mData.spotify_track) {
               trackEl.innerText = mData.spotify_track.toUpperCase();
-              artistEl.innerText = `${mData.spotify_artist.toUpperCase()} // DJ YULAF`;
+              artistEl.innerText = `${(mData.spotify_artist || 'DJ YULAF').toUpperCase()} // [Space: Oynat]`;
             } else {
               trackEl.innerText = "MÜZİK BEKLENİYOR...";
-              artistEl.innerText = "SPOTIFY AÇIN // DJ YULAF";
+              artistEl.innerText = "SPOTIFY BAĞLANTISI AKTİF // DJ YULAF";
             }
 
-            const locEl = document.getElementById('spotifyLocationText');
             const presEl = document.getElementById('presenceLabel');
             if (mData.mac_location === "HOME_TERRACE") {
               currentPresence = "HOME_TERRACE";
-              if (locEl) locEl.innerText = "KONUM: TERASTA 🌿 [Kısayol: Space]";
               if (presEl) presEl.innerText = "TERASTA 🌿";
             } else if (mData.mac_location === "HOME_DESK") {
               currentPresence = "HOME_DESK";
-              if (locEl) locEl.innerText = "KONUM: MASA BAŞINDA 🏠 [Kısayol: Space]";
               if (presEl) presEl.innerText = "MASA BAŞINDA 🏠";
             }
 
