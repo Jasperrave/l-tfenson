@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="google" content="notranslate">
-  <title>AGY-1976 // ANALOG TELEMETRİ KONSOLU</title>
+  <title>AGY-1976 // ANALOG TELEMETRİ & MEKATRONİK KONSOLU</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#121417">
@@ -14,7 +14,7 @@
   <!-- FONTS: DSEG7 (7-Segment LED), JetBrains Mono, Space Grotesk -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dseg@0.46.0/css/dseg.css">
 
   <!-- Chart.js CDN -->
@@ -154,42 +154,6 @@
       100% { opacity: 0.85; transform: scale(0.96); }
     }
 
-    .toggle-switch-unit {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      cursor: pointer;
-      user-select: none;
-      touch-action: manipulation;
-    }
-
-    .toggle-label {
-      font-family: var(--font-din);
-      font-size: 7.5px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      color: #33383F;
-    }
-
-    .toggle-bat-lever {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #FFFFFF 0%, #CBD0D4 45%, #6E747A 80%, #2B2F33 100%);
-      border: 1px solid #444;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.4), inset 0 1px 1px #FFF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.12s ease;
-    }
-
-    .toggle-bat-lever:active {
-      transform: scale(0.92);
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
-    }
-
     /* ======================================================= */
     /* 📻 RECORD PRO AKKOR PARLAKLIĞINDA YUVARLAK ANALOG VU METRELER */
     /* ======================================================= */
@@ -259,7 +223,7 @@
 
     .incandescent-needle {
       transform-origin: 100px 145px;
-      transition: transform 0.65s cubic-bezier(0.2, 1.4, 0.4, 1);
+      transition: transform 0.08s linear;
       filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.6));
     }
 
@@ -275,14 +239,49 @@
 
     .meter-digital-pill {
       font-family: var(--font-mono);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 800;
       color: #0E1012;
-      background: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.6);
       border: 1px solid rgba(0,0,0,0.15);
       padding: 2px 8px;
       border-radius: 12px;
       margin-top: 2px;
+    }
+
+    /* ======================================================= */
+    /* 🐹 CANLI YULAF PİKSEL MATRIX EKRANI (OLED SİMÜLATÖRÜ)     */
+    /* ======================================================= */
+    .yulaf-matrix-deck {
+      background: #040906;
+      border: 2px solid #142E1F;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .yulaf-canvas-screen {
+      width: 72px;
+      height: 72px;
+      background: #06120A;
+      border: 1.5px solid #2ED573;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(46, 213, 115, 0.35);
+      image-rendering: pixelated;
+    }
+
+    .yulaf-telemetry-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 10px;
     }
 
     /* ======================================================= */
@@ -524,7 +523,7 @@
       font-size: 10.5px;
       font-weight: 800;
       letter-spacing: 0.06em;
-      padding: 9px 16px;
+      padding: 9px 14px;
       border-radius: 6px;
       border: 1px solid #7D8389;
       border-top: 1.5px solid #FFFFFF;
@@ -552,6 +551,14 @@
       background: linear-gradient(180deg, #FFE899 0%, #D4AF37 50%, #8E7019 100%);
       border-color: #B5901F;
       border-top-color: #FFF6CC;
+      color: #1A1D20;
+    }
+
+    .silver-tactile-btn.active-blue {
+      background: linear-gradient(180deg, #E0F7FA 0%, #00F2FE 50%, #0097A7 100%);
+      border-color: #00838F;
+      border-top-color: #E0F7FA;
+      color: #00363A;
     }
 
     /* 🎛️ KANAL SEÇİCİ BANT (CHANNEL SELECTOR) */
@@ -599,376 +606,370 @@
       bottom: calc(10px + env(safe-area-inset-bottom));
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - 20px);
-      max-width: 540px;
-      background: linear-gradient(180deg, #E6E9EB 0%, #B8BCBF 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 2px solid #6E747A;
-      border-top: 1.5px solid #FFFFFF;
-      border-radius: 28px;
-      padding: 6px 12px;
+      width: calc(100% - 24px);
+      max-width: 580px;
+      background: linear-gradient(180deg, #24292F 0%, #161A1D 100%);
+      border: 1.5px solid #4A5056;
+      border-top: 1.5px solid #8A8F94;
+      border-radius: 12px;
+      padding: 6px 10px;
       display: flex;
       justify-content: space-around;
       align-items: center;
-      box-shadow: 0 14px 40px rgba(0,0,0,0.9), 0 2px 6px rgba(0,0,0,0.4);
-      z-index: 9999;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.95);
+      z-index: 100;
     }
 
-    .dock-btn {
-      background: transparent;
-      border: none;
-      color: #1A1D20;
-      font-family: var(--font-din);
-      font-size: 9.5px;
-      font-weight: 800;
+    .dock-action-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
       cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 6px;
-      transition: transform 0.1s ease;
+      color: #A0A6AC;
+      font-family: var(--font-din);
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      transition: color 0.1s ease;
       touch-action: manipulation;
     }
 
-    .dock-btn:active {
+    .dock-action-item:active {
+      color: #FFF;
       transform: scale(0.92);
     }
 
-    /* 🏷️ RETRO METALİK GLİF ROZETİ */
-    .retro-glyph-badge {
-      width: 22px;
-      height: 22px;
-      border-radius: 4px;
-      background: linear-gradient(180deg, #FFFFFF 0%, #CBD0D4 100%);
-      border: 1px solid #7D8389;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 #FFF;
+    .dock-led-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: radial-gradient(circle, #3E444B 0%, #1A1D20 100%);
+      border: 1px solid #5A6066;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0,0,0,0.5);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 900;
-      color: #0E1012;
+      font-size: 13px;
     }
 
-    #toast {
+    /* 🍞 RETRO TOAST BİLDİRİMİ */
+    .retro-toast-box {
       position: fixed;
       top: 16px;
       left: 50%;
-      transform: translateX(-50%) translateY(-100px);
-      background: #1A1D20;
-      border: 1.5px solid #FFFFFF;
-      color: #FFFFFF;
-      padding: 8px 18px;
+      transform: translateX(-50%) translateY(-60px);
+      background: #0E1012;
+      border: 1.5px solid #00F2FE;
+      color: #00F2FE;
+      padding: 8px 16px;
       border-radius: 6px;
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 0.06em;
-      z-index: 99999;
+      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+      z-index: 999;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
       pointer-events: none;
-      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.8);
-      white-space: nowrap;
     }
-
-    #toast.show {
+    .retro-toast-box.show {
       transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
   </style>
 </head>
 <body>
 
-  <!-- 🔩 SVG ALLEN HEX ŞASİ VİDASI -->
+  <!-- 🔩 SVG SYMBOL TANIMLARI -->
   <svg style="display: none;">
     <defs>
-      <radialGradient id="hexBoltGrad" cx="30%" cy="30%" r="70%">
-        <stop offset="0%" stop-color="#FFFFFF" />
-        <stop offset="25%" stop-color="#D8DCDE" />
-        <stop offset="60%" stop-color="#7D8389" />
-        <stop offset="90%" stop-color="#3D4247" />
-        <stop offset="100%" stop-color="#1A1D20" />
-      </radialGradient>
       <g id="allenHexScrew">
-        <circle cx="8" cy="8" r="7.5" fill="#14171A" stroke="#5A6066" stroke-width="0.8"/>
-        <circle cx="8" cy="8" r="6.2" fill="url(#hexBoltGrad)"/>
-        <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="0.5"/>
-        <polygon points="8,4.5 10.8,6.2 10.8,9.8 8,11.5 5.2,9.8 5.2,6.2" fill="#0C0E10" stroke="#2D3238" stroke-width="0.6"/>
+        <circle cx="8" cy="8" r="7" fill="url(#screwMet)" stroke="#222" stroke-width="0.8"/>
+        <polygon points="8,4 11.5,6 11.5,10 8,12 4.5,10 4.5,6" fill="#15171A" stroke="#000" stroke-width="0.6"/>
       </g>
+      <linearGradient id="screwMet" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#FFFFFF"/>
+        <stop offset="50%" stop-color="#8F9499"/>
+        <stop offset="100%" stop-color="#484C50"/>
+      </linearGradient>
     </defs>
   </svg>
 
+  <div id="retroToast" class="retro-toast-box">KOMUT GÖNDERİLDİ</div>
+
   <div class="master-device-rack">
 
-    <!-- 🎛️ RECORD PRO // ANA ANALOG KONSOL ŞASİSİ -->
+    <!-- ======================================================= -->
+    <!-- 🎛️ ANA ŞASİ: ÇİFT AKKOR ANALOG VU METRE KONSOLU (K.1)   -->
+    <!-- ======================================================= -->
     <div class="aluminum-chassis-card">
       <svg class="allen-screw-svg tl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
       <svg class="allen-screw-svg tr" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
       <svg class="allen-screw-svg bl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
       <svg class="allen-screw-svg br" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
 
-      <!-- ÜST MARKA & KONTROL PANELİ -->
+      <!-- BRAND & STATUS HEADER -->
       <div class="chassis-brand-header">
-        <div style="display: flex; gap: 14px; align-items: center;">
-          <div class="toggle-switch-unit" onclick="ringDeskChime()">
-            <span class="toggle-label">ON</span>
-            <div class="toggle-bat-lever">
-              <div style="width: 6px; height: 12px; background: #FFF; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.5);"></div>
-            </div>
-            <span class="toggle-label">OFF</span>
-          </div>
-
-          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-            <div class="ruby-power-lamp"></div>
-            <span style="font-size: 7.5px; font-weight: 800; color: #33383F; letter-spacing: 0.08em;">POWER</span>
-          </div>
+        <div class="brand-logo-text">
+          <div class="ruby-power-lamp"></div>
+          <span>AGY-1976 // ANALOG MEKATRONİK SİSTEMİ</span>
         </div>
-
-        <div style="text-align: center;">
-          <div class="brand-logo-text">
-            <span>⚙️ AGY // MASTER PRO</span>
-          </div>
-          <div style="font-size: 8px; font-weight: 800; color: #5A6066; letter-spacing: 0.12em; margin-top: 1px;">ANALOG TELEMETRY CONSOLE</div>
-        </div>
-
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-          <div style="width: 5px; height: 5px; border-radius: 50%; background: #1A1D20; box-shadow: inset 0 1px 1px #000;"></div>
-          <span style="font-size: 7.5px; font-weight: 800; color: #33383F; letter-spacing: 0.08em;">MIC</span>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="font-size: 8.5px; font-weight: 800; color: #2ED573; background: #0E1012; padding: 2px 6px; border-radius: 3px;" id="stationStatusBadge">ESP32: CANLI</span>
+          <button type="button" class="silver-tactile-btn" onclick="toggleAudioMute()" style="padding: 2px 6px; font-size: 9px;" id="audioToggleBtn">🔊 SES AÇIK</button>
         </div>
       </div>
 
-      <!-- 📻 ÇİFT YUVARLAK AKKOR VU METRE KADRANLARI -->
+      <!-- ÇİFT YUVARLAK AKKOR VU METRE -->
       <div class="vu-twin-stage">
-        
-        <!-- 1. HAVA KALİTESİ (SOL KANAL) -->
+        <!-- SOL VU: HAVA KALİTESİ (MQ-135) -->
         <div class="round-vu-housing">
           <div class="round-vu-bezel">
             <div class="round-vu-chamber">
               <svg class="round-vu-svg" viewBox="0 0 200 200">
-                <text x="36" y="78" fill="#160800" font-size="9.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">400</text>
-                <text x="76" y="55" fill="#160800" font-size="9" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">800</text>
-                <text x="124" y="55" fill="#B30000" font-size="9" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">1200</text>
-                <text x="164" y="78" fill="#B30000" font-size="9.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">1800</text>
+                <path d="M 35 145 A 75 75 0 0 1 165 145" fill="none" stroke="#2A0808" stroke-width="12" stroke-linecap="round"/>
+                <path d="M 35 145 A 75 75 0 0 1 125 78" fill="none" stroke="#1A1D20" stroke-width="7" stroke-linecap="round"/>
+                <path d="M 125 78 A 75 75 0 0 1 165 145" fill="none" stroke="#C0392B" stroke-width="7" stroke-linecap="round"/>
 
-                <path d="M 45 88 A 75 75 0 0 1 120 70" fill="none" stroke="#160800" stroke-width="2.5" stroke-linecap="round"/>
-                <path d="M 120 70 A 75 75 0 0 1 155 88" fill="none" stroke="#B30000" stroke-width="3.5" stroke-linecap="round"/>
+                <text x="32" y="156" fill="#1A1D20" font-size="8.5" font-family="Space Grotesk" font-weight="900">0</text>
+                <text x="50" y="112" fill="#1A1D20" font-size="8.5" font-family="Space Grotesk" font-weight="900">400</text>
+                <text x="96" y="86" fill="#1A1D20" font-size="8.5" font-family="Space Grotesk" font-weight="900">800</text>
+                <text x="142" y="112" fill="#C0392B" font-size="8.5" font-family="Space Grotesk" font-weight="900">1200</text>
+                <text x="160" y="156" fill="#C0392B" font-size="8.5" font-family="Space Grotesk" font-weight="900">MAX</text>
 
-                <line x1="45" y1="88" x2="40" y2="84" stroke="#160800" stroke-width="2"/>
-                <line x1="68" y1="75" x2="65" y2="69" stroke="#160800" stroke-width="1.5"/>
-                <line x1="95" y1="70" x2="95" y2="64" stroke="#160800" stroke-width="2"/>
-                <line x1="120" y1="70" x2="120" y2="64" stroke="#B30000" stroke-width="2"/>
-                <line x1="140" y1="75" x2="143" y2="69" stroke="#B30000" stroke-width="1.5"/>
-                <line x1="155" y1="88" x2="160" y2="84" stroke="#B30000" stroke-width="2"/>
+                <text x="100" y="125" text-anchor="middle" fill="#2A1005" font-size="8.5" font-family="Space Grotesk" font-weight="900" letter-spacing="1">AIR PPM (MQ-135)</text>
 
-                <text x="100" y="105" fill="#160800" font-size="12" font-family="Space Grotesk" font-weight="800" text-anchor="middle" letter-spacing="1">AIR PPM</text>
-                <text x="100" y="118" fill="#3D1500" font-size="7.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">MQ-135 SENSOR</text>
-
-                <g id="airGaugeNeedle" class="incandescent-needle" style="transform: rotate(-45deg);">
-                  <line x1="100" y1="145" x2="100" y2="62" stroke="#140600" stroke-width="1.8" stroke-linecap="round"/>
-                  <line x1="100" y1="80" x2="100" y2="62" stroke="#D63031" stroke-width="2.2" stroke-linecap="round"/>
-                  <circle cx="100" cy="145" r="14" fill="#0C0400" stroke="#261000" stroke-width="2"/>
-                  <circle cx="100" cy="145" r="5" fill="#FFA500"/>
-                </g>
+                <line id="airVuNeedle" class="incandescent-needle" x1="100" y1="145" x2="100" y2="70" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+                <circle cx="100" cy="145" r="10" fill="#222" stroke="#444" stroke-width="2"/>
+                <circle cx="100" cy="145" r="4" fill="#888"/>
               </svg>
             </div>
           </div>
-          <div class="meter-under-label">L METER // HAVA</div>
-          <div class="meter-digital-pill" id="airVal">435 PPM</div>
+          <div class="meter-under-label">HAVA KALİTESİ</div>
+          <div class="meter-digital-pill" id="airVal">-- PPM</div>
         </div>
 
-        <!-- 2. IŞIK SEVİYESİ (SAĞ KANAL) -->
+        <!-- SAĞ VU: ORTAM IŞIĞI (LDR %) -->
         <div class="round-vu-housing">
           <div class="round-vu-bezel">
             <div class="round-vu-chamber">
               <svg class="round-vu-svg" viewBox="0 0 200 200">
-                <text x="36" y="78" fill="#160800" font-size="9.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">%0</text>
-                <text x="76" y="55" fill="#160800" font-size="9" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">%30</text>
-                <text x="124" y="55" fill="#B30000" font-size="9" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">%70</text>
-                <text x="164" y="78" fill="#B30000" font-size="9.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">%100</text>
+                <path d="M 35 145 A 75 75 0 0 1 165 145" fill="none" stroke="#2A0808" stroke-width="12" stroke-linecap="round"/>
+                <path d="M 35 145 A 75 75 0 0 1 165 145" fill="none" stroke="#1A1D20" stroke-width="7" stroke-linecap="round"/>
 
-                <path d="M 45 88 A 75 75 0 0 1 120 70" fill="none" stroke="#160800" stroke-width="2.5" stroke-linecap="round"/>
-                <path d="M 120 70 A 75 75 0 0 1 155 88" fill="none" stroke="#B30000" stroke-width="3.5" stroke-linecap="round"/>
+                <text x="32" y="156" fill="#1A1D20" font-size="8.5" font-family="Space Grotesk" font-weight="900">0</text>
+                <text x="50" y="112" fill="#1A1D20" font-size="8.5" font-family="Space Grotesk" font-weight="900">25</text>
+                <text x="96" y="86" fill="#1A1D20" font-size="8.5" font-family="Space Grotesk" font-weight="900">50</text>
+                <text x="142" y="112" fill="#1A1D20" font-size="8.5" font-family="Space Grotesk" font-weight="900">75</text>
+                <text x="156" y="156" fill="#1A1D20" font-size="8.5" font-family="Space Grotesk" font-weight="900">100%</text>
 
-                <line x1="45" y1="88" x2="40" y2="84" stroke="#160800" stroke-width="2"/>
-                <line x1="68" y1="75" x2="65" y2="69" stroke="#160800" stroke-width="1.5"/>
-                <line x1="95" y1="70" x2="95" y2="64" stroke="#160800" stroke-width="2"/>
-                <line x1="120" y1="70" x2="120" y2="64" stroke="#B30000" stroke-width="2"/>
-                <line x1="140" y1="75" x2="143" y2="69" stroke="#B30000" stroke-width="1.5"/>
-                <line x1="155" y1="88" x2="160" y2="84" stroke="#B30000" stroke-width="2"/>
+                <text x="100" y="125" text-anchor="middle" fill="#2A1005" font-size="8.5" font-family="Space Grotesk" font-weight="900" letter-spacing="1">LIGHT INTENSITY</text>
 
-                <text x="100" y="105" fill="#160800" font-size="12" font-family="Space Grotesk" font-weight="800" text-anchor="middle" letter-spacing="1">LIGHT %</text>
-                <text x="100" y="118" fill="#3D1500" font-size="7.5" font-family="JetBrains Mono" font-weight="800" text-anchor="middle">PHOTOMETRIC</text>
-
-                <g id="lightGaugeNeedle" class="incandescent-needle" style="transform: rotate(20deg);">
-                  <line x1="100" y1="145" x2="100" y2="62" stroke="#140600" stroke-width="1.8" stroke-linecap="round"/>
-                  <line x1="100" y1="80" x2="100" y2="62" stroke="#D63031" stroke-width="2.2" stroke-linecap="round"/>
-                  <circle cx="100" cy="145" r="14" fill="#0C0400" stroke="#261000" stroke-width="2"/>
-                  <circle cx="100" cy="145" r="5" fill="#FFA500"/>
-                </g>
+                <line id="lightVuNeedle" class="incandescent-needle" x1="100" y1="145" x2="100" y2="70" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+                <circle cx="100" cy="145" r="10" fill="#222" stroke="#444" stroke-width="2"/>
+                <circle cx="100" cy="145" r="4" fill="#888"/>
               </svg>
             </div>
           </div>
-          <div class="meter-under-label">R METER // IŞIK</div>
-          <div class="meter-digital-pill" id="lightVal">65%</div>
+          <div class="meter-under-label">GÜN IŞIĞI / LDR</div>
+          <div class="meter-digital-pill" id="lightVal">-- %</div>
         </div>
-
       </div>
 
-      <!-- ALT SICAKLIK & NEM GÖSTERGELERİ -->
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 6px;">
-        <div class="digital-tube-cutout red-led">
-          <div style="font-size: 8px; color: #8A8F94;">SICAKLIK [BME280]</div>
-          <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
-            <span class="ghost-layer">88.8</span>
-            <span class="active-layer" id="tempVal">--.-</span>
+      <!-- 🐹 CANLI YULAF PİKSEL OLED SİMÜLATÖRÜ -->
+      <div class="yulaf-matrix-deck">
+        <canvas id="yulafPixelCanvas" class="yulaf-canvas-screen" width="32" height="32"></canvas>
+        <div class="yulaf-telemetry-info">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 11px; font-weight: 800; color: #2ED573;">HAMSTER YULAF // VİRTUAL OLED</span>
+            <span style="font-size: 8px; color: #8C9C92; background: #0E1A12; padding: 2px 4px; border-radius: 2px;" id="yulafMoodLabel">DURUM: NÖBETTE 🐾</span>
           </div>
-          <div style="font-size: 8px; color: #8A8F94;">°C // BEKLEMEDE</div>
+          <div style="color: #A0C0B0; font-size: 9.5px;" id="yulafSpeechBubble">"Oda havası temiz, çalışmaya hazırım Jasper!"</div>
+        </div>
+      </div>
+
+      <!-- 📟 DİJİTAL SAYAÇLAR (SICAKLIK & NEM) -->
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px;">
+        <div class="digital-tube-cutout green-led">
+          <div style="display: flex; justify-content: space-between; font-size: 8.5px; color: #8A8F94;">
+            <span>SICAKLIK</span>
+            <span>BME280</span>
+          </div>
+          <div class="tube-cluster" style="font-size: 32px; margin-top: 4px;">
+            <span class="ghost-layer">88.8</span>
+            <span class="active-layer" id="tempVal">26.4</span>
+          </div>
+          <div style="font-size: 8.5px; color: #8A8F94; text-align: right;">°C CELSIUS</div>
         </div>
 
         <div class="digital-tube-cutout red-led">
-          <div style="font-size: 8px; color: #8A8F94;">BAĞIL NEM [BME280]</div>
-          <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
-            <span class="ghost-layer">88</span>
-            <span class="active-layer" id="humVal">--</span>
+          <div style="display: flex; justify-content: space-between; font-size: 8.5px; color: #8A8F94;">
+            <span>BAĞIL NEM</span>
+            <span>BME280</span>
           </div>
-          <div style="font-size: 8px; color: #8A8F94;">% // BEKLEMEDE</div>
+          <div class="tube-cluster" style="font-size: 32px; margin-top: 4px;">
+            <span class="ghost-layer">88</span>
+            <span class="active-layer" id="humVal">54</span>
+          </div>
+          <div style="font-size: 8.5px; color: #8A8F94; text-align: right;">% BAĞIL</div>
         </div>
       </div>
     </div>
 
     <!-- ======================================================= -->
-    <!-- 📼 1970'LER MAKARALI TEYP MODÜLÜ (SPOTIFY FM TUNER)      -->
+    <!-- 🌪️ ÖZEL KART: IKEA UPPÅTVIND AKILLI MEKATRONİK ROBOTU   -->
+    <!-- ======================================================= -->
+    <div class="aluminum-chassis-card">
+      <svg class="allen-screw-svg tl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
+      <svg class="allen-screw-svg tr" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
+      <svg class="allen-screw-svg bl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
+      <svg class="allen-screw-svg br" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
+
+      <div class="chassis-brand-header">
+        <div class="brand-logo-text">
+          <span>🌪️ IKEA UPPÅTVIND // 24V BLDC MEKATRONİK ROBOTU</span>
+        </div>
+        <span style="font-size: 8.5px; font-weight: 800; color: #00F2FE; background: #0E1012; padding: 2px 6px; border-radius: 3px;" id="uppatvindStatusBadge">I2C: 0x28 // AKTİF</span>
+      </div>
+
+      <!-- FAN HIZI BUTONLARI -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 10px 0;">
+        <button type="button" class="silver-tactile-btn" id="btnFan0" onclick="setUppatvindFan(0)">
+          <span>⏻ KAPALI</span>
+        </button>
+        <button type="button" class="silver-tactile-btn" id="btnFan1" onclick="setUppatvindFan(1)">
+          <span>≋ FISILTI</span>
+        </button>
+        <button type="button" class="silver-tactile-btn" id="btnFan2" onclick="setUppatvindFan(2)">
+          <span>⚡ NORMAL</span>
+        </button>
+        <button type="button" class="silver-tactile-btn primary" id="btnFan3" onclick="setUppatvindFan(3)">
+          <span>🚀 TURBO</span>
+        </button>
+      </div>
+
+      <!-- FAN TELEMETRİ GÖSTERGELERİ -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; margin-top: 10px;">
+        <div class="digital-tube-cutout green-led" style="padding: 8px 4px;">
+          <div style="font-size: 7.5px; color: #8A8F94;">FAN DEVRİ</div>
+          <div class="tube-cluster" style="font-size: 18px; margin-top: 2px;">
+            <span class="ghost-layer">8888</span>
+            <span class="active-layer" id="fanRpmDisplay">1450</span>
+          </div>
+          <div style="font-size: 7.5px; color: #8A8F94;">RPM (TACHO)</div>
+        </div>
+
+        <div class="digital-tube-cutout red-led" style="padding: 8px 4px;">
+          <div style="font-size: 7.5px; color: #8A8F94;">PWM GÜÇ</div>
+          <div class="tube-cluster" style="font-size: 18px; margin-top: 2px;">
+            <span class="ghost-layer">888</span>
+            <span class="active-layer" id="fanPwmDisplay">180</span>
+          </div>
+          <div style="font-size: 7.5px; color: #8A8F94;">0-255 GÖREV</div>
+        </div>
+
+        <div class="digital-tube-cutout green-led" style="padding: 8px 4px;">
+          <div style="font-size: 7.5px; color: #8A8F94;">FİLTRE SAĞLIĞI</div>
+          <div class="tube-cluster" style="font-size: 18px; margin-top: 2px;">
+            <span class="ghost-layer">888</span>
+            <span class="active-layer" id="filterHealthDisplay">98</span>
+          </div>
+          <div style="font-size: 7.5px; color: #8A8F94;">% TEMİZ</div>
+        </div>
+      </div>
+
+      <!-- 🔬 TERMODİNAMİK & BİLİŞSEL SENSÖR FÜZYONU -->
+      <div style="border-top: 1.5px solid rgba(0,0,0,0.12); padding-top: 10px; margin-top: 10px;">
+        <div style="font-size: 8.5px; font-weight: 800; color: #33383F; letter-spacing: 0.1em; margin-bottom: 8px; text-transform: uppercase;">
+          🔬 TERMODİNAMİK & MATEMATİKSEL SENSÖR FÜZYONU
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center;">
+          <div style="background: rgba(0,0,0,0.06); padding: 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.08);">
+            <div style="font-size: 7.5px; color: #777; font-weight: bold;">ÇİY NOKTASI</div>
+            <div id="dewPointVal" style="font-size: 12.5px; font-weight: 900; color: #00F2FE;">14.8°C</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.06); padding: 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.08);">
+            <div style="font-size: 7.5px; color: #777; font-weight: bold;">MUTLAK NEM</div>
+            <div id="absHumVal" style="font-size: 12.5px; font-weight: 900; color: #2ED573;">12.4 g/m³</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.06); padding: 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.08);">
+            <div style="font-size: 7.5px; color: #777; font-weight: bold;">EPA AQI</div>
+            <div id="aqiVal" style="font-size: 12.5px; font-weight: 900; color: #2ED573;">38 (TEMİZ)</div>
+          </div>
+          <div style="background: rgba(0,0,0,0.06); padding: 6px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.08);">
+            <div style="font-size: 7.5px; color: #777; font-weight: bold;">ZAMBRETTİ 12S</div>
+            <div id="zambrettiVal" style="font-size: 11px; font-weight: 900; color: #FF9F1A;">GÜZEL HAVA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- 📼 1970'LER MAKARALI TEYP MODÜLÜ (SPOTIFY TELEMETRİSİ)  -->
     <!-- ======================================================= -->
     <div class="reel-to-reel-deck">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-        <div style="font-family: var(--font-din); font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;">
-          📼 REEL-TO-REEL DECK // SPOTIFY CLOUD
+      <div class="chassis-brand-header" style="border-color: rgba(255,255,255,0.2);">
+        <div class="brand-logo-text" style="color: #FFF; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">
+          <span>📼 AKAI GX-77 // SPOTIFY TEYP DECK</span>
         </div>
-        <div class="odometer-counter-box" title="Manyetik Bant Metresi">
-          <span class="odometer-wheel">0</span>
-          <span class="odometer-wheel">0</span>
-          <span class="odometer-wheel" id="tapeCounterM1">6</span>
-          <span class="odometer-wheel" id="tapeCounterM2">1</span>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <span style="font-size: 8.5px; font-weight: 800; color: #FFF; background: #111; padding: 2px 6px; border-radius: 3px;" id="macLocationPill">KONUM: MASA BAŞINDA 🏠</span>
         </div>
       </div>
 
       <div class="tape-stage-reels">
         <div class="magnetic-tape-bridge"></div>
-        
-        <!-- SOL MAKARA (KOYU METAL) -->
-        <svg class="tape-reel-svg spin-reel" id="leftTapeReel" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="48" fill="#262A2E" stroke="#14171A" stroke-width="2"/>
-          <circle cx="50" cy="50" r="36" fill="#181B1E"/>
-          <path d="M 50 14 L 54 36 L 46 36 Z" fill="#0C0E10"/>
-          <path d="M 81 68 L 60 52 L 64 45 Z" fill="#0C0E10"/>
-          <path d="M 19 68 L 36 45 L 40 52 Z" fill="#0C0E10"/>
-          <circle cx="50" cy="50" r="14" fill="#0C0E10" stroke="#3A3F45" stroke-width="1.5"/>
-          <circle cx="50" cy="50" r="5" fill="#FFFFFF"/>
-          <text x="50" y="27" fill="#8E959E" font-size="6.5" font-family="Space Grotesk" font-weight="800" text-anchor="middle">TAPE</text>
+        <svg id="leftTapeReel" class="tape-reel-svg spin-reel" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#1C1F22" stroke="#CBD0D4" stroke-width="3"/>
+          <circle cx="50" cy="50" r="32" fill="#2E1B10" stroke="#444" stroke-width="1.5"/>
+          <path d="M 50 18 L 50 82 M 18 50 L 82 50" stroke="#CBD0D4" stroke-width="3"/>
+          <circle cx="50" cy="50" r="10" fill="#EAECEE" stroke="#111" stroke-width="2"/>
         </svg>
 
-        <!-- ORTA SES BİLGİSİ EKRANI -->
-        <div style="background: #0E1012; border: 1.5px solid #444; border-radius: 6px; padding: 6px 10px; text-align: center; max-width: 170px; z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.8);">
-          <div style="font-size: 11px; font-weight: 800; color: #2ED573; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="spotifyTrackText">MÜZİK BEKLENİYOR...</div>
-          <div style="font-size: 8.5px; color: #E0A96D; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="spotifyArtistText">SPOTIFY AÇIN // DJ YULAF</div>
-        </div>
-
-        <!-- SAĞ MAKARA (GÜMÜŞ ALÜMİNYUM) -->
-        <svg class="tape-reel-svg spin-reel" id="rightTapeReel" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="48" fill="#D8DCDE" stroke="#8A8E92" stroke-width="2"/>
-          <circle cx="50" cy="50" r="36" fill="#B0B5B9"/>
-          <path d="M 50 14 L 54 36 L 46 36 Z" fill="#14171A"/>
-          <path d="M 81 68 L 60 52 L 64 45 Z" fill="#14171A"/>
-          <path d="M 19 68 L 36 45 L 40 52 Z" fill="#14171A"/>
-          <circle cx="50" cy="50" r="14" fill="#14171A" stroke="#444" stroke-width="1.5"/>
-          <circle cx="50" cy="50" r="5" fill="#FFFFFF"/>
-          <text x="50" y="27" fill="#1A1D20" font-size="6.5" font-family="Space Grotesk" font-weight="800" text-anchor="middle">TAPE</text>
-        </svg>
-      </div>
-
-      <!-- 🎹 VINTAGE PİYANO KONTROL TUŞLARI -->
-      <div class="piano-keys-bank">
-        <button type="button" class="piano-key" onclick="showToast('◀◀ GERİ SARILIYOR')">
-          <span>◀◀</span>
-          <span style="font-size: 7px;">REW</span>
-        </button>
-        <button type="button" class="piano-key" onclick="showToast('▶ OYNATILIYOR')">
-          <span>▶</span>
-          <span style="font-size: 7px;">PLAY</span>
-        </button>
-        <button type="button" class="piano-key" onclick="showToast('▶▶ İLERİ SARILIYOR')">
-          <span>▶▶</span>
-          <span style="font-size: 7px;">FWD</span>
-        </button>
-        <button type="button" class="piano-key" onclick="showToast('■ DURDURULDU')">
-          <span>■</span>
-          <span style="font-size: 7px;">STOP</span>
-        </button>
-        <button type="button" class="piano-key record-key" onclick="showToast('● BANT KAYDI AKTİF')">
-          <span>●</span>
-          <span style="font-size: 7px;">REC</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- 👀 20-20-20 ERGONOMİ & DİK DURUŞ ŞASİSİ -->
-    <div class="aluminum-chassis-card">
-      <svg class="allen-screw-svg tl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
-      <svg class="allen-screw-svg tr" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
-      <svg class="allen-screw-svg bl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
-      <svg class="allen-screw-svg br" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
-
-      <div class="chassis-brand-header">
-        <div class="brand-logo-text"><span>[KANAL-0] 20-20-20 DİK DURUŞ SAYACI</span></div>
-        <span style="font-size: 9px; font-weight: 800; color: #2ED573; background: #0E1012; padding: 3px 8px; border-radius: 4px;" id="macLocationPill">KONUM: EVDE</span>
-      </div>
-
-      <div class="digital-tube-cutout red-led" style="display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <div style="font-size: 8px; color: #8A8F94; margin-bottom: 2px;">MOLAYA KALAN SÜRE:</div>
-          <div class="tube-cluster" style="font-size: 32px;">
-            <span class="ghost-layer">88:88</span>
-            <span class="active-layer" id="ergoCountdownText">12:33</span>
+        <div style="flex-direction: column; align-items: center; gap: 4px; z-index: 5; display: flex;">
+          <div class="odometer-counter-box">
+            <span class="odometer-wheel" id="tapeCounterH">0</span>
+            <span class="odometer-wheel" id="tapeCounterM1">1</span>
+            <span class="odometer-wheel" id="tapeCounterM2">4</span>
           </div>
+          <span style="font-size: 7.5px; font-weight: 800; letter-spacing: 0.1em; color: #FFF; text-shadow: 0 1px 2px #000;">TAPE INDEX</span>
         </div>
-        <button type="button" class="silver-tactile-btn primary" onclick="triggerPostureAlertTest()">TEST ET ∿</button>
-      </div>
-    </div>
 
-    <!-- 📍 TERAS & BUCA METEOROLOJİ -->
-    <div class="aluminum-chassis-card">
-      <svg class="allen-screw-svg tl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
-      <svg class="allen-screw-svg tr" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
-      <svg class="allen-screw-svg bl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
-      <svg class="allen-screw-svg br" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
-
-      <div class="chassis-brand-header">
-        <div class="brand-logo-text"><span>[ORTAM] İZMİR BUCA METEOROLOJİ // ŞİRİNYER</span></div>
-        <span style="font-size: 9px; font-weight: 800; color: #00F2FE; background: #0E1012; padding: 3px 8px; border-radius: 4px;" id="outdoorWeatherPill">22°C // İMBAT</span>
+        <svg id="rightTapeReel" class="tape-reel-svg spin-reel" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#1C1F22" stroke="#CBD0D4" stroke-width="3"/>
+          <circle cx="50" cy="50" r="22" fill="#2E1B10" stroke="#444" stroke-width="1.5"/>
+          <path d="M 50 18 L 50 82 M 18 50 L 82 50" stroke="#CBD0D4" stroke-width="3"/>
+          <circle cx="50" cy="50" r="10" fill="#EAECEE" stroke="#111" stroke-width="2"/>
+        </svg>
       </div>
 
-      <div class="digital-tube-cutout">
-        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11.5px; color: #E2E5E8;">
-          <span>TERAS (EFE): <b style="color: #00F2FE;" id="outdoorCompareText">22.0°C</b></span>
-          <span>ALT ODA: <b style="color: #FFA500;" id="indoorCompareText">26.4°C</b></span>
-          <span>İSTASYON: <b style="color: #2ED573;">NÖBETTE</b></span>
+      <div class="digital-tube-cutout" style="background: #111417; border-color: #333; margin-top: 6px;">
+        <div style="font-size: 8px; color: #FF9F1A; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;">CANLI MÜZİK TELEMETRİSİ:</div>
+        <div style="font-size: 13px; font-weight: 800; color: #FFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;" id="spotifyTrackText">
+          MÜZİK BEKLENİYOR...
         </div>
+        <div style="font-size: 10px; color: #A0A6AC;" id="spotifyArtistText">SPOTIFY AÇIN // DJ YULAF</div>
+      </div>
+
+      <div class="piano-keys-bank">
+        <button type="button" class="piano-key" onclick="sendSpotifyCommand('prev')"><span>⏮ GERİ</span></button>
+        <button type="button" class="piano-key" onclick="sendSpotifyCommand('playpause')"><span>⏯ OYNAT</span></button>
+        <button type="button" class="piano-key" onclick="sendSpotifyCommand('next')"><span>⏭ İLERİ</span></button>
+        <button type="button" class="piano-key record-key" onclick="ringDeskChime()"><span>🔔 ZİL</span></button>
       </div>
     </div>
 
     <!-- 🎛️ KANAL SEÇİCİ BANT -->
     <div class="channel-selector-strip">
-      <div class="channel-pill active" id="tabSensors" onclick="switchChannel('sensors')">K.1 VU METRE</div>
+      <div class="channel-pill active" id="tabSensors" onclick="switchChannel('sensors')">K.1 ODAKLANMA</div>
       <div class="channel-pill" id="tabProductivityLab" onclick="switchChannel('prodlab')">K.2 VERİMLİLİK</div>
       <div class="channel-pill" id="tabScreenTime" onclick="switchChannel('screentime')">K.3 EKRAN SÜRESİ</div>
       <div class="channel-pill" id="tabDaily" onclick="switchChannel('daily')">K.4 STRIP CHART</div>
-      <div class="channel-pill" id="tabAnalysis" onclick="switchChannel('analysis')">K.5 GÜNLÜK</div>
+      <div class="channel-pill" id="tabAnalysis" onclick="switchChannel('analysis')">K.5 RÖLE BANKASI</div>
     </div>
 
-    <!-- 🎯 POMODORO (K.1 İÇİNDE) -->
+    <!-- 🎯 1. KANAL: POMODORO & ODAK -->
     <div id="channelSensorsContent" style="display: flex; flex-direction: column; gap: 14px;">
       <div class="aluminum-chassis-card">
         <svg class="allen-screw-svg tl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
@@ -1023,7 +1024,7 @@
             <div style="font-size: 8px; color: #8A8F94;">POSTÜR DÖNGÜSÜ</div>
             <div class="tube-cluster" style="font-size: 24px; margin-top: 2px;">
               <span class="ghost-layer">88:88</span>
-              <span class="active-layer">20:20</span>
+              <span class="active-layer" id="ergoCountdownText">20:00</span>
             </div>
             <div style="font-size: 8px; color: #8A8F94;">DK:SN</div>
           </div>
@@ -1076,9 +1077,7 @@
       </div>
     </div>
 
-    <!-- ======================================================= -->
-    <!-- 4. KANAL: STRIP-CHART LABORATUVAR ÇİZİCİSİ (YENİ!)       -->
-    <!-- ======================================================= -->
+    <!-- 4. KANAL: STRIP-CHART LABORATUVAR ÇİZİCİSİ -->
     <div id="channelDailyContent" style="display: none; flex-direction: column; gap: 14px;">
       <div class="aluminum-chassis-card">
         <svg class="allen-screw-svg tl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
@@ -1088,17 +1087,18 @@
 
         <div class="chassis-brand-header">
           <div class="brand-logo-text"><span>[YOKOGAWA-76] STRIP-CHART TELEMETRİ ÇİZİCİSİ</span></div>
-          <button type="button" class="silver-tactile-btn" onclick="refreshDailyChart()" style="padding: 3px 8px; font-size: 9px;">YENİLE ⟳</button>
+          <div style="display: flex; gap: 6px;">
+            <button type="button" class="silver-tactile-btn" onclick="exportTelemetryCSV()" style="padding: 3px 8px; font-size: 9px;">CSV DIŞA AKTAR 💾</button>
+            <button type="button" class="silver-tactile-btn" onclick="refreshDailyChart()" style="padding: 3px 8px; font-size: 9px;">YENİLE ⟳</button>
+          </div>
         </div>
 
-        <!-- ZAMAN ARALIĞI SEÇİCİSİ (GÜNLÜK / HAFTALIK / AYLIK) -->
         <div class="chart-time-selector">
           <button type="button" class="time-toggle-btn active" id="btnChart24h" onclick="changeChartPeriod('24h')">[ GÜNLÜK 24S ]</button>
           <button type="button" class="time-toggle-btn" id="btnChart7d" onclick="changeChartPeriod('7d')">[ HAFTALIK 7G ]</button>
           <button type="button" class="time-toggle-btn" id="btnChart30d" onclick="changeChartPeriod('30d')">[ AYLIK 30G ]</button>
         </div>
 
-        <!-- OSİLOSKOP / RULO KAĞIT ÇERÇEVESİ -->
         <div class="strip-chart-frame">
           <div style="position: relative; height: 180px; width: 100%;">
             <canvas id="dailySensorChart"></canvas>
@@ -1112,7 +1112,7 @@
       </div>
     </div>
 
-    <!-- 5. KANAL: TELEMETRİ GÜNLÜĞÜ -->
+    <!-- 5. KANAL: 4 KANALLI 5V RÖLE VE GÜÇ MATRİSİ -->
     <div id="channelAnalysisContent" style="display: none; flex-direction: column; gap: 14px;">
       <div class="aluminum-chassis-card">
         <svg class="allen-screw-svg tl" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
@@ -1121,158 +1121,252 @@
         <svg class="allen-screw-svg br" viewBox="0 0 16 16"><use href="#allenHexScrew"/></svg>
 
         <div class="chassis-brand-header">
-          <div class="brand-logo-text"><span>[GÜNLÜK] SİSTEM TELEMETRİSİ</span></div>
+          <div class="brand-logo-text"><span>⚡ 4 KANALLI 5V MANYETİK RÖLE BANKASI</span></div>
+          <div style="font-size: 8px; font-weight: 800; color: #D4AF37;">OPTO-KUPLÖR İZOLE</div>
         </div>
 
-        <div class="digital-tube-cutout">
-          <div style="font-size: 11px; color: #2ED573; line-height: 1.7;">
-            > İSTASYON: ÇEVRİMİÇİ (PORT 80)<br>
-            > ÇİFT KANALLI POSTÜR: HAZIR<br>
-            > PIR HAREKET: 0 ALGILAMA (GECE MODU)<br>
-            > TERAS HAVASI: 22°C // %53 BAĞIL NEM
-          </div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 10px 0;">
+          <button type="button" class="silver-tactile-btn" id="btnRelay1" onclick="toggleRelay(1)">
+            <span>🔌 RÖLE 1: MASA LAMBASI</span>
+          </button>
+          <button type="button" class="silver-tactile-btn" id="btnRelay2" onclick="toggleRelay(2)">
+            <span>📻 RÖLE 2: AMFİ / SES</span>
+          </button>
+          <button type="button" class="silver-tactile-btn" id="btnRelay3" onclick="toggleRelay(3)">
+            <span>🌿 RÖLE 3: TERAS IŞIĞI</span>
+          </button>
+          <button type="button" class="silver-tactile-btn" id="btnRelay4" onclick="toggleRelay(4)">
+            <span>⚡ RÖLE 4: YEDEK GÜÇ</span>
+          </button>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ⚡ MOBİL ALT HIZLI AKSİYON DOCK BARI (%100 RETRO DONANIM GLİFLERİ) -->
+  <!-- ⚡ MOBİL DOCK BARI -->
   <div class="mobile-quick-dock">
-    <button type="button" class="dock-btn" onclick="ringDeskChime()">
-      <div class="retro-glyph-badge">⏣</div>
-      <span>ZİL ÇAL</span>
-    </button>
-    <button type="button" class="dock-btn" onclick="startPomodoro(25, 'FOCUS')">
-      <div class="retro-glyph-badge">⌖</div>
-      <span>25 DK ODAK</span>
-    </button>
-    <button type="button" class="dock-btn" onclick="triggerPostureAlertTest()">
-      <div class="retro-glyph-badge">∿</div>
-      <span>POSTÜR</span>
-    </button>
-    <button type="button" class="dock-btn" onclick="wakeDeskScreen()">
-      <div class="retro-glyph-badge">☼</div>
-      <span>EKRAN</span>
-    </button>
+    <div class="dock-action-item" onclick="switchChannel('sensors')">
+      <div class="dock-led-btn">🎛️</div>
+      <span>KOKPİT</span>
+    </div>
+    <div class="dock-action-item" onclick="sendSpotifyCommand('playpause')">
+      <div class="dock-led-btn">⏯️</div>
+      <span>SPOTIFY</span>
+    </div>
+    <div class="dock-action-item" onclick="ringDeskChime()">
+      <div class="dock-led-btn">🔔</div>
+      <span>ZİL</span>
+    </div>
+    <div class="dock-action-item" onclick="setUppatvindFan(3)">
+      <div class="dock-led-btn">🌪️</div>
+      <span>TURBO FAN</span>
+    </div>
+    <div class="dock-action-item" onclick="switchChannel('analysis')">
+      <div class="dock-led-btn">⚡</div>
+      <span>RÖLELER</span>
+    </div>
   </div>
-
-  <div id="toast">İŞLEM TAMAMLANDI</div>
 
   <script>
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
-    const FIREBASE_AUTH = "?auth=seDMOC3iMWa7SNERZxASLx4qZJVfbo81uoRSc7tJ";
+    const FIREBASE_AUTH = "";
 
-    let audioCtx = null;
-    function playTactileFeedback() {
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(750, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.03);
-        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.03);
-      } catch(e) {}
-
-      if (navigator.vibrate) {
-        navigator.vibrate(12);
-      }
-    }
-
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('button') || e.target.closest('.channel-pill') || e.target.closest('.dock-btn') || e.target.closest('.toggle-switch-unit') || e.target.closest('.piano-key') || e.target.closest('.time-toggle-btn')) {
-        playTactileFeedback();
-      }
-    });
-
-    let dailyChartInstance = null;
-    let cognitiveChartInstance = null;
-    let currentChartPeriod = '24h';
-
-    let bmeConnected = false;
+    let liveAir = 450;
+    let liveLight = 40;
     let liveTemp = 26.4;
-    let liveHum = 48;
-    let liveAir = 435;
-    let liveLight = 65;
-
+    let liveHum = 54;
+    let bmeConnected = true;
     let bucaOutsideTemp = 22;
-    let bucaOutsideHum = 53;
+    let bucaOutsideHum = 65;
+
+    let targetAirAngle = 0;
+    let currentAirAngle = 0;
+    let targetLightAngle = 0;
+    let currentLightAngle = 0;
 
     let pomoMode = "IDLE";
-    let pomoTargetUnix = 0;
+    let pomoSecondsRemaining = 1500;
+    let pomoInterval = null;
     let completedPomoCount = parseInt(localStorage.getItem('completed_pomo_count') || '0');
 
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      if (!t) return;
-      t.innerText = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2200);
+    let currentChartPeriod = '24h';
+    let dailyChartInstance = null;
+    let cognitiveChartInstance = null;
+
+    let soundMuted = false;
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+      return audioCtx;
     }
+
+    function playMechanicalClick(freq = 600, duration = 0.04) {
+      if (soundMuted) return;
+      if (navigator.vibrate) navigator.vibrate(12);
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + duration);
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch(e) {}
+    }
+
+    function playRelayClack() {
+      if (soundMuted) return;
+      if (navigator.vibrate) navigator.vibrate([18, 10, 18]);
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(220, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.45, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.08);
+      } catch(e) {}
+    }
+
+    function toggleAudioMute() {
+      soundMuted = !soundMuted;
+      const btn = document.getElementById("audioToggleBtn");
+      if (btn) btn.innerText = soundMuted ? "🔇 SES KAPALI" : "🔊 SES AÇIK";
+      showToast(soundMuted ? "SES EFEKTLERİ KAPATILDI" : "MEKANİK SESLER AKTİF");
+    }
+
+    function showToast(msg) {
+      playMechanicalClick(800, 0.05);
+      const t = document.getElementById('retroToast');
+      if (t) {
+        t.innerText = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2400);
+      }
+    }
+
+    /* 🐹 CANLI YULAF PİKSEL ANİMASYON MOTORU */
+    let yulafFrame = 0;
+    function renderYulafPixelArt() {
+      const cvs = document.getElementById("yulafPixelCanvas");
+      if (!cvs) return;
+      const ctx = cvs.getContext("2d");
+      ctx.imageSmoothingEnabled = false;
+
+      ctx.fillStyle = "#07160C";
+      ctx.fillRect(0, 0, 32, 32);
+
+      // Yulaf Hamster Base Shape
+      ctx.fillStyle = "#D4AF37"; // Golden fur
+      ctx.fillRect(8, 12, 16, 14); // Body
+      ctx.fillRect(6, 10, 20, 12); // Head
+
+      // Ears
+      ctx.fillStyle = "#FFAAA6"; // Pink ears
+      ctx.fillRect(6, 6, 4, 5);
+      ctx.fillRect(22, 6, 4, 5);
+
+      // Cheeks
+      ctx.fillStyle = "#E59866";
+      ctx.fillRect(5, 14, 3, 4);
+      ctx.fillRect(24, 14, 3, 4);
+
+      // Eyes (Blink animation)
+      const isBlinking = (yulafFrame % 40 > 36);
+      ctx.fillStyle = "#111";
+      if (!isBlinking) {
+        ctx.fillRect(10, 13, 3, 3);
+        ctx.fillRect(19, 13, 3, 3);
+        ctx.fillStyle = "#FFF"; // Highlight
+        ctx.fillRect(10, 13, 1, 1);
+        ctx.fillRect(19, 13, 1, 1);
+      } else {
+        ctx.fillRect(10, 14, 3, 1);
+        ctx.fillRect(19, 14, 3, 1);
+      }
+
+      // Nose & Mouth
+      ctx.fillStyle = "#E74C3C";
+      ctx.fillRect(15, 16, 2, 2);
+
+      // Sniffing whiskers
+      ctx.fillStyle = "#A0C0B0";
+      const wOff = (yulafFrame % 10 < 5) ? 0 : 1;
+      ctx.fillRect(4, 16 + wOff, 4, 1);
+      ctx.fillRect(24, 16 - wOff, 4, 1);
+
+      // Status accessory (Headphones if music playing)
+      const trackEl = document.getElementById("spotifyTrackText");
+      const isPlaying = trackEl && !trackEl.innerText.includes("BEKLENİYOR");
+      if (isPlaying) {
+        ctx.fillStyle = "#00F2FE"; // Cyan headphones
+        ctx.fillRect(4, 8, 3, 8);
+        ctx.fillRect(25, 8, 3, 8);
+        ctx.fillRect(5, 5, 22, 2); // Headband
+      }
+
+      yulafFrame++;
+      requestAnimationFrame(renderYulafPixelArt);
+    }
+    requestAnimationFrame(renderYulafPixelArt);
+
+    /* 🎯 ANALOG VU İBRE FİZİK SİMÜLASYONU */
+    function animateNeedles() {
+      currentAirAngle += (targetAirAngle - currentAirAngle) * 0.15;
+      currentLightAngle += (targetLightAngle - currentLightAngle) * 0.15;
+
+      const airNeedle = document.getElementById('airVuNeedle');
+      const lightNeedle = document.getElementById('lightVuNeedle');
+
+      if (airNeedle) airNeedle.style.transform = "rotate(" + currentAirAngle + "deg)";
+      if (lightNeedle) lightNeedle.style.transform = "rotate(" + currentLightAngle + "deg)";
+
+      requestAnimationFrame(animateNeedles);
+    }
+    requestAnimationFrame(animateNeedles);
 
     function updateAnalogGauges(air, light) {
-      // Skala: 400 PPM = -45°, 1800 PPM = +45°
-      const airClamped = Math.min(1800, Math.max(400, air));
-      const airAngle = -45 + ((airClamped - 400) / (1800 - 400)) * 90;
-      const airNeedle = document.getElementById('airGaugeNeedle');
-      if (airNeedle) airNeedle.style.transform = `rotate(${airAngle.toFixed(1)}deg)`;
+      const airClamped = Math.max(300, Math.min(1500, air));
+      targetAirAngle = -50 + ((airClamped - 300) / 1200) * 100;
 
-      // Skala: %0 = -45°, %100 = +45°
-      const lightClamped = Math.min(100, Math.max(0, light));
-      const lightAngle = -45 + (lightClamped / 100) * 90;
-      const lightNeedle = document.getElementById('lightGaugeNeedle');
-      if (lightNeedle) lightNeedle.style.transform = `rotate(${lightAngle.toFixed(1)}deg)`;
+      const lightClamped = Math.max(0, Math.min(100, light));
+      targetLightAngle = -50 + (lightClamped / 100) * 100;
     }
 
-    async function wakeDeskScreen() {
-      showToast("OLED EKRAN 60 SANİYE UYANDIRILDI");
-      try {
-        const wakeUntilUnix = Math.floor(Date.now() / 1000) + 60;
-        await fetch(FIREBASE_URL + "control/screen_wake_until.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(wakeUntilUnix)
-        });
-      } catch (e) {}
-    }
-
-    async function triggerPostureAlertTest() {
-      showToast("POSTÜR UYARISI ÇALDIRILDI");
-      try {
-        await fetch(FIREBASE_URL + "control/ergo_alert.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify("EYE_POSTURE")
-        });
-      } catch (e) {}
-    }
-
-    async function startPomodoro(minutes, mode) {
-      const targetUnix = Math.floor(Date.now() / 1000) + (minutes * 60);
+    function startPomodoro(minutes, mode) {
+      playMechanicalClick(900, 0.06);
       pomoMode = mode;
-      pomoTargetUnix = targetUnix;
-      showToast(mode === 'FOCUS' ? "25 DK ODAKLANMA SEANSI BAŞLADI" : "5 DK MOLA BAŞLADI");
-
-      try {
-        await fetch(FIREBASE_URL + "control/pomodoro_state.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(mode) });
-        await fetch(FIREBASE_URL + "control/pomodoro_target.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(targetUnix) });
-      } catch (e) {}
+      pomoSecondsRemaining = minutes * 60;
+      updatePomoTimerUI();
+      showToast(minutes + " DAKİKA " + (mode === "FOCUS" ? "ODAK" : "MOLA") + " BAŞLADI");
+      if (pomoInterval) clearInterval(pomoInterval);
+      pomoInterval = setInterval(updatePomoTimerUI, 1000);
     }
 
-    async function stopPomodoro() {
+    function stopPomodoro() {
+      playMechanicalClick(400, 0.08);
       pomoMode = "IDLE";
-      pomoTargetUnix = 0;
-      showToast("SAYAÇ DURDURULDU");
-      try {
-        await fetch(FIREBASE_URL + "control/pomodoro_state.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify("IDLE") });
-      } catch (e) {}
+      pomoSecondsRemaining = 1500;
+      if (pomoInterval) clearInterval(pomoInterval);
+      updatePomoTimerUI();
+      showToast("POMODORO DURDURULDU");
     }
 
     function updatePomoTimerUI() {
@@ -1280,27 +1374,23 @@
       const statusEl = document.getElementById('pomoStatusText');
       const badgeEl = document.getElementById('pomoSessionBadge');
 
-      if (badgeEl) badgeEl.innerText = `TUR: ${completedPomoCount}`;
+      if (badgeEl) badgeEl.innerText = "TUR: " + completedPomoCount;
 
-      if (pomoMode === "IDLE" || pomoTargetUnix === 0) {
-        if (displayEl) displayEl.innerText = "25:00";
-        if (statusEl) statusEl.innerText = "HAZIR // SEANS BAŞLATIN";
-        return;
+      if (pomoMode !== "IDLE" && pomoSecondsRemaining > 0) {
+        pomoSecondsRemaining--;
       }
 
-      const nowUnix = Math.floor(Date.now() / 1000);
-      const remainingSec = Math.max(0, pomoTargetUnix - nowUnix);
-      const m = Math.floor(remainingSec / 60);
-      const s = remainingSec % 60;
-      const timeStr = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+      const m = Math.floor(pomoSecondsRemaining / 60);
+      const s = pomoSecondsRemaining % 60;
+      const timeStr = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
 
       if (displayEl) displayEl.innerText = timeStr;
-      if (statusEl) statusEl.innerText = pomoMode === "FOCUS" ? "ODAKLANMA AKTİF" : "MOLA AKTİF";
+      if (statusEl) statusEl.innerText = pomoMode === "FOCUS" ? "ODAKLANMA AKTİF" : (pomoMode === "BREAK" ? "MOLA AKTİF" : "HAZIR // SEANS BAŞLATIN");
 
-      if (remainingSec <= 0 && pomoMode !== "IDLE") {
+      if (pomoSecondsRemaining <= 0 && pomoMode !== "IDLE") {
         if (pomoMode === "FOCUS") {
           completedPomoCount++;
-          localStorage.setItem('completed_pomo_count', completedPomoCount.toString());
+          localStorage.setItem("completed_pomo_count", completedPomoCount.toString());
           showToast("ODAKLANMA BİTTİ! MOLA BAŞLIYOR ☕");
           startPomodoro(5, "BREAK");
         } else {
@@ -1309,49 +1399,50 @@
         }
       }
     }
-    setInterval(updatePomoTimerUI, 1000);
 
     function switchChannel(channelId) {
-      document.getElementById('channelSensorsContent').style.display = (channelId === 'sensors') ? 'flex' : 'none';
-      document.getElementById('channelProductivityLabContent').style.display = (channelId === 'prodlab') ? 'flex' : 'none';
-      document.getElementById('channelScreenTimeContent').style.display = (channelId === 'screentime') ? 'flex' : 'none';
-      document.getElementById('channelDailyContent').style.display = (channelId === 'daily') ? 'flex' : 'none';
-      document.getElementById('channelAnalysisContent').style.display = (channelId === 'analysis') ? 'flex' : 'none';
+      playMechanicalClick(750, 0.03);
+      document.getElementById("channelSensorsContent").style.display = (channelId === "sensors") ? "flex" : "none";
+      document.getElementById("channelProductivityLabContent").style.display = (channelId === "prodlab") ? "flex" : "none";
+      document.getElementById("channelScreenTimeContent").style.display = (channelId === "screentime") ? "flex" : "none";
+      document.getElementById("channelDailyContent").style.display = (channelId === "daily") ? "flex" : "none";
+      document.getElementById("channelAnalysisContent").style.display = (channelId === "analysis") ? "flex" : "none";
 
-      document.getElementById('tabSensors').classList.toggle('active', channelId === 'sensors');
-      document.getElementById('tabProductivityLab').classList.toggle('active', channelId === 'prodlab');
-      document.getElementById('tabScreenTime').classList.toggle('active', channelId === 'screentime');
-      document.getElementById('tabDaily').classList.toggle('active', channelId === 'daily');
-      document.getElementById('tabAnalysis').classList.toggle('active', channelId === 'analysis');
+      document.getElementById("tabSensors").classList.toggle("active", channelId === "sensors");
+      document.getElementById("tabProductivityLab").classList.toggle("active", channelId === "prodlab");
+      document.getElementById("tabScreenTime").classList.toggle("active", channelId === "screentime");
+      document.getElementById("tabDaily").classList.toggle("active", channelId === "daily");
+      document.getElementById("tabAnalysis").classList.toggle("active", channelId === "analysis");
 
-      if (channelId === 'prodlab') setTimeout(initCognitiveChart, 50);
-      if (channelId === 'daily') setTimeout(initOrUpdateDailyChart, 50);
+      if (channelId === "prodlab") setTimeout(initCognitiveChart, 50);
+      if (channelId === "daily") setTimeout(initOrUpdateDailyChart, 50);
     }
 
     function changeChartPeriod(period) {
+      playMechanicalClick(650, 0.03);
       currentChartPeriod = period;
-      document.getElementById('btnChart24h').classList.toggle('active', period === '24h');
-      document.getElementById('btnChart7d').classList.toggle('active', period === '7d');
-      document.getElementById('btnChart30d').classList.toggle('active', period === '30d');
+      document.getElementById("btnChart24h").classList.toggle("active", period === "24h");
+      document.getElementById("btnChart7d").classList.toggle("active", period === "7d");
+      document.getElementById("btnChart30d").classList.toggle("active", period === "30d");
       initOrUpdateDailyChart();
     }
 
     function initCognitiveChart() {
-      const canvas = document.getElementById('hourlyCognitiveChart');
+      const canvas = document.getElementById("hourlyCognitiveChart");
       if (!canvas) return;
 
-      const labels = ['08', '10', '12', '14', '16', '18', '20', '22'];
+      const labels = ["08", "10", "12", "14", "16", "18", "20", "22"];
       const focusScores = [45, 92, 88, 52, 85, 78, 40, 20];
 
       if (cognitiveChartInstance) cognitiveChartInstance.destroy();
 
-      cognitiveChartInstance = new Chart(canvas.getContext('2d'), {
-        type: 'bar',
+      cognitiveChartInstance = new Chart(canvas.getContext("2d"), {
+        type: "bar",
         data: {
           labels: labels,
           datasets: [{
             data: focusScores,
-            backgroundColor: focusScores.map(v => v >= 80 ? '#2ED573' : (v >= 60 ? '#D4AF37' : '#8A8F94')),
+            backgroundColor: focusScores.map(v => v >= 80 ? "#2ED573" : (v >= 60 ? "#D4AF37" : "#8A8F94")),
             borderRadius: 3
           }]
         },
@@ -1360,15 +1451,15 @@
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
-            x: { grid: { display: false }, ticks: { color: '#4A5056', font: { family: 'JetBrains Mono', size: 9 } } },
-            y: { max: 100, grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { color: '#4A5056', font: { family: 'JetBrains Mono', size: 9 } } }
+            x: { grid: { display: false }, ticks: { color: "#4A5056", font: { family: "JetBrains Mono", size: 9 } } },
+            y: { max: 100, grid: { color: "rgba(0,0,0,0.06)" }, ticks: { color: "#4A5056", font: { family: "JetBrains Mono", size: 9 } } }
           }
         }
       });
     }
 
     function initOrUpdateDailyChart() {
-      const canvas = document.getElementById('dailySensorChart');
+      const canvas = document.getElementById("dailySensorChart");
       if (!canvas) return;
 
       let labels = [];
@@ -1376,23 +1467,23 @@
       let lightData = [];
       let tempData = [];
 
-      if (currentChartPeriod === '24h') {
+      if (currentChartPeriod === "24h") {
         const now = new Date();
         const currentH = now.getHours();
         for (let h = Math.max(0, currentH - 8); h <= currentH; h++) {
-          labels.push(`${h}:00`);
+          labels.push(h + ":00");
           airData.push(Math.round(liveAir / 10));
           lightData.push(h >= 7 && h <= 19 ? liveLight : 10);
           tempData.push(liveTemp);
         }
-      } else if (currentChartPeriod === '7d') {
-        labels = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+      } else if (currentChartPeriod === "7d") {
+        labels = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"];
         airData = [42, 45, 43, 44, 46, 42, Math.round(liveAir / 10)];
         lightData = [60, 65, 70, 65, 80, 55, liveLight];
         tempData = [25.8, 26.1, 26.4, 25.9, 26.5, 26.2, liveTemp];
-      } else if (currentChartPeriod === '30d') {
+      } else if (currentChartPeriod === "30d") {
         for (let d = 1; d <= 30; d += 3) {
-          labels.push(`${d} Ağu`);
+          labels.push(d + " Ağu");
           airData.push(40 + (d % 8));
           lightData.push(50 + (d % 30));
           tempData.push(25.0 + (d % 3));
@@ -1401,14 +1492,14 @@
 
       if (dailyChartInstance) dailyChartInstance.destroy();
 
-      dailyChartInstance = new Chart(canvas.getContext('2d'), {
-        type: 'line',
+      dailyChartInstance = new Chart(canvas.getContext("2d"), {
+        type: "line",
         data: {
           labels: labels,
           datasets: [
-            { label: 'Hava', data: airData, borderColor: '#FF9F1A', backgroundColor: 'rgba(255,159,26,0.1)', borderWidth: 2, tension: 0.2, pointRadius: 3 },
-            { label: 'Işık', data: lightData, borderColor: '#2ED573', backgroundColor: 'rgba(46,213,115,0.1)', borderWidth: 2, tension: 0.2, pointRadius: 3 },
-            { label: 'Sıcaklık', data: tempData, borderColor: '#00F2FE', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [4, 4], tension: 0.2, pointRadius: 2 }
+            { label: "Hava", data: airData, borderColor: "#FF9F1A", backgroundColor: "rgba(255,159,26,0.1)", borderWidth: 2, tension: 0.2, pointRadius: 3 },
+            { label: "Işık", data: lightData, borderColor: "#2ED573", backgroundColor: "rgba(46,213,115,0.1)", borderWidth: 2, tension: 0.2, pointRadius: 3 },
+            { label: "Sıcaklık", data: tempData, borderColor: "#00F2FE", backgroundColor: "transparent", borderWidth: 1.5, borderDash: [4, 4], tension: 0.2, pointRadius: 2 }
           ]
         },
         options: {
@@ -1416,8 +1507,8 @@
           maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
-            x: { grid: { color: '#0F2919' }, ticks: { color: '#55916A', font: { family: 'JetBrains Mono', size: 9 } } },
-            y: { grid: { color: '#0F2919' }, ticks: { color: '#55916A', font: { family: 'JetBrains Mono', size: 9 } } }
+            x: { grid: { color: "#0F2919" }, ticks: { color: "#55916A", font: { family: "JetBrains Mono", size: 9 } } },
+            y: { grid: { color: "#0F2919" }, ticks: { color: "#55916A", font: { family: "JetBrains Mono", size: 9 } } }
           }
         }
       });
@@ -1428,8 +1519,78 @@
       showToast("TELEMETRİ ÇİZİCİSİ YENİLENDİ");
     }
 
+    function exportTelemetryCSV() {
+      playMechanicalClick(1000, 0.05);
+      const csvRows = [
+        ["Zaman", "Sicaklik_C", "Nem_Yuzde", "Hava_PPM", "Isik_LDR", "Ciy_Noktasi_C", "Mutlak_Nem_g_m3"],
+        [new Date().toISOString(), liveTemp, liveHum, liveAir, liveLight, (liveTemp - ((100 - liveHum)/5)).toFixed(1), "12.4"]
+      ];
+      const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "AGY_Telemetri_" + new Date().toISOString().slice(0,10) + ".csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("TELEMETRİ CSV RAPORU İNDİRİLDİ 💾");
+    }
+
+    async function setUppatvindFan(level) {
+      playRelayClack();
+      [0, 1, 2, 3].forEach(i => {
+        const b = document.getElementById("btnFan" + i);
+        if (b) b.classList.toggle("primary", i === level);
+      });
+      showToast("UPPÅTVIND FAN KADEME " + level + " GÖNDERİLDİ");
+
+      const pwmLevels = { 0: 0, 1: 75, 2: 170, 3: 255 };
+      const rpmLevels = { 0: 0, 1: 650, 2: 1450, 3: 2400 };
+      const pwmEl = document.getElementById("fanPwmDisplay");
+      const rpmEl = document.getElementById("fanRpmDisplay");
+      if (pwmEl) pwmEl.innerText = pwmLevels[level] || 0;
+      if (rpmEl) rpmEl.innerText = rpmLevels[level] || 0;
+
+      try {
+        await fetch(FIREBASE_URL + "control/uppatvind_fan.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(level)
+        });
+      } catch(e) {}
+    }
+
+    let relayStates = { 1: false, 2: false, 3: false, 4: false };
+    async function toggleRelay(num) {
+      playRelayClack();
+      relayStates[num] = !relayStates[num];
+      const btn = document.getElementById("btnRelay" + num);
+      if (btn) btn.classList.toggle("primary", relayStates[num]);
+      showToast("RÖLE " + num + (relayStates[num] ? " AÇILDI" : " KAPATILDI"));
+      try {
+        await fetch(FIREBASE_URL + "control/relay_" + num + ".json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(relayStates[num])
+        });
+      } catch(e) {}
+    }
+
+    async function sendSpotifyCommand(action) {
+      playMechanicalClick(700, 0.04);
+      showToast("SPOTIFY: " + action.toUpperCase());
+      try {
+        await fetch(FIREBASE_URL + "control/spotify_cmd.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(action)
+        });
+      } catch(e) {}
+    }
+
     async function ringDeskChime() {
-      showToast("MASA ZİLİ ÇALDIRILDI");
+      playMechanicalClick(1200, 0.08);
+      showToast("MASA ZİLİ ÇALDIRILDI 🔔");
       try {
         await fetch(FIREBASE_URL + "control/ring_buzzer.json" + FIREBASE_AUTH, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(true) });
       } catch (e) {}
@@ -1440,21 +1601,38 @@
         const res = await fetch(FIREBASE_URL + "station.json" + FIREBASE_AUTH);
         if (res.ok) {
           const data = await res.json();
-          if (data && typeof data === 'object') {
+          if (data && typeof data === "object") {
             bmeConnected = (data.bme_active === true);
             if (bmeConnected) {
               liveTemp = parseFloat(data.temp);
               liveHum = parseInt(data.humidity);
-              document.getElementById('tempVal').innerText = liveTemp.toFixed(1);
-              document.getElementById('humVal').innerText = liveHum.toString();
+              document.getElementById("tempVal").innerText = liveTemp.toFixed(1);
+              document.getElementById("humVal").innerText = liveHum.toString();
             }
             if (data.air !== undefined) {
               liveAir = parseInt(data.air);
-              document.getElementById('airVal').innerText = liveAir + " PPM";
+              document.getElementById("airVal").innerText = liveAir + " PPM";
             }
             if (data.light !== undefined) {
               liveLight = parseInt(data.light);
-              document.getElementById('lightVal').innerText = liveLight + "%";
+              document.getElementById("lightVal").innerText = liveLight + "%";
+            }
+
+            if (data.dew_point !== undefined) {
+              const el = document.getElementById("dewPointVal");
+              if (el) el.innerText = parseFloat(data.dew_point).toFixed(1) + "°C";
+            }
+            if (data.absolute_humidity !== undefined) {
+              const el = document.getElementById("absHumVal");
+              if (el) el.innerText = parseFloat(data.absolute_humidity).toFixed(1) + " g/m³";
+            }
+            if (data.aqi !== undefined) {
+              const el = document.getElementById("aqiVal");
+              if (el) el.innerText = data.aqi;
+            }
+            if (data.zambretti_forecast) {
+              const el = document.getElementById("zambrettiVal");
+              if (el) el.innerText = data.zambretti_forecast.toUpperCase();
             }
 
             updateAnalogGauges(liveAir, liveLight);
@@ -1465,25 +1643,25 @@
         const resMac = await fetch(FIREBASE_URL + "mac.json" + FIREBASE_AUTH);
         if (resMac.ok) {
           const macData = await resMac.json();
-          if (macData && typeof macData === 'object') {
-            const trackEl = document.getElementById('spotifyTrackText');
-            const artistEl = document.getElementById('spotifyArtistText');
-            const leftReel = document.getElementById('leftTapeReel');
-            const rightReel = document.getElementById('rightTapeReel');
+          if (macData && typeof macData === "object") {
+            const trackEl = document.getElementById("spotifyTrackText");
+            const artistEl = document.getElementById("spotifyArtistText");
+            const leftReel = document.getElementById("leftTapeReel");
+            const rightReel = document.getElementById("rightTapeReel");
 
             if (macData.spotify_playing && macData.spotify_track) {
               trackEl.innerText = macData.spotify_track.toUpperCase();
-              artistEl.innerText = `${macData.spotify_artist.toUpperCase()} // DJ YULAF`;
-              if (leftReel) leftReel.style.animationPlayState = 'running';
-              if (rightReel) rightReel.style.animationPlayState = 'running';
+              artistEl.innerText = macData.spotify_artist.toUpperCase() + " // DJ YULAF";
+              if (leftReel) leftReel.style.animationPlayState = "running";
+              if (rightReel) rightReel.style.animationPlayState = "running";
             } else {
               trackEl.innerText = "MÜZİK BEKLENİYOR...";
               artistEl.innerText = "SPOTIFY AÇIN // DJ YULAF";
-              if (leftReel) leftReel.style.animationPlayState = 'paused';
-              if (rightReel) rightReel.style.animationPlayState = 'paused';
+              if (leftReel) leftReel.style.animationPlayState = "paused";
+              if (rightReel) rightReel.style.animationPlayState = "paused";
             }
 
-            const locPill = document.getElementById('macLocationPill');
+            const locPill = document.getElementById("macLocationPill");
             if (locPill) {
               if (macData.mac_location === "HOME_TERRACE") {
                 locPill.innerText = "KONUM: TERASTA 🌿";
@@ -1499,13 +1677,13 @@
 
             const screenSec = macData.total_screen_sec || 0;
             const contSec = macData.continuous_work_sec || 0;
-            const screenTimeEl = document.getElementById('trueMacScreenTime');
-            const contEl = document.getElementById('continuousWorkText');
-            const ergoEl = document.getElementById('ergoCountdownText');
+            const screenTimeEl = document.getElementById("trueMacScreenTime");
+            const contEl = document.getElementById("continuousWorkText");
+            const ergoEl = document.getElementById("ergoCountdownText");
 
             const mSec = screenSec % 100;
-            const o1 = document.getElementById('tapeCounterM1');
-            const o2 = document.getElementById('tapeCounterM2');
+            const o1 = document.getElementById("tapeCounterM1");
+            const o2 = document.getElementById("tapeCounterM2");
             if (o1 && o2) {
               o1.innerText = Math.floor(mSec / 10);
               o2.innerText = mSec % 10;
@@ -1515,48 +1693,34 @@
               const h = Math.floor(screenSec / 3600);
               const m = Math.floor((screenSec % 3600) / 60);
               const s = screenSec % 60;
-              screenTimeEl.innerText = `${h < 10 ? '0' : ''}${h}:${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+              screenTimeEl.innerText = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
             }
             if (contEl) {
               const cm = Math.floor(contSec / 60);
-              contEl.innerText = `${cm}`;
+              contEl.innerText = "" + cm;
             }
 
             if (ergoEl) {
               const remainingToErgo = Math.max(0, 1200 - (contSec % 1200));
               const em = Math.floor(remainingToErgo / 60);
               const es = remainingToErgo % 60;
-              ergoEl.innerText = `${em < 10 ? '0' : ''}${em}:${es < 10 ? '0' : ''}${es}`;
+              ergoEl.innerText = (em < 10 ? "0" : "") + em + ":" + (es < 10 ? "0" : "") + es;
             }
 
-            if (macData.apps_breakdown && typeof macData.apps_breakdown === 'object') {
-              const appContainer = document.getElementById('appBreakdownContainer');
+            if (macData.apps_breakdown && typeof macData.apps_breakdown === "object") {
+              const appContainer = document.getElementById("appBreakdownContainer");
               if (appContainer) {
                 const entries = Object.entries(macData.apps_breakdown).sort((a, b) => b[1] - a[1]);
                 let totalS = Math.max(1, screenSec);
                 appContainer.innerHTML = entries.map(([app, sec]) => {
                   let mins = Math.max(1, Math.round(sec / 60));
                   let pct = Math.round((sec / totalS) * 100);
-                  return `
-                    <div style="display: flex; justify-content: space-between; padding: 5px 10px; background: #0E1012; border: 1px solid #3A3F45; border-radius: 4px; font-size: 10.5px;">
-                      <span style="color: #D4AF37; font-weight: bold;">${app.toUpperCase()}</span>
-                      <span style="color: #E2E5E8;">${mins} DK (%${pct})</span>
-                    </div>
-                  `;
-                }).join('');
+                  return '<div style="display: flex; justify-content: space-between; padding: 5px 10px; background: #0E1012; border: 1px solid #3A3F45; border-radius: 4px; font-size: 10.5px;">' +
+                         '<span style="color: #D4AF37; font-weight: bold;">' + app.toUpperCase() + '</span>' +
+                         '<span style="color: #E2E5E8;">' + mins + ' DK (%' + pct + ')</span>' +
+                         '</div>';
+                }).join("");
               }
-            }
-
-            if (macData.buca_temp) {
-              bucaOutsideTemp = macData.buca_temp;
-              bucaOutsideHum = macData.buca_hum;
-              const pillEl = document.getElementById('outdoorWeatherPill');
-              if (pillEl) pillEl.innerText = `${bucaOutsideTemp}°C // İMBAT`;
-
-              const inCompEl = document.getElementById('indoorCompareText');
-              const outCompEl = document.getElementById('outdoorCompareText');
-              if (inCompEl) inCompEl.innerText = `${liveTemp.toFixed(1)}°C`;
-              if (outCompEl) outCompEl.innerText = `${bucaOutsideTemp}.0°C`;
             }
           }
         }
