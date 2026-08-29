@@ -177,7 +177,7 @@
   </div>
 
   <!-- ======================================================= -->
-  <!-- 🌪️ 3. IKEA UPPÅTVIND AKILLI HAVA ROBOTU                 -->
+  <!-- 🌪️ 3. IKEA UPPÅTVIND AKILLI HAVA ROBOTU & OTONOM PİLOT  -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-4 border-cyan-500/20">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
@@ -188,27 +188,29 @@
           <p class="text-[10px] font-mono text-slate-400">24V BLDC FAN • 3D KARBON + H13 HEPA [Kısayol: 0-3]</p>
         </div>
       </div>
-      <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[10px] font-bold">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span id="uppatvindStatusLabel">HAZIR</span>
-      </div>
+
+      <!-- 🤖 AUTOPILOT TOGGLE BUTTON -->
+      <button onclick="toggleAutoPilot()" id="autoPilotBtn" class="btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono text-[10px] font-bold shadow-lg shadow-emerald-500/10">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span id="autoPilotLabel">🤖 OTONOM PİLOT: AÇIK</span>
+      </button>
     </div>
 
     <!-- Fan Speed 4-Segment Button Bar -->
     <div class="grid grid-cols-4 gap-2 bg-slate-900/80 p-1.5 rounded-xl border border-slate-800">
-      <button onclick="setUppatvindFan(0)" id="fanBtn0" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white transition-all flex flex-col items-center gap-0.5">
+      <button onclick="setUppatvindFan(0, true)" id="fanBtn0" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white transition-all flex flex-col items-center gap-0.5">
         <span>⏻</span>
         <span class="text-[10px]">KAPALI [0]</span>
       </button>
-      <button onclick="setUppatvindFan(1)" id="fanBtn1" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white transition-all flex flex-col items-center gap-0.5">
+      <button onclick="setUppatvindFan(1, true)" id="fanBtn1" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white transition-all flex flex-col items-center gap-0.5">
         <span>≋</span>
         <span class="text-[10px]">FISILTI [1]</span>
       </button>
-      <button onclick="setUppatvindFan(2)" id="fanBtn2" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 transition-all flex flex-col items-center gap-0.5 shadow-lg shadow-cyan-500/10">
+      <button onclick="setUppatvindFan(2, true)" id="fanBtn2" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 transition-all flex flex-col items-center gap-0.5 shadow-lg shadow-cyan-500/10">
         <span>⚡</span>
         <span class="text-[10px]">NORMAL [2]</span>
       </button>
-      <button onclick="setUppatvindFan(3)" id="fanBtn3" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-rose-400 hover:text-white transition-all flex flex-col items-center gap-0.5">
+      <button onclick="setUppatvindFan(3, true)" id="fanBtn3" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-rose-400 hover:text-white transition-all flex flex-col items-center gap-0.5">
         <span>🚀</span>
         <span class="text-[10px]">TURBO [3]</span>
       </button>
@@ -454,7 +456,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🧠 JAVASCRIPT: LOGIC, VISIBILITY & ZERO BATTERY DRAIN   -->
+  <!-- 🧠 JAVASCRIPT: LOGIC, AUTOPILOT & ZERO BATTERY DRAIN    -->
   <!-- ======================================================= -->
   <script>
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
@@ -464,7 +466,10 @@
     let liveLight = 40;
     let liveTemp = 26.4;
     let liveHum = 54;
+    let currentFanLevel = 2;
+    let autoPilot = true;
     let lastSyncTime = Date.now();
+    let currentPresence = "HOME_DESK";
 
     let pomoMode = "IDLE";
     let pomoSecondsRemaining = 1500;
@@ -497,6 +502,22 @@
         document.body.classList.remove('oled-mode');
         document.getElementById('oledIcon').innerText = '🌙';
         showToast("CYBER DARK MODU AKTİF ☀️", "☀️");
+      }
+    }
+
+    function toggleAutoPilot() {
+      autoPilot = !autoPilot;
+      const btn = document.getElementById('autoPilotBtn');
+      const label = document.getElementById('autoPilotLabel');
+      if (autoPilot) {
+        btn.className = 'btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono text-[10px] font-bold shadow-lg shadow-emerald-500/10';
+        label.innerText = '🤖 OTONOM PİLOT: AÇIK';
+        showToast("OTONOM HAVA PİLOTU DEVREDE 🤖");
+        runAutoPilotLogic();
+      } else {
+        btn.className = 'btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 font-mono text-[10px] font-bold';
+        label.innerText = '🤖 OTONOM PİLOT: KAPALI';
+        showToast("MANUEL KONTROLE GEÇİLDİ 🕹️");
       }
     }
 
@@ -555,13 +576,13 @@
         e.preventDefault();
         sendSpotifyCommand('playpause');
       } else if (['Digit0', 'Numpad0'].includes(e.code)) {
-        setUppatvindFan(0);
+        setUppatvindFan(0, true);
       } else if (['Digit1', 'Numpad1'].includes(e.code)) {
-        setUppatvindFan(1);
+        setUppatvindFan(1, true);
       } else if (['Digit2', 'Numpad2'].includes(e.code)) {
-        setUppatvindFan(2);
+        setUppatvindFan(2, true);
       } else if (['Digit3', 'Numpad3'].includes(e.code)) {
-        setUppatvindFan(3);
+        setUppatvindFan(3, true);
       } else if (e.key.toLowerCase() === 'p') {
         if (pomoMode === 'IDLE') startPomodoro(25, 'FOCUS');
         else stopPomodoro();
@@ -574,7 +595,7 @@
       }
     });
 
-    /* 🐹 CANLI YULAF PIXEL ANIMATION (Zero CPU when hidden) */
+    /* 🐹 CANLI YULAF PIXEL ANIMATION */
     let yulafFrame = 0;
     function renderYulaf() {
       if (!isAppVisible) return;
@@ -639,8 +660,33 @@
     }
     requestAnimationFrame(renderYulaf);
 
-    /* 🌪️ UPPÅTVIND FAN CONTROLS */
-    async function setUppatvindFan(level) {
+    /* 🌪️ UPPÅTVIND FAN CONTROLS & OTONOM PİLOT */
+    function runAutoPilotLogic() {
+      if (!autoPilot) return;
+      let targetLevel = 1; // Default Whisper (20dB)
+      if (liveAir > 700) {
+        targetLevel = 3; // Turbo for heavy pollution
+      } else if (liveAir > 520) {
+        targetLevel = 2; // Normal
+      } else if (currentPresence !== "HOME_DESK" && liveAir < 450) {
+        targetLevel = 0; // Off if away and clean
+      } else {
+        targetLevel = 1; // Whisper
+      }
+
+      if (targetLevel !== currentFanLevel) {
+        setUppatvindFan(targetLevel, false);
+      }
+    }
+
+    async function setUppatvindFan(level, isManual = false) {
+      if (isManual && autoPilot) {
+        autoPilot = false;
+        document.getElementById('autoPilotBtn').className = 'btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 font-mono text-[10px] font-bold';
+        document.getElementById('autoPilotLabel').innerText = '🤖 OTONOM PİLOT: KAPALI';
+      }
+
+      currentFanLevel = level;
       playBeep(600, 0.04);
       [0, 1, 2, 3].forEach(i => {
         const btn = document.getElementById(`fanBtn${i}`);
@@ -658,7 +704,7 @@
       document.getElementById('fanRpmVal').innerText = rpms[level] || 0;
       document.getElementById('fanPwmVal').innerText = pwms[level] || 0;
 
-      showToast(`FAN KADEME ${level} GÖNDERİLDİ 🌪️`);
+      if (isManual) showToast(`FAN KADEME ${level} GÖNDERİLDİ 🌪️`);
       try {
         await fetch(FIREBASE_URL + "control/uppatvind_fan.json" + FIREBASE_AUTH, {
           method: "PUT",
@@ -758,12 +804,12 @@
 
       if (scoreEl) scoreEl.innerText = `ZİHİN: %${score}`;
 
-      if (contSec > 3000) { // 50+ dk
+      if (contSec > 3000) {
         iconEl.innerText = "☕";
         msgEl.innerText = "50 dakikadır masadasın! 20 saniye uzağa bak ve boynunu esnet.";
       } else if (liveAir > 650) {
-        iconEl.innerText = "⚠️";
-        msgEl.innerText = "Hava kirliliği yükseldi. UPPÅTVIND fanını Turbo moduna alabilirsin!";
+        iconEl.innerText = "🌪️";
+        msgEl.innerText = "Hava kirliliği yükseldi. Otonom pilot UPPÅTVIND fanını Turbo'ya alıyor!";
       } else if (bucaTemp && liveTemp - bucaTemp > 3.5) {
         iconEl.innerText = "🌿";
         msgEl.innerText = `Oda terastan ${Math.round(liveTemp - bucaTemp)}°C daha sıcak. İmbat rüzgarı için kapıyı açabilirsin.`;
@@ -915,9 +961,11 @@
             const locEl = document.getElementById('spotifyLocationText');
             const presEl = document.getElementById('presenceLabel');
             if (mData.mac_location === "HOME_TERRACE") {
+              currentPresence = "HOME_TERRACE";
               if (locEl) locEl.innerText = "KONUM: TERASTA 🌿 [Kısayol: Space]";
               if (presEl) presEl.innerText = "TERASTA 🌿";
             } else if (mData.mac_location === "HOME_DESK") {
+              currentPresence = "HOME_DESK";
               if (locEl) locEl.innerText = "KONUM: MASA BAŞINDA 🏠 [Kısayol: Space]";
               if (presEl) presEl.innerText = "MASA BAŞINDA 🏠";
             }
@@ -938,6 +986,7 @@
           }
         }
 
+        runAutoPilotLogic();
         updateInsights(contSec, bucaTemp);
       } catch(e) {
         updateHeartbeatUI(false);
