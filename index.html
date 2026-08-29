@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="google" content="notranslate">
-  <title>AGY-1976 // AKILLI TERMODİNAMİK & BİLİŞSEL KOKPİT</title>
+  <title>AGY-1976 // MASA İSTASYONU KOKPİTİ</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#000000">
@@ -153,13 +153,13 @@
 
     <!-- Quick Buttons: Brown Noise, OLED Mode, Audio Mute, Desk Buzzer -->
     <div class="flex items-center gap-1.5">
-      <button onclick="toggleBrownNoise()" id="brownNoiseBtn" title="Biofilik Odak Ambiyansı (Kahverengi Gürültü)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-400 text-xs font-mono">
+      <button onclick="toggleBrownNoise()" id="brownNoiseBtn" title="Derin Odak Sesi (Kahverengi Gürültü)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-400 text-xs font-mono">
         <span id="brownNoiseIcon">🌊</span>
       </button>
-      <button onclick="toggleOledMode()" id="oledBtn" title="Saf OLED Gece Modu (Kısayol: O)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
+      <button onclick="toggleOledMode()" id="oledBtn" title="Gece Modu (Kısayol: O)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
         <span id="oledIcon">🌙</span>
       </button>
-      <button onclick="toggleAudioMute()" id="muteBtn" title="Ses Efektleri (Kısayol: M)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
+      <button onclick="toggleAudioMute()" id="muteBtn" title="Sesler (Kısayol: M)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
         <span id="muteIcon">🔊</span>
       </button>
       <button onclick="ringDeskChime()" title="Masa Zili (Kısayol: B)" class="btn-tactile px-3 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 hover:bg-cyan-500/25 text-cyan-400 text-xs font-mono font-bold flex items-center gap-1.5">
@@ -169,24 +169,24 @@
   </header>
 
   <!-- ======================================================= -->
-  <!-- 🔬 2. TERMODİNAMİK & HAVALANDIRMA FÜZYON ASİSTANI       -->
+  <!-- 🌿 2. AKILLI ODA & HAVALANDIRMA ASİSTANI (SADE DİL)     -->
   <!-- ======================================================= -->
   <section class="glass-card p-4 flex flex-col gap-3 border-emerald-500/20 bg-gradient-to-b from-slate-900/90 to-slate-950/90">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
       <div class="flex items-center gap-2">
         <span class="text-base" id="ventIcon">🪟</span>
         <div>
-          <h2 class="font-display font-bold text-xs text-white tracking-wide">PSİKROMETRİK HAVALANDIRMA & FÜZYON MOTORU</h2>
-          <p class="text-[9px] font-mono text-slate-400">ASHRAE-55 • ARDEN BUCK • FANGER PMV/PPD • SENSÖR OTO-KONTROL</p>
+          <h2 class="font-display font-bold text-xs text-white tracking-wide">AKILLI HAVALANDIRMA ASİSTANI</h2>
+          <p class="text-[9px] font-mono text-slate-400">ODA & TERAS CANLI DENGESİ</p>
         </div>
       </div>
       <div class="flex items-center gap-1.5">
-        <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20" id="sensorDiagPill">SENSÖRLER: DOĞRULANDI ✓</span>
-        <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" id="ventStatusBadge">PENCERE AÇILABİLİR 🌿</span>
+        <span class="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20" id="sensorDiagPill">SENSÖRLER AKTİF ✓</span>
+        <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" id="ventStatusBadge">KAPIYI AÇABİLİRSİN 🌿</span>
       </div>
     </div>
 
-    <!-- Smart Guidance Speech Box -->
+    <!-- Smart Guidance Speech Box (Plain Turkish) -->
     <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800 flex items-start gap-2.5">
       <span class="text-lg" id="guidanceIcon">💡</span>
       <p class="text-xs font-mono text-slate-200 leading-relaxed" id="thermoAdviceText">
@@ -194,34 +194,34 @@
       </p>
     </div>
 
-    <!-- Indoor vs Outdoor Thermodynamic Matrix -->
+    <!-- Indoor vs Outdoor Comparison Matrix (Plain Turkish) -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 font-mono text-center text-xs">
-      <!-- Sıcaklık Delta -->
+      <!-- Sıcaklık Farkı -->
       <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
-        <div class="text-[9px] text-slate-400">SICAKLIK FARKI (ΔT)</div>
-        <div class="text-sm font-bold text-cyan-300 mt-0.5" id="deltaTempText">-4.4°C (DIŞARI SERİN)</div>
-        <div class="text-[9px] text-slate-500 mt-0.5">Oda: <span id="inTempLabel">26.4°C</span> | Dış: <span id="outTempLabel">22.0°C</span></div>
+        <div class="text-[9px] text-slate-400">İÇERİSİ & DIŞARISI</div>
+        <div class="text-sm font-bold text-cyan-300 mt-0.5" id="deltaTempText">Teras 4°C Daha Serin ❄️</div>
+        <div class="text-[9px] text-slate-500 mt-0.5">Oda: <span id="inTempLabel">26.4°C</span> | Teras: <span id="outTempLabel">22.0°C</span></div>
       </div>
 
-      <!-- Özgül Entalpi -->
+      <!-- Hava Ferahlığı -->
       <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
-        <div class="text-[9px] text-slate-400">ÖZGÜL ENTALPİ (h)</div>
-        <div class="text-sm font-bold text-emerald-400 mt-0.5" id="enthalpyText">58.2 kJ/kg</div>
-        <div class="text-[9px] text-slate-500 mt-0.5">Enerji Yükü (Δh: <span id="deltaEnthalpyLabel">-14 kJ</span>)</div>
+        <div class="text-[9px] text-slate-400">HAVA FERAHLIĞI</div>
+        <div class="text-sm font-bold text-emerald-400 mt-0.5" id="enthalpyText">Çok Ferah 🍃</div>
+        <div class="text-[9px] text-slate-500 mt-0.5">Hafif & Temiz Hava</div>
       </div>
 
-      <!-- Çiy Noktası Güvenlik Marjı -->
+      <!-- Rutubet / Terleme Riski -->
       <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
-        <div class="text-[9px] text-slate-400">ÇİY GÜVENLİK MARJI</div>
-        <div class="text-sm font-bold text-amber-400 mt-0.5" id="dewMarginText">+11.6°C (GÜVENLİ)</div>
-        <div class="text-[9px] text-slate-500 mt-0.5">Çiy: <span id="dewValLabel">14.8°C</span> | Yoğuşma: 0</div>
+        <div class="text-[9px] text-slate-400">RUTUBET & NEM</div>
+        <div class="text-sm font-bold text-amber-400 mt-0.5" id="dewMarginText">Sıfır Nem Riski 🛡️</div>
+        <div class="text-[9px] text-slate-500 mt-0.5">Kuru & Sağlıklı Masa</div>
       </div>
 
-      <!-- Biyoklimatik Konfor & PPD -->
+      <!-- Ortam Rahatlığı -->
       <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
-        <div class="text-[9px] text-slate-400">KONFOR İNDEKSİ (PMV)</div>
-        <div class="text-sm font-bold text-violet-400 mt-0.5" id="pmvText">+0.2 (PPD: %5.8)</div>
-        <div class="text-[9px] text-slate-500 mt-0.5">Zihinsel Verim: <span id="mentalScoreLabel">%96</span></div>
+        <div class="text-[9px] text-slate-400">HİSSEDİLEN ORTAM</div>
+        <div class="text-sm font-bold text-violet-400 mt-0.5" id="pmvText">Tam Kıvamında 😌</div>
+        <div class="text-[9px] text-slate-500 mt-0.5">Odak Seviyesi: <span id="mentalScoreLabel">%96</span></div>
       </div>
     </div>
   </section>
@@ -271,12 +271,12 @@
       <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center">
         <span class="text-[10px] text-slate-400">FAN DEVRİ</span>
         <span class="text-lg font-bold text-cyan-300 font-mono tracking-tight" id="fanRpmVal">1450</span>
-        <span class="text-[9px] text-slate-500">RPM (TACHO)</span>
+        <span class="text-[9px] text-slate-500">RPM (DÖNÜŞ HIZI)</span>
       </div>
       <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center">
-        <span class="text-[10px] text-slate-400">PWM GÜCÜ</span>
+        <span class="text-[10px] text-slate-400">MOTOR GÜCÜ</span>
         <span class="text-lg font-bold text-emerald-400 font-mono tracking-tight" id="fanPwmVal">170</span>
-        <span class="text-[9px] text-slate-500">0-255 DÖNGÜ</span>
+        <span class="text-[9px] text-slate-500">0-255 SİNYAL</span>
       </div>
       <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center">
         <span class="text-[10px] text-slate-400">FİLTRE SAĞLIĞI</span>
@@ -328,7 +328,7 @@
       </div>
       <div class="my-2">
         <div class="text-2xl font-bold font-mono text-emerald-400 tracking-tight" id="liveAirText">450<span class="text-xs text-slate-400"> PPM</span></div>
-        <div class="text-[10px] font-mono text-slate-400 mt-0.5">MQ-135 SENKRON</div>
+        <div class="text-[10px] font-mono text-slate-400 mt-0.5">TEMİZ HAVA</div>
       </div>
       <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden">
         <div class="bg-emerald-400 h-full rounded-full" id="airProgressBar" style="width: 35%;"></div>
@@ -343,7 +343,7 @@
       </div>
       <div class="my-2">
         <div class="text-2xl font-bold font-mono text-amber-300 tracking-tight" id="liveLightText">40<span class="text-sm text-slate-400">%</span></div>
-        <div class="text-[10px] font-mono text-slate-400 mt-0.5">LDR ORTAM SENSÖRÜ</div>
+        <div class="text-[10px] font-mono text-slate-400 mt-0.5">ORTAM IŞIĞI</div>
       </div>
       <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden">
         <div class="bg-amber-400 h-full rounded-full" id="lightProgressBar" style="width: 40%;"></div>
@@ -573,7 +573,7 @@
         brownNoiseNode.start();
         brownNoiseActive = true;
         btn.className = 'btn-tactile p-2 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-xs font-mono shadow-lg shadow-cyan-500/10';
-        showToast("BİOFİLİK KAHVERENGİ GÜRÜLTÜ AÇILDI 🌊", "🌊");
+        showToast("BİOFİLİK DERİN ODAK SESİ AÇILDI 🌊", "🌊");
       } else {
         if (brownNoiseNode) {
           brownNoiseNode.stop();
@@ -582,7 +582,7 @@
         }
         brownNoiseActive = false;
         btn.className = 'btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-400 text-xs font-mono';
-        showToast("KAHVERENGİ GÜRÜLTÜ SUSTURULDU", "🔇");
+        showToast("ODAK SESİ SUSTURULDU", "🔇");
       }
     }
 
@@ -872,32 +872,20 @@
       } catch(e) {}
     }
 
-    /* 🔬 SENSÖR OTO-KONTROL & HATASIZ TERMODİNAMİK FÜZYON MOTORU */
+    /* 🔬 SENSÖR OTO-KONTROL & SADE TÜRKÇE MOTORU */
     function sanitizeAndValidateSensors(rawT, rawRh, rawAir, rawLight) {
       let t = rawT, rh = rawRh, air = rawAir, light = rawLight;
       let valid = true;
 
-      // 1. Sıcaklık Plausibility (-10°C ile 65°C arası)
-      if (isNaN(t) || t < -10 || t > 65) {
-        t = 24.5; valid = false;
-      }
-      // 2. Nem Plausibility (%1 ile %99 arası)
-      if (isNaN(rh) || rh < 1 || rh > 99) {
-        rh = 50; valid = false;
-      }
-      // 3. MQ-135 Gaz Plausibility (150 ile 3000 PPM arası)
-      if (isNaN(air) || air < 150 || air > 3500) {
-        air = 450; valid = false;
-      }
-      // 4. LDR Işık Plausibility (%0 ile %100 arası)
-      if (isNaN(light) || light < 0 || light > 100) {
-        light = 50; valid = false;
-      }
+      if (isNaN(t) || t < -10 || t > 65) { t = 24.5; valid = false; }
+      if (isNaN(rh) || rh < 1 || rh > 99) { rh = 50; valid = false; }
+      if (isNaN(air) || air < 150 || air > 3500) { air = 450; valid = false; }
+      if (isNaN(light) || light < 0 || light > 100) { light = 50; valid = false; }
 
       sensorDiagnostics.bme280Valid = valid;
       const diagPill = document.getElementById('sensorDiagPill');
       if (diagPill) {
-        diagPill.innerText = valid ? "SENSÖRLER: DOĞRULANDI ✓" : "SENSÖR: OTO-FİLTRE DEVREDE ⚠️";
+        diagPill.innerText = valid ? "SENSÖRLER AKTİF ✓" : "SENSÖR KORUMADA ⚠️";
         diagPill.className = valid 
           ? "text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
           : "text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20";
@@ -907,20 +895,16 @@
     }
 
     function computePsychrometrics(tIn, rhIn, tOut, rhOut) {
-      // 1. Arden Buck Doymuş Buhar Basıncı Psat (kPa)
+      // Arka planda formüller kusursuz çalışır
       const pSatIn = 0.61121 * Math.exp((18.678 - tIn / 234.5) * (tIn / (257.14 + tIn)));
       const pVIn = pSatIn * (rhIn / 100);
-      
-      // 2. Arden Buck Çiy Noktası Tdew (°C)
       const alphaIn = Math.log(pVIn / 0.61121);
       const tDewIn = (257.14 * alphaIn) / (18.678 - alphaIn);
 
-      // 3. ASHRAE Özgül Nem Oranı W (kg/kg) & Entalpi h (kJ/kg)
-      const pAtm = 101.325; // Standart atmosferik basınç
+      const pAtm = 101.325;
       const wIn = 0.62198 * (pVIn / (pAtm - pVIn));
       const enthalpyIn = 1.006 * tIn + wIn * (2501 + 1.86 * tIn);
 
-      // 4. Dış Ortam Entalpisi
       let enthalpyOut = enthalpyIn;
       if (tOut !== null && rhOut !== null) {
         const pSatOut = 0.61121 * Math.exp((18.678 - tOut / 234.5) * (tOut / (257.14 + tOut)));
@@ -929,12 +913,8 @@
         enthalpyOut = 1.006 * tOut + wOut * (2501 + 1.86 * tOut);
       }
 
-      // 5. Fanger PMV & PPD Biyoklimatik Konfor Modeli (ISO 7730)
-      // Masa başında oturarak çalışma (M = 1.1 met, Icl = 0.6 clo)
-      const pmv = ((tIn - 24.2) * 0.38 + (rhIn - 50) * 0.006).toFixed(1);
-      const ppd = (100 - 95 * Math.exp(-0.03353 * Math.pow(pmv, 4) - 0.2179 * Math.pow(pmv, 2))).toFixed(1);
+      const pmv = ((tIn - 24.2) * 0.38 + (rhIn - 50) * 0.006);
 
-      // 6. Harvard COGfx Bilişsel Hazırlık Skoru (%0-100)
       let mentalScore = 100;
       if (liveAir > 500) mentalScore -= Math.min(35, Math.floor((liveAir - 500) / 9));
       if (tIn > 27.5 || tIn < 19.5) mentalScore -= 15;
@@ -949,7 +929,6 @@
         deltaEnthalpy: enthalpyIn - enthalpyOut,
         deltaTemp: (tOut !== null) ? (tOut - tIn) : 0,
         pmv: pmv,
-        ppd: ppd,
         mentalScore: mentalScore
       };
     }
@@ -959,50 +938,66 @@
 
       document.getElementById('inTempLabel').innerText = `${liveTemp.toFixed(1)}°C`;
       document.getElementById('outTempLabel').innerText = (tOut !== null) ? `${tOut.toFixed(1)}°C` : '--';
-      document.getElementById('dewValLabel').innerText = `${p.dewPoint.toFixed(1)}°C`;
-      document.getElementById('enthalpyText').innerText = `${p.enthalpyIn.toFixed(1)} kJ/kg`;
-      document.getElementById('deltaEnthalpyLabel').innerText = `${p.deltaEnthalpy > 0 ? '+' : ''}${p.deltaEnthalpy.toFixed(1)} kJ`;
-      document.getElementById('dewMarginText').innerText = `+${p.dewMargin.toFixed(1)}°C (${p.dewMargin > 3 ? 'GÜVENLİ' : 'RİSKLİ'})`;
-      document.getElementById('pmvText').innerText = `${p.pmv > 0 ? '+' : ''}${p.pmv} (PPD: %${p.ppd})`;
-      document.getElementById('mentalScoreLabel').innerText = `%${p.mentalScore}`;
-
+      
+      // Halk Diliyle Sade Kartlar
       const deltaEl = document.getElementById('deltaTempText');
       const badgeEl = document.getElementById('ventStatusBadge');
       const adviceEl = document.getElementById('thermoAdviceText');
       const iconEl = document.getElementById('ventIcon');
       const gIconEl = document.getElementById('guidanceIcon');
+      const enthEl = document.getElementById('enthalpyText');
+      const dewEl = document.getElementById('dewMarginText');
+      const pmvEl = document.getElementById('pmvText');
+      const mentalEl = document.getElementById('mentalScoreLabel');
+
+      if (mentalEl) mentalEl.innerText = `%${p.mentalScore}`;
+
+      // Hava Ferahlığı
+      if (p.enthalpyIn < 50) enthEl.innerText = "Çok Ferah 🍃";
+      else if (p.enthalpyIn < 62) enthEl.innerText = "İdeal ve Temiz ⚡";
+      else enthEl.innerText = "Ağır ve Nemli ☀️";
+
+      // Rutubet / Terleme
+      if (p.dewMargin > 5) dewEl.innerText = "Sıfır Nem Riski 🛡️";
+      else if (p.dewMargin > 2) dewEl.innerText = "Hafif Nem Var 💧";
+      else dewEl.innerText = "Rutubet Uyarısı ⚠️";
+
+      // Hissedilen Ortam
+      if (Math.abs(p.pmv) < 0.4) pmvEl.innerText = "Tam Kıvamında 😌";
+      else if (p.pmv > 0.4) pmvEl.innerText = "Hafif Sıcak 🔥";
+      else pmvEl.innerText = "Hafif Serin ❄️";
 
       if (tOut !== null) {
         const delta = tOut - liveTemp;
         if (delta < -1.5) {
-          deltaEl.innerText = `${delta.toFixed(1)}°C (DIŞARI SERİN ❄️)`;
+          deltaEl.innerText = `Teras ${Math.abs(delta).toFixed(1)}°C Daha Serin ❄️`;
           deltaEl.className = "text-sm font-bold text-cyan-300 mt-0.5";
           badgeEl.className = "text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 animate-pulse";
-          badgeEl.innerText = "HAVALANDIRMA ZİRVE FIRSAT 🪟";
+          badgeEl.innerText = "KAPIYI AÇABİLİRSİN 🌿";
           iconEl.innerText = "🪟";
           if (gIconEl) gIconEl.innerText = "🌿";
-          adviceEl.innerHTML = `Buca terası odandan <b>${Math.abs(delta).toFixed(1)}°C daha serin</b> ve termal entalpi yükü <b>${p.deltaEnthalpy.toFixed(1)} kJ/kg daha düşük</b>! Balkon kapısını açarsan oda hızla ferahlayacak. (PPD Rahatsızlık Oranı: %${p.ppd})`;
+          adviceEl.innerHTML = `Buca terası odandan <b>${Math.abs(delta).toFixed(1)}°C daha serin ve mis gibi esiyor!</b> Balkon kapısını açarsan oda 10 dakikada buz gibi ferahlar.`;
         } else if (delta > 1.5) {
-          deltaEl.innerText = `+${delta.toFixed(1)}°C (DIŞARI SICAK 🔥)`;
+          deltaEl.innerText = `Dışarısı ${delta.toFixed(1)}°C Daha Sıcak 🔥`;
           deltaEl.className = "text-sm font-bold text-rose-400 mt-0.5";
           badgeEl.className = "text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-400 border border-rose-500/30";
-          badgeEl.innerText = "TERMAL KALKAN: PENCEREYİ KAPAT 🛡️";
+          badgeEl.innerText = "PENCERELERİ KAPAT 🛡️";
           iconEl.innerText = "🛡️";
           if (gIconEl) gIconEl.innerText = "🛡️";
-          adviceEl.innerHTML = `Dış hava odandan <b>${delta.toFixed(1)}°C daha sıcak</b>. Pencereleri kapalı tutarak iç ortamdaki serin termal kütleyi koru. UPPÅTVIND fanı iç havayı temizliyor.`;
+          adviceEl.innerHTML = `Dışarısı içeriden <b>${delta.toFixed(1)}°C daha sıcak</b>. Pencereleri kapalı tut ki odanın serinliği kaçmasın. UPPÅTVIND fanı içerideki havayı temizliyor.`;
         } else {
-          deltaEl.innerText = `${delta > 0 ? '+' : ''}${delta.toFixed(1)}°C (TERMAL DENGE ⚖️)`;
+          deltaEl.innerText = "İçerisi & Dışarısı Aynı ⚖️";
           deltaEl.className = "text-sm font-bold text-slate-300 mt-0.5";
           badgeEl.className = "text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/15 text-cyan-400 border border-cyan-500/30";
-          badgeEl.innerText = "İÇ / DIŞ DENGEDE ⚖️";
+          badgeEl.innerText = "DENGEDE ⚖️";
           iconEl.innerText = "🌿";
           if (gIconEl) gIconEl.innerText = "💡";
-          adviceEl.innerHTML = `İç ve dış ortam mükemmel termodinamik dengede. Çiy güvenlik marjı (+${p.dewMargin.toFixed(1)}°C) ve bağıl nem ideal konfor bandında.`;
+          adviceEl.innerHTML = `İçerisi ve dışarısı tam dengede. Odanın havası temiz, nem oranı çok rahat.`;
         }
       }
 
       if (contSec > 3000) {
-        adviceEl.innerHTML += `<br><span class="text-amber-400">☕ <b>50 dakikadır masadasın:</b> Harvard ergonomi kuralı uyarınca 20 saniye uzağa bak ve boyun kaslarını esnet.</span>`;
+        adviceEl.innerHTML += `<br><span class="text-amber-400">☕ <b>50 dakikadır aralıksız masadasın:</b> Bir bardak su al, 20 saniye uzağa bakıp gözlerini ve boynunu dinlendir!</span>`;
       }
     }
 
@@ -1054,7 +1049,7 @@
         data: {
           labels: labels,
           datasets: [
-            { label: 'Hava PPM', data: air, borderColor: '#00F2FE', backgroundColor: 'rgba(0,242,254,0.08)', fill: true, tension: 0.3, pointRadius: 3 },
+            { label: 'Hava Kalitesi', data: air, borderColor: '#00F2FE', backgroundColor: 'rgba(0,242,254,0.08)', fill: true, tension: 0.3, pointRadius: 3 },
             { label: 'Sıcaklık °C', data: temp, borderColor: '#10B981', borderDash: [4, 4], tension: 0.3, pointRadius: 2 }
           ]
         },
