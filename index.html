@@ -7,9 +7,10 @@
   <title>AGY-1976 // MASA İSTASYONU KOKPİTİ</title>
   
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#07090C">
+  <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
 
   <!-- GOOGLE FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,8 +26,8 @@
         extend: {
           colors: {
             brand: {
-              dark: '#07090C',
-              card: '#0D1117',
+              dark: '#06080B',
+              oled: '#000000',
               cyan: '#00F2FE',
               emerald: '#10B981',
               amber: '#F59E0B',
@@ -51,6 +52,10 @@
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
+    html, body {
+      overscroll-behavior-y: none;
+      touch-action: pan-x pan-y;
+    }
     body {
       background-color: #06080B;
       background-image: radial-gradient(ellipse at 50% 0%, #111720 0%, #06080B 75%);
@@ -59,6 +64,18 @@
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
       padding-bottom: 24px;
+      transition: background-color 0.3s ease, background-image 0.3s ease;
+    }
+
+    /* 🌙 OLED Pitch Black Modu */
+    body.oled-mode {
+      background-color: #000000 !important;
+      background-image: none !important;
+    }
+    body.oled-mode .glass-card {
+      background: #000000 !important;
+      border-color: rgba(255, 255, 255, 0.07) !important;
+      box-shadow: none !important;
     }
 
     .glass-card {
@@ -105,7 +122,7 @@
     }
   </style>
 </head>
-<body class="p-3 md:p-6 max-w-2xl mx-auto flex flex-col gap-4">
+<body class="p-3 md:p-6 max-w-2xl mx-auto flex flex-col gap-3.5">
 
   <!-- 🚀 TOAST BİLDİRİMİ -->
   <div id="cyberToast" class="fixed top-4 left-1/2 z-50 px-4 py-2 rounded-xl bg-slate-900/95 border border-cyan-500/40 text-cyan-400 font-mono text-xs font-bold shadow-2xl flex items-center gap-2 backdrop-blur-md pointer-events-none opacity-0">
@@ -114,37 +131,53 @@
   </div>
 
   <!-- ======================================================= -->
-  <!-- 🎛️ 1. HEADER: BRAND, STATUS & CANLI BUTONLAR           -->
+  <!-- 🎛️ 1. HEADER: BRAND, HEARTBEAT & ACTION BAR            -->
   <!-- ======================================================= -->
   <header class="glass-card p-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
       <div class="relative flex items-center justify-center w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-display font-black text-sm">
         AGY
-        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+        <span id="pulseRing" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span id="pulseDot" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
       </div>
       <div>
         <h1 class="font-display font-bold text-sm tracking-wide text-white flex items-center gap-2">
           AGY-1976 KOKPİTİ
           <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" id="headerBucaPill">22°C // BUCA İMBAT</span>
         </h1>
-        <p class="text-[11px] font-mono text-slate-400" id="headerPresenceText">ESP32 CANLI • MASA BAŞINDA 🏠</p>
+        <p class="text-[11px] font-mono text-slate-400 flex items-center gap-1.5" id="headerPresenceText">
+          <span id="heartbeatText">ESP32 CANLI • 1s önce</span> • <span id="presenceLabel">MASA BAŞINDA 🏠</span>
+        </p>
       </div>
     </div>
 
-    <!-- Quick Buttons -->
-    <div class="flex items-center gap-2">
-      <button onclick="toggleAudioMute()" id="muteBtn" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs flex items-center gap-1.5 font-mono">
+    <!-- Quick Buttons: OLED Mode, Audio Mute, Desk Buzzer -->
+    <div class="flex items-center gap-1.5">
+      <button onclick="toggleOledMode()" id="oledBtn" title="Saf OLED Gece Modu (O)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
+        <span id="oledIcon">🌙</span>
+      </button>
+      <button onclick="toggleAudioMute()" id="muteBtn" title="Ses Efektleri (M)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
         <span id="muteIcon">🔊</span>
       </button>
-      <button onclick="ringDeskChime()" class="btn-tactile px-3 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 hover:bg-cyan-500/25 text-cyan-400 text-xs font-mono font-bold flex items-center gap-1.5">
-        🔔 ZİLİ ÇAL
+      <button onclick="ringDeskChime()" title="Masa Zili (B)" class="btn-tactile px-3 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 hover:bg-cyan-500/25 text-cyan-400 text-xs font-mono font-bold flex items-center gap-1.5">
+        🔔 ZİL
       </button>
     </div>
   </header>
 
   <!-- ======================================================= -->
-  <!-- 🌪️ 2. IKEA UPPÅTVIND AKILLI HAVA ROBOTU                 -->
+  <!-- 💡 2. AKILLI TAVSİYE & İÇGÖRÜ BANDI (INSIGHT ENGINE)    -->
+  <!-- ======================================================= -->
+  <div id="insightBar" class="glass-card px-4 py-2.5 flex items-center justify-between border-cyan-500/20 text-xs font-mono">
+    <div class="flex items-center gap-2 overflow-hidden">
+      <span class="text-base shrink-0" id="insightIcon">💡</span>
+      <span class="text-slate-300 truncate" id="insightMessage">Hava temiz ve ideal konforda. Zirve odaklanma modundasın!</span>
+    </div>
+    <span class="text-[10px] text-cyan-400 shrink-0 font-bold ml-2 hidden md:inline" id="insightScorePill">ZİHİN: %96</span>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- 🌪️ 3. IKEA UPPÅTVIND AKILLI HAVA ROBOTU                 -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-4 border-cyan-500/20">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
@@ -152,7 +185,7 @@
         <div class="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 text-base">🌪️</div>
         <div>
           <h2 class="font-display font-bold text-sm text-white tracking-wide">IKEA UPPÅTVIND HAVA ROBOTU</h2>
-          <p class="text-[10px] font-mono text-slate-400">24V BLDC FAN • 3D KARBON + H13 HEPA</p>
+          <p class="text-[10px] font-mono text-slate-400">24V BLDC FAN • 3D KARBON + H13 HEPA [Kısayol: 0-3]</p>
         </div>
       </div>
       <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[10px] font-bold">
@@ -165,19 +198,19 @@
     <div class="grid grid-cols-4 gap-2 bg-slate-900/80 p-1.5 rounded-xl border border-slate-800">
       <button onclick="setUppatvindFan(0)" id="fanBtn0" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white transition-all flex flex-col items-center gap-0.5">
         <span>⏻</span>
-        <span class="text-[10px]">KAPALI</span>
+        <span class="text-[10px]">KAPALI [0]</span>
       </button>
       <button onclick="setUppatvindFan(1)" id="fanBtn1" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white transition-all flex flex-col items-center gap-0.5">
         <span>≋</span>
-        <span class="text-[10px]">FISILTI</span>
+        <span class="text-[10px]">FISILTI [1]</span>
       </button>
       <button onclick="setUppatvindFan(2)" id="fanBtn2" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 transition-all flex flex-col items-center gap-0.5 shadow-lg shadow-cyan-500/10">
         <span>⚡</span>
-        <span class="text-[10px]">NORMAL</span>
+        <span class="text-[10px]">NORMAL [2]</span>
       </button>
       <button onclick="setUppatvindFan(3)" id="fanBtn3" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-rose-400 hover:text-white transition-all flex flex-col items-center gap-0.5">
         <span>🚀</span>
-        <span class="text-[10px]">TURBO</span>
+        <span class="text-[10px]">TURBO [3]</span>
       </button>
     </div>
 
@@ -222,7 +255,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🌿 3. MASA ORTAM SENSÖRLERİ (BME280, MQ-135, LDR)       -->
+  <!-- 🌿 4. MASA ORTAM SENSÖRLERİ (BME280, MQ-135, LDR)       -->
   <!-- ======================================================= -->
   <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
     <!-- Sıcaklık -->
@@ -287,7 +320,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🎵 4. CANLI SPOTIFY & MÜZİK OYNATMA                     -->
+  <!-- 🎵 5. CANLI SPOTIFY & MÜZİK OYNATMA                     -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-3">
     <div class="flex items-center justify-between">
@@ -297,12 +330,12 @@
         </div>
         <div>
           <h3 class="font-display font-bold text-sm text-white tracking-wide">CANLI SPOTIFY SENKRONU</h3>
-          <p class="text-[10px] font-mono text-slate-400" id="spotifyLocationText">KONUM: MASA BAŞINDA 🏠</p>
+          <p class="text-[10px] font-mono text-slate-400" id="spotifyLocationText">KONUM: MASA BAŞINDA 🏠 [Kısayol: Space]</p>
         </div>
       </div>
 
       <!-- Animated Spectrum Bars -->
-      <div class="flex items-end gap-1 h-6 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800">
+      <div class="flex items-end gap-1 h-6 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800" id="audioVisualizerWrap">
         <div class="audio-bar"></div>
         <div class="audio-bar"></div>
         <div class="audio-bar"></div>
@@ -325,7 +358,7 @@
         <span>⏮</span> GERİ
       </button>
       <button onclick="sendSpotifyCommand('playpause')" class="btn-tactile py-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 hover:bg-emerald-500/25 text-xs font-mono font-bold text-emerald-400 flex items-center justify-center gap-1.5">
-        <span>⏯</span> OYNAT / DUR
+        <span>⏯</span> OYNAT / DUR [Space]
       </button>
       <button onclick="sendSpotifyCommand('next')" class="btn-tactile py-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60 hover:bg-slate-700 text-xs font-mono font-bold text-slate-300 flex items-center justify-center gap-1.5">
         İLERİ <span>⏭</span>
@@ -334,7 +367,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- ⏱️ 5. ODAKLANMA & MAC EKRAN SÜRESİ                      -->
+  <!-- ⏱️ 6. ODAKLANMA & MAC EKRAN SÜRESİ                      -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-4">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
@@ -342,7 +375,7 @@
         <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400 text-base">⏱️</div>
         <div>
           <h3 class="font-display font-bold text-sm text-white tracking-wide">BİLİŞSEL ODAKLANMA & POMODORO</h3>
-          <p class="text-[10px] font-mono text-slate-400" id="pomoRoundBadge">TAMAMLANAN TUR: 0</p>
+          <p class="text-[10px] font-mono text-slate-400" id="pomoRoundBadge">TAMAMLANAN TUR: 0 [Kısayol: P]</p>
         </div>
       </div>
       <span class="text-[11px] font-mono font-bold text-amber-400 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20" id="pomoStateBadge">HAZIR</span>
@@ -381,7 +414,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🐹 6. CANLI YULAF CYBER-OLED COMPANION                  -->
+  <!-- 🐹 7. CANLI YULAF CYBER-OLED COMPANION                  -->
   <!-- ======================================================= -->
   <section class="glass-card p-4 flex items-center gap-3.5">
     <canvas id="yulafPixelCanvas" width="32" height="32" class="w-14 h-14 rounded-xl bg-slate-950 border border-emerald-500/30 shadow-lg shadow-emerald-500/10 image-pixelated shrink-0"></canvas>
@@ -395,7 +428,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 📈 7. CANLI TELEMETRİ GRAFİĞİ & CSV İNDİRME             -->
+  <!-- 📈 8. CANLI TELEMETRİ GRAFİĞİ & CSV İNDİRME             -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-3">
     <div class="flex items-center justify-between">
@@ -421,7 +454,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🧠 JAVASCRIPT: LOGIC & TELEMETRY SYNC                   -->
+  <!-- 🧠 JAVASCRIPT: LOGIC, VISIBILITY & ZERO BATTERY DRAIN   -->
   <!-- ======================================================= -->
   <script>
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
@@ -431,6 +464,7 @@
     let liveLight = 40;
     let liveTemp = 26.4;
     let liveHum = 54;
+    let lastSyncTime = Date.now();
 
     let pomoMode = "IDLE";
     let pomoSecondsRemaining = 1500;
@@ -441,7 +475,30 @@
     let chartInstance = null;
 
     let soundMuted = false;
+    let oledMode = localStorage.getItem('agy_oled_mode') === 'true';
     let audioCtx = null;
+    let syncIntervalId = null;
+    let isAppVisible = true;
+
+    // Apply saved OLED Mode
+    if (oledMode) {
+      document.body.classList.add('oled-mode');
+      document.getElementById('oledIcon').innerText = '☀️';
+    }
+
+    function toggleOledMode() {
+      oledMode = !oledMode;
+      localStorage.setItem('agy_oled_mode', oledMode);
+      if (oledMode) {
+        document.body.classList.add('oled-mode');
+        document.getElementById('oledIcon').innerText = '☀️';
+        showToast("SAF OLED GECE MODU AKTİF 🌙", "🌙");
+      } else {
+        document.body.classList.remove('oled-mode');
+        document.getElementById('oledIcon').innerText = '🌙';
+        showToast("CYBER DARK MODU AKTİF ☀️", "☀️");
+      }
+    }
 
     function getAudioContext() {
       if (!audioCtx) {
@@ -454,7 +511,7 @@
     }
 
     function playBeep(freq = 600, duration = 0.04) {
-      if (soundMuted) return;
+      if (soundMuted || !isAppVisible) return;
       if (navigator.vibrate) navigator.vibrate(12);
       try {
         const ctx = getAudioContext();
@@ -491,9 +548,36 @@
       }, 2200);
     }
 
-    /* 🐹 CANLI YULAF PIXEL ANIMATION */
+    /* ⌨️ PRO DESKTOP KEYBOARD SHORTCUTS */
+    window.addEventListener('keydown', (e) => {
+      if (['input', 'textarea'].includes(document.activeElement.tagName.toLowerCase())) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        sendSpotifyCommand('playpause');
+      } else if (['Digit0', 'Numpad0'].includes(e.code)) {
+        setUppatvindFan(0);
+      } else if (['Digit1', 'Numpad1'].includes(e.code)) {
+        setUppatvindFan(1);
+      } else if (['Digit2', 'Numpad2'].includes(e.code)) {
+        setUppatvindFan(2);
+      } else if (['Digit3', 'Numpad3'].includes(e.code)) {
+        setUppatvindFan(3);
+      } else if (e.key.toLowerCase() === 'p') {
+        if (pomoMode === 'IDLE') startPomodoro(25, 'FOCUS');
+        else stopPomodoro();
+      } else if (e.key.toLowerCase() === 'b') {
+        ringDeskChime();
+      } else if (e.key.toLowerCase() === 'm') {
+        toggleAudioMute();
+      } else if (e.key.toLowerCase() === 'o') {
+        toggleOledMode();
+      }
+    });
+
+    /* 🐹 CANLI YULAF PIXEL ANIMATION (Zero CPU when hidden) */
     let yulafFrame = 0;
     function renderYulaf() {
+      if (!isAppVisible) return;
       const cvs = document.getElementById('yulafPixelCanvas');
       if (!cvs) return;
       const ctx = cvs.getContext('2d');
@@ -609,7 +693,7 @@
       const badge = document.getElementById('pomoStateBadge');
       const roundBadge = document.getElementById('pomoRoundBadge');
 
-      if (roundBadge) roundBadge.innerText = `TAMAMLANAN TUR: ${completedPomoCount}`;
+      if (roundBadge) roundBadge.innerText = `TAMAMLANAN TUR: ${completedPomoCount} [Kısayol: P]`;
 
       if (pomoMode !== "IDLE" && pomoSecondsRemaining > 0) {
         pomoSecondsRemaining--;
@@ -659,6 +743,34 @@
           body: JSON.stringify(true)
         });
       } catch(e) {}
+    }
+
+    /* 💡 INSIGHT ENGINE (Akıllı Tavsiye Algoritması) */
+    function updateInsights(contSec, bucaTemp) {
+      const msgEl = document.getElementById('insightMessage');
+      const iconEl = document.getElementById('insightIcon');
+      const scoreEl = document.getElementById('insightScorePill');
+
+      let score = 100;
+      if (liveAir > 500) score -= Math.min(30, Math.floor((liveAir - 500) / 10));
+      if (liveTemp > 28 || liveTemp < 20) score -= 15;
+      if (score < 50) score = 50;
+
+      if (scoreEl) scoreEl.innerText = `ZİHİN: %${score}`;
+
+      if (contSec > 3000) { // 50+ dk
+        iconEl.innerText = "☕";
+        msgEl.innerText = "50 dakikadır masadasın! 20 saniye uzağa bak ve boynunu esnet.";
+      } else if (liveAir > 650) {
+        iconEl.innerText = "⚠️";
+        msgEl.innerText = "Hava kirliliği yükseldi. UPPÅTVIND fanını Turbo moduna alabilirsin!";
+      } else if (bucaTemp && liveTemp - bucaTemp > 3.5) {
+        iconEl.innerText = "🌿";
+        msgEl.innerText = `Oda terastan ${Math.round(liveTemp - bucaTemp)}°C daha sıcak. İmbat rüzgarı için kapıyı açabilirsin.`;
+      } else {
+        iconEl.innerText = "💡";
+        msgEl.innerText = "Hava tertemiz ve termal denge kusursuz. Zirve odaklanma modundasın!";
+      }
     }
 
     /* 📈 STRIP-CHART */
@@ -741,13 +853,20 @@
       showToast("CSV RAPORU İNDİRİLDİ 💾");
     }
 
-    /* 🔄 REALTIME FIREBASE SYNC */
+    /* 🔄 REALTIME FIREBASE SYNC WITH HEARTBEAT */
     async function syncData() {
+      if (!isAppVisible) return;
       try {
+        let bucaTemp = null;
+        let contSec = 0;
+
         const resStation = await fetch(FIREBASE_URL + "station.json" + FIREBASE_AUTH);
         if (resStation.ok) {
           const sData = await resStation.json();
           if (sData && typeof sData === 'object') {
+            lastSyncTime = Date.now();
+            updateHeartbeatUI(true);
+
             if (sData.temp !== undefined) {
               liveTemp = parseFloat(sData.temp);
               document.getElementById('liveTempText').innerHTML = `${liveTemp.toFixed(1)}<span class="text-sm text-slate-400">°C</span>`;
@@ -794,22 +913,23 @@
             }
 
             const locEl = document.getElementById('spotifyLocationText');
-            const presEl = document.getElementById('headerPresenceText');
+            const presEl = document.getElementById('presenceLabel');
             if (mData.mac_location === "HOME_TERRACE") {
-              if (locEl) locEl.innerText = "KONUM: TERASTA 🌿";
-              if (presEl) presEl.innerText = "ESP32 CANLI • TERASTA 🌿";
+              if (locEl) locEl.innerText = "KONUM: TERASTA 🌿 [Kısayol: Space]";
+              if (presEl) presEl.innerText = "TERASTA 🌿";
             } else if (mData.mac_location === "HOME_DESK") {
-              if (locEl) locEl.innerText = "KONUM: MASA BAŞINDA 🏠";
-              if (presEl) presEl.innerText = "ESP32 CANLI • MASA BAŞINDA 🏠";
+              if (locEl) locEl.innerText = "KONUM: MASA BAŞINDA 🏠 [Kısayol: Space]";
+              if (presEl) presEl.innerText = "MASA BAŞINDA 🏠";
             }
 
             if (mData.buca_temp) {
+              bucaTemp = parseFloat(mData.buca_temp);
               document.getElementById('headerBucaPill').innerText = `${mData.buca_temp}°C // BUCA İMBAT`;
               document.getElementById('bucaTempDiff').innerText = `${mData.buca_temp}.0°C`;
             }
 
             const screenSec = mData.total_screen_sec || 0;
-            const contSec = mData.continuous_work_sec || 0;
+            contSec = mData.continuous_work_sec || 0;
             const h = Math.floor(screenSec / 3600);
             const m = Math.floor((screenSec % 3600) / 60);
             const s = screenSec % 60;
@@ -817,12 +937,48 @@
             document.getElementById('macContinuousVal').innerText = `${Math.floor(contSec / 60)} Dk`;
           }
         }
-      } catch(e) {}
+
+        updateInsights(contSec, bucaTemp);
+      } catch(e) {
+        updateHeartbeatUI(false);
+      }
     }
+
+    function updateHeartbeatUI(isSuccess) {
+      const ring = document.getElementById('pulseRing');
+      const dot = document.getElementById('pulseDot');
+      const text = document.getElementById('heartbeatText');
+      const diffSec = Math.floor((Date.now() - lastSyncTime) / 1000);
+
+      if (isSuccess && diffSec < 10) {
+        ring.className = 'absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping';
+        dot.className = 'absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500';
+        text.innerText = `ESP32 CANLI • ${diffSec}s önce`;
+        text.className = 'text-slate-400';
+      } else {
+        ring.className = 'hidden';
+        dot.className = 'absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse';
+        text.innerText = `⚠️ SİNYAL BEKLENİYOR (${diffSec}s)`;
+        text.className = 'text-amber-400 font-bold';
+      }
+    }
+
+    /* 🔋 ZERO-BATTERY PAGE VISIBILITY API */
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        isAppVisible = false;
+        if (syncIntervalId) clearInterval(syncIntervalId);
+      } else {
+        isAppVisible = true;
+        syncData();
+        requestAnimationFrame(renderYulaf);
+        syncIntervalId = setInterval(syncData, 2500);
+      }
+    });
 
     initChart();
     syncData();
-    setInterval(syncData, 2500);
+    syncIntervalId = setInterval(syncData, 2500);
   </script>
 </body>
 </html>
