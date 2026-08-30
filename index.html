@@ -1248,7 +1248,36 @@
       }).join('');
     }
 
+    async function syncUnsyncedLocalPlans() {
+      const plans = getStoredUserPlans();
+      let updated = false;
+      for (let p of plans) {
+        if (!p.syncedToGoogle && p.title) {
+          let targetTs = p.targetTimestamp;
+          if (!targetTs) {
+            const parsed = parseTurkishNaturalPlanDate(p.title);
+            targetTs = parsed.targetTimestamp;
+            p.targetTimestamp = targetTs;
+          }
+          const startTimeIso = new Date(targetTs).toISOString();
+          try {
+            const addUrl = `${GOOGLE_SCRIPT_URL}?action=add&title=${encodeURIComponent(p.title)}&startTime=${encodeURIComponent(startTimeIso)}&_t=${Date.now()}`;
+            await fetch(addUrl, { mode: "no-cors" });
+            p.syncedToGoogle = true;
+            updated = true;
+          } catch(e) {}
+        }
+      }
+      if (updated) {
+        saveStoredUserPlans(plans);
+        renderEvents();
+      }
+    }
+
     async function fetchGoogleCalendarEvents() {
+      // Önce daha önceden eklenip Google'a gitmemiş eski yerel planları Google'a senkronize et
+      syncUnsyncedLocalPlans();
+
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 6000);
