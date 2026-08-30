@@ -813,9 +813,18 @@
       pomoMode = mode;
       pomoSecondsRemaining = minutes * 60;
       updatePomoUI();
-      showToast(`${minutes} DK ${mode === "FOCUS" ? "ODAK" : "MOLA"} BAŞLADI ⏱️`);
+      showToast(`${minutes} DK ${mode === "FOCUS" ? "DEEP WORK" : "MOLA"} BAŞLADI ⏱️`);
       if (pomoInterval) clearInterval(pomoInterval);
       pomoInterval = setInterval(updatePomoUI, 1000);
+      
+      // Trigger Python Daemon to set Mac Do Not Disturb, volume, and Fan
+      if (mode === "FOCUS") {
+        fetch(FIREBASE_URL + "control/deep_work.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ active: true, ts: Date.now() })
+        });
+      }
     }
 
     function stopPomodoro() {
@@ -825,6 +834,12 @@
       if (pomoInterval) clearInterval(pomoInterval);
       updatePomoUI();
       showToast("POMODORO DURDURULDU");
+      
+      fetch(FIREBASE_URL + "control/deep_work.json" + FIREBASE_AUTH, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ active: false, ts: Date.now() })
+      });
     }
 
     function updatePomoUI() {
