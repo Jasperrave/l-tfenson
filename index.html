@@ -937,6 +937,180 @@
       } catch(e) {}
     }
 
+    
+    function getStoredUserPlans() {
+      try { return JSON.parse(localStorage.getItem('custom_user_plans') || '[]'); } catch (e) { return []; }
+    }
+
+    function saveStoredUserPlans(plans) {
+      localStorage.setItem('custom_user_plans', JSON.stringify(plans));
+    }
+
+    function renderEvents() {
+      const listEl = document.getElementById('eventList');
+      if (!listEl) return;
+      
+      const allPlans = getStoredUserPlans();
+      if (allPlans.length === 0) {
+        listEl.innerHTML = `<div class="text-[11px] text-slate-500 text-center py-4 font-mono">[7 GÜNLÜK PLAN YOK]</div>`;
+        return;
+      }
+
+      listEl.innerHTML = allPlans.map(e => `
+        <div class="flex justify-between items-center bg-slate-800/40 p-2 rounded-lg border border-slate-700/50">
+          <div>
+            <div class="text-xs font-bold text-white mb-0.5">${e.title}</div>
+            <div class="font-mono text-[9px] ${e.notified ? 'text-emerald-400' : 'text-amber-400'}">${e.timeStr} ${e.notified ? '✓ (BİLDİRİLDİ)' : ''}</div>
+          </div>
+          <button onclick="deleteGoogleEvent('${e.id}')" class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 p-1.5 rounded text-[10px] font-bold transition-colors">SİL ✕</button>
+        </div>
+      `).join('');
+    }
+
+    async function fetchGoogleCalendarEvents() {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        const res = await fetch(GOOGLE_SCRIPT_URL, { signal: controller.signal, redirect: "follow" });
+        clearTimeout(timeoutId);
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const currentLocal = getStoredUserPlans();
+          const merged = [...currentLocal];
+          data.forEach(ext => {
+            if (!merged.some(m => m.id === ext.id || m.title === ext.title)) {
+              merged.push(ext);
+            }
+          });
+          saveStoredUserPlans(merged);
+          renderEvents();
+        }
+      } catch (err) {
+        renderEvents();
+      }
+    }
+
+    function parseTurkishNaturalPlanDate(text) {
+      const lower = text.toLowerCase();
+      let target = new Date();
+      let hasParsedDate = false;
+      let hasParsedTime = false;
+
+      const weekMatch = lower.match(/(\d+)\s*hafta\s*sonra/);
+      if (weekMatch) {
+        const weeks = parseInt(weekMatch[1]);
+        target.setDate(target.getDate() + (weeks * 7));
+        hasParsedDate = true;
+      } else if (lower.includes("haftaya") || lower.includes("gelecek hafta")) {
+        target.setDate(target.getDate() + 7);
+        hasParsedDate = true;
+      }
+
+      const dayMatch = lower.match(/(\d+)\s*g[üu]n\s*sonra/);
+      if (dayMatch && !hasParsedDate) {
+        const days = parseInt(dayMatch[1]);
+        target.setDate(target.getDate() + days);
+        hasParsedDate = true;
+      } else if (lower.includes("yarın") || lower.includes("yarin")) {
+        target.setDate(target.getDate() + 1);
+        hasParsedDate = true;
+      } else if (lower.includes("öbür gün") || lower.includes("obur gun")) {
+        target.setDate(target.getDate() + 2);
+        hasParsedDate = true;
+      }
+
+      const monthMatch = lower.match(/(\d+)\s*ay\s*sonra/);
+      if (monthMatch && !hasParsedDate) {
+        const months = parseInt(monthMatch[1]);
+        target.setMonth(target.getMonth() + months);
+        hasParsedDate = true;
+      }
+
+      const daysOfWeek = ['pazar', 'pazartesi', 'salı', 'çarşamba', 'perşembe', 'cuma', 'cumartesi'];
+      for (let i = 0; i < daysOfWeek.length; i++) {
+        if (lower.includes(daysOfWeek[i]) && !hasParsedDate) {
+          let diff = i - target.getDay();
+          if (diff <= 0) diff += 7;
+          target.setDate(target.getDate() + diff);
+          hasParsedDate = true;
+          break;
+        }
+      }
+
+      const timeMatch = lower.match(/(?:saat\s*)?(\d{1,2})[:.](\d{2})/);
+      const hourWordMatch = lower.match(/(?:saat\s*|sabah\s*|akşam\s*|aksam\s*|öğlen\s*|oglen\s*)(\d{1,2})(?:\s*gibi|\s*sularında|\s*da|\s*de|\s*te|\s*ta)?/);
+      
+      if (timeMatch) {
+        target.setHours(parseInt(timeMatch[1]), parseInt(timeMatch[2]), 0, 0);
+        hasParsedTime = true;
+      } else if (hourWordMatch) {
+        let hr = parseInt(hourWordMatch[1]);
+        if ((lower.includes('akşam') || lower.includes('aksam') || lower.includes('gece')) && hr < 12) hr += 12;
+        if ((lower.includes('öğleden sonra') || lower.includes('ogleden sonra')) && hr < 12) hr += 12;
+        target.setHours(hr, 0, 0, 0);
+        hasParsedTime = true;
+      } else {
+        if (hasParsedDate) target.setHours(9, 0, 0, 0);
+      }
+
+      if (!hasParsedDate && !hasParsedTime) target = new Date(Date.now() + 3600000);
+
+      const diffMs = target.getTime() - Date.now();
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      
+      const dateStr = target.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+      const timeStr = target.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+      let badgeStr = "";
+      if (diffDays > 1) badgeStr = `🎯 ${dateStr}, ${timeStr} (${diffDays} Gün Kaldı)`;
+      else if (diffDays === 1) badgeStr = `⏳ Yarın ${timeStr}`;
+      else if (diffDays === 0) badgeStr = `⚡ Bugün ${timeStr}`;
+      else badgeStr = `📅 ${dateStr}, ${timeStr}`;
+
+      return { targetDate: target, targetTimestamp: target.getTime(), displayStr: badgeStr };
+    }
+
+    async function handleQuickPlanSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('quickPlanInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const parsed = parseTurkishNaturalPlanDate(text);
+      const newPlan = {
+        id: "plan-" + Date.now(),
+        title: text,
+        timeStr: parsed.displayStr,
+        targetTimestamp: parsed.targetTimestamp,
+        notified: false
+      };
+
+      const currentPlans = getStoredUserPlans();
+      currentPlans.unshift(newPlan);
+      saveStoredUserPlans(currentPlans);
+      renderEvents();
+      
+      input.value = "";
+      showToast(`✓ Plan Eklendi: ${parsed.displayStr}`);
+
+      try {
+        await fetch(GOOGLE_SCRIPT_URL + "?action=add&title=" + encodeURIComponent(text), { mode: "no-cors" });
+      } catch (err) {}
+    }
+
+    async function deleteGoogleEvent(eventId) {
+      let currentPlans = getStoredUserPlans();
+      currentPlans = currentPlans.filter(e => e.id !== eventId);
+      saveStoredUserPlans(currentPlans);
+      renderEvents();
+      showToast("Plan Silindi 🗑️");
+      try {
+        await fetch(GOOGLE_SCRIPT_URL + "?action=delete&id=" + encodeURIComponent(eventId), { mode: "no-cors" });
+      } catch (err) {}
+    }
+
+
     async function sendSpotifyCommand(action) {
       window.lastSpotifyActionTime = Date.now();
       playBeep(700, 0.03);
