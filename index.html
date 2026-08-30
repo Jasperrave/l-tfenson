@@ -1193,6 +1193,37 @@
       localStorage.setItem('custom_user_plans', JSON.stringify(plans));
     }
 
+    function formatEventTimeBadge(targetTimestamp, fallbackTimeStr) {
+      if (!targetTimestamp) {
+        if (fallbackTimeStr && fallbackTimeStr.includes("Eylül")) {
+          const match = fallbackTimeStr.match(/(\\d{1,2})\\s*([A-Za-zÇçĞğİıÖöŞşÜü]+)\\s*(\\d{4})?/);
+          if (match) {
+            const day = parseInt(match[1]);
+            const year = match[3] ? parseInt(match[3]) : new Date().getFullYear();
+            const parsedTarget = new Date(year, 8, day, 9, 0, 0);
+            targetTimestamp = parsedTarget.getTime();
+          }
+        }
+      }
+
+      if (!targetTimestamp) return fallbackTimeStr || "";
+      
+      const target = new Date(targetTimestamp);
+      const now = new Date();
+      
+      const targetMidnight = new Date(target.getFullYear(), target.getMonth(), target.getDate()).getTime();
+      const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      const diffDays = Math.round((targetMidnight - nowMidnight) / (1000 * 60 * 60 * 24));
+      
+      const dateStr = target.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+      const timeStr = target.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+      if (diffDays < 0) return `⚠️ Süresi Geçti (${Math.abs(diffDays)} Gün Önce)`;
+      if (diffDays === 0) return `⚡ Bugün ${timeStr}`;
+      if (diffDays === 1) return `⏳ Yarın ${timeStr}`;
+      return `🎯 ${dateStr}, ${timeStr} (${diffDays} Gün Kaldı)`;
+    }
+
     function renderEvents() {
       const listEl = document.getElementById('eventList');
       if (!listEl) return;
@@ -1203,15 +1234,18 @@
         return;
       }
 
-      listEl.innerHTML = allPlans.map(e => `
-        <div class="flex justify-between items-center bg-slate-800/40 p-2 rounded-lg border border-slate-700/50">
-          <div>
-            <div class="text-xs font-bold text-white mb-0.5">${e.title}</div>
-            <div class="font-mono text-[9px] ${e.notified ? 'text-emerald-400' : 'text-amber-400'}">${e.timeStr} ${e.notified ? '✓ (BİLDİRİLDİ)' : ''}</div>
+      listEl.innerHTML = allPlans.map(e => {
+        const liveBadge = formatEventTimeBadge(e.targetTimestamp, e.timeStr);
+        return `
+          <div class="flex justify-between items-center bg-slate-800/40 p-2 rounded-lg border border-slate-700/50">
+            <div>
+              <div class="text-xs font-bold text-white mb-0.5">${e.title}</div>
+              <div class="font-mono text-[9px] ${e.notified ? 'text-emerald-400' : 'text-amber-400'}">${liveBadge} ${e.notified ? '✓ (BİLDİRİLDİ)' : ''}</div>
+            </div>
+            <button onclick="deleteGoogleEvent('${e.id}')" class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 p-1.5 rounded text-[10px] font-bold transition-colors">SİL ✕</button>
           </div>
-          <button onclick="deleteGoogleEvent('${e.id}')" class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 p-1.5 rounded text-[10px] font-bold transition-colors">SİL ✕</button>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     async function fetchGoogleCalendarEvents() {
