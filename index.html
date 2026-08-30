@@ -784,13 +784,25 @@
     requestAnimationFrame(renderYulaf);
 
     /* 🌪️ UPPÅTVIND FAN CONTROLS & OTONOM PİLOT */
-    function runAutoPilotLogic() {
+    function runAutoPilotLogic(p, contSec) {
       if (!autoPilot) return;
       let targetLevel = 0;
-      if (liveAir > 450) {
-        targetLevel = 3; // Hava kirliyse tam gaz (AÇIK)
-      } else {
-        targetLevel = 0; // Hava temizse her halükarda KAPALI (eskiden Fısıltı moduydu, artık olmadığı için kapatıyoruz)
+      
+      // 🧠 MUHTEŞEM ALGORİTMA (Fanger PMV, Arden Buck Entalpi ve Bilişsel Skor Birleşimi)
+      // 1. Birincil Karar: Hava Kalitesi (Zehirli hava her şeyi ezer)
+      if (liveAir > 600) {
+        targetLevel = 3; 
+      } 
+      // 2. İkincil Karar: Entalpi (Havanın boğuculuğu / Su buharı enerjisi)
+      else if (p.enthalpyIn > 60 && liveAir > 450) {
+        targetLevel = 3; 
+      }
+      // 3. Üçüncül Karar: Termal Konfor & Bilişsel Çöküş (PMV > 0.5 Sıcak + Çalışma Süresi > 45 Dk)
+      else if (p.pmv > 0.5 && contSec > 2700) {
+        targetLevel = 3; 
+      }
+      else {
+        targetLevel = 0;
       }
 
       if (targetLevel !== currentFanLevel) {
@@ -1014,8 +1026,7 @@
       };
     }
 
-    function updateThermodynamicUI(contSec, tOut, rhOut) {
-      const p = computePsychrometrics(liveTemp, liveHum, tOut, rhOut);
+    function updateThermodynamicUI(p, contSec, tOut, rhOut) {
 
       document.getElementById('inTempLabel').innerText = `${liveTemp.toFixed(1)}°C`;
       document.getElementById('outTempLabel').innerText = (tOut !== null) ? `${tOut.toFixed(1)}°C` : '--';
@@ -1259,8 +1270,9 @@
           }
         }
 
-        runAutoPilotLogic();
-        updateThermodynamicUI(contSec, bucaTemp, bucaHum);
+        const p = computePsychrometrics(liveTemp, liveHum, bucaTemp, bucaHum);
+        runAutoPilotLogic(p, contSec);
+        updateThermodynamicUI(p, contSec, bucaTemp, bucaHum);
       } catch(e) {
         updateHeartbeatUI(false);
       }
