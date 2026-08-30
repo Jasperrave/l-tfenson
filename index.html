@@ -751,15 +751,13 @@
     /* 🌪️ UPPÅTVIND FAN CONTROLS & OTONOM PİLOT */
     function runAutoPilotLogic() {
       if (!autoPilot) return;
-      let targetLevel = 1;
-      if (liveAir > 700) {
+      let targetLevel = 3;
+      if (liveAir > 450) {
         targetLevel = 3;
-      } else if (liveAir > 520) {
-        targetLevel = 2;
-      } else if (currentPresence !== "HOME_DESK" && liveAir < 450) {
+      } else if (currentPresence !== "HOME_DESK") {
         targetLevel = 0;
       } else {
-        targetLevel = 1;
+        targetLevel = 3; // default ON if someone is at desk and air is clean
       }
 
       if (targetLevel !== currentFanLevel) {
