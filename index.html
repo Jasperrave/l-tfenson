@@ -809,24 +809,76 @@
       return audioCtx;
     }
 
-    function playBeep(freq = 600, duration = 0.04) {
-      if (soundMuted || !isAppVisible) return;
-      if (navigator.vibrate) navigator.vibrate(12);
+        // ⌚ CASIO F-91W ORİJİNAL PİEZO KRİSTAL SES MOTORU (2048 Hz)
+    function playCasioButtonBeep() {
+      if (soundMuted) return;
       try {
         const ctx = getAudioContext();
+        const now = ctx.currentTime;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + duration);
-        gain.gain.setValueAtTime(0.25, ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + duration);
+
+        // 2048 Hz Saf Piezo Kare Dalga (Casio F-91W Buton Basış Sesi)
+        osc.type = "square";
+        osc.frequency.setValueAtTime(2048, now);
+
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.22, now + 0.002);
+        gain.gain.setValueAtTime(0.22, now + 0.026);
+        gain.gain.linearRampToValueAtTime(0, now + 0.030);
+
         osc.connect(gain);
         gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + duration);
+
+        osc.start(now);
+        osc.stop(now + 0.030);
+        if (navigator.vibrate) navigator.vibrate(15);
       } catch(e) {}
     }
+
+    function playCasioF91WChime(beeps = 1) {
+      if (soundMuted) return;
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        const freq = 2048; // Casio kristal piezo frekansı
+        const beepDuration = 0.065; // 65ms
+        const gapDuration = 0.075;  // 75ms
+
+        for (let i = 0; i < beeps; i++) {
+          const startTime = now + (i * (beepDuration + gapDuration));
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = "square";
+          osc.frequency.setValueAtTime(freq, startTime);
+
+          gain.gain.setValueAtTime(0, startTime);
+          gain.gain.linearRampToValueAtTime(0.3, startTime + 0.003);
+          gain.gain.setValueAtTime(0.3, startTime + beepDuration - 0.003);
+          gain.gain.linearRampToValueAtTime(0, startTime + beepDuration);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(startTime);
+          osc.stop(startTime + beepDuration);
+        }
+        if (navigator.vibrate) navigator.vibrate(beeps === 2 ? [65, 75, 65] : [65]);
+      } catch(e) {}
+    }
+
+    function playBeep(freq = 2048, duration = 0.03) {
+      playCasioButtonBeep();
+    }
+
+    // 🌐 TÜM BUTON TIKLAMALARINA OTOMATİK CASIO F-91W SESİ BAĞLAMA
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('button, .btn-tactile, a.btn-tactile, input[type="range"], input[type="color"]');
+      if (btn) {
+        playCasioButtonBeep();
+      }
+    });
 
     function toggleAudioMute() {
       soundMuted = !soundMuted;
