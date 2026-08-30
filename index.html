@@ -428,8 +428,8 @@
         <button onclick="triggerSunriseAlarmTest()" class="btn-tactile px-2 py-1 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1" title="Android Alarmı / Yavaşça Uyandırma Simülasyonunu Test Et">
           🌅 GÜN DOĞUMU ALARMI
         </button>
-        <button onclick="toggleLedSensorAutopilot()" id="ledAutoPilotBtn" class="btn-tactile px-2 py-1 bg-purple-500/15 text-purple-300 border border-purple-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1">
-          🤖 SENSÖR OTOPİLOTU: AÇIK
+        <button onclick="toggleLedSensorAutopilot()" id="ledAutoPilotBtn" class="btn-tactile px-2 py-1 bg-slate-800 text-slate-400 border border-slate-700 rounded font-mono text-[10px] font-bold flex items-center gap-1">
+          🤖 SENSÖR OTOPİLOTU: KAPALI
         </button>
         <button onclick="toggleBleLedPower()" id="bleLedPowerBtn" class="btn-tactile px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-bold">
           AÇIK 💡
@@ -1276,7 +1276,7 @@
     let currentBleColor = "#00F0FF";
 
     
-    let ledSensorAutopilot = true;
+    let ledSensorAutopilot = false;
     let lastAutoAppliedColor = null;
 
     function toggleLedSensorAutopilot() {
