@@ -1091,7 +1091,7 @@
           badgeEl.innerText = "PENCERELERİ KAPAT 🛡️";
           iconEl.innerText = "🛡️";
           if (gIconEl) gIconEl.innerText = "🛡️";
-          adviceEl.innerHTML = `Dışarısı içeriden <b>${delta.toFixed(1)}°C daha sıcak</b>. Pencereleri kapalı tut ki odanın serinliği kaçmasın. UPPÅTVIND fanı içerideki havayı temizliyor.`;
+          adviceEl.innerHTML = `Dışarısı içeriden <b>${delta.toFixed(1)}°C daha sıcak</b>. Pencereleri kapalı tut ki odanın serinliği kaçmasın. ${currentFanLevel > 0 ? 'UPPÅTVIND fanı içerideki havayı temizliyor.' : 'Hava kalitesi düşerse UPPÅTVIND devreye girecektir.'}`;
         } else {
           deltaEl.innerText = "İçerisi & Dışarısı Aynı ⚖️";
           deltaEl.className = "text-sm font-bold text-slate-300 mt-0.5";
