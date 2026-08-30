@@ -751,13 +751,11 @@
     /* 🌪️ UPPÅTVIND FAN CONTROLS & OTONOM PİLOT */
     function runAutoPilotLogic() {
       if (!autoPilot) return;
-      let targetLevel = 3;
+      let targetLevel = 0;
       if (liveAir > 450) {
-        targetLevel = 3;
-      } else if (currentPresence !== "HOME_DESK") {
-        targetLevel = 0;
+        targetLevel = 3; // Hava kirliyse tam gaz (AÇIK)
       } else {
-        targetLevel = 3; // default ON if someone is at desk and air is clean
+        targetLevel = 0; // Hava temizse her halükarda KAPALI (eskiden Fısıltı moduydu, artık olmadığı için kapatıyoruz)
       }
 
       if (targetLevel !== currentFanLevel) {
