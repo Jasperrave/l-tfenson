@@ -836,6 +836,64 @@
       } catch(e) {}
     }
 
+    
+    // ✨ PERİSEL ALTIN SAAT TINGIRTISI (ETHEREAL FAIRY HARP ARPEGGIO)
+    function playFairyGoldenHourChime() {
+      if (soundMuted) return;
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        
+        // Büyülü Peri Arpej Notaları (C6, E6, G6, B6, C7, E7, G7 Shimmer)
+        const notes = [1046.5, 1318.5, 1567.98, 1975.53, 2093.0, 2637.02, 3135.96];
+        
+        notes.forEach((freq, idx) => {
+          const startTime = now + (idx * 0.075);
+          const duration = 1.6;
+          
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          
+          // Yumuşak Perisel Kristal Tınısı
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, startTime);
+          
+          gain.gain.setValueAtTime(0, startTime);
+          gain.gain.linearRampToValueAtTime(0.18, startTime + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+          
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          
+          osc.start(startTime);
+          osc.stop(startTime + duration);
+        });
+
+        if (navigator.vibrate) navigator.vibrate([40, 60, 40, 60, 80]);
+      } catch(e) {}
+    }
+
+    // 🌇 GÜNÜN ALTIN SAATİ (GOLDEN HOUR) CANLI NÖBETÇİSİ
+    let lastGoldenHourTriggerDay = "";
+    function checkGoldenHourWatcher() {
+      const now = new Date();
+      const todayStr = now.toISOString().slice(0, 10);
+      const hours = now.getHours();
+      const mins = now.getMinutes();
+
+      // İzmir / Buca için Yaz Mevsimi Altın Saati: ~19:15 - 20:00 (Gün batımından önceki 45 dk)
+      // Gün batımı civarında 19:30'da tetiklenir
+      if (hours === 19 && mins === 30 && lastGoldenHourTriggerDay !== todayStr) {
+        lastGoldenHourTriggerDay = todayStr;
+        playFairyGoldenHourChime();
+        showToast("✨ Günün Altın Saati Başladı! (Golden Hour 🌇)");
+        
+        // Tavan ışığını Altın Gün Batımı tonuna al
+        setBleLedColor("#FFAA00", "Altın Saat 🌇");
+      }
+    }
+    setInterval(checkGoldenHourWatcher, 30000);
+
     function playCasioF91WChime(beeps = 1) {
       if (soundMuted) return;
       try {
