@@ -424,8 +424,13 @@
           <p class="text-[9px] font-mono text-slate-400">LOTUS LANTERN • BLUETOOTH MESH KABLOSUZ KONTROL</p>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <span id="bleLedStatusBadge" class="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">BAĞLI 📡</span>
+      <div class="flex items-center gap-1.5">
+        <button onclick="triggerSunriseAlarmTest()" class="btn-tactile px-2 py-1 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1" title="Android Alarmı / Yavaşça Uyandırma Simülasyonunu Test Et">
+          🌅 GÜN DOĞUMU ALARMI
+        </button>
+        <button onclick="toggleLedSensorAutopilot()" id="ledAutoPilotBtn" class="btn-tactile px-2 py-1 bg-purple-500/15 text-purple-300 border border-purple-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1">
+          🤖 SENSÖR OTOPİLOTU: AÇIK
+        </button>
         <button onclick="toggleBleLedPower()" id="bleLedPowerBtn" class="btn-tactile px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-bold">
           AÇIK 💡
         </button>
@@ -1159,6 +1164,72 @@
     // ====================================================
     let bleLedPowerState = true;
     let currentBleColor = "#00F0FF";
+
+    
+    let ledSensorAutopilot = true;
+    let lastAutoAppliedColor = null;
+
+    function toggleLedSensorAutopilot() {
+      ledSensorAutopilot = !ledSensorAutopilot;
+      const btn = document.getElementById('ledAutoPilotBtn');
+      if (btn) {
+        btn.innerText = ledSensorAutopilot ? "🤖 SENSÖR OTOPİLOTU: AÇIK" : "🤖 SENSÖR OTOPİLOTU: KAPALI";
+        btn.className = ledSensorAutopilot 
+          ? "btn-tactile px-2 py-1 bg-purple-500/15 text-purple-300 border border-purple-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1"
+          : "btn-tactile px-2 py-1 bg-slate-800 text-slate-400 border border-slate-700 rounded font-mono text-[10px] font-bold flex items-center gap-1";
+      }
+      playBeep(ledSensorAutopilot ? 900 : 400, 0.05);
+      showToast(ledSensorAutopilot ? "Işık Sensör Otopilotu Açıldı 🤖" : "Işık Manuel Moda Alındı");
+    }
+
+    async function triggerSunriseAlarmTest() {
+      playBeep(1000, 0.06);
+      showToast("🌅 Gün Doğumu Uyandırma Simülasyonu Başladı (Kızıldan Gün Işığına)...");
+      try {
+        await fetch(FIREBASE_URL + "control/alarm_trigger.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            active: true,
+            type: "sunrise",
+            duration_sec: 25,
+            ts: Date.now()
+          })
+        });
+      } catch(e) {}
+    }
+
+    function runLedSensorAutopilotLogic() {
+      if (!ledSensorAutopilot || !bleLedPowerState) return;
+
+      let targetHex = null;
+
+      // 1. Hava Kirliliği Uyarısı (MQ-135 > 600) -> Kırmızı Alarm Işığı
+      if (liveAir > 600) {
+        targetHex = "#FF2200";
+      }
+      // 2. Pomodoro Odak Modu -> Derin Odak Moru
+      else if (pomoMode === "FOCUS") {
+        targetHex = "#8A2BE2";
+      }
+      // 3. Pomodoro Mola Modu -> Rahatlatıcı Zen Yeşili
+      else if (pomoMode === "BREAK") {
+        targetHex = "#00FF88";
+      }
+      // 4. Gece / Kararma (LDR < 20% veya Saat > 21:00) -> Melatonin Koruyucu Sıcak Kehribar (2200K)
+      else if (liveLight < 20 || new Date().getHours() >= 21 || new Date().getHours() < 7) {
+        targetHex = "#FF8C00";
+      }
+      // 5. Normal Gündüz -> Doğal Gün Işığı
+      else {
+        targetHex = "#FFF0DD";
+      }
+
+      if (targetHex && targetHex !== lastAutoAppliedColor) {
+        lastAutoAppliedColor = targetHex;
+        setBleLedColor(targetHex, `Otopilot: ${targetHex}`);
+      }
+    }
 
     async function toggleBleLedPower() {
       bleLedPowerState = !bleLedPowerState;
