@@ -328,6 +328,90 @@
     </div>
   </section>
 
+  
+  <!-- ======================================================= -->
+  <!-- 🧪 4.5 UPPÅTVIND HAVA TEMİZLEME VERİMLİLİK LABORATUVARI  -->
+  <!-- ======================================================= -->
+  <section class="glass-card p-4 flex flex-col gap-3 border-cyan-500/30 bg-gradient-to-b from-slate-900/80 to-slate-950/90">
+    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
+      <div class="flex items-center gap-2">
+        <div class="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 text-sm">🧪</div>
+        <div>
+          <h3 class="font-display font-bold text-xs text-white tracking-wide">HAVA TEMİZLEME VERİMLİLİK ANALİZİ</h3>
+          <p class="text-[9px] font-mono text-slate-400">UPPÅTVIND GERÇEK ZAMANLI ETKİ & FİLTRE PERFORMANSI</p>
+        </div>
+      </div>
+      <span id="cleanerStatusBadge" class="text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">BEKLEMEDE ⏸️</span>
+    </div>
+
+    <!-- Live Session Active View (Shows when fan is running) -->
+    <div id="liveCleanSessionCard" class="p-3 rounded-xl bg-slate-950/70 border border-cyan-500/20 flex flex-col gap-2.5 hidden">
+      <div class="flex items-center justify-between text-xs font-mono">
+        <span class="text-cyan-400 font-bold flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          CANLI TEMİZLEME SEANSI
+        </span>
+        <span id="sessionDurationText" class="text-slate-300">00:00</span>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 text-center font-mono py-1">
+        <div class="p-2 rounded-lg bg-slate-900/70 border border-slate-800">
+          <div class="text-[9px] text-slate-400">BAŞLANGIÇ</div>
+          <div id="sessionStartAir" class="text-sm font-bold text-slate-300 mt-0.5">-- PPM</div>
+        </div>
+        <div class="p-2 rounded-lg bg-slate-900/70 border border-slate-800">
+          <div class="text-[9px] text-slate-400">ŞU AN</div>
+          <div id="sessionCurrentAir" class="text-sm font-bold text-emerald-400 mt-0.5">-- PPM</div>
+        </div>
+        <div class="p-2 rounded-lg bg-slate-900/70 border border-cyan-500/30 bg-cyan-500/5">
+          <div class="text-[9px] text-cyan-300 font-bold">TEMİZLENEN</div>
+          <div id="sessionCleanedDelta" class="text-sm font-bold text-cyan-300 mt-0.5">0 PPM</div>
+        </div>
+      </div>
+
+      <!-- Live Speed & Progress Rate -->
+      <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
+        <span>Hız: <b id="sessionCleanRate" class="text-cyan-300">0 PPM/dk</b></span>
+        <span>Başarı: <b id="sessionImprovementPct" class="text-emerald-400">%0 İyileşme</b></span>
+      </div>
+    </div>
+
+    <!-- Summary Stats Matrix -->
+    <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs">
+      <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 flex flex-col justify-center">
+        <div class="text-[9px] text-slate-400">SON SEANS VERİMİ</div>
+        <div id="lastSessionVerdict" class="text-xs font-bold text-emerald-400 mt-1">İLK ÇALIŞMA BEKLENİYOR</div>
+        <div id="lastSessionDetails" class="text-[9px] text-slate-500 mt-0.5">--</div>
+      </div>
+
+      <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 flex flex-col justify-center">
+        <div class="text-[9px] text-slate-400">TOPLAM TEMİZLENEN</div>
+        <div id="totalCleanedPpm" class="text-sm font-bold text-cyan-300 mt-0.5">0 PPM</div>
+        <div id="totalCleanSessions" class="text-[9px] text-slate-500 mt-0.5">0 Seans Kayıtlı</div>
+      </div>
+
+      <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 flex flex-col justify-center">
+        <div class="text-[9px] text-slate-400">FİLTRE VERİM SKORU</div>
+        <div id="filterHealthScore" class="text-sm font-bold text-amber-400 mt-0.5">%98</div>
+        <div class="text-[9px] text-emerald-400 mt-0.5">YÜKSEK ÇEKİŞ 🌪️</div>
+      </div>
+    </div>
+
+    <!-- History Accordion / Toggle -->
+    <div class="flex items-center justify-between pt-1">
+      <span class="text-[10px] font-mono text-slate-400">Geçmiş Seans Günlüğü</span>
+      <button onclick="toggleCleanHistory()" id="btnToggleCleanHistory" class="text-[10px] font-mono text-cyan-400 hover:text-cyan-300 font-bold transition-colors">
+        LİSTEYİ AÇ ▾
+      </button>
+    </div>
+
+    <div id="cleanHistoryContainer" class="flex flex-col gap-1.5 max-h-36 overflow-y-auto pr-1 hidden">
+      <div id="cleanHistoryList" class="flex flex-col gap-1.5 font-mono text-[10px]">
+        <!-- Dynamic items -->
+      </div>
+    </div>
+  </section>
+
   <!-- ======================================================= -->
   <!-- 🌿 5. MASA ORTAM SENSÖRLERİ (BME280, MQ-135, LDR)       -->
   <!-- ======================================================= -->
@@ -393,26 +477,30 @@
     </div>
   </section>
 
+    <!-- ======================================================= -->
+  <!-- 📅 5.5 GOOGLE TAKVİM & HIZLI PLAN                       -->
   <!-- ======================================================= -->
-  <!-- 📅 5.5 GOOGLE TAKVİM & AJANDA                           -->
-  <!-- ======================================================= -->
-  <section class="glass-card flex flex-col overflow-hidden h-[380px]">
-    <div class="flex items-center gap-2 border-b border-slate-800/80 p-3 bg-slate-900/60 shrink-0">
-      <span class="text-lg">📅</span>
-      <h3 class="font-display font-bold text-xs text-white tracking-wide flex-1">ENTEGRE TAKVİM YÖNETİMİ</h3>
-      <a href="https://script.google.com/macros/s/AKfycbyqZzhwE0Qg_GIR6U5DXR-K6pmsrjo-tCBN0w8Ymz0zhnMV8Aw2n2Ls34k48FkB5M5L/exec" target="_blank" class="btn-tactile px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1" title="Takvim Google oturumu istiyorsa buraya tıklayıp yeni sekmede yetki verin">
-        🔓 YETKİ
-      </a>
-      <button onclick="document.getElementById('calIframe').src = document.getElementById('calIframe').src" class="btn-tactile px-2 py-1 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1">
+  <section class="glass-card p-4 flex flex-col gap-3">
+    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
+      <div class="flex items-center gap-2">
+        <span class="text-base text-amber-400">📅</span>
+        <h3 class="font-display font-bold text-xs text-white tracking-wide">GOOGLE TAKVİM & AJANDA</h3>
+      </div>
+      <button onclick="fetchGoogleCalendarEvents()" class="btn-tactile px-2.5 py-1 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1">
         🔄 YENİLE
       </button>
     </div>
-    <div class="flex-1 w-full bg-slate-950/50 relative">
-      <div class="absolute inset-0 flex items-center justify-center text-xs font-mono text-slate-500 animate-pulse pointer-events-none -z-10">
-        Google Bağlantısı Bekleniyor...
-      </div>
-      <iframe id="calIframe" src="https://script.google.com/macros/s/AKfycbyqZzhwE0Qg_GIR6U5DXR-K6pmsrjo-tCBN0w8Ymz0zhnMV8Aw2n2Ls34k48FkB5M5L/exec" style="border: none; width: 100%; height: 100%;" class="z-10"></iframe>
+
+    <!-- Event List -->
+    <div id="eventList" class="flex flex-col gap-1.5 max-h-48 overflow-y-auto pr-1">
+      <div class="text-[11px] text-slate-500 text-center py-3 font-mono">[YÜKLENİYOR...]</div>
     </div>
+
+    <!-- Quick Plan Input Form -->
+    <form onsubmit="handleQuickPlanSubmit(event)" class="flex gap-2 pt-2 border-t border-slate-800/80">
+      <input type="text" id="quickPlanInput" class="flex-1 bg-slate-900/60 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 transition-colors font-mono" placeholder="Yeni plan ekle (Örn: Yarın 14:00 Toplantı)...">
+      <button type="submit" class="btn-tactile bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3.5 py-2 rounded-xl text-xs font-bold font-mono hover:bg-emerald-500/30">EKLE</button>
+    </form>
   </section>
 
   <!-- ======================================================= -->
@@ -791,19 +879,19 @@
       if (!autoPilot) return;
       let targetLevel = 0;
       
-      // 🧠 MUHTEŞEM ALGORİTMA (Fanger PMV, Arden Buck Entalpi ve Bilişsel Skor Birleşimi)
-      // 1. Birincil Karar: Hava Kalitesi (Zehirli hava her şeyi ezer)
-      if (liveAir > 600) {
+      // 🧠 AKILLI & MANTIKLI OTONOM PİLOT:
+      // Eğer kullanıcı Terastaysa veya masa başında değilse, boş odaya fan çalıştırma (Hava çok zehirli değilse)
+      const isAwayFromDesk = (currentPresence === "HOME_TERRACE");
+
+      // 1. Birincil Karar: Gerçek Hava Kirliliği (Zehirli/Tozlu hava)
+      if (liveAir > 580) {
         targetLevel = 3; 
       } 
-      // 2. İkincil Karar: Entalpi (Havanın boğuculuğu / Su buharı enerjisi)
-      else if (p.enthalpyIn > 60 && liveAir > 450) {
+      // 2. İkincil Karar: Ağır Havasızlık (PPM > 460 ve Yüksek Entalpi)
+      else if (!isAwayFromDesk && p.enthalpyIn > 62 && liveAir > 450) {
         targetLevel = 3; 
       }
-      // 3. Üçüncül Karar: Termal Konfor & Bilişsel Çöküş (PMV > 0.5 Sıcak + Çalışma Süresi > 45 Dk)
-      else if (p.pmv > 0.5 && contSec > 2700) {
-        targetLevel = 3; 
-      }
+      // 3. Masada değilse veya hava temizse DURDUR
       else {
         targetLevel = 0;
       }
@@ -820,7 +908,9 @@
         document.getElementById('autoPilotLabel').innerText = '🤖 OTONOM PİLOT: KAPALI';
       }
 
+      const prevFanLevel = currentFanLevel;
       currentFanLevel = level;
+      handleFanStateChange(level);
       playBeep(600, 0.04);
       
       const isOff = (level === 0);
@@ -847,6 +937,163 @@
         });
       } catch(e) {}
     }
+
+    
+    // ====================================================
+    // 🌪️ UPPÅTVIND HAVA TEMİZLEME & VERİMLİLİK MOTORU
+    // ====================================================
+    let activeFanSession = null;
+    let cleanSessionsHistory = JSON.parse(localStorage.getItem('uppatvind_clean_history') || '[]');
+
+    function handleFanStateChange(newLevel) {
+      const now = Date.now();
+      
+      // Fan turned ON (was 0, now > 0)
+      if (newLevel > 0 && !activeFanSession) {
+        activeFanSession = {
+          startTime: now,
+          startAir: liveAir,
+          samples: [{ t: now, air: liveAir }],
+          peakCleaned: 0
+        };
+        updateEfficiencyUI();
+      }
+      // Fan turned OFF (was > 0, now 0)
+      else if (newLevel === 0 && activeFanSession) {
+        const durationSec = Math.round((now - activeFanSession.startTime) / 1000);
+        const endAir = liveAir;
+        const delta = activeFanSession.startAir - endAir; // positive means improved
+        const pctImprovement = activeFanSession.startAir > 0 ? Math.round((delta / activeFanSession.startAir) * 100) : 0;
+        const durationMin = Math.max(1, Math.round(durationSec / 60));
+        const ratePerMin = (delta / durationMin).toFixed(1);
+
+        // Only save sessions longer than 20 seconds
+        if (durationSec >= 20) {
+          let verdict = "DENGEDE ⚖️";
+          if (delta >= 50) verdict = "YÜKSEK VERİM 🍃";
+          else if (delta > 10) verdict = "ORTA TEMİZLEME ✨";
+          else if (delta <= -20) verdict = "HAVA KİRLENDİ ⚠️";
+
+          const sessionRecord = {
+            id: 'clean-' + now,
+            dateStr: new Date(activeFanSession.startTime).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
+            durationMin: durationMin,
+            startAir: activeFanSession.startAir,
+            endAir: endAir,
+            delta: delta,
+            pct: pctImprovement,
+            rate: ratePerMin,
+            verdict: verdict
+          };
+
+          cleanSessionsHistory.unshift(sessionRecord);
+          if (cleanSessionsHistory.length > 20) cleanSessionsHistory.pop();
+          localStorage.setItem('uppatvind_clean_history', JSON.stringify(cleanSessionsHistory));
+          showToast(`🌪️ Fan Durdu: ${durationMin} dk'da ${delta > 0 ? '-' + delta : '+' + Math.abs(delta)} PPM (${verdict})`);
+        }
+
+        activeFanSession = null;
+        updateEfficiencyUI();
+      }
+    }
+
+    function updateEfficiencyUI() {
+      const badgeEl = document.getElementById('cleanerStatusBadge');
+      const liveCard = document.getElementById('liveCleanSessionCard');
+      const histList = document.getElementById('cleanHistoryList');
+      const totalCleanedEl = document.getElementById('totalCleanedPpm');
+      const totalSessionsEl = document.getElementById('totalCleanSessions');
+      const lastVerdictEl = document.getElementById('lastSessionVerdict');
+      const lastDetailsEl = document.getElementById('lastSessionDetails');
+
+      // 1. Live Session Tracking
+      if (activeFanSession) {
+        if (badgeEl) {
+          badgeEl.innerText = "TEMİZLİYOR 🌪️";
+          badgeEl.className = "text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 animate-pulse";
+        }
+        if (liveCard) liveCard.classList.remove('hidden');
+
+        const elapsedSec = Math.round((Date.now() - activeFanSession.startTime) / 1000);
+        const mins = String(Math.floor(elapsedSec / 60)).padStart(2, '0');
+        const secs = String(elapsedSec % 60).padStart(2, '0');
+        
+        const delta = activeFanSession.startAir - liveAir;
+        const pct = activeFanSession.startAir > 0 ? Math.round((delta / activeFanSession.startAir) * 100) : 0;
+        const elapsedMin = Math.max(0.5, elapsedSec / 60);
+        const rate = (delta / elapsedMin).toFixed(1);
+
+        document.getElementById('sessionDurationText').innerText = `${mins}:${secs}`;
+        document.getElementById('sessionStartAir').innerText = `${activeFanSession.startAir} PPM`;
+        document.getElementById('sessionCurrentAir').innerText = `${liveAir} PPM`;
+        
+        const deltaEl = document.getElementById('sessionCleanedDelta');
+        if (delta >= 0) {
+          deltaEl.innerText = `-${delta} PPM 🍃`;
+          deltaEl.className = "text-sm font-bold text-emerald-400 mt-0.5";
+        } else {
+          deltaEl.innerText = `+${Math.abs(delta)} PPM ⚠️`;
+          deltaEl.className = "text-sm font-bold text-rose-400 mt-0.5";
+        }
+
+        document.getElementById('sessionCleanRate').innerText = `${rate} PPM/dk`;
+        document.getElementById('sessionImprovementPct').innerText = `${pct >= 0 ? '%' + pct + ' İyileşme 📉' : '%' + Math.abs(pct) + ' Kirlenme 📈'}`;
+      } else {
+        if (badgeEl) {
+          badgeEl.innerText = "BEKLEMEDE ⏸️";
+          badgeEl.className = "text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700";
+        }
+        if (liveCard) liveCard.classList.add('hidden');
+      }
+
+      // 2. Cumulative Stats
+      let totalPpmCleaned = 0;
+      cleanSessionsHistory.forEach(s => {
+        if (s.delta > 0) totalPpmCleaned += s.delta;
+      });
+
+      if (totalCleanedEl) totalCleanedEl.innerText = `${totalPpmCleaned} PPM`;
+      if (totalSessionsEl) totalSessionsEl.innerText = `${cleanSessionsHistory.length} Seans Kayıtlı`;
+
+      if (cleanSessionsHistory.length > 0) {
+        const last = cleanSessionsHistory[0];
+        if (lastVerdictEl) lastVerdictEl.innerText = last.verdict;
+        if (lastDetailsEl) lastDetailsEl.innerText = `${last.durationMin} dk • Baş: ${last.startAir} ➔ Bit: ${last.endAir} PPM`;
+      }
+
+      // 3. History List Rendering
+      if (histList) {
+        if (cleanSessionsHistory.length === 0) {
+          histList.innerHTML = '<div class="text-slate-500 text-center py-2">Henüz tamamlanmış seans kaydı yok.</div>';
+        } else {
+          histList.innerHTML = cleanSessionsHistory.map(s => `
+            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+              <div>
+                <span class="text-slate-300 font-bold">${s.dateStr}</span>
+                <span class="text-slate-500"> (${s.durationMin} dk)</span>
+                <div class="text-[9px] text-slate-400">${s.startAir} PPM ➔ ${s.endAir} PPM (${s.delta >= 0 ? '-' + s.delta : '+' + Math.abs(s.delta)} PPM)</div>
+              </div>
+              <span class="font-bold ${s.delta >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${s.verdict}</span>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    let isCleanHistoryOpen = false;
+    function toggleCleanHistory() {
+      isCleanHistoryOpen = !isCleanHistoryOpen;
+      const c = document.getElementById('cleanHistoryContainer');
+      const b = document.getElementById('btnToggleCleanHistory');
+      if (c) c.classList.toggle('hidden', !isCleanHistoryOpen);
+      if (b) b.innerText = isCleanHistoryOpen ? 'LİSTEYİ KAPA ▴' : 'LİSTEYİ AÇ ▾';
+    }
+
+    // Interval to refresh live active session timer
+    setInterval(() => {
+      if (activeFanSession) updateEfficiencyUI();
+    }, 1000);
+
 
     /* ⏱️ POMODORO CONTROLS */
     function startPomodoro(minutes, mode) {
