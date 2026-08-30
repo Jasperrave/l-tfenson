@@ -1242,7 +1242,7 @@
               <div class="text-xs font-bold text-white mb-0.5">${e.title}</div>
               <div class="font-mono text-[9px] ${e.notified ? 'text-emerald-400' : 'text-amber-400'}">${liveBadge} ${e.notified ? '✓ (BİLDİRİLDİ)' : ''}</div>
             </div>
-            <button onclick="deleteGoogleEvent('${e.id}')" class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 p-1.5 rounded text-[10px] font-bold transition-colors">SİL ✕</button>
+            <button onclick="deleteGoogleEvent('${e.id}', '${e.title}')" class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 p-1.5 rounded text-[10px] font-bold transition-colors">SİL ✕</button>
           </div>
         `;
       }).join('');
@@ -1359,6 +1359,7 @@
       if (!text) return;
 
       const parsed = parseTurkishNaturalPlanDate(text);
+      const startTimeIso = new Date(parsed.targetTimestamp).toISOString();
       const newPlan = {
         id: "plan-" + Date.now(),
         title: text,
@@ -1375,19 +1376,31 @@
       input.value = "";
       showToast(`✓ Plan Eklendi: ${parsed.displayStr}`);
 
+      // Google Takvime Canlı Kaydet (startTime parametresi zorunludur)
       try {
-        await fetch(GOOGLE_SCRIPT_URL + "?action=add&title=" + encodeURIComponent(text), { mode: "no-cors" });
-      } catch (err) {}
+        const addUrl = `${GOOGLE_SCRIPT_URL}?action=add&title=${encodeURIComponent(text)}&startTime=${encodeURIComponent(startTimeIso)}&_t=${Date.now()}`;
+        await fetch(addUrl, { mode: "no-cors" });
+        showToast("📅 Google Takvime İletildi!");
+        setTimeout(fetchGoogleCalendarEvents, 3000);
+      } catch (err) {
+        console.log("Calendar sync error:", err);
+      }
     }
 
-    async function deleteGoogleEvent(eventId) {
+    async function deleteGoogleEvent(eventId, title = "") {
       let currentPlans = getStoredUserPlans();
+      const targetPlan = currentPlans.find(e => e.id === eventId);
+      const planTitle = title || (targetPlan ? targetPlan.title : "");
+
       currentPlans = currentPlans.filter(e => e.id !== eventId);
       saveStoredUserPlans(currentPlans);
       renderEvents();
       showToast("Plan Silindi 🗑️");
+
       try {
-        await fetch(GOOGLE_SCRIPT_URL + "?action=delete&id=" + encodeURIComponent(eventId), { mode: "no-cors" });
+        const delUrl = `${GOOGLE_SCRIPT_URL}?action=delete&id=${encodeURIComponent(eventId)}&title=${encodeURIComponent(planTitle)}&_t=${Date.now()}`;
+        await fetch(delUrl, { mode: "no-cors" });
+        setTimeout(fetchGoogleCalendarEvents, 3000);
       } catch (err) {}
     }
 
