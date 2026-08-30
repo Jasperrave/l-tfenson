@@ -1697,7 +1697,7 @@
     }
 
     async function ringDeskChime() {
-      playBeep(1100, 0.06);
+      playCasioF91WChime(2);
       showToast("MASA ZİLİ ÇALDIRILDI 🔔");
       try {
         await fetch(FIREBASE_URL + "control/ring_buzzer.json" + FIREBASE_AUTH, {
