@@ -776,21 +776,20 @@
 
       currentFanLevel = level;
       playBeep(600, 0.04);
-      [0, 1, 2, 3].forEach(i => {
-        const btn = document.getElementById(`fanBtn${i}`);
-        if (btn) {
-          if (i === level) {
-            btn.className = 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 flex flex-col items-center gap-0.5 shadow-lg shadow-cyan-500/10';
-          } else {
-            btn.className = 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white flex flex-col items-center gap-0.5';
-          }
-        }
-      });
+      
+      const isOff = (level === 0);
+      const btnOff = document.getElementById('fanBtn0');
+      const btnOn = document.getElementById('fanBtn3');
+      
+      if (btnOff) {
+        btnOff.className = isOff ? 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-rose-400 bg-rose-500/15 border border-rose-500/30 flex flex-col items-center gap-0.5 shadow-lg shadow-rose-500/10' : 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white flex flex-col items-center gap-0.5 border border-transparent';
+      }
+      if (btnOn) {
+        btnOn.className = !isOff ? 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 flex flex-col items-center gap-0.5 shadow-lg shadow-cyan-500/10' : 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white flex flex-col items-center gap-0.5 border border-transparent';
+      }
 
-      const rpms = { 0: 0, 1: 650, 2: 1450, 3: 2400 };
-      const pwms = { 0: 0, 1: 75, 2: 170, 3: 255 };
-      document.getElementById('fanRpmVal').innerText = rpms[level] || 0;
-      document.getElementById('fanPwmVal').innerText = pwms[level] || 0;
+      document.getElementById('fanRpmVal').innerText = isOff ? "0" : "2400";
+      document.getElementById('fanPwmVal').innerText = isOff ? "0" : "255";
 
       if (isManual) showToast(`FAN KADEME ${level} GÖNDERİLDİ 🌪️`);
       try {
@@ -856,7 +855,10 @@
     }
 
     /* 🎵 GERÇEK SPOTIFY KOMUT MOTORU (NATIVE MAC OYNATMA) */
+    window.lastSpotifyActionTime = 0;
+    
     async function sendSpotifyCommand(action) {
+      window.lastSpotifyActionTime = Date.now();
       playBeep(700, 0.03);
       showToast(`SPOTIFY: ${action === 'playpause' ? (isSpotifyPlaying ? 'DURDURULUYOR' : 'ÇALINIYOR') : action.toUpperCase()} 🎵`);
       
@@ -1159,8 +1161,12 @@
           if (mData && typeof mData === 'object') {
             const trackEl = document.getElementById('spotifyTrackTitle');
             const artistEl = document.getElementById('spotifyArtistTitle');
-            isSpotifyPlaying = (mData.spotify_playing === true);
-            updateSpotifyPlayBtnState(isSpotifyPlaying);
+            
+            // Eğer butona yeni basıldıysa 5 saniye boyunca Firebase'den gelen gecikmeli veriyi yoksay
+            if (Date.now() - window.lastSpotifyActionTime > 5000) {
+              isSpotifyPlaying = (mData.spotify_playing === true);
+              updateSpotifyPlayBtnState(isSpotifyPlaying);
+            }
 
             if (mData.spotify_track) {
               trackEl.innerText = mData.spotify_track.toUpperCase();
