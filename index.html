@@ -2143,6 +2143,45 @@
 
         const p = computePsychrometrics(liveTemp, liveHum, bucaTemp, bucaHum);
         runAutoPilotLogic(p, contSec);
+
+        // 🎙️ Sesli Plan Canlı Senkronizasyonu & Google Takvim Senkronu
+        if (cData && cData.voice_plan && cData.voice_plan.ts > (window.lastVoicePlanTs || 0)) {
+          window.lastVoicePlanTs = cData.voice_plan.ts;
+          let vText = (cData.voice_plan.text || "").trim();
+          if (vText && vText !== "{sesli_plan}") {
+            // Otomatik Düzeltmeler (Örn: kalem -> Galen)
+            vText = vText.replace(/kalem/gi, "Galen").replace(/poliklinik galen/gi, "Galen Polikliniği");
+            
+            const parsed = parseTurkishNaturalPlanDate(vText);
+            const targetTs = parsed.targetTimestamp;
+            const startTimeIso = new Date(targetTs).toISOString();
+            
+            const newPlan = {
+              id: "voice-" + Date.now(),
+              title: vText,
+              timeStr: parsed.displayStr,
+              targetTimestamp: targetTs,
+              syncedToGoogle: true,
+              notified: false
+            };
+            
+            const curPlans = getStoredUserPlans();
+            if (!curPlans.some(p => p.title === vText)) {
+              curPlans.unshift(newPlan);
+              saveStoredUserPlans(curPlans);
+              renderEvents();
+              showToast(`🎙️ Sesle Plan Eklendi: ${parsed.displayStr}`);
+              playCasioF91WChime(2);
+              
+              // Google Takvime Resmi Ekleme
+              try {
+                const addUrl = `${GOOGLE_SCRIPT_URL}?action=add&title=${encodeURIComponent(vText)}&startTime=${encodeURIComponent(startTimeIso)}&_t=${Date.now()}`;
+                fetch(addUrl, { mode: "no-cors" });
+                setTimeout(fetchGoogleCalendarEvents, 3500);
+              } catch(ge) {}
+            }
+          }
+        }
         updateThermodynamicUI(p, contSec, bucaTemp, bucaHum);
       } catch(e) {
         updateHeartbeatUI(false);
