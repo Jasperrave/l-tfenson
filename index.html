@@ -425,6 +425,9 @@
         </div>
       </div>
       <div class="flex items-center gap-1.5">
+        <button onclick="triggerNightDimming()" class="btn-tactile px-2 py-1 bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1" title="Işığı 2 Dakikada Yavaşça Kısarak Söndür">
+          🌙 GECE UYKU KARARTMASI
+        </button>
         <button onclick="triggerSunriseAlarmTest()" class="btn-tactile px-2 py-1 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1" title="Android Alarmı / Yavaşça Uyandırma Simülasyonunu Test Et">
           🌅 GÜN DOĞUMU ALARMI
         </button>
@@ -1290,6 +1293,22 @@
       }
       playBeep(ledSensorAutopilot ? 900 : 400, 0.05);
       showToast(ledSensorAutopilot ? "Işık Sensör Otopilotu Açıldı 🤖" : "Işık Manuel Moda Alındı");
+    }
+
+    
+    async function triggerNightDimming() {
+      playCasioF91WChime(1);
+      showToast("🌙 Gece Uyku Modu: Işık 2 dakika içinde yavaşça kısılarak sönecek...");
+      try {
+        await fetch(FIREBASE_URL + "control/phone_events.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: "NIGHT_DIM",
+            ts: Date.now()
+          })
+        });
+      } catch(e) {}
     }
 
     async function triggerSunriseAlarmTest() {
