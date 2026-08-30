@@ -145,7 +145,7 @@
           <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" id="headerBucaPill">22°C // BUCA İMBAT</span>
         </h1>
         <p class="text-[11px] font-mono text-slate-400 flex items-center gap-1.5" id="headerPresenceText">
-          <span id="heartbeatText">ESP32 CANLI • 1s önce</span> • <span id="presenceLabel">MASA BAŞINDA 🏠</span>
+          <span id="heartbeatText">ESP32 CANLI • 1s önce</span> • <span id="presenceLabel" onclick="toggleLocationOverride()" class="cursor-pointer hover:text-cyan-400 transition-colors border-b border-dashed border-slate-600 pb-0.5" title="Manuel Konum Seçmek İçin Tıkla">MASA BAŞINDA 🏠</span>
         </p>
       </div>
     </div>
@@ -915,6 +915,25 @@
     /* 🎵 GERÇEK SPOTIFY KOMUT MOTORU (NATIVE MAC OYNATMA) */
     window.lastSpotifyActionTime = 0;
     
+        async function toggleLocationOverride() {
+      if(!window.locOverride) window.locOverride = "AUTO";
+      
+      if(window.locOverride === "AUTO") window.locOverride = "DESK";
+      else if(window.locOverride === "DESK") window.locOverride = "TERRACE";
+      else window.locOverride = "AUTO";
+      
+      playBeep(800, 0.05);
+      showToast(`📍 LOKASYON: ${window.locOverride} 📍`);
+      
+      try {
+        await fetch(FIREBASE_URL + "control/location_override.json" + FIREBASE_AUTH, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(window.locOverride)
+        });
+      } catch(e) {}
+    }
+
     async function sendSpotifyCommand(action) {
       window.lastSpotifyActionTime = Date.now();
       playBeep(700, 0.03);
