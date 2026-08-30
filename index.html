@@ -396,13 +396,19 @@
   <!-- ======================================================= -->
   <!-- 📅 5.5 GOOGLE TAKVİM & AJANDA                           -->
   <!-- ======================================================= -->
-  <section class="glass-card p-4 flex flex-col gap-3">
-    <div class="flex items-center gap-2 border-b border-slate-800/80 pb-2">
+  <section class="glass-card flex flex-col overflow-hidden h-[380px]">
+    <div class="flex items-center gap-2 border-b border-slate-800/80 p-3 bg-slate-900/60 shrink-0">
       <span class="text-lg">📅</span>
-      <h3 class="font-display font-bold text-xs text-white tracking-wide">BUGÜNÜN AJANDASI</h3>
+      <h3 class="font-display font-bold text-xs text-white tracking-wide flex-1">ENTEGRE TAKVİM YÖNETİMİ</h3>
+      <button onclick="document.getElementById('calIframe').src = document.getElementById('calIframe').src" class="btn-tactile px-2 py-1 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded font-mono text-[10px] font-bold">
+        🔄 YENİLE
+      </button>
     </div>
-    <div class="rounded-xl overflow-hidden bg-slate-900/50 border border-slate-800/80 p-3 flex flex-col gap-2 min-h-[120px] max-h-[250px] overflow-y-auto" id="calendarEventList">
-      <div class="text-[10px] font-mono text-slate-500 animate-pulse text-center mt-4">Takvim verileri Google'dan çekiliyor...</div>
+    <div class="flex-1 w-full bg-slate-950/50 relative">
+      <div class="absolute inset-0 flex items-center justify-center text-xs font-mono text-slate-500 animate-pulse pointer-events-none -z-10">
+        Google Bağlantısı Bekleniyor...
+      </div>
+      <iframe id="calIframe" src="https://script.google.com/macros/s/AKfycbyqZzhwE0Qg_GIR6U5DXR-K6pmsrjo-tCBN0w8Ymz0zhnMV8Aw2n2Ls34k48FkB5M5L/exec" style="border: none; width: 100%; height: 100%;" class="z-10"></iframe>
     </div>
   </section>
 
@@ -549,12 +555,19 @@
       if (oledMode) {
         document.body.classList.add('oled-mode');
         document.getElementById('oledIcon').innerText = '☀️';
-        showToast("SAF OLED GECE MODU AKTİF 🌙", "🌙");
+        showToast("GECE MODU AKTİF (OLED KISILDI) 🌙", "🌙");
       } else {
         document.body.classList.remove('oled-mode');
         document.getElementById('oledIcon').innerText = '🌙';
-        showToast("CYBER DARK MODU AKTİF ☀️", "☀️");
+        showToast("CYBER DARK MODU AKTİF (OLED PARLAK) ☀️", "☀️");
       }
+      
+      // Update Firebase to dim physical OLED via Python daemon proxy
+      fetch(FIREBASE_URL + "control/oled_dim.json" + FIREBASE_AUTH, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(oledMode)
+      });
     }
 
     /* 📲 NTFY OPEN SOURCE PUSH NOTIFICATION SENDER */
