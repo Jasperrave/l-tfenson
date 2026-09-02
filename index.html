@@ -130,7 +130,7 @@
   </div>
 
   <!-- ======================================================= -->
-  <!-- 🎛️ 1. HEADER: BRAND, HEARTBEAT & ACTION BAR            -->
+  <!-- 🎛️ 1. HEADER: BRAND, HEARTBEAT & ACTION BAR             -->
   <!-- ======================================================= -->
   <header class="glass-card p-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
@@ -413,8 +413,8 @@
   </section>
 
     <!-- ======================================================= -->
-  <!-- 🌈 4.8 ODA TAVAN AYDINLATMASI (LOTUS LANTERN / BLE)     -->
-  <!-- ======================================================= -->
+    <!-- 🌈 4.8 ODA TAVAN AYDINLATMASI (LOTUS LANTERN / BLE)      -->
+    <!-- ======================================================= -->
   <section class="glass-card p-4 flex flex-col gap-3 border-purple-500/20 bg-gradient-to-b from-slate-900/80 to-purple-950/20">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
       <div class="flex items-center gap-2">
@@ -478,7 +478,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🌿 5. MASA ORTAM SENSÖRLERİ (BME280, MQ-135, LDR)       -->
+  <!-- 🌿 5. MASA ORTAM SENSÖRLERİ (BME280, MQ-135, LDR)        -->
   <!-- ======================================================= -->
   <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
     <!-- Sıcaklık -->
@@ -543,8 +543,8 @@
   </section>
 
     <!-- ======================================================= -->
-  <!-- 📅 5.5 GOOGLE TAKVİM & HIZLI PLAN                       -->
-  <!-- ======================================================= -->
+    <!-- 📅 5.5 GOOGLE TAKVİM & HIZLI PLAN                       -->
+    <!-- ======================================================= -->
   <section class="glass-card p-4 flex flex-col gap-3">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
       <div class="flex items-center gap-2">
@@ -619,7 +619,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🐹 7. CANLI YULAF CYBER-OLED COMPANION                  -->
+  <!-- 🐹 7. CANLI YULAF CYBER-OLED COMPANION                   -->
   <!-- ======================================================= -->
   <section class="glass-card p-4 flex items-center gap-3.5">
     <canvas id="yulafPixelCanvas" width="32" height="32" class="w-14 h-14 rounded-xl bg-slate-950 border border-emerald-500/30 shadow-lg shadow-emerald-500/10 image-pixelated shrink-0"></canvas>
@@ -633,7 +633,7 @@
   </section>
 
   <!-- ======================================================= -->
-  <!-- 📈 8. CANLI TELEMETRİ GRAFİĞİ & CSV İNDİRME             -->
+  <!-- 📈 8. CANLI TELEMETRİ GRAFİĞİ & CSV İNDİRME              -->
   <!-- ======================================================= -->
   <section class="glass-card p-5 flex flex-col gap-3">
     <div class="flex items-center justify-between">
@@ -793,7 +793,7 @@
       if (autoPilot) {
         btn.className = 'btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono text-[10px] font-bold shadow-lg shadow-emerald-500/10';
         label.innerText = '🤖 OTONOM PİLOT: AÇIK';
-        showToast("OTONOM HAVA PİLOTU DEVREDE 🤖");
+        showToast("OTONOM HAVA PİLOTu DEVREDE 🤖");
         runAutoPilotLogic();
       } else {
         btn.className = 'btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 font-mono text-[10px] font-bold';
@@ -1097,7 +1097,7 @@
         btnOff.className = isOff ? 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-rose-400 bg-rose-500/15 border border-rose-500/30 flex flex-col items-center gap-0.5 shadow-lg shadow-rose-500/10' : 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white flex flex-col items-center gap-0.5 border border-transparent';
       }
       if (btnOn) {
-        btnOn.className = !isOff ? 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 flex flex-col items-center gap-0.5 shadow-lg shadow-cyan-500/10' : 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white flex flex-col items-center gap-0.5 border border-transparent';
+        btnOn.className = !isOff ? 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 transition-all flex flex-col items-center gap-0.5 shadow-lg shadow-cyan-500/10' : 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white flex flex-col items-center gap-0.5 border border-transparent';
       }
 
       document.getElementById('fanRpmVal').innerText = isOff ? "0" : "2400";
@@ -1526,7 +1526,7 @@
     function formatEventTimeBadge(targetTimestamp, fallbackTimeStr) {
       if (!targetTimestamp) {
         if (fallbackTimeStr && fallbackTimeStr.includes("Eylül")) {
-          const match = fallbackTimeStr.match(/(\\d{1,2})\\s*([A-Za-zÇçĞğİıÖöŞşÜü]+)\\s*(\\d{4})?/);
+          const match = fallbackTimeStr.match(/(\d{1,2})\s*([A-Za-zÇçĞğİıÖöŞşÜü]+)\s*(\d{4})?/);
           if (match) {
             const day = parseInt(match[1]);
             const year = match[3] ? parseInt(match[3]) : new Date().getFullYear();
@@ -2084,6 +2084,12 @@
         }
 
         const resMac = await fetch(FIREBASE_URL + "mac.json" + FIREBASE_AUTH);
+        let cData = null; // Tanımlanmamış değişken hatası giderildi (ReferenceError düzeltmesi)
+        const resControl = await fetch(FIREBASE_URL + "control.json" + FIREBASE_AUTH);
+        if (resControl.ok) {
+          cData = await resControl.json();
+        }
+
         if (resMac.ok) {
           const mData = await resMac.json();
           if (mData && typeof mData === 'object') {
