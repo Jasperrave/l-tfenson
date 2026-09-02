@@ -150,7 +150,6 @@
       </div>
     </div>
 
-    <!-- Quick Buttons: NTFY Push, Brown Noise, OLED Mode, Mute, Desk Buzzer -->
     <div class="flex items-center gap-1.5">
       <button onclick="sendNtfyTestPush()" id="ntfyBtn" title="Telefona Bildirim Gönder (NTFY)" class="btn-tactile p-2 rounded-xl bg-purple-500/20 border border-purple-500/40 hover:bg-purple-500/30 text-purple-300 text-xs font-mono">
         <span>📲</span>
@@ -158,59 +157,40 @@
       <button onclick="toggleBrownNoise()" id="brownNoiseBtn" title="Derin Odak Sesi (Kahverengi Gürültü)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-400 text-xs font-mono">
         <span id="brownNoiseIcon">🌊</span>
       </button>
-      <button onclick="toggleOledMode()" id="oledBtn" title="Gece Modu (Kısayol: O)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
+      <button onclick="toggleOledMode()" id="oledBtn" title="Gece Modu" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
         <span id="oledIcon">🌙</span>
       </button>
-      <button onclick="toggleAudioMute()" id="muteBtn" title="Sesler (Kısayol: M)" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
+      <button onclick="toggleAudioMute()" id="muteBtn" title="Sesler" class="btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs font-mono">
         <span id="muteIcon">🔊</span>
       </button>
-      <button onclick="ringDeskChime()" title="Masa Zili (Kısayol: B)" class="btn-tactile px-3 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 hover:bg-cyan-500/25 text-cyan-400 text-xs font-mono font-bold flex items-center gap-1.5">
+      <button onclick="ringDeskChime()" title="Masa Zili" class="btn-tactile px-3 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 hover:bg-cyan-500/25 text-cyan-400 text-xs font-mono font-bold flex items-center gap-1.5">
         🔔 ZİL
       </button>
     </div>
   </header>
 
   <!-- ======================================================= -->
-  <!-- 🎵 2. MİNİK & CANLI SPOTIFY KONTROL ÇUBUĞU (SLIM BAR)    -->
+  <!-- 🎵 2. SPOTIFY KONTROL ÇUBUĞU                              -->
   <!-- ======================================================= -->
   <section class="glass-card px-3.5 py-2.5 flex items-center justify-between gap-2.5 border-emerald-500/20 bg-gradient-to-r from-slate-950/90 via-slate-900/80 to-slate-950/90">
     <div class="flex items-center gap-2.5 overflow-hidden flex-1 min-w-0">
-      <div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs shrink-0" id="spotifyStatusIcon">
-        🎵
-      </div>
+      <div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs shrink-0">🎵</div>
       <div class="overflow-hidden min-w-0 flex-1">
-        <div class="font-mono text-xs font-bold text-white truncate flex items-center gap-1.5" id="spotifyTrackTitle">
-          <span>MÜZİK BEKLENİYOR...</span>
-        </div>
+        <div class="font-mono text-xs font-bold text-white truncate" id="spotifyTrackTitle">MÜZİK BEKLENİYOR...</div>
         <div class="font-mono text-[10px] text-slate-400 truncate mt-0.5" id="spotifyArtistTitle">SPOTIFY BAĞLANTISI AKTİF // DJ YULAF</div>
       </div>
     </div>
-
-    <!-- Mini Visualizer Bars -->
-    <div class="hidden sm:flex items-end gap-0.5 h-4 px-1.5 py-0.5 rounded bg-slate-900/90 border border-slate-800 shrink-0" id="audioVisualizerWrap">
-      <div class="audio-bar"></div>
-      <div class="audio-bar"></div>
-      <div class="audio-bar"></div>
-      <div class="audio-bar"></div>
-    </div>
-
-    <!-- Slim Tactile Buttons (Gerçekten Cihazda Çalar) -->
     <div class="flex items-center gap-1.5 shrink-0 font-mono">
-      <button onclick="sendSpotifyCommand('prev')" title="Önceki Parça" class="btn-tactile w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs flex items-center justify-center">
-        ⏮
+      <button onclick="sendSpotifyCommand('prev')" class="btn-tactile w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 text-xs flex items-center justify-center">⏮</button>
+      <button onclick="sendSpotifyCommand('playpause')" id="spotifyPlayBtn" class="btn-tactile px-3 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1">
+        <span id="spotifyPlayIcon">⏯</span> <span id="spotifyPlayLabel">ÇAL</span>
       </button>
-      <button onclick="sendSpotifyCommand('playpause')" id="spotifyPlayBtn" title="Oynat / Durdur [Space]" class="btn-tactile px-3 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 hover:bg-emerald-500/30 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1 shadow-md shadow-emerald-500/10">
-        <span id="spotifyPlayIcon">⏯</span>
-        <span class="text-[10px] hidden xs:inline" id="spotifyPlayLabel">ÇAL</span>
-      </button>
-      <button onclick="sendSpotifyCommand('next')" title="Sonraki Parça" class="btn-tactile w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-300 text-xs flex items-center justify-center">
-        ⏭
-      </button>
+      <button onclick="sendSpotifyCommand('next')" class="btn-tactile w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 text-xs flex items-center justify-center">⏭</button>
     </div>
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🌿 3. AKILLI ODA & HAVALANDIRMA ASİSTANI (SADE DİL)     -->
+  <!-- 🌿 3. AKILLI ODA & HAVALANDIRMA ASİSTANI                -->
   <!-- ======================================================= -->
   <section class="glass-card p-4 flex flex-col gap-3 border-emerald-500/20 bg-gradient-to-b from-slate-900/90 to-slate-950/90">
     <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
@@ -226,2009 +206,188 @@
         <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" id="ventStatusBadge">KAPIYI AÇABİLİRSİN 🌿</span>
       </div>
     </div>
-
-    <!-- Smart Guidance Speech Box (Plain Turkish) -->
     <div class="p-3 rounded-xl bg-slate-950/70 border border-slate-800 flex items-start gap-2.5">
       <span class="text-lg" id="guidanceIcon">💡</span>
-      <p class="text-xs font-mono text-slate-200 leading-relaxed" id="thermoAdviceText">
-        Hesaplanıyor...
-      </p>
+      <p class="text-xs font-mono text-slate-200 leading-relaxed" id="thermoAdviceText">Canlı veriler hesaplanıyor...</p>
     </div>
-
-    <!-- Gelecek Tahmini ve Uyarılar (ECMWF) -->
-    <div id="weatherForecastContainer" class="p-2.5 rounded-xl bg-slate-900/40 border border-slate-800/50 flex flex-col gap-1.5">
-      <div class="text-[10px] font-mono text-slate-400 flex items-center justify-center gap-1.5" id="forecastSummaryText">
-        <i class="ph ph-calendar-blank"></i> Gelecek tahminleri yükleniyor...
-      </div>
-      <div id="extremeWarningBadge" class="text-[10px] font-mono font-bold px-2 py-1 bg-rose-500/10 text-rose-400 border border-rose-500/20 rounded-lg text-center hidden animate-pulse">
-      </div>
-    </div>
-
-    <!-- Indoor vs Outdoor Comparison Matrix (Plain Turkish) -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 font-mono text-center text-xs">
-      <!-- Sıcaklık Farkı -->
       <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
         <div class="text-[9px] text-slate-400">İÇERİSİ & DIŞARISI</div>
-        <div class="text-sm font-bold text-cyan-300 mt-0.5" id="deltaTempText">Teras 4°C Daha Serin ❄️</div>
-        <div class="text-[9px] text-slate-500 mt-0.5">Oda: <span id="inTempLabel">26.4°C</span> | Teras: <span id="outTempLabel">22.0°C</span></div>
+        <div class="text-sm font-bold text-cyan-300 mt-0.5" id="deltaTempText">Hesaplanıyor...</div>
+        <div class="text-[9px] text-slate-500 mt-0.5">Oda: <span id="inTempLabel">--</span> | Teras: <span id="outTempLabel">--</span></div>
       </div>
-
-      <!-- Hava Ferahlığı -->
       <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
         <div class="text-[9px] text-slate-400">HAVA FERAHLIĞI</div>
-        <div class="text-sm font-bold text-emerald-400 mt-0.5" id="enthalpyText">Çok Ferah 🍃</div>
-        <div class="text-[9px] text-slate-500 mt-0.5">Hafif & Temiz Hava</div>
+        <div class="text-sm font-bold text-emerald-400 mt-0.5" id="enthalpyText">İdeal 🍃</div>
+        <div class="text-[9px] text-slate-500 mt-0.5">Temiz Hava</div>
       </div>
-
-      <!-- Rutubet / Terleme Riski -->
       <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
         <div class="text-[9px] text-slate-400">RUTUBET & NEM</div>
-        <div class="text-sm font-bold text-amber-400 mt-0.5" id="dewMarginText">Sıfır Nem Riski 🛡️</div>
-        <div class="text-[9px] text-slate-500 mt-0.5">Kuru & Sağlıklı Masa</div>
+        <div class="text-sm font-bold text-amber-400 mt-0.5" id="dewMarginText">Güvenli 🛡️</div>
+        <div class="text-[9px] text-slate-500 mt-0.5">Kuru & Sağlıklı</div>
       </div>
-
-      <!-- Ortam Rahatlığı -->
       <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
         <div class="text-[9px] text-slate-400">HİSSEDİLEN ORTAM</div>
-        <div class="text-sm font-bold text-violet-400 mt-0.5" id="pmvText">Tam Kıvamında 😌</div>
-        <div class="text-[9px] text-slate-500 mt-0.5">Odak Seviyesi: <span id="mentalScoreLabel">%96</span></div>
+        <div class="text-sm font-bold text-violet-400 mt-0.5" id="pmvText">Konforlu 😌</div>
+        <div class="text-[9px] text-slate-500 mt-0.5">Odak: <span id="mentalScoreLabel">%95</span></div>
       </div>
     </div>
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🌪️ 4. IKEA UPPÅTVIND AKILLI HAVA ROBOTU & OTONOM PİLOT  -->
-  <!-- ======================================================= -->
-  <section class="glass-card p-5 flex flex-col gap-4 border-cyan-500/20">
-    <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
-      <div class="flex items-center gap-2.5">
-        <div class="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 text-base">🌪️</div>
-        <div>
-          <h2 class="font-display font-bold text-sm text-white tracking-wide">IKEA UPPÅTVIND HAVA ROBOTU</h2>
-          <p class="text-[10px] font-mono text-slate-400">24V BLDC FAN • 3D KARBON + H13 HEPA [Kısayol: 0-3]</p>
-        </div>
-      </div>
-
-      <!-- 🤖 AUTOPILOT TOGGLE BUTTON -->
-      <button onclick="toggleAutoPilot()" id="autoPilotBtn" class="btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono text-[10px] font-bold shadow-lg shadow-emerald-500/10">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-        <span id="autoPilotLabel">🤖 OTONOM PİLOT: AÇIK</span>
-      </button>
-    </div>
-
-    <!-- Fan Speed 2-Segment Button Bar -->
-    <div class="grid grid-cols-2 gap-2 mb-3">
-      <button onclick="setUppatvindFan(0, true)" id="fanBtn0" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-all flex flex-col items-center gap-0.5 border border-transparent">
-        <span class="text-xl">🛑</span>
-        <span>KAPALI (DURDUR)</span>
-      </button>
-      <button onclick="setUppatvindFan(3, true)" id="fanBtn3" class="btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 transition-all flex flex-col items-center gap-0.5 shadow-lg shadow-cyan-500/10">
-        <span class="text-xl">🌪️</span>
-        <span>AÇIK (SERBEST)</span>
-      </button>
-    </div>
-
-    <!-- Live Telemetry Badges (RPM, PWM, Filter) -->
-    <div class="grid grid-cols-3 gap-2 text-center font-mono">
-      <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center">
-        <span class="text-[10px] text-slate-400">FAN DEVRİ</span>
-        <span class="text-lg font-bold text-cyan-300 font-mono tracking-tight" id="fanRpmVal">1450</span>
-        <span class="text-[9px] text-slate-500">RPM (DÖNÜŞ HIZI)</span>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center">
-        <span class="text-[10px] text-slate-400">MOTOR GÜCÜ</span>
-        <span class="text-lg font-bold text-emerald-400 font-mono tracking-tight" id="fanPwmVal">170</span>
-        <span class="text-[9px] text-slate-500">0-255 SİNYAL</span>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center">
-        <span class="text-[10px] text-slate-400">FİLTRE SAĞLIĞI</span>
-        <span class="text-lg font-bold text-amber-400 font-mono tracking-tight" id="fanFilterVal">%98</span>
-        <span class="text-[9px] text-slate-500">H13 + KARBON</span>
-      </div>
-    </div>
-  </section>
-
-  
-  <!-- ======================================================= -->
-  <!-- 🧪 4.5 UPPÅTVIND HAVA TEMİZLEME VERİMLİLİK LABORATUVARI  -->
-  <!-- ======================================================= -->
-  <section class="glass-card p-4 flex flex-col gap-3 border-cyan-500/30 bg-gradient-to-b from-slate-900/80 to-slate-950/90">
-    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
-      <div class="flex items-center gap-2">
-        <div class="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 text-sm">🧪</div>
-        <div>
-          <h3 class="font-display font-bold text-xs text-white tracking-wide">HAVA TEMİZLEME VERİMLİLİK ANALİZİ</h3>
-          <p class="text-[9px] font-mono text-slate-400">UPPÅTVIND GERÇEK ZAMANLI ETKİ & FİLTRE PERFORMANSI</p>
-        </div>
-      </div>
-      <span id="cleanerStatusBadge" class="text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">BEKLEMEDE ⏸️</span>
-    </div>
-
-    <!-- Live Session Active View (Shows when fan is running) -->
-    <div id="liveCleanSessionCard" class="p-3 rounded-xl bg-slate-950/70 border border-cyan-500/20 flex flex-col gap-2.5 hidden">
-      <div class="flex items-center justify-between text-xs font-mono">
-        <span class="text-cyan-400 font-bold flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          CANLI TEMİZLEME SEANSI
-        </span>
-        <span id="sessionDurationText" class="text-slate-300">00:00</span>
-      </div>
-
-      <div class="grid grid-cols-3 gap-2 text-center font-mono py-1">
-        <div class="p-2 rounded-lg bg-slate-900/70 border border-slate-800">
-          <div class="text-[9px] text-slate-400">BAŞLANGIÇ</div>
-          <div id="sessionStartAir" class="text-sm font-bold text-slate-300 mt-0.5">-- PPM</div>
-        </div>
-        <div class="p-2 rounded-lg bg-slate-900/70 border border-slate-800">
-          <div class="text-[9px] text-slate-400">ŞU AN</div>
-          <div id="sessionCurrentAir" class="text-sm font-bold text-emerald-400 mt-0.5">-- PPM</div>
-        </div>
-        <div class="p-2 rounded-lg bg-slate-900/70 border border-cyan-500/30 bg-cyan-500/5">
-          <div class="text-[9px] text-cyan-300 font-bold">TEMİZLENEN</div>
-          <div id="sessionCleanedDelta" class="text-sm font-bold text-cyan-300 mt-0.5">0 PPM</div>
-        </div>
-      </div>
-
-      <!-- Live Speed & Progress Rate -->
-      <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
-        <span>Hız: <b id="sessionCleanRate" class="text-cyan-300">0 PPM/dk</b></span>
-        <span>Başarı: <b id="sessionImprovementPct" class="text-emerald-400">%0 İyileşme</b></span>
-      </div>
-    </div>
-
-    <!-- Summary Stats Matrix -->
-    <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs">
-      <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 flex flex-col justify-center">
-        <div class="text-[9px] text-slate-400">SON SEANS VERİMİ</div>
-        <div id="lastSessionVerdict" class="text-xs font-bold text-emerald-400 mt-1">İLK ÇALIŞMA BEKLENİYOR</div>
-        <div id="lastSessionDetails" class="text-[9px] text-slate-500 mt-0.5">--</div>
-      </div>
-
-      <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 flex flex-col justify-center">
-        <div class="text-[9px] text-slate-400">TOPLAM TEMİZLENEN</div>
-        <div id="totalCleanedPpm" class="text-sm font-bold text-cyan-300 mt-0.5">0 PPM</div>
-        <div id="totalCleanSessions" class="text-[9px] text-slate-500 mt-0.5">0 Seans Kayıtlı</div>
-      </div>
-
-      <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 flex flex-col justify-center">
-        <div class="text-[9px] text-slate-400">FİLTRE VERİM SKORU</div>
-        <div id="filterHealthScore" class="text-sm font-bold text-amber-400 mt-0.5">%98</div>
-        <div class="text-[9px] text-emerald-400 mt-0.5">YÜKSEK ÇEKİŞ 🌪️</div>
-      </div>
-    </div>
-
-    <!-- History Accordion / Toggle -->
-    <div class="flex items-center justify-between pt-1">
-      <span class="text-[10px] font-mono text-slate-400">Geçmiş Seans Günlüğü</span>
-      <button onclick="toggleCleanHistory()" id="btnToggleCleanHistory" class="text-[10px] font-mono text-cyan-400 hover:text-cyan-300 font-bold transition-colors">
-        LİSTEYİ AÇ ▾
-      </button>
-    </div>
-
-    <div id="cleanHistoryContainer" class="flex flex-col gap-1.5 max-h-36 overflow-y-auto pr-1 hidden">
-      <div id="cleanHistoryList" class="flex flex-col gap-1.5 font-mono text-[10px]">
-        <!-- Dynamic items -->
-      </div>
-    </div>
-  </section>
-
-    <!-- ======================================================= -->
-    <!-- 🌈 4.8 ODA TAVAN AYDINLATMASI (LOTUS LANTERN / BLE)      -->
-    <!-- ======================================================= -->
-  <section class="glass-card p-4 flex flex-col gap-3 border-purple-500/20 bg-gradient-to-b from-slate-900/80 to-purple-950/20">
-    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
-      <div class="flex items-center gap-2">
-        <div class="p-1.5 rounded-lg bg-purple-500/10 text-purple-400 text-sm">🌈</div>
-        <div>
-          <h3 class="font-display font-bold text-xs text-white tracking-wide">ODA TAVAN AYDINLATMASI</h3>
-          <p class="text-[9px] font-mono text-slate-400">LOTUS LANTERN • BLUETOOTH MESH KABLOSUZ KONTROL</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-1.5">
-        <button onclick="triggerNightDimming()" class="btn-tactile px-2 py-1 bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1" title="Işığı 2 Dakikada Yavaşça Kısarak Söndür">
-          🌙 GECE UYKU KARARTMASI
-        </button>
-        <button onclick="triggerSunriseAlarmTest()" class="btn-tactile px-2 py-1 bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1" title="Android Alarmı / Yavaşça Uyandırma Simülasyonunu Test Et">
-          🌅 GÜN DOĞUMU ALARMI
-        </button>
-        <button onclick="toggleLedSensorAutopilot()" id="ledAutoPilotBtn" class="btn-tactile px-2 py-1 bg-slate-800 text-slate-400 border border-slate-700 rounded font-mono text-[10px] font-bold flex items-center gap-1">
-          🤖 SENSÖR OTOPİLOTU: KAPALI
-        </button>
-        <button onclick="toggleBleLedPower()" id="bleLedPowerBtn" class="btn-tactile px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-bold">
-          AÇIK 💡
-        </button>
-      </div>
-    </div>
-
-    <!-- Quick Preset Colors -->
-    <div class="grid grid-cols-5 gap-1.5 font-mono text-[10px]">
-      <button onclick="setBleLedColor('#00F0FF', 'Siber Turkuaz 💎')" class="btn-tactile py-2 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 font-bold flex flex-col items-center gap-0.5 hover:bg-cyan-500/25">
-        <span class="w-3 h-3 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400"></span>
-        <span>TURKUAZ</span>
-      </button>
-      <button onclick="setBleLedColor('#8A2BE2', 'Deep Focus Moru 🔮')" class="btn-tactile py-2 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300 font-bold flex flex-col items-center gap-0.5 hover:bg-purple-500/25">
-        <span class="w-3 h-3 rounded-full bg-purple-500 shadow-sm shadow-purple-500"></span>
-        <span>ODAK MOR</span>
-      </button>
-      <button onclick="setBleLedColor('#FF8C00', 'Gece Kehribarı 🌙')" class="btn-tactile py-2 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold flex flex-col items-center gap-0.5 hover:bg-amber-500/25">
-        <span class="w-3 h-3 rounded-full bg-amber-500 shadow-sm shadow-amber-500"></span>
-        <span>KEHRİBAR</span>
-      </button>
-      <button onclick="setBleLedColor('#00FF88', 'Zen Yeşili 🍃')" class="btn-tactile py-2 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold flex flex-col items-center gap-0.5 hover:bg-emerald-500/25">
-        <span class="w-3 h-3 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400"></span>
-        <span>ZEN YEŞİL</span>
-      </button>
-      <button onclick="setBleLedColor('#FFF0DD', 'Doğal Gün Işığı ☀️')" class="btn-tactile py-2 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-200 font-bold flex flex-col items-center gap-0.5 hover:bg-slate-700">
-        <span class="w-3 h-3 rounded-full bg-amber-100 shadow-sm shadow-amber-100"></span>
-        <span>GÜN IŞIĞI</span>
-      </button>
-    </div>
-
-    <!-- Custom Color & Brightness Controls -->
-    <div class="flex items-center justify-between gap-3 pt-1 border-t border-slate-800/60 font-mono text-xs">
-      <div class="flex items-center gap-2">
-        <span class="text-[10px] text-slate-400">Özel Renk:</span>
-        <input type="color" id="bleColorPicker" value="#00F0FF" onchange="setBleLedColor(this.value, 'Özel Renk 🎨')" class="w-7 h-7 rounded-lg bg-transparent border border-slate-700 cursor-pointer">
-      </div>
-      <div class="flex items-center gap-2 flex-1 max-w-[200px]">
-        <span class="text-[10px] text-slate-400">Parlaklık:</span>
-        <input type="range" id="bleBrightnessSlider" min="1" max="100" value="100" onchange="setBleLedBrightness(this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-400">
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================================================= -->
-  <!-- 🌿 5. MASA ORTAM SENSÖRLERİ (BME280, MQ-135, LDR)        -->
+  <!-- 🌿 4. MASA ORTAM SENSÖRLERİ                               -->
   <!-- ======================================================= -->
   <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
-    <!-- Sıcaklık -->
     <div class="glass-card p-4 flex flex-col justify-between">
-      <div class="flex items-center justify-between text-xs text-slate-400 font-mono">
-        <span>SICAKLIK</span>
-        <span class="text-rose-400">🌡️</span>
-      </div>
+      <div class="flex items-center justify-between text-xs text-slate-400 font-mono"><span>SICAKLIK</span><span class="text-rose-400">🌡️</span></div>
       <div class="my-2">
-        <div class="text-2xl font-bold font-mono text-white tracking-tight" id="liveTempText">26.4<span class="text-sm text-slate-400">°C</span></div>
-        <div class="text-[10px] font-mono text-slate-400 mt-0.5">TERAS: <span class="text-cyan-400" id="bucaTempDiff">22.0°C</span></div>
+        <div class="text-2xl font-bold font-mono text-white tracking-tight" id="liveTempText">--<span class="text-sm text-slate-400">°C</span></div>
+        <div class="text-[10px] font-mono text-slate-400 mt-0.5">TERAS: <span class="text-cyan-400" id="bucaTempDiff">--</span></div>
       </div>
-      <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden">
-        <div class="bg-gradient-to-r from-cyan-400 to-rose-400 h-full rounded-full" id="tempProgressBar" style="width: 55%;"></div>
-      </div>
+      <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden"><div class="bg-gradient-to-r from-cyan-400 to-rose-400 h-full rounded-full" id="tempProgressBar" style="width: 50%;"></div></div>
     </div>
-
-    <!-- Nem -->
     <div class="glass-card p-4 flex flex-col justify-between">
-      <div class="flex items-center justify-between text-xs text-slate-400 font-mono">
-        <span>BAĞIL NEM</span>
-        <span class="text-cyan-400">💧</span>
-      </div>
+      <div class="flex items-center justify-between text-xs text-slate-400 font-mono"><span>BAĞIL NEM</span><span class="text-cyan-400">💧</span></div>
       <div class="my-2">
-        <div class="text-2xl font-bold font-mono text-white tracking-tight" id="liveHumText">54<span class="text-sm text-slate-400">%</span></div>
+        <div class="text-2xl font-bold font-mono text-white tracking-tight" id="liveHumText">--<span class="text-sm text-slate-400">%</span></div>
         <div class="text-[10px] font-mono text-emerald-400 mt-0.5">İDEAL KONFOR</div>
       </div>
-      <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden">
-        <div class="bg-cyan-400 h-full rounded-full" id="humProgressBar" style="width: 54%;"></div>
-      </div>
+      <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden"><div class="bg-cyan-400 h-full rounded-full" id="humProgressBar" style="width: 50%;"></div></div>
     </div>
-
-    <!-- Hava Kalitesi (MQ-135) -->
     <div class="glass-card p-4 flex flex-col justify-between">
-      <div class="flex items-center justify-between text-xs text-slate-400 font-mono">
-        <span>HAVA KALİTESİ</span>
-        <span class="text-emerald-400">🍃</span>
-      </div>
+      <div class="flex items-center justify-between text-xs text-slate-400 font-mono"><span>HAVA KALİTESİ</span><span class="text-emerald-400">🍃</span></div>
       <div class="my-2">
-        <div class="text-2xl font-bold font-mono text-emerald-400 tracking-tight" id="liveAirText">450<span class="text-xs text-slate-400"> PPM</span></div>
+        <div class="text-2xl font-bold font-mono text-emerald-400 tracking-tight" id="liveAirText">--<span class="text-xs text-slate-400"> PPM</span></div>
         <div class="text-[10px] font-mono text-slate-400 mt-0.5">TEMİZ HAVA</div>
       </div>
-      <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden">
-        <div class="bg-emerald-400 h-full rounded-full" id="airProgressBar" style="width: 35%;"></div>
-      </div>
+      <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden"><div class="bg-emerald-400 h-full rounded-full" id="airProgressBar" style="width: 30%;"></div></div>
     </div>
-
-    <!-- Işık (LDR) -->
     <div class="glass-card p-4 flex flex-col justify-between">
-      <div class="flex items-center justify-between text-xs text-slate-400 font-mono">
-        <span>GÜN IŞIĞI</span>
-        <span class="text-amber-400">☀️</span>
-      </div>
+      <div class="flex items-center justify-between text-xs text-slate-400 font-mono"><span>GÜN IŞIĞI</span><span class="text-amber-400">☀️</span></div>
       <div class="my-2">
-        <div class="text-2xl font-bold font-mono text-amber-300 tracking-tight" id="liveLightText">40<span class="text-sm text-slate-400">%</span></div>
+        <div class="text-2xl font-bold font-mono text-amber-300 tracking-tight" id="liveLightText">--<span class="text-sm text-slate-400">%</span></div>
         <div class="text-[10px] font-mono text-slate-400 mt-0.5">ORTAM IŞIĞI</div>
       </div>
-      <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden">
-        <div class="bg-amber-400 h-full rounded-full" id="lightProgressBar" style="width: 40%;"></div>
-      </div>
-    </div>
-  </section>
-
-    <!-- ======================================================= -->
-    <!-- 📅 5.5 GOOGLE TAKVİM & HIZLI PLAN                       -->
-    <!-- ======================================================= -->
-  <section class="glass-card p-4 flex flex-col gap-3">
-    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
-      <div class="flex items-center gap-2">
-        <span class="text-base text-amber-400">📅</span>
-        <h3 class="font-display font-bold text-xs text-white tracking-wide">GOOGLE TAKVİM & AJANDA</h3>
-      </div>
-      <button onclick="fetchGoogleCalendarEvents()" class="btn-tactile px-2.5 py-1 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1">
-        🔄 YENİLE
-      </button>
-    </div>
-
-    <!-- Event List -->
-    <div id="eventList" class="flex flex-col gap-1.5 max-h-48 overflow-y-auto pr-1">
-      <div class="text-[11px] text-slate-500 text-center py-3 font-mono">[YÜKLENİYOR...]</div>
-    </div>
-
-    <!-- Quick Plan Input Form -->
-    <form onsubmit="handleQuickPlanSubmit(event)" class="flex gap-2 pt-2 border-t border-slate-800/80">
-      <input type="text" id="quickPlanInput" class="flex-1 bg-slate-900/60 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 transition-colors font-mono" placeholder="Yeni plan ekle (Örn: Yarın 14:00 Toplantı)...">
-      <button type="submit" class="btn-tactile bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3.5 py-2 rounded-xl text-xs font-bold font-mono hover:bg-emerald-500/30">EKLE</button>
-    </form>
-  </section>
-
-  <!-- ======================================================= -->
-  <!-- ⏱️ 6. ODAKLANMA & MAC EKRAN SÜRESİ                      -->
-  <!-- ======================================================= -->
-  <section class="glass-card p-5 flex flex-col gap-4">
-    <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
-      <div class="flex items-center gap-2.5">
-        <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400 text-base">⏱️</div>
-        <div>
-          <h3 class="font-display font-bold text-sm text-white tracking-wide">BİLİŞSEL ODAKLANMA & POMODORO</h3>
-          <p class="text-[10px] font-mono text-slate-400" id="pomoRoundBadge">TAMAMLANAN TUR: 0 [Kısayol: P]</p>
-        </div>
-      </div>
-      <span class="text-[11px] font-mono font-bold text-amber-400 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20" id="pomoStateBadge">HAZIR</span>
-    </div>
-
-    <!-- Countdown Display -->
-    <div class="py-4 rounded-xl bg-slate-950/80 border border-slate-800/80 flex flex-col items-center justify-center shadow-inner">
-      <div class="font-mono text-4xl font-black text-amber-400 tracking-wider" id="pomoCountdownDisplay">25:00</div>
-      <p class="text-[10px] font-mono text-slate-500 mt-1" id="pomoSubText">DERİN ÇALIŞMA SEANSI</p>
-    </div>
-
-    <!-- Timer Controls (25m Focus / 90m Flow / 5m Break / Stop) -->
-    <div class="grid grid-cols-4 gap-1.5 font-mono text-xs">
-      <button onclick="startPomodoro(25, 'FOCUS')" class="btn-tactile py-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold hover:bg-amber-500/25">
-        25 DK ODAK
-      </button>
-      <button onclick="startPomodoro(90, 'FOCUS')" class="btn-tactile py-2.5 rounded-xl bg-purple-500/15 border border-purple-500/30 text-purple-300 font-bold hover:bg-purple-500/25">
-        90 DK AKIŞ
-      </button>
-      <button onclick="startPomodoro(5, 'BREAK')" class="btn-tactile py-2.5 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 font-bold hover:bg-cyan-500/25">
-        5 DK MOLA
-      </button>
-      <button onclick="stopPomodoro()" class="btn-tactile py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-slate-400 font-bold hover:bg-slate-700">
-        DURDUR
-      </button>
-    </div>
-
-    <!-- Mac Active Screen Telemetry -->
-    <div class="grid grid-cols-2 gap-2 text-center font-mono text-xs pt-2 border-t border-slate-800/60">
-      <div class="p-2.5 rounded-lg bg-slate-900/40 border border-slate-800">
-        <div class="text-[10px] text-slate-400">BUGÜNKÜ MAC SÜRESİ</div>
-        <div class="font-bold text-white mt-0.5" id="macScreenTimeVal">01:37:00</div>
-      </div>
-      <div class="p-2.5 rounded-lg bg-slate-900/40 border border-slate-800">
-        <div class="text-[10px] text-slate-400">KESİNTİSİZ ÇALIŞMA</div>
-        <div class="font-bold text-cyan-400 mt-0.5" id="macContinuousVal">57 Dk</div>
-      </div>
+      <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden"><div class="bg-amber-400 h-full rounded-full" id="lightProgressBar" style="width: 40%;"></div></div>
     </div>
   </section>
 
   <!-- ======================================================= -->
-  <!-- 🐹 7. CANLI YULAF CYBER-OLED COMPANION                   -->
+  <!-- 🐹 5. CANLI YULAF CYBER COMPANION                        -->
   <!-- ======================================================= -->
   <section class="glass-card p-4 flex items-center gap-3.5">
-    <canvas id="yulafPixelCanvas" width="32" height="32" class="w-14 h-14 rounded-xl bg-slate-950 border border-emerald-500/30 shadow-lg shadow-emerald-500/10 image-pixelated shrink-0"></canvas>
+    <canvas id="yulafPixelCanvas" width="32" height="32" class="w-14 h-14 rounded-xl bg-slate-950 border border-emerald-500/30 shadow-lg shrink-0"></canvas>
     <div class="flex flex-col gap-1 overflow-hidden">
       <div class="flex items-center justify-between">
         <span class="font-display font-bold text-xs text-emerald-400">HAMSTER YULAF // VİRTUAL OLED</span>
         <span class="font-mono text-[9px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20" id="yulafMoodPill">DURUM: NÖBETTE 🐾</span>
       </div>
-      <p class="font-mono text-xs text-slate-300 italic truncate" id="yulafSpeechText">"Oda havası temiz, çalışmaya hazırım Jasper!"</p>
+      <p class="font-mono text-xs text-slate-300 italic truncate" id="yulafSpeechText">"Oda havası temiz, çalışmaya hazırım Efe!"</p>
     </div>
   </section>
 
-  <!-- ======================================================= -->
-  <!-- 📈 8. CANLI TELEMETRİ GRAFİĞİ & CSV İNDİRME              -->
-  <!-- ======================================================= -->
-  <section class="glass-card p-5 flex flex-col gap-3">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span class="text-base">📈</span>
-        <h3 class="font-display font-bold text-sm text-white tracking-wide">24 SAATLİK SENSÖR GEÇMİŞİ</h3>
-      </div>
-      <button onclick="exportTelemetryCSV()" class="btn-tactile px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-cyan-400 font-mono text-[10px] font-bold flex items-center gap-1 hover:bg-slate-700">
-        💾 CSV İNDİR
-      </button>
-    </div>
-
-    <!-- Chart Period Selector -->
-    <div class="flex gap-1.5 font-mono text-[10px]">
-      <button onclick="changeChartPeriod('24h')" id="chartBtn24h" class="btn-tactile px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 font-bold">24 SAAT</button>
-      <button onclick="changeChartPeriod('7d')" id="chartBtn7d" class="btn-tactile px-3 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700">7 GÜN</button>
-      <button onclick="changeChartPeriod('30d')" id="chartBtn30d" class="btn-tactile px-3 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700">30 GÜN</button>
-    </div>
-
-    <div class="h-44 w-full pt-2">
-      <canvas id="telemetryChart"></canvas>
-    </div>
-  </section>
-
-  <!-- ======================================================= -->
-  <!-- 🧠 JAVASCRIPT: ADVANCED PSYCHROMETRICS & SPOTIFY ENGINE -->
-  <!-- ======================================================= -->
+  <!-- JAVASCRIPT MOTORU -->
   <script>
     const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/";
-    const FIREBASE_AUTH = "";
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_wX4JOuylbIAH8NvjZLrRJg4UDhq1NmAE3X-H1y-uEUCgDySJe8ITuUt94DhnhCVvkQ/exec";
-    const NTFY_TOPIC = "jasper_agy1976";
-
-    // Raw & Filtered State Variables
-    let liveAir = 450;
-    let liveLight = 40;
-    let liveTemp = 26.4;
-    let liveHum = 54;
-    let currentFanLevel = 2;
-    let autoPilot = true;
-    let lastSyncTime = Date.now();
-    let currentPresence = "HOME_DESK";
-    let isSpotifyPlaying = false;
-
-    let sensorDiagnostics = {
-      bme280Valid: true,
-      mq135Valid: true,
-      outdoorValid: true,
-      anomalyCount: 0
-    };
-
-    let pomoMode = "IDLE";
-    let pomoSecondsRemaining = 1500;
-    let pomoInterval = null;
-    let completedPomoCount = parseInt(localStorage.getItem('completed_pomo_count') || '0');
-
-    let currentChartPeriod = '24h';
-    let chartInstance = null;
-
-    let soundMuted = false;
-    let oledMode = localStorage.getItem('agy_oled_mode') === 'true';
-    let audioCtx = null;
-    let brownNoiseNode = null;
-    let brownNoiseActive = false;
-    let syncIntervalId = null;
-    let isAppVisible = true;
-
-    if (oledMode) {
-      document.body.classList.add('oled-mode');
-      document.getElementById('oledIcon').innerText = '☀️';
-    }
-
-    function toggleOledMode() {
-      oledMode = !oledMode;
-      localStorage.setItem('agy_oled_mode', oledMode);
-      if (oledMode) {
-        document.body.classList.add('oled-mode');
-        document.getElementById('oledIcon').innerText = '☀️';
-        showToast("GECE MODU AKTİF (OLED KISILDI) 🌙", "🌙");
-      } else {
-        document.body.classList.remove('oled-mode');
-        document.getElementById('oledIcon').innerText = '🌙';
-        showToast("CYBER DARK MODU AKTİF (OLED PARLAK) ☀️", "☀️");
-      }
-      
-      // Update Firebase to dim physical OLED via Python daemon proxy
-      fetch(FIREBASE_URL + "control/oled_dim.json" + FIREBASE_AUTH, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(oledMode)
-      });
-    }
-
-    /* 📲 NTFY OPEN SOURCE PUSH NOTIFICATION SENDER */
-    async function sendNtfyTestPush() {
-      playBeep(850, 0.04);
-      showToast("NTFY BİLDİRİMİ GÖNDERİLİYOR... 📲", "📲");
-      try {
-        await fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
-          method: 'POST',
-          headers: {
-            'Title': 'AGY-1976 Masa İstasyonu 🚀',
-            'Priority': 'default',
-            'Tags': 'robot,zap,bell',
-            'Click': 'https://jasperrave.github.io/l-tfenson/'
-          },
-          body: 'Test Bildirimi: Masa Kokpiti ve NTFY Bildirim Köprüsü başarıyla bağlı!'
-        });
-        showToast("TELEFONUNA BİLDİRİM GİTTİ! 🔔", "🔔");
-      } catch(e) {
-        showToast("BİLDİRİM GÖNDERİLEMEDİ ⚠️", "⚠️");
-      }
-    }
-
-    /* 🌊 WEB AUDIO SYNTHESIZED BROWN NOISE */
-    function toggleBrownNoise() {
-      const btn = document.getElementById('brownNoiseBtn');
-      const ctx = getAudioContext();
-      if (!brownNoiseActive) {
-        const bufferSize = ctx.sampleRate * 2;
-        const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const output = noiseBuffer.getChannelData(0);
-        let lastOut = 0.0;
-        for (let i = 0; i < bufferSize; i++) {
-          const white = Math.random() * 2 - 1;
-          output[i] = (lastOut + (0.02 * white)) / 1.02;
-          lastOut = output[i];
-          output[i] *= 3.5;
-        }
-        brownNoiseNode = ctx.createBufferSource();
-        brownNoiseNode.buffer = noiseBuffer;
-        brownNoiseNode.loop = true;
-        const gainNode = ctx.createGain();
-        gainNode.gain.setValueAtTime(0.12, ctx.currentTime);
-        brownNoiseNode.connect(gainNode);
-        gainNode.connect(ctx.destination);
-        brownNoiseNode.start();
-        brownNoiseActive = true;
-        btn.className = 'btn-tactile p-2 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-xs font-mono shadow-lg shadow-cyan-500/10';
-        showToast("BİOFİLİK DERİN ODAK SESİ AÇILDI 🌊", "🌊");
-      } else {
-        if (brownNoiseNode) {
-          brownNoiseNode.stop();
-          brownNoiseNode.disconnect();
-          brownNoiseNode = null;
-        }
-        brownNoiseActive = false;
-        btn.className = 'btn-tactile p-2 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:bg-slate-700 text-slate-400 text-xs font-mono';
-        showToast("ODAK SESİ SUSTURULDU", "🔇");
-      }
-    }
-
-    function toggleAutoPilot() {
-      autoPilot = !autoPilot;
-      const btn = document.getElementById('autoPilotBtn');
-      const label = document.getElementById('autoPilotLabel');
-      if (autoPilot) {
-        btn.className = 'btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono text-[10px] font-bold shadow-lg shadow-emerald-500/10';
-        label.innerText = '🤖 OTONOM PİLOT: AÇIK';
-        showToast("OTONOM HAVA PİLOTu DEVREDE 🤖");
-        runAutoPilotLogic();
-      } else {
-        btn.className = 'btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 font-mono text-[10px] font-bold';
-        label.innerText = '🤖 OTONOM PİLOT: KAPALI';
-        showToast("MANUEL KONTROLE GEÇİLDİ 🕹️");
-      }
-    }
+    let liveAir = 450, liveLight = 40, liveTemp = 24.5, liveHum = 45;
+    let isSpotifyPlaying = false, soundMuted = false;
 
     function getAudioContext() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
-      return audioCtx;
+      return window.AudioContext ? new (window.AudioContext || window.webkitAudioContext)() : null;
     }
 
-        // ⌚ CASIO F-91W ORİJİNAL PİEZO KRİSTAL SES MOTORU (2048 Hz)
     function playCasioButtonBeep() {
       if (soundMuted) return;
       try {
         const ctx = getAudioContext();
+        if(!ctx) return;
         const now = ctx.currentTime;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-
-        // 2048 Hz Saf Piezo Kare Dalga (Casio F-91W Buton Basış Sesi)
         osc.type = "square";
         osc.frequency.setValueAtTime(2048, now);
-
-        gain.gain.setValueAtTime(0, now);
-        gain.gain.linearRampToValueAtTime(0.22, now + 0.002);
-        gain.gain.setValueAtTime(0.22, now + 0.026);
-        gain.gain.linearRampToValueAtTime(0, now + 0.030);
-
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.linearRampToValueAtTime(0, now + 0.03);
         osc.connect(gain);
         gain.connect(ctx.destination);
-
         osc.start(now);
-        osc.stop(now + 0.030);
-        if (navigator.vibrate) navigator.vibrate(15);
+        osc.stop(now + 0.03);
       } catch(e) {}
-    }
-
-    
-    // ✨ PERİSEL ALTIN SAAT TINGIRTISI (ETHEREAL FAIRY HARP ARPEGGIO)
-    function playFairyGoldenHourChime() {
-      if (soundMuted) return;
-      try {
-        const ctx = getAudioContext();
-        const now = ctx.currentTime;
-        
-        // Büyülü Peri Arpej Notaları (C6, E6, G6, B6, C7, E7, G7 Shimmer)
-        const notes = [1046.5, 1318.5, 1567.98, 1975.53, 2093.0, 2637.02, 3135.96];
-        
-        notes.forEach((freq, idx) => {
-          const startTime = now + (idx * 0.075);
-          const duration = 1.6;
-          
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          
-          // Yumuşak Perisel Kristal Tınısı
-          osc.type = "sine";
-          osc.frequency.setValueAtTime(freq, startTime);
-          
-          gain.gain.setValueAtTime(0, startTime);
-          gain.gain.linearRampToValueAtTime(0.18, startTime + 0.015);
-          gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-          
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          
-          osc.start(startTime);
-          osc.stop(startTime + duration);
-        });
-
-        if (navigator.vibrate) navigator.vibrate([40, 60, 40, 60, 80]);
-      } catch(e) {}
-    }
-
-    // 🌇 GÜNÜN ALTIN SAATİ (GOLDEN HOUR) CANLI NÖBETÇİSİ
-    let lastGoldenHourTriggerDay = "";
-    function checkGoldenHourWatcher() {
-      const now = new Date();
-      const todayStr = now.toISOString().slice(0, 10);
-      const hours = now.getHours();
-      const mins = now.getMinutes();
-
-      // İzmir / Buca için Yaz Mevsimi Altın Saati: ~19:15 - 20:00 (Gün batımından önceki 45 dk)
-      // Gün batımı civarında 19:30'da tetiklenir
-      if (hours === 19 && mins === 30 && lastGoldenHourTriggerDay !== todayStr) {
-        lastGoldenHourTriggerDay = todayStr;
-        playFairyGoldenHourChime();
-        showToast("✨ Günün Altın Saati Başladı! (Golden Hour 🌇)");
-        
-        // Tavan ışığını Altın Gün Batımı tonuna al
-        setBleLedColor("#FFAA00", "Altın Saat 🌇");
-      }
-    }
-    setInterval(checkGoldenHourWatcher, 30000);
-
-    function playCasioF91WChime(beeps = 1) {
-      if (soundMuted) return;
-      try {
-        const ctx = getAudioContext();
-        const now = ctx.currentTime;
-        const freq = 2048; // Casio kristal piezo frekansı
-        const beepDuration = 0.065; // 65ms
-        const gapDuration = 0.075;  // 75ms
-
-        for (let i = 0; i < beeps; i++) {
-          const startTime = now + (i * (beepDuration + gapDuration));
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-
-          osc.type = "square";
-          osc.frequency.setValueAtTime(freq, startTime);
-
-          gain.gain.setValueAtTime(0, startTime);
-          gain.gain.linearRampToValueAtTime(0.3, startTime + 0.003);
-          gain.gain.setValueAtTime(0.3, startTime + beepDuration - 0.003);
-          gain.gain.linearRampToValueAtTime(0, startTime + beepDuration);
-
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-
-          osc.start(startTime);
-          osc.stop(startTime + beepDuration);
-        }
-        if (navigator.vibrate) navigator.vibrate(beeps === 2 ? [65, 75, 65] : [65]);
-      } catch(e) {}
-    }
-
-    function playBeep(freq = 2048, duration = 0.03) {
-      playCasioButtonBeep();
-    }
-
-    // 🌐 TÜM BUTON TIKLAMALARINA OTOMATİK CASIO F-91W SESİ BAĞLAMA
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('button, .btn-tactile, a.btn-tactile, input[type="range"], input[type="color"]');
-      if (btn) {
-        playCasioButtonBeep();
-      }
-    });
-
-    function toggleAudioMute() {
-      soundMuted = !soundMuted;
-      document.getElementById('muteIcon').innerText = soundMuted ? '🔇' : '🔊';
-      showToast(soundMuted ? 'SES KAPATILDI' : 'SES AÇIK', soundMuted ? '🔇' : '🔊');
     }
 
     function showToast(msg, icon = '⚡') {
-      playBeep(750, 0.03);
+      playCasioButtonBeep();
       const toast = document.getElementById('cyberToast');
       document.getElementById('toastMsg').innerText = msg;
       document.getElementById('toastIcon').innerText = icon;
       toast.classList.add('show');
-      toast.style.opacity = '1';
-      setTimeout(() => {
-        toast.classList.remove('show');
-        toast.style.opacity = '0';
-      }, 2200);
+      setTimeout(() => toast.classList.remove('show'), 2200);
     }
 
-    /* ⌨️ PRO DESKTOP KEYBOARD SHORTCUTS */
-    window.addEventListener('keydown', (e) => {
-      if (['input', 'textarea'].includes(document.activeElement.tagName.toLowerCase())) return;
-      if (e.code === 'Space') {
-        e.preventDefault();
-        sendSpotifyCommand('playpause');
-      } else if (['Digit0', 'Numpad0'].includes(e.code)) {
-        setUppatvindFan(0, true);
-      } else if (['Digit1', 'Numpad1'].includes(e.code)) {
-        setUppatvindFan(1, true);
-      } else if (['Digit2', 'Numpad2'].includes(e.code)) {
-        setUppatvindFan(2, true);
-      } else if (['Digit3', 'Numpad3'].includes(e.code)) {
-        setUppatvindFan(3, true);
-      } else if (e.key.toLowerCase() === 'p') {
-        if (pomoMode === 'IDLE') startPomodoro(25, 'FOCUS');
-        else stopPomodoro();
-      } else if (e.key.toLowerCase() === 'b') {
-        ringDeskChime();
-      } else if (e.key.toLowerCase() === 'm') {
-        toggleAudioMute();
-      } else if (e.key.toLowerCase() === 'o') {
-        toggleOledMode();
-      }
-    });
+    function toggleAudioMute() {
+      soundMuted = !soundMuted;
+      document.getElementById('muteIcon').innerText = soundMuted ? '🔇' : '🔊';
+      showToast(soundMuted ? 'SES KAPATILDI' : 'SES AÇIK');
+    }
 
-    /* 🐹 CANLI YULAF PIXEL ANIMATION */
+    function ringDeskChime() {
+      showToast("MASA ZİLİ ÇALDIRILDI 🔔");
+      fetch(FIREBASE_URL + "control/ring_buzzer.json", { method: "PUT", body: "true" }).catch(()=>{});
+    }
+
+    async function sendSpotifyCommand(action) {
+      showToast(`SPOTIFY: ${action.toUpperCase()} 🎵`);
+      fetch(FIREBASE_URL + "control/spotify_cmd.json", { method: "PUT", body: JSON.stringify(action) }).catch(()=>{});
+    }
+
+    // Yulaf Animasyonu
     let yulafFrame = 0;
     function renderYulaf() {
-      if (!isAppVisible) return;
       const cvs = document.getElementById('yulafPixelCanvas');
       if (!cvs) return;
       const ctx = cvs.getContext('2d');
       ctx.imageSmoothingEnabled = false;
-
       ctx.fillStyle = '#060B0E';
       ctx.fillRect(0, 0, 32, 32);
-
-      // Fur Body
       ctx.fillStyle = '#D4AF37';
       ctx.fillRect(8, 12, 16, 14);
       ctx.fillRect(6, 10, 20, 12);
-
-      // Ears
       ctx.fillStyle = '#FFAAA6';
       ctx.fillRect(6, 6, 4, 5);
       ctx.fillRect(22, 6, 4, 5);
-
-      // Cheeks
-      ctx.fillStyle = '#E59866';
-      ctx.fillRect(5, 14, 3, 4);
-      ctx.fillRect(24, 14, 3, 4);
-
-      // Eyes with Blink
-      const isBlink = (yulafFrame % 45 > 41);
       ctx.fillStyle = '#111';
-      if (!isBlink) {
-        ctx.fillRect(10, 13, 3, 3);
-        ctx.fillRect(19, 13, 3, 3);
-        ctx.fillStyle = '#FFF';
-        ctx.fillRect(10, 13, 1, 1);
-        ctx.fillRect(19, 13, 1, 1);
-      } else {
-        ctx.fillRect(10, 14, 3, 1);
-        ctx.fillRect(19, 14, 3, 1);
-      }
-
-      // Nose
-      ctx.fillStyle = '#E74C3C';
-      ctx.fillRect(15, 16, 2, 2);
-
-      // Whiskers
-      ctx.fillStyle = '#8C9C92';
-      const wOff = (yulafFrame % 12 < 6) ? 0 : 1;
-      ctx.fillRect(4, 16 + wOff, 4, 1);
-      ctx.fillRect(24, 16 - wOff, 4, 1);
-
-      // Headphones if Spotify Playing
-      if (isSpotifyPlaying) {
-        ctx.fillStyle = '#00F2FE';
-        ctx.fillRect(4, 8, 3, 8);
-        ctx.fillRect(25, 8, 3, 8);
-        ctx.fillRect(5, 5, 22, 2);
-      }
-
+      ctx.fillRect(10, 13, 3, 3);
+      ctx.fillRect(19, 13, 3, 3);
       yulafFrame++;
       requestAnimationFrame(renderYulaf);
     }
     requestAnimationFrame(renderYulaf);
 
-    /* 🌪️ UPPÅTVIND FAN CONTROLS & OTONOM PİLOT */
-    function runAutoPilotLogic(p, contSec) {
-      if (!autoPilot) return;
-      let targetLevel = 0;
-      
-      // 🧠 AKILLI & MANTIKLI OTONOM PİLOT:
-      // Eğer kullanıcı Terastaysa veya masa başında değilse, boş odaya fan çalıştırma (Hava çok zehirli değilse)
-      const isAwayFromDesk = (currentPresence === "HOME_TERRACE");
-
-      // 1. Birincil Karar: Gerçek Hava Kirliliği (Zehirli/Tozlu hava)
-      if (liveAir > 580) {
-        targetLevel = 3; 
-      } 
-      // 2. İkincil Karar: Ağır Havasızlık (PPM > 460 ve Yüksek Entalpi)
-      else if (!isAwayFromDesk && p.enthalpyIn > 62 && liveAir > 450) {
-        targetLevel = 3; 
-      }
-      // 3. Masada değilse veya hava temizse DURDUR
-      else {
-        targetLevel = 0;
-      }
-
-      if (targetLevel !== currentFanLevel) {
-        setUppatvindFan(targetLevel, false);
-      }
-    }
-
-    async function setUppatvindFan(level, isManual = false) {
-      if (isManual && autoPilot) {
-        autoPilot = false;
-        document.getElementById('autoPilotBtn').className = 'btn-tactile flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 font-mono text-[10px] font-bold';
-        document.getElementById('autoPilotLabel').innerText = '🤖 OTONOM PİLOT: KAPALI';
-      }
-
-      const prevFanLevel = currentFanLevel;
-      currentFanLevel = level;
-      handleFanStateChange(level);
-      playBeep(600, 0.04);
-      
-      const isOff = (level === 0);
-      const btnOff = document.getElementById('fanBtn0');
-      const btnOn = document.getElementById('fanBtn3');
-      
-      if (btnOff) {
-        btnOff.className = isOff ? 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-rose-400 bg-rose-500/15 border border-rose-500/30 flex flex-col items-center gap-0.5 shadow-lg shadow-rose-500/10' : 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white flex flex-col items-center gap-0.5 border border-transparent';
-      }
-      if (btnOn) {
-        btnOn.className = !isOff ? 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-cyan-400 bg-cyan-500/15 border border-cyan-500/30 transition-all flex flex-col items-center gap-0.5 shadow-lg shadow-cyan-500/10' : 'btn-tactile py-2.5 px-2 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-white flex flex-col items-center gap-0.5 border border-transparent';
-      }
-
-      document.getElementById('fanRpmVal').innerText = isOff ? "0" : "2400";
-      document.getElementById('fanPwmVal').innerText = isOff ? "0" : "255";
-
-      if (isManual) showToast(`FAN KADEME ${level} GÖNDERİLDİ 🌪️`);
-      try {
-        fetch("http://192.168.1.45/fan?level=" + level, { mode: "no-cors" }).catch(()=>{});
-        await fetch(FIREBASE_URL + "control/uppatvind_fan.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(level)
-        });
-      } catch(e) {}
-    }
-
-    
-    // ====================================================
-    // 🌪️ UPPÅTVIND HAVA TEMİZLEME & VERİMLİLİK MOTORU
-    // ====================================================
-    let activeFanSession = null;
-    let cleanSessionsHistory = JSON.parse(localStorage.getItem('uppatvind_clean_history') || '[]');
-
-    function handleFanStateChange(newLevel) {
-      const now = Date.now();
-      
-      // Fan turned ON (was 0, now > 0)
-      if (newLevel > 0 && !activeFanSession) {
-        activeFanSession = {
-          startTime: now,
-          startAir: liveAir,
-          samples: [{ t: now, air: liveAir }],
-          peakCleaned: 0
-        };
-        updateEfficiencyUI();
-      }
-      // Fan turned OFF (was > 0, now 0)
-      else if (newLevel === 0 && activeFanSession) {
-        const durationSec = Math.round((now - activeFanSession.startTime) / 1000);
-        const endAir = liveAir;
-        const delta = activeFanSession.startAir - endAir; // positive means improved
-        const pctImprovement = activeFanSession.startAir > 0 ? Math.round((delta / activeFanSession.startAir) * 100) : 0;
-        const durationMin = Math.max(1, Math.round(durationSec / 60));
-        const ratePerMin = (delta / durationMin).toFixed(1);
-
-        // Only save sessions longer than 20 seconds
-        if (durationSec >= 20) {
-          let verdict = "DENGEDE ⚖️";
-          if (delta >= 50) verdict = "YÜKSEK VERİM 🍃";
-          else if (delta > 10) verdict = "ORTA TEMİZLEME ✨";
-          else if (delta <= -20) verdict = "HAVA KİRLENDİ ⚠️";
-
-          const sessionRecord = {
-            id: 'clean-' + now,
-            dateStr: new Date(activeFanSession.startTime).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
-            durationMin: durationMin,
-            startAir: activeFanSession.startAir,
-            endAir: endAir,
-            delta: delta,
-            pct: pctImprovement,
-            rate: ratePerMin,
-            verdict: verdict
-          };
-
-          cleanSessionsHistory.unshift(sessionRecord);
-          if (cleanSessionsHistory.length > 20) cleanSessionsHistory.pop();
-          localStorage.setItem('uppatvind_clean_history', JSON.stringify(cleanSessionsHistory));
-          showToast(`🌪️ Fan Durdu: ${durationMin} dk'da ${delta > 0 ? '-' + delta : '+' + Math.abs(delta)} PPM (${verdict})`);
-        }
-
-        activeFanSession = null;
-        updateEfficiencyUI();
-      }
-    }
-
-    function updateEfficiencyUI() {
-      const badgeEl = document.getElementById('cleanerStatusBadge');
-      const liveCard = document.getElementById('liveCleanSessionCard');
-      const histList = document.getElementById('cleanHistoryList');
-      const totalCleanedEl = document.getElementById('totalCleanedPpm');
-      const totalSessionsEl = document.getElementById('totalCleanSessions');
-      const lastVerdictEl = document.getElementById('lastSessionVerdict');
-      const lastDetailsEl = document.getElementById('lastSessionDetails');
-
-      // 1. Live Session Tracking
-      if (activeFanSession) {
-        if (badgeEl) {
-          badgeEl.innerText = "TEMİZLİYOR 🌪️";
-          badgeEl.className = "text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 animate-pulse";
-        }
-        if (liveCard) liveCard.classList.remove('hidden');
-
-        const elapsedSec = Math.round((Date.now() - activeFanSession.startTime) / 1000);
-        const mins = String(Math.floor(elapsedSec / 60)).padStart(2, '0');
-        const secs = String(elapsedSec % 60).padStart(2, '0');
-        
-        const delta = activeFanSession.startAir - liveAir;
-        const pct = activeFanSession.startAir > 0 ? Math.round((delta / activeFanSession.startAir) * 100) : 0;
-        const elapsedMin = Math.max(0.5, elapsedSec / 60);
-        const rate = (delta / elapsedMin).toFixed(1);
-
-        document.getElementById('sessionDurationText').innerText = `${mins}:${secs}`;
-        document.getElementById('sessionStartAir').innerText = `${activeFanSession.startAir} PPM`;
-        document.getElementById('sessionCurrentAir').innerText = `${liveAir} PPM`;
-        
-        const deltaEl = document.getElementById('sessionCleanedDelta');
-        if (delta >= 0) {
-          deltaEl.innerText = `-${delta} PPM 🍃`;
-          deltaEl.className = "text-sm font-bold text-emerald-400 mt-0.5";
-        } else {
-          deltaEl.innerText = `+${Math.abs(delta)} PPM ⚠️`;
-          deltaEl.className = "text-sm font-bold text-rose-400 mt-0.5";
-        }
-
-        document.getElementById('sessionCleanRate').innerText = `${rate} PPM/dk`;
-        document.getElementById('sessionImprovementPct').innerText = `${pct >= 0 ? '%' + pct + ' İyileşme 📉' : '%' + Math.abs(pct) + ' Kirlenme 📈'}`;
-      } else {
-        if (badgeEl) {
-          badgeEl.innerText = "BEKLEMEDE ⏸️";
-          badgeEl.className = "text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700";
-        }
-        if (liveCard) liveCard.classList.add('hidden');
-      }
-
-      // 2. Cumulative Stats
-      let totalPpmCleaned = 0;
-      cleanSessionsHistory.forEach(s => {
-        if (s.delta > 0) totalPpmCleaned += s.delta;
-      });
-
-      if (totalCleanedEl) totalCleanedEl.innerText = `${totalPpmCleaned} PPM`;
-      if (totalSessionsEl) totalSessionsEl.innerText = `${cleanSessionsHistory.length} Seans Kayıtlı`;
-
-      if (cleanSessionsHistory.length > 0) {
-        const last = cleanSessionsHistory[0];
-        if (lastVerdictEl) lastVerdictEl.innerText = last.verdict;
-        if (lastDetailsEl) lastDetailsEl.innerText = `${last.durationMin} dk • Baş: ${last.startAir} ➔ Bit: ${last.endAir} PPM`;
-      }
-
-      // 3. History List Rendering
-      if (histList) {
-        if (cleanSessionsHistory.length === 0) {
-          histList.innerHTML = '<div class="text-slate-500 text-center py-2">Henüz tamamlanmış seans kaydı yok.</div>';
-        } else {
-          histList.innerHTML = cleanSessionsHistory.map(s => `
-            <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800">
-              <div>
-                <span class="text-slate-300 font-bold">${s.dateStr}</span>
-                <span class="text-slate-500"> (${s.durationMin} dk)</span>
-                <div class="text-[9px] text-slate-400">${s.startAir} PPM ➔ ${s.endAir} PPM (${s.delta >= 0 ? '-' + s.delta : '+' + Math.abs(s.delta)} PPM)</div>
-              </div>
-              <span class="font-bold ${s.delta >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${s.verdict}</span>
-            </div>
-          `).join('');
-        }
-      }
-    }
-
-    let isCleanHistoryOpen = false;
-    function toggleCleanHistory() {
-      isCleanHistoryOpen = !isCleanHistoryOpen;
-      const c = document.getElementById('cleanHistoryContainer');
-      const b = document.getElementById('btnToggleCleanHistory');
-      if (c) c.classList.toggle('hidden', !isCleanHistoryOpen);
-      if (b) b.innerText = isCleanHistoryOpen ? 'LİSTEYİ KAPA ▴' : 'LİSTEYİ AÇ ▾';
-    }
-
-    // Interval to refresh live active session timer
-    setInterval(() => {
-      if (activeFanSession) updateEfficiencyUI();
-    }, 1000);
-
-
-    
-    // ====================================================
-    // 🌈 BLUETOOTH ODA TAVAN IŞIĞI YÖNETİMİ (LOTUS LANTERN)
-    // ====================================================
-    let bleLedPowerState = true;
-    let currentBleColor = "#00F0FF";
-
-    
-    let ledSensorAutopilot = false;
-    let lastAutoAppliedColor = null;
-
-    function toggleLedSensorAutopilot() {
-      ledSensorAutopilot = !ledSensorAutopilot;
-      const btn = document.getElementById('ledAutoPilotBtn');
-      if (btn) {
-        btn.innerText = ledSensorAutopilot ? "🤖 SENSÖR OTOPİLOTU: AÇIK" : "🤖 SENSÖR OTOPİLOTU: KAPALI";
-        btn.className = ledSensorAutopilot 
-          ? "btn-tactile px-2 py-1 bg-purple-500/15 text-purple-300 border border-purple-500/30 rounded font-mono text-[10px] font-bold flex items-center gap-1"
-          : "btn-tactile px-2 py-1 bg-slate-800 text-slate-400 border border-slate-700 rounded font-mono text-[10px] font-bold flex items-center gap-1";
-      }
-      playBeep(ledSensorAutopilot ? 900 : 400, 0.05);
-      showToast(ledSensorAutopilot ? "Işık Sensör Otopilotu Açıldı 🤖" : "Işık Manuel Moda Alındı");
-    }
-
-    
-    async function triggerNightDimming() {
-      playCasioF91WChime(1);
-      showToast("🌙 Gece Uyku Modu: Işık 2 dakika içinde yavaşça kısılarak sönecek...");
-      try {
-        await fetch(FIREBASE_URL + "control/phone_events.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            type: "NIGHT_DIM",
-            ts: Date.now()
-          })
-        });
-      } catch(e) {}
-    }
-
-    async function triggerSunriseAlarmTest() {
-      playBeep(1000, 0.06);
-      showToast("🌅 Gün Doğumu Uyandırma Simülasyonu Başladı (Kızıldan Gün Işığına)...");
-      try {
-        await fetch(FIREBASE_URL + "control/alarm_trigger.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            active: true,
-            type: "sunrise",
-            duration_sec: 25,
-            ts: Date.now()
-          })
-        });
-      } catch(e) {}
-    }
-
-    function runLedSensorAutopilotLogic() {
-      if (!ledSensorAutopilot || !bleLedPowerState) return;
-
-      let targetHex = null;
-
-      // 1. Hava Kirliliği Uyarısı (MQ-135 > 600) -> Kırmızı Alarm Işığı
-      if (liveAir > 600) {
-        targetHex = "#FF2200";
-      }
-      // 2. Pomodoro Odak Modu -> Derin Odak Moru
-      else if (pomoMode === "FOCUS") {
-        targetHex = "#8A2BE2";
-      }
-      // 3. Pomodoro Mola Modu -> Rahatlatıcı Zen Yeşili
-      else if (pomoMode === "BREAK") {
-        targetHex = "#00FF88";
-      }
-      // 4. Gece / Kararma (LDR < 20% veya Saat > 21:00) -> Melatonin Koruyucu Sıcak Kehribar (2200K)
-      else if (liveLight < 20 || new Date().getHours() >= 21 || new Date().getHours() < 7) {
-        targetHex = "#FF8C00";
-      }
-      // 5. Normal Gündüz -> Doğal Gün Işığı
-      else {
-        targetHex = "#FFF0DD";
-      }
-
-      if (targetHex && targetHex !== lastAutoAppliedColor) {
-        lastAutoAppliedColor = targetHex;
-        setBleLedColor(targetHex, `Otopilot: ${targetHex}`);
-      }
-    }
-
-    async function toggleBleLedPower() {
-      bleLedPowerState = !bleLedPowerState;
-      const btn = document.getElementById('bleLedPowerBtn');
-      if (btn) {
-        btn.innerText = bleLedPowerState ? "AÇIK 💡" : "KAPALI 🛑";
-        btn.className = bleLedPowerState 
-          ? "btn-tactile px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-bold"
-          : "btn-tactile px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-mono font-bold";
-      }
-      playBeep(bleLedPowerState ? 800 : 400, 0.05);
-      showToast(bleLedPowerState ? "Tavan Işığı Açıldı 💡" : "Tavan Işığı Kapatıldı 🛑");
-
-      try {
-        await fetch(FIREBASE_URL + "control/room_led.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            power: bleLedPowerState,
-            hex: currentBleColor,
-            ts: Date.now()
-          })
-        });
-      } catch(e) {}
-    }
-
-    async function setBleLedColor(hex, label = "Renk Ayarlandı") {
-      currentBleColor = hex;
-      bleLedPowerState = true;
-      const btn = document.getElementById('bleLedPowerBtn');
-      if (btn) {
-        btn.innerText = "AÇIK 💡";
-        btn.className = "btn-tactile px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-bold";
-      }
-      playBeep(750, 0.04);
-      showToast(`Tavan Işığı: ${label}`);
-
-      try {
-        await fetch(FIREBASE_URL + "control/room_led.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            power: true,
-            hex: hex,
-            ts: Date.now()
-          })
-        });
-      } catch(e) {}
-    }
-
-    async function setBleLedBrightness(val) {
-      try {
-        await fetch(FIREBASE_URL + "control/room_led.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            power: true,
-            hex: currentBleColor,
-            brightness: parseInt(val),
-            ts: Date.now()
-          })
-        });
-      } catch(e) {}
-    }
-
-
-    /* ⏱️ POMODORO CONTROLS */
-    function startPomodoro(minutes, mode) {
-      playBeep(900, 0.05);
-      pomoMode = mode;
-      pomoSecondsRemaining = minutes * 60;
-      updatePomoUI();
-      showToast(`${minutes} DK ${mode === "FOCUS" ? "DEEP WORK" : "MOLA"} BAŞLADI ⏱️`);
-      if (pomoInterval) clearInterval(pomoInterval);
-      pomoInterval = setInterval(updatePomoUI, 1000);
-      
-      // Trigger Python Daemon to set Mac Do Not Disturb, volume, and Fan
-      if (mode === "FOCUS") {
-        fetch(FIREBASE_URL + "control/deep_work.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ active: true, ts: Date.now() })
-        });
-      }
-    }
-
-    function stopPomodoro() {
-      playBeep(450, 0.06);
-      pomoMode = "IDLE";
-      pomoSecondsRemaining = 1500;
-      if (pomoInterval) clearInterval(pomoInterval);
-      updatePomoUI();
-      showToast("POMODORO DURDURULDU");
-      
-      fetch(FIREBASE_URL + "control/deep_work.json" + FIREBASE_AUTH, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ active: false, ts: Date.now() })
-      });
-    }
-
-    function updatePomoUI() {
-      const display = document.getElementById('pomoCountdownDisplay');
-      const badge = document.getElementById('pomoStateBadge');
-      const roundBadge = document.getElementById('pomoRoundBadge');
-
-      if (roundBadge) roundBadge.innerText = `TAMAMLANAN TUR: ${completedPomoCount} [Kısayol: P]`;
-
-      if (pomoMode !== "IDLE" && pomoSecondsRemaining > 0) {
-        pomoSecondsRemaining--;
-      }
-
-      const m = Math.floor(pomoSecondsRemaining / 60);
-      const s = pomoSecondsRemaining % 60;
-      display.innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
-
-      if (badge) {
-        badge.innerText = pomoMode === "FOCUS" ? "ODAKLANMA AKTİF" : (pomoMode === "BREAK" ? "MOLA AKTİF" : "HAZIR");
-      }
-
-      if (pomoSecondsRemaining <= 0 && pomoMode !== "IDLE") {
-        if (pomoMode === "FOCUS") {
-          completedPomoCount++;
-          localStorage.setItem('completed_pomo_count', completedPomoCount.toString());
-          showToast("ODAK BİTTİ! 5 DK MOLA ☕");
-          startPomodoro(5, "BREAK");
-        } else {
-          showToast("MOLA BİTTİ! YENİ TUR BAŞLATILABİLİR 🚀");
-          stopPomodoro();
-        }
-      }
-    }
-
-    /* 🎵 GERÇEK SPOTIFY KOMUT MOTORU (NATIVE MAC OYNATMA) */
-    window.lastSpotifyActionTime = 0;
-    
-        async function toggleLocationOverride() {
-      if(!window.locOverride) window.locOverride = "AUTO";
-      
-      if(window.locOverride === "AUTO") window.locOverride = "DESK";
-      else if(window.locOverride === "DESK") window.locOverride = "TERRACE";
-      else window.locOverride = "AUTO";
-      
-      playBeep(800, 0.05);
-      showToast(`📍 LOKASYON: ${window.locOverride} 📍`);
-      
-      try {
-        await fetch(FIREBASE_URL + "control/location_override.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(window.locOverride)
-        });
-      } catch(e) {}
-    }
-
-    
-    function getStoredUserPlans() {
-      try { return JSON.parse(localStorage.getItem('custom_user_plans') || '[]'); } catch (e) { return []; }
-    }
-
-    function saveStoredUserPlans(plans) {
-      localStorage.setItem('custom_user_plans', JSON.stringify(plans));
-    }
-
-    function formatEventTimeBadge(targetTimestamp, fallbackTimeStr) {
-      if (!targetTimestamp) {
-        if (fallbackTimeStr && fallbackTimeStr.includes("Eylül")) {
-          const match = fallbackTimeStr.match(/(\d{1,2})\s*([A-Za-zÇçĞğİıÖöŞşÜü]+)\s*(\d{4})?/);
-          if (match) {
-            const day = parseInt(match[1]);
-            const year = match[3] ? parseInt(match[3]) : new Date().getFullYear();
-            const parsedTarget = new Date(year, 8, day, 9, 0, 0);
-            targetTimestamp = parsedTarget.getTime();
-          }
-        }
-      }
-
-      if (!targetTimestamp) return fallbackTimeStr || "";
-      
-      const target = new Date(targetTimestamp);
-      const now = new Date();
-      
-      const targetMidnight = new Date(target.getFullYear(), target.getMonth(), target.getDate()).getTime();
-      const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-      const diffDays = Math.round((targetMidnight - nowMidnight) / (1000 * 60 * 60 * 24));
-      
-      const dateStr = target.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-      const timeStr = target.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-
-      if (diffDays < 0) return `⚠️ Süresi Geçti (${Math.abs(diffDays)} Gün Önce)`;
-      if (diffDays === 0) return `⚡ Bugün ${timeStr}`;
-      if (diffDays === 1) return `⏳ Yarın ${timeStr}`;
-      return `🎯 ${dateStr}, ${timeStr} (${diffDays} Gün Kaldı)`;
-    }
-
-    function renderEvents() {
-      const listEl = document.getElementById('eventList');
-      if (!listEl) return;
-      
-      const allPlans = getStoredUserPlans();
-      if (allPlans.length === 0) {
-        listEl.innerHTML = `<div class="text-[11px] text-slate-500 text-center py-4 font-mono">[7 GÜNLÜK PLAN YOK]</div>`;
-        return;
-      }
-
-      listEl.innerHTML = allPlans.map(e => {
-        const liveBadge = formatEventTimeBadge(e.targetTimestamp, e.timeStr);
-        return `
-          <div class="flex justify-between items-center bg-slate-800/40 p-2 rounded-lg border border-slate-700/50">
-            <div>
-              <div class="text-xs font-bold text-white mb-0.5">${e.title}</div>
-              <div class="font-mono text-[9px] ${e.notified ? 'text-emerald-400' : 'text-amber-400'}">${liveBadge} ${e.notified ? '✓ (BİLDİRİLDİ)' : ''}</div>
-            </div>
-            <button onclick="deleteGoogleEvent('${e.id}', '${e.title}')" class="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 p-1.5 rounded text-[10px] font-bold transition-colors">SİL ✕</button>
-          </div>
-        `;
-      }).join('');
-    }
-
-    async function syncUnsyncedLocalPlans() {
-      const plans = getStoredUserPlans();
-      let updated = false;
-      for (let p of plans) {
-        if (!p.syncedToGoogle && p.title) {
-          let targetTs = p.targetTimestamp;
-          if (!targetTs) {
-            const parsed = parseTurkishNaturalPlanDate(p.title);
-            targetTs = parsed.targetTimestamp;
-            p.targetTimestamp = targetTs;
-          }
-          const startTimeIso = new Date(targetTs).toISOString();
-          try {
-            const addUrl = `${GOOGLE_SCRIPT_URL}?action=add&title=${encodeURIComponent(p.title)}&startTime=${encodeURIComponent(startTimeIso)}&_t=${Date.now()}`;
-            await fetch(addUrl, { mode: "no-cors" });
-            p.syncedToGoogle = true;
-            updated = true;
-          } catch(e) {}
-        }
-      }
-      if (updated) {
-        saveStoredUserPlans(plans);
-        renderEvents();
-      }
-    }
-
-    async function fetchGoogleCalendarEvents() {
-      // Önce daha önceden eklenip Google'a gitmemiş eski yerel planları Google'a senkronize et
-      syncUnsyncedLocalPlans();
-
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
-        const res = await fetch(GOOGLE_SCRIPT_URL, { signal: controller.signal, redirect: "follow" });
-        clearTimeout(timeoutId);
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const currentLocal = getStoredUserPlans();
-          const merged = [...currentLocal];
-          data.forEach(ext => {
-            if (!merged.some(m => m.id === ext.id || m.title === ext.title)) {
-              merged.push(ext);
-            }
-          });
-          saveStoredUserPlans(merged);
-          renderEvents();
-        }
-      } catch (err) {
-        renderEvents();
-      }
-    }
-
-    function parseTurkishNaturalPlanDate(text) {
-      const lower = text.toLowerCase();
-      let target = new Date();
-      let hasParsedDate = false;
-      let hasParsedTime = false;
-
-      // 0. Tam Tarih Tanıma ("11 eylül", "11 eylülde", "15 ekim 2026", "2 kasım")
-      const trMonths = {
-        'ocak': 0, 'şubat': 1, 'subat': 1, 'mart': 2, 'nisan': 3, 'mayıs': 4, 'mayis': 4,
-        'haziran': 5, 'temmuz': 6, 'ağustos': 7, 'agustos': 7, 'eylül': 8, 'eylul': 8,
-        'ekim': 9, 'kasım': 10, 'kasim': 10, 'aralık': 11, 'aralik': 11
-      };
-      const explicitDateMatch = lower.match(/(\d{1,2})\s*(ocak|şubat|subat|mart|nisan|mayıs|mayis|haziran|temmuz|ağustos|agustos|eylül|eylul|ekim|kasım|kasim|aralık|aralik)(?:'?[a-zçğıöşü]+)?(?:\s*(\d{4}))?/i);
-      
-      if (explicitDateMatch) {
-        const day = parseInt(explicitDateMatch[1]);
-        const monthName = explicitDateMatch[2].toLowerCase();
-        const monthIndex = trMonths[monthName];
-        let year = explicitDateMatch[3] ? parseInt(explicitDateMatch[3]) : target.getFullYear();
-        
-        const checkDate = new Date(year, monthIndex, day, 9, 0, 0);
-        if (!explicitDateMatch[3] && checkDate.getTime() < (target.getTime() - 86400000)) {
-          year += 1;
-        }
-        target = new Date(year, monthIndex, day, 9, 0, 0);
-        hasParsedDate = true;
-      }
-
-      const weekMatch = !hasParsedDate ? lower.match(/(\d+)\s*hafta\s*sonra/) : null;
-      if (weekMatch) {
-        const weeks = parseInt(weekMatch[1]);
-        target.setDate(target.getDate() + (weeks * 7));
-        hasParsedDate = true;
-      } else if (lower.includes("haftaya") || lower.includes("gelecek hafta")) {
-        target.setDate(target.getDate() + 7);
-        hasParsedDate = true;
-      }
-
-      const dayMatch = lower.match(/(\d+)\s*g[üu]n\s*sonra/);
-      if (dayMatch && !hasParsedDate) {
-        const days = parseInt(dayMatch[1]);
-        target.setDate(target.getDate() + days);
-        hasParsedDate = true;
-      } else if (lower.includes("yarın") || lower.includes("yarin")) {
-        target.setDate(target.getDate() + 1);
-        hasParsedDate = true;
-      } else if (lower.includes("öbür gün") || lower.includes("obur gun")) {
-        target.setDate(target.getDate() + 2);
-        hasParsedDate = true;
-      }
-
-      const monthMatch = lower.match(/(\d+)\s*ay\s*sonra/);
-      if (monthMatch && !hasParsedDate) {
-        const months = parseInt(monthMatch[1]);
-        target.setMonth(target.getMonth() + months);
-        hasParsedDate = true;
-      }
-
-      const daysOfWeek = ['pazar', 'pazartesi', 'salı', 'çarşamba', 'perşembe', 'cuma', 'cumartesi'];
-      for (let i = 0; i < daysOfWeek.length; i++) {
-        if (lower.includes(daysOfWeek[i]) && !hasParsedDate) {
-          let diff = i - target.getDay();
-          if (diff <= 0) diff += 7;
-          target.setDate(target.getDate() + diff);
-          hasParsedDate = true;
-          break;
-        }
-      }
-
-      const timeMatch = lower.match(/(?:saat\s*)?(\d{1,2})[:.](\d{2})/);
-      const hourWordMatch = lower.match(/(?:saat\s*|sabah\s*|akşam\s*|aksam\s*|öğlen\s*|oglen\s*)(\d{1,2})(?:\s*gibi|\s*sularında|\s*da|\s*de|\s*te|\s*ta)?/);
-      
-      if (timeMatch) {
-        target.setHours(parseInt(timeMatch[1]), parseInt(timeMatch[2]), 0, 0);
-        hasParsedTime = true;
-      } else if (hourWordMatch) {
-        let hr = parseInt(hourWordMatch[1]);
-        if ((lower.includes('akşam') || lower.includes('aksam') || lower.includes('gece')) && hr < 12) hr += 12;
-        if ((lower.includes('öğleden sonra') || lower.includes('ogleden sonra')) && hr < 12) hr += 12;
-        target.setHours(hr, 0, 0, 0);
-        hasParsedTime = true;
-      } else {
-        if (hasParsedDate) target.setHours(9, 0, 0, 0);
-      }
-
-      if (!hasParsedDate && !hasParsedTime) target = new Date(Date.now() + 3600000);
-
-      const diffMs = target.getTime() - Date.now();
-      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-      
-      const dateStr = target.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
-      const timeStr = target.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-
-      let badgeStr = "";
-      if (diffDays > 1) badgeStr = `🎯 ${dateStr}, ${timeStr} (${diffDays} Gün Kaldı)`;
-      else if (diffDays === 1) badgeStr = `⏳ Yarın ${timeStr}`;
-      else if (diffDays === 0) badgeStr = `⚡ Bugün ${timeStr}`;
-      else badgeStr = `📅 ${dateStr}, ${timeStr}`;
-
-      return { targetDate: target, targetTimestamp: target.getTime(), displayStr: badgeStr };
-    }
-
-    async function handleQuickPlanSubmit(e) {
-      e.preventDefault();
-      const input = document.getElementById('quickPlanInput');
-      const text = input.value.trim();
-      if (!text) return;
-
-      const parsed = parseTurkishNaturalPlanDate(text);
-      const startTimeIso = new Date(parsed.targetTimestamp).toISOString();
-      const newPlan = {
-        id: "plan-" + Date.now(),
-        title: text,
-        timeStr: parsed.displayStr,
-        targetTimestamp: parsed.targetTimestamp,
-        notified: false
-      };
-
-      const currentPlans = getStoredUserPlans();
-      currentPlans.unshift(newPlan);
-      saveStoredUserPlans(currentPlans);
-      renderEvents();
-      
-      input.value = "";
-      showToast(`✓ Plan Eklendi: ${parsed.displayStr}`);
-
-      // Google Takvime Canlı Kaydet (startTime parametresi zorunludur)
-      try {
-        const addUrl = `${GOOGLE_SCRIPT_URL}?action=add&title=${encodeURIComponent(text)}&startTime=${encodeURIComponent(startTimeIso)}&_t=${Date.now()}`;
-        await fetch(addUrl, { mode: "no-cors" });
-        showToast("📅 Google Takvime İletildi!");
-        setTimeout(fetchGoogleCalendarEvents, 3000);
-      } catch (err) {
-        console.log("Calendar sync error:", err);
-      }
-    }
-
-    async function deleteGoogleEvent(eventId, title = "") {
-      let currentPlans = getStoredUserPlans();
-      const targetPlan = currentPlans.find(e => e.id === eventId);
-      const planTitle = title || (targetPlan ? targetPlan.title : "");
-
-      currentPlans = currentPlans.filter(e => e.id !== eventId);
-      saveStoredUserPlans(currentPlans);
-      renderEvents();
-      showToast("Plan Silindi 🗑️");
-
-      try {
-        const delUrl = `${GOOGLE_SCRIPT_URL}?action=delete&id=${encodeURIComponent(eventId)}&title=${encodeURIComponent(planTitle)}&_t=${Date.now()}`;
-        await fetch(delUrl, { mode: "no-cors" });
-        setTimeout(fetchGoogleCalendarEvents, 3000);
-      } catch (err) {}
-    }
-
-
-    async function sendSpotifyCommand(action) {
-      window.lastSpotifyActionTime = Date.now();
-      playBeep(700, 0.03);
-      showToast(`SPOTIFY: ${action === 'playpause' ? (isSpotifyPlaying ? 'DURDURULUYOR' : 'ÇALINIYOR') : action.toUpperCase()} 🎵`);
-      
-      // Anlık iyimser UI güncellemesi
-      if (action === 'playpause') {
-        isSpotifyPlaying = !isSpotifyPlaying;
-        updateSpotifyPlayBtnState(isSpotifyPlaying);
-      }
-
-      try {
-        await fetch(FIREBASE_URL + "control/spotify_cmd.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(action)
-        });
-      } catch(e) {}
-    }
-
-    function updateSpotifyPlayBtnState(isPlaying) {
-      const playIcon = document.getElementById('spotifyPlayIcon');
-      const playLabel = document.getElementById('spotifyPlayLabel');
-      const playBtn = document.getElementById('spotifyPlayBtn');
-      const viz = document.getElementById('audioVisualizerWrap');
-
-      if (isPlaying) {
-        if (playIcon) playIcon.innerText = "⏸";
-        if (playLabel) playLabel.innerText = "DUR";
-        if (playBtn) playBtn.className = "btn-tactile px-3 h-8 rounded-lg bg-emerald-500/25 border border-emerald-500/50 hover:bg-emerald-500/35 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1 shadow-lg shadow-emerald-500/20";
-        if (viz) viz.style.opacity = "1";
-      } else {
-        if (playIcon) playIcon.innerText = "▶";
-        if (playLabel) playLabel.innerText = "ÇAL";
-        if (playBtn) playBtn.className = "btn-tactile px-3 h-8 rounded-lg bg-slate-800/90 border border-slate-700 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center justify-center gap-1";
-        if (viz) viz.style.opacity = "0.3";
-      }
-    }
-
-    async function ringDeskChime() {
-      playCasioF91WChime(2);
-      showToast("MASA ZİLİ ÇALDIRILDI 🔔");
-      try {
-        await fetch(FIREBASE_URL + "control/ring_buzzer.json" + FIREBASE_AUTH, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(true)
-        });
-      } catch(e) {}
-    }
-
-    /* 🔬 SENSÖR OTO-KONTROL & SADE TÜRKÇE MOTORU */
-    function sanitizeAndValidateSensors(rawT, rawRh, rawAir, rawLight) {
-      let t = rawT, rh = rawRh, air = rawAir, light = rawLight;
-      let valid = true;
-
-      if (isNaN(t) || t < -10 || t > 65) { t = 24.5; valid = false; }
-      if (isNaN(rh) || rh < 1 || rh > 99) { rh = 50; valid = false; }
-      if (isNaN(air) || air < 150 || air > 3500) { air = 450; valid = false; }
-      if (isNaN(light) || light < 0 || light > 100) { light = 50; valid = false; }
-
-      sensorDiagnostics.bme280Valid = valid;
-      const diagPill = document.getElementById('sensorDiagPill');
-      if (diagPill) {
-        diagPill.innerText = valid ? "SENSÖRLER AKTİF ✓" : "SENSÖR KORUMADA ⚠️";
-        diagPill.className = valid 
-          ? "text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
-          : "text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20";
-      }
-
-      return { t, rh, air, light };
-    }
-
-    function computePsychrometrics(tIn, rhIn, tOut, rhOut) {
-      const pSatIn = 0.61121 * Math.exp((18.678 - tIn / 234.5) * (tIn / (257.14 + tIn)));
-      const pVIn = pSatIn * (rhIn / 100);
-      const alphaIn = Math.log(pVIn / 0.61121);
-      const tDewIn = (257.14 * alphaIn) / (18.678 - alphaIn);
-
-      const pAtm = 101.325;
-      const wIn = 0.62198 * (pVIn / (pAtm - pVIn));
-      const enthalpyIn = 1.006 * tIn + wIn * (2501 + 1.86 * tIn);
-
-      let enthalpyOut = enthalpyIn;
-      if (tOut !== null && rhOut !== null) {
-        const pSatOut = 0.61121 * Math.exp((18.678 - tOut / 234.5) * (tOut / (257.14 + tOut)));
-        const pVOut = pSatOut * (rhOut / 100);
-        const wOut = 0.62198 * (pVOut / (pAtm - pVOut));
-        enthalpyOut = 1.006 * tOut + wOut * (2501 + 1.86 * tOut);
-      }
-
-      const pmv = ((tIn - 24.2) * 0.38 + (rhIn - 50) * 0.006);
-
-      let mentalScore = 100;
-      if (liveAir > 500) mentalScore -= Math.min(35, Math.floor((liveAir - 500) / 9));
-      if (tIn > 27.5 || tIn < 19.5) mentalScore -= 15;
-      if (Math.abs(pmv) > 0.8) mentalScore -= 10;
-      if (mentalScore < 45) mentalScore = 45;
-
-      return {
-        dewPoint: tDewIn,
-        dewMargin: tIn - tDewIn,
-        enthalpyIn: enthalpyIn,
-        enthalpyOut: enthalpyOut,
-        deltaEnthalpy: enthalpyIn - enthalpyOut,
-        deltaTemp: (tOut !== null) ? (tOut - tIn) : 0,
-        pmv: pmv,
-        mentalScore: mentalScore
-      };
-    }
-
-    function updateThermodynamicUI(p, contSec, tOut, rhOut) {
-
-      document.getElementById('inTempLabel').innerText = `${liveTemp.toFixed(1)}°C`;
-      document.getElementById('outTempLabel').innerText = (tOut !== null) ? `${tOut.toFixed(1)}°C` : '--';
-      
-      const deltaEl = document.getElementById('deltaTempText');
-      const badgeEl = document.getElementById('ventStatusBadge');
-      const adviceEl = document.getElementById('thermoAdviceText');
-      const iconEl = document.getElementById('ventIcon');
-      const gIconEl = document.getElementById('guidanceIcon');
-      const enthEl = document.getElementById('enthalpyText');
-      const dewEl = document.getElementById('dewMarginText');
-      const pmvEl = document.getElementById('pmvText');
-      const mentalEl = document.getElementById('mentalScoreLabel');
-
-      if (mentalEl) mentalEl.innerText = `%${p.mentalScore}`;
-
-      if (p.enthalpyIn < 50) enthEl.innerText = "Çok Ferah 🍃";
-      else if (p.enthalpyIn < 62) enthEl.innerText = "İdeal ve Temiz ⚡";
-      else enthEl.innerText = "Ağır ve Nemli ☀️";
-
-      if (p.dewMargin > 5) dewEl.innerText = "Sıfır Nem Riski 🛡️";
-      else if (p.dewMargin > 2) dewEl.innerText = "Hafif Nem Var 💧";
-      else dewEl.innerText = "Rutubet Uyarısı ⚠️";
-
-      if (Math.abs(p.pmv) < 0.4) pmvEl.innerText = "Tam Kıvamında 😌";
-      else if (p.pmv > 0.4) pmvEl.innerText = "Hafif Sıcak 🔥";
-      else pmvEl.innerText = "Hafif Serin ❄️";
-
-      if (tOut !== null) {
-        const delta = tOut - liveTemp;
-        if (delta < -1.5) {
-          deltaEl.innerText = `Teras ${Math.abs(delta).toFixed(1)}°C Daha Serin ❄️`;
-          deltaEl.className = "text-sm font-bold text-cyan-300 mt-0.5";
-          badgeEl.className = "text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 animate-pulse";
-          badgeEl.innerText = "KAPIYI AÇABİLİRSİN 🌿";
-          iconEl.innerText = "🪟";
-          if (gIconEl) gIconEl.innerText = "🌿";
-          adviceEl.innerHTML = `Buca terası odandan <b>${Math.abs(delta).toFixed(1)}°C daha serin ve mis gibi esiyor!</b> Balkon kapısını açarsan oda 10 dakikada buz gibi ferahlar.`;
-        } else if (delta > 1.5) {
-          deltaEl.innerText = `Dışarısı ${delta.toFixed(1)}°C Daha Sıcak 🔥`;
-          deltaEl.className = "text-sm font-bold text-rose-400 mt-0.5";
-          badgeEl.className = "text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-400 border border-rose-500/30";
-          badgeEl.innerText = "PENCERELERİ KAPAT 🛡️";
-          iconEl.innerText = "🛡️";
-          if (gIconEl) gIconEl.innerText = "🛡️";
-          adviceEl.innerHTML = `Dışarısı içeriden <b>${delta.toFixed(1)}°C daha sıcak</b>. Pencereleri kapalı tut ki odanın serinliği kaçmasın. ${currentFanLevel > 0 ? 'UPPÅTVIND fanı içerideki havayı temizliyor.' : 'Hava kalitesi düşerse UPPÅTVIND devreye girecektir.'}`;
-        } else {
-          deltaEl.innerText = "İçerisi & Dışarısı Aynı ⚖️";
-          deltaEl.className = "text-sm font-bold text-slate-300 mt-0.5";
-          badgeEl.className = "text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/15 text-cyan-400 border border-cyan-500/30";
-          badgeEl.innerText = "DENGEDE ⚖️";
-          iconEl.innerText = "🌿";
-          if (gIconEl) gIconEl.innerText = "💡";
-          adviceEl.innerHTML = `İçerisi ve dışarısı tam dengede. Odanın havası temiz, nem oranı çok rahat.`;
-        }
-      }
-
-      if (contSec > 3000) {
-        adviceEl.innerHTML += `<br><span class="text-amber-400">☕ <b>50 dakikadır aralıksız masadasın:</b> Bir bardak su al, 20 saniye uzağa bakıp gözlerini ve boynunu dinlendir!</span>`;
-      }
-    }
-
-    /* 📈 STRIP-CHART */
-    function changeChartPeriod(period) {
-      playBeep(650, 0.02);
-      currentChartPeriod = period;
-      ['24h', '7d', '30d'].forEach(p => {
-        const b = document.getElementById(`chartBtn${p}`);
-        if (b) {
-          b.className = (p === period) 
-            ? 'btn-tactile px-3 py-1 rounded-lg bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 font-bold'
-            : 'btn-tactile px-3 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700';
-        }
-      });
-      initChart();
-    }
-
-    function initChart() {
-      const canvas = document.getElementById('telemetryChart');
-      if (!canvas) return;
-
-      let labels = [];
-      let air = [];
-      let temp = [];
-
-      if (currentChartPeriod === '24h') {
-        const now = new Date().getHours();
-        for (let h = Math.max(0, now - 8); h <= now; h++) {
-          labels.push(`${h}:00`);
-          air.push(Math.round(liveAir / 10));
-          temp.push(liveTemp);
-        }
-      } else if (currentChartPeriod === '7d') {
-        labels = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
-        air.push(42, 45, 43, 44, 46, 42, Math.round(liveAir / 10));
-        temp.push(25.8, 26.1, 26.4, 25.9, 26.5, 26.2, liveTemp);
-      } else {
-        for (let d = 1; d <= 30; d += 3) {
-          labels.push(`${d} Ağu`);
-          air.push(40 + (d % 6));
-          temp.push(25 + (d % 3));
-        }
-      }
-
-      if (chartInstance) chartInstance.destroy();
-      chartInstance = new Chart(canvas.getContext('2d'), {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [
-            { label: 'Hava Kalitesi', data: air, borderColor: '#00F2FE', backgroundColor: 'rgba(0,242,254,0.08)', fill: true, tension: 0.3, pointRadius: 3 },
-            { label: 'Sıcaklık °C', data: temp, borderColor: '#10B981', borderDash: [4, 4], tension: 0.3, pointRadius: 2 }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748B', font: { family: 'JetBrains Mono', size: 9 } } },
-            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748B', font: { family: 'JetBrains Mono', size: 9 } } }
-          }
-        }
-      });
-    }
-
-    function exportTelemetryCSV() {
-      playBeep(950, 0.04);
-      const rows = [
-        ["Zaman", "Sicaklik_C", "Nem_Yuzde", "Hava_PPM", "Isik_Yuzde", "Ciy_Noktasi_C"],
-        [new Date().toISOString(), liveTemp, liveHum, liveAir, liveLight, (liveTemp - ((100 - liveHum)/5)).toFixed(1)]
-      ];
-      const csv = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
-      const link = document.createElement("a");
-      link.setAttribute("href", encodeURI(csv));
-      link.setAttribute("download", `AGY_Telemetri_${new Date().toISOString().slice(0,10)}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      showToast("CSV RAPORU İNDİRİLDİ 💾");
-    }
-
-    /* 🔄 REALTIME FIREBASE SYNC WITH SENSOR SANITY & HEARTBEAT */
+    // Firebase Canlı Veri Senkronizasyonu
     async function syncData() {
-      if (!isAppVisible) return;
       try {
-        let bucaTemp = null;
-        let bucaHum = 60;
-        let contSec = 0;
-
-        const resStation = await fetch(FIREBASE_URL + "station.json" + FIREBASE_AUTH);
-        if (resStation.ok) {
-          const sData = await resStation.json();
-          if (sData && typeof sData === 'object') {
-            lastSyncTime = Date.now();
-            updateHeartbeatUI(true);
-
-            const validated = sanitizeAndValidateSensors(
-              parseFloat(sData.temp),
-              parseInt(sData.humidity),
-              parseInt(sData.air),
-              parseInt(sData.light)
-            );
-
-            liveTemp = validated.t;
-            liveHum = validated.rh;
-            liveAir = validated.air;
-            liveLight = validated.light;
+        const res = await fetch(FIREBASE_URL + "station.json");
+        if (res.ok) {
+          const data = await res.json();
+          if (data) {
+            liveTemp = parseFloat(data.temp) || 24.5;
+            liveHum = parseInt(data.humidity) || 45;
+            liveAir = parseInt(data.air) || 450;
+            liveLight = parseInt(data.light) || 40;
 
             document.getElementById('liveTempText').innerHTML = `${liveTemp.toFixed(1)}<span class="text-sm text-slate-400">°C</span>`;
             document.getElementById('liveHumText').innerHTML = `${liveHum}<span class="text-sm text-slate-400">%</span>`;
             document.getElementById('liveAirText').innerHTML = `${liveAir}<span class="text-xs text-slate-400"> PPM</span>`;
             document.getElementById('liveLightText').innerHTML = `${liveLight}<span class="text-sm text-slate-400">%</span>`;
-
-            const tBar = document.getElementById('tempProgressBar');
-            const hBar = document.getElementById('humProgressBar');
-            const aBar = document.getElementById('airProgressBar');
-            const lBar = document.getElementById('lightProgressBar');
-            if (tBar) tBar.style.width = `${Math.min(100, Math.max(0, (liveTemp / 40) * 100))}%`;
-            if (hBar) hBar.style.width = `${Math.min(100, Math.max(0, liveHum))}%`;
-            if (aBar) aBar.style.width = `${Math.min(100, Math.max(0, (liveAir / 1000) * 100))}%`;
-            if (lBar) lBar.style.width = `${Math.min(100, Math.max(0, liveLight))}%`;
+            
+            document.getElementById('inTempLabel').innerText = `${liveTemp.toFixed(1)}°C`;
           }
         }
-
-        const resMac = await fetch(FIREBASE_URL + "mac.json" + FIREBASE_AUTH);
-        let cData = null; // Tanımlanmamış değişken hatası giderildi (ReferenceError düzeltmesi)
-        const resControl = await fetch(FIREBASE_URL + "control.json" + FIREBASE_AUTH);
-        if (resControl.ok) {
-          cData = await resControl.json();
-        }
-
-        if (resMac.ok) {
-          const mData = await resMac.json();
-          if (mData && typeof mData === 'object') {
-            const trackEl = document.getElementById('spotifyTrackTitle');
-            const artistEl = document.getElementById('spotifyArtistTitle');
-            
-            // Eğer butona yeni basıldıysa 5 saniye boyunca Firebase'den gelen gecikmeli veriyi yoksay
-            if (Date.now() - window.lastSpotifyActionTime > 5000) {
-              isSpotifyPlaying = (mData.spotify_playing === true);
-              updateSpotifyPlayBtnState(isSpotifyPlaying);
-            }
-
-            if (mData.spotify_track) {
-              trackEl.innerText = mData.spotify_track.toUpperCase();
-              artistEl.innerText = `${(mData.spotify_artist || 'DJ YULAF').toUpperCase()} // [Space: Oynat]`;
-            } else {
-              trackEl.innerText = "MÜZİK BEKLENİYOR...";
-              artistEl.innerText = "SPOTIFY BAĞLANTISI AKTİF // DJ YULAF";
-            }
-
-            const presEl = document.getElementById('presenceLabel');
-            if (mData.mac_location === "HOME_TERRACE") {
-              currentPresence = "HOME_TERRACE";
-              if (presEl) presEl.innerText = "TERASTA 🌿";
-            } else if (mData.mac_location === "HOME_DESK") {
-              currentPresence = "HOME_DESK";
-              if (presEl) presEl.innerText = "MASA BAŞINDA 🏠";
-            }
-
-            if (mData.buca_temp) {
-              bucaTemp = parseFloat(mData.buca_temp);
-              bucaHum = mData.buca_hum ? parseFloat(mData.buca_hum) : 60;
-              document.getElementById('headerBucaPill').innerText = `${mData.buca_temp}°C // BUCA İMBAT`;
-              
-              if (mData.buca_forecast) {
-                document.getElementById('forecastSummaryText').innerHTML = `📅 ${mData.buca_forecast}`;
-              }
-              if (mData.buca_warning) {
-                const wBadge = document.getElementById('extremeWarningBadge');
-                wBadge.innerText = mData.buca_warning;
-                wBadge.classList.remove('hidden');
-              } else {
-                document.getElementById('extremeWarningBadge').classList.add('hidden');
-              }
-              document.getElementById('bucaTempDiff').innerText = `${mData.buca_temp}.0°C`;
-            }
-
-            const screenSec = mData.total_screen_sec || 0;
-            contSec = mData.continuous_work_sec || 0;
-            const h = Math.floor(screenSec / 3600);
-            const m = Math.floor((screenSec % 3600) / 60);
-            const s = screenSec % 60;
-            document.getElementById('macScreenTimeVal').innerText = `${h < 10 ? '0' : ''}${h}:${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
-            document.getElementById('macContinuousVal').innerText = `${Math.floor(contSec / 60)} Dk`;
-          }
-        }
-
-        const p = computePsychrometrics(liveTemp, liveHum, bucaTemp, bucaHum);
-        runAutoPilotLogic(p, contSec);
-
-        // 🎙️ Sesli Plan Canlı Senkronizasyonu & Google Takvim Senkronu
-        if (cData && cData.voice_plan && cData.voice_plan.ts > (window.lastVoicePlanTs || 0)) {
-          window.lastVoicePlanTs = cData.voice_plan.ts;
-          let vText = (cData.voice_plan.text || "").trim();
-          if (vText && vText !== "{sesli_plan}") {
-            // Otomatik Düzeltmeler (Örn: kalem -> Galen)
-            vText = vText.replace(/kalem/gi, "Galen").replace(/poliklinik galen/gi, "Galen Polikliniği");
-            
-            const parsed = parseTurkishNaturalPlanDate(vText);
-            const targetTs = parsed.targetTimestamp;
-            const startTimeIso = new Date(targetTs).toISOString();
-            
-            const newPlan = {
-              id: "voice-" + Date.now(),
-              title: vText,
-              timeStr: parsed.displayStr,
-              targetTimestamp: targetTs,
-              syncedToGoogle: true,
-              notified: false
-            };
-            
-            const curPlans = getStoredUserPlans();
-            if (!curPlans.some(p => p.title === vText)) {
-              curPlans.unshift(newPlan);
-              saveStoredUserPlans(curPlans);
-              renderEvents();
-              showToast(`🎙️ Sesle Plan Eklendi: ${parsed.displayStr}`);
-              playCasioF91WChime(2);
-              
-              // Google Takvime Resmi Ekleme
-              try {
-                const addUrl = `${GOOGLE_SCRIPT_URL}?action=add&title=${encodeURIComponent(vText)}&startTime=${encodeURIComponent(startTimeIso)}&_t=${Date.now()}`;
-                fetch(addUrl, { mode: "no-cors" });
-                setTimeout(fetchGoogleCalendarEvents, 3500);
-              } catch(ge) {}
-            }
-          }
-        }
-        updateThermodynamicUI(p, contSec, bucaTemp, bucaHum);
-      } catch(e) {
-        updateHeartbeatUI(false);
-      }
+      } catch(e) {}
     }
 
-    function updateHeartbeatUI(isSuccess) {
-      const ring = document.getElementById('pulseRing');
-      const dot = document.getElementById('pulseDot');
-      const text = document.getElementById('heartbeatText');
-      const diffSec = Math.floor((Date.now() - lastSyncTime) / 1000);
-
-      if (isSuccess && diffSec < 10) {
-        ring.className = 'absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping';
-        dot.className = 'absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500';
-        text.innerText = `ESP32 CANLI • ${diffSec}s önce`;
-        text.className = 'text-slate-400';
-      } else {
-        ring.className = 'hidden';
-        dot.className = 'absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse';
-        text.innerText = `⚠️ SİNYAL BEKLENİYOR (${diffSec}s)`;
-        text.className = 'text-amber-400 font-bold';
-      }
-    }
-
-    /* 🔋 ZERO-BATTERY PAGE VISIBILITY API */
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        isAppVisible = false;
-        if (syncIntervalId) clearInterval(syncIntervalId);
-      } else {
-        isAppVisible = true;
-        syncData();
-        requestAnimationFrame(renderYulaf);
-        syncIntervalId = setInterval(syncData, 2500);
-      }
-    });
-
-    initChart();
+    setInterval(syncData, 2500);
     syncData();
-    syncIntervalId = setInterval(syncData, 2500);
   </script>
 </body>
 </html>
