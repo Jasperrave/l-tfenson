@@ -1,0 +1,172 @@
+esphome:
+  name: oda-kognitif-asistan
+  friendly_name: Akilli Oda Asistani
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# --- 1. AĞ VE GÜVENLİK ---
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "Oda-Asistan-Fallback"
+    password: "fallback_password"
+
+api:
+  reboot_timeout: 15min
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+logger:
+  level: INFO
+  baud_rate: 115200
+
+# --- 2. DONANIM VERİ HATLARI (Pin Tablosu) ---
+i2c:
+  sda: GPIO23
+  scl: GPIO22
+  scan: true
+  frequency: 50kHz
+
+spi:
+  clk_pin: GPIO18
+  mosi_pin: GPIO19
+
+# --- 3. EKRAN VE YAZI TİPİ ---
+font:
+  - file: "gfonts://Roboto"
+    id: font_roboto
+    size: 12
+
+display:
+  - platform: ssd1306_spi
+    model: "SSD1306 128x64"
+    cs_pin: GPIO5
+    dc_pin: GPIO4
+    reset_pin: GPIO21
+    lambda: |-
+      it.clear();
+      it.printf(0, 0, id(font_roboto), "Sicaklik: %.1f C", id(corrected_temp).state);
+      it.printf(0, 16, id(font_roboto), "Nem: %.1f %%", id(bme_humidity).state);
+      it.printf(0, 32, id(font_roboto), "Gaz: %.0f", id(mq135_sensor).state);
+      it.printf(0, 48, id(font_roboto), "Isik: %.0f", id(ldr_sensor).state);
+
+# --- 4. SENSÖRLER VE KALMAN FİLTRESİ ---
+binary_sensor:
+  - platform: gpio
+    pin: GPIO27
+    name: "PIR Hareket Sensoru"
+    id: pir_motion
+
+sensor:
+  - platform: adc
+    pin: GPIO32
+    name: "LDR Isik Sensoru"
+    id: ldr_sensor
+    update_interval: 5s
+    attenuation: auto
+
+  - platform: adc
+    pin: GPIO33
+    name: "MQ135 Gaz Sensoru"
+    id: mq135_sensor
+    update_interval: 5s
+    attenuation: auto
+
+  # Güncellenen I2C BME280 Tanımı
+  - platform: bme280_i2c
+    address: 0x76
+    update_interval: 10s
+    temperature:
+      id: raw_temp
+      internal: true
+    pressure:
+      name: "Oda Basinci"
+      id: bme_pressure
+      filters:
+        - sliding_window_moving_average:
+            window_size: 10
+            send_every: 1
+    humidity:
+      name: "Oda Nemi"
+      id: bme_humidity
+      filters:
+        - sliding_window_moving_average:
+            window_size: 10
+            send_every: 1
+
+  # Ultra-Deep Edge Kalman Filtresi & Termal Kompanzasyon
+  - platform: template
+    name: "Gercek Sicaklik (Kalman)"
+    id: corrected_temp
+    unit_of_measurement: "°C"
+    accuracy_decimals: 2
+    update_interval: 10s
+    lambda: |-
+      static float x_est = 22.0;
+      static float P = 1.0;
+      float Q = 0.01;
+      float R = 0.1;
+      
+      float z = id(raw_temp).state;
+      if (isnan(z)) {
+        ESP_LOGW("kalman", "BME280 NaN uyarısı, son gecerli deger kullaniliyor.");
+        return x_est;
+      }
+      
+      // ESP32 PCB isi kompanzasyonu (-0.8 C)
+      float z_comp = z - 0.8;
+      
+      float x_predict = x_est;
+      float P_predict = P + Q;
+      float K = P_predict / (P_predict + R);
+      x_est = x_predict + K * (z_comp - x_predict);
+      P = (1 - K) * P_predict;
+      
+      return x_est;
+
+# --- 5. ÇIKIŞLAR VE PID ---
+output:
+  - platform: ledc
+    pin: GPIO25
+    id: buzzer_out
+
+  - platform: ledc
+    pin: GPIO12
+    id: fan_purifier_pwm
+
+climate:
+  - platform: pid
+    name: "Hava Temizleyici PID"
+    sensor: corrected_temp
+    default_target_temperature: 22.0
+    heat_output: fan_purifier_pwm
+    control_parameters:
+      kp: 1.5
+      ki: 0.01
+      kd: 0.3
+
+# --- 6. FSM VE Q-LEARNING DEĞİŞKENLERİ ---
+globals:
+  - id: current_room_mode
+    type: int
+    initial_value: '0'
+  - id: q_action_value
+    type: float
+    initial_value: '0.5'
+
+# --- 7. ÇÖKME ÖNLEYİCİ SAĞLIK DENETİMİ ---
+interval:
+  - interval: 60s
+    then:
+      - lambda: |-
+          float t = id(raw_temp).state;
+          if (isnan(t)) {
+            ESP_LOGE("health", "BME280 okunamadi, watchdog feed edildi.");
+            App.feed_wdt();
+          }
