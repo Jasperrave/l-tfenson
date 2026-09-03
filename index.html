@@ -83,24 +83,22 @@
   </section>
 
   <script>
-    const ESP32_URL = "http://192.168.1.13"; // Kendi IP adresin
+    const FIREBASE_URL = "https://masaustubotu-default-rtdb.firebaseio.com/station.json?auth=seDMOC3iMWa7SNERZxASLx4qZJVfbo81uoRSc7tJ";
 
     async function fetchEspData() {
       try {
-        const res = await fetch(`${ESP32_URL}/data`, { signal: AbortSignal.timeout(3000) });
+        const res = await fetch(FIREBASE_URL, { signal: AbortSignal.timeout(3000) });
         if (!res.ok) throw new Error();
         const data = await res.json();
         
-        document.getElementById('connectionStatus').innerText = "ESP32 CANLI ✓";
+        document.getElementById('connectionStatus').innerText = "ESP32 (FIREBASE) CANLI ✓";
         document.getElementById('connectionStatus').className = "px-2.5 py-1 rounded-full text-[10px] mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
 
         document.getElementById('valTemp').innerHTML = `${data.temp.toFixed(1)}<span class="text-sm text-slate-400">°C</span>`;
         document.getElementById('valHum').innerHTML = `${data.humidity.toFixed(1)}<span class="text-sm text-slate-400">%</span>`;
-        document.getElementById('valDew').innerText = `Çiy Noktası: ${data.dew_point.toFixed(1)}°C`;
-        document.getElementById('valAir').innerHTML = `${Math.round(data.air_ppm)}<span class="text-xs text-slate-400"> PPM</span>`;
-        document.getElementById('valLight').innerHTML = `${data.light_pct.toFixed(0)}<span class="text-sm text-slate-400">%</span>`;
-
-        document.getElementById('fanStatusBadge').innerText = data.fan_level > 0 ? `KADEME ${data.fan_level} ÇALIŞIYOR 🌪️` : "KAPALI 🛑";
+        document.getElementById('valDew').innerText = `Çiy Noktası: ${data.dew_point ? data.dew_point.toFixed(1) : '--'}°C`;
+        document.getElementById('valAir').innerHTML = `${Math.round(data.air)}<span class="text-xs text-slate-400"> PPM</span>`;
+        document.getElementById('valLight').innerHTML = `${data.light.toFixed(1)}<span class="text-sm text-slate-400">V</span>`;
 
         // --- PRATİK YORUM MOTORU (GÜNLÜK HAYATÇI MANTIK) ---
         let advices = [];
@@ -123,15 +121,10 @@
         }
 
         // Hava Kalitesi & Fan Tavsiyesi
-        if (data.air_ppm > 550) {
-          advices.push(`⚠️ <b class='text-rose-400'>Hava ağırlaşmış (${Math.round(data.air_ppm)} PPM):</b> İçerideki oksijen azalmış olmalı. <b>IKEA UPPÅTVIND fanını 3. kademede açmanı</b> veya balkona çıkıp 5 dakika nefes almanı öneririm.`);
+        if (data.air > 1.5) {
+          advices.push(`⚠️ <b class='text-rose-400'>Hava ağırlaşmış (${data.air.toFixed(2)} V):</b> İçerideki oksijen azalmış olmalı. <b>IKEA UPPÅTVIND fanını 3. kademede açmanı</b> veya balkona çıkıp 5 dakika nefes almanı öneririm.`);
         } else {
           advices.push(`🍃 <b class='text-emerald-400'>Hava temiz:</b> Karbondioksit seviyesi gayet sağlıklı.`);
-        }
-
-        // Akşam / Mevsimsel Mantık (Eylül ayı İzmir akşamları)
-        if (currentHour >= 19 && data.temp > 23) {
-          advices.push(`🌙 <b class='text-cyan-300'>Akşam saatleri:</b> Dışarısı yavaş yavaş serinliyor. Balkon kapısını aralayıp içeriye taze gece havası alabilirsin.`);
         }
 
         document.getElementById('practicalAdviceList').innerHTML = advices.map(a => `<div>${a}</div>`).join('');
