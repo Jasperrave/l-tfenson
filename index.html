@@ -11,7 +11,36 @@
     .glass { background: rgba(15, 20, 28, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 1rem; }
     .mono { font-family: 'JetBrains Mono', monospace; }
   </style>
+
+  <!-- MQTT kütüphanesi -->
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+  <script>
+    // --- MQTT BAĞLANTISI (BULUT KONTROL) ---
+    const mqttClient = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
+    const LED_TOPIC = "agy1976/buca/esp32/light/oda_rgb_led/command";
+
+    mqttClient.on('connect', () => {
+      console.log('MQTT (Bulut) Bağlantısı Başarılı!');
+    });
+
+    function controlLed(r, g, b, state="ON") {
+      if (r === 0 && g === 0 && b === 0) state = "OFF";
+      
+      const payload = {
+        state: state,
+        color: { r: r, g: g, b: b }
+      };
+      
+      mqttClient.publish(LED_TOPIC, JSON.stringify(payload));
+      
+      // Butona basıldığında hafif bir efekt (Geri bildirim)
+      document.body.style.boxShadow = `inset 0 0 50px rgba(${r},${g},${b}, 0.2)`;
+      setTimeout(() => document.body.style.boxShadow = 'none', 300);
+    }
+  </script>
 </head>
+
   </section>
 
   <script>
