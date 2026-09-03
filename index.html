@@ -12,74 +12,6 @@
     .mono { font-family: 'JetBrains Mono', monospace; }
   </style>
 </head>
-<body class="p-4 md:p-8 max-w-3xl mx-auto flex flex-col gap-4">
-
-  <!-- HEADER -->
-  <header class="glass p-4 flex items-center justify-between">
-    <div>
-      <h1 class="text-sm font-bold tracking-wider text-white">AGY-1976 // ODA YÖNETİM KOKPİTİ</h1>
-      <p class="text-xs mono text-slate-400 mt-0.5">İZMİR / BUCA • CANLI ASİSTAN</p>
-    </div>
-    <div id="connectionStatus" class="px-2.5 py-1 rounded-full text-[10px] mono font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30 animate-pulse">
-      BAĞLANIYOR...
-    </div>
-  </header>
-
-  <!-- PRATİK ODA KOÇU & YORUM KUTUSU -->
-  <section class="glass p-4 border-emerald-500/30 flex flex-col gap-2.5 bg-gradient-to-br from-slate-900/90 to-emerald-950/20">
-    <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold mono">
-      <span>💡</span> ODA KOÇU & PRATİK TAVSİYELER
-    </div>
-    <div id="practicalAdviceList" class="flex flex-col gap-1.5 text-xs mono text-slate-200 leading-relaxed">
-      <div>Sensör verileri analiz ediliyor...</div>
-    </div>
-  </section>
-
-  <!-- CANLI SENSÖR MATRİSİ -->
-  <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
-    <!-- Sıcaklık -->
-    <div class="glass p-4 flex flex-col justify-between">
-      <span class="text-[10px] mono text-slate-400">ODA SICAKLIĞI</span>
-      <div class="text-2xl font-bold mono text-white my-2" id="valTemp">--<span class="text-sm text-slate-400">°C</span></div>
-      <span class="text-[9px] mono text-slate-400" id="descTemp">Ölçülüyor</span>
-    </div>
-    <!-- Nem & Çiy -->
-    <div class="glass p-4 flex flex-col justify-between">
-      <span class="text-[10px] mono text-slate-400">NEM & TERLEME</span>
-      <div class="text-2xl font-bold mono text-cyan-300 my-2" id="valHum">--<span class="text-sm text-slate-400">%</span></div>
-      <span class="text-[9px] mono text-slate-400" id="valDew">Çiy: --°C</span>
-    </div>
-    <!-- Hava Kalitesi (PPM) -->
-    <div class="glass p-4 flex flex-col justify-between">
-      <span class="text-[10px] mono text-slate-400">HAVA KALİTESİ</span>
-      <div class="text-2xl font-bold mono text-emerald-400 my-2" id="valAir">--<span class="text-xs text-slate-400"> PPM</span></div>
-      <span class="text-[9px] mono text-emerald-500" id="descAir">Temiz</span>
-    </div>
-    <!-- Ortam Işığı -->
-    <div class="glass p-4 flex flex-col justify-between">
-      <span class="text-[10px] mono text-slate-400">GÜN IŞIĞI / ORTAM</span>
-      <div class="text-2xl font-bold mono text-amber-400 my-2" id="valLight">--<span class="text-sm text-slate-400">%</span></div>
-      <span class="text-[9px] mono text-slate-400" id="descLight">Normal</span>
-    </div>
-  </section>
-
-  <!-- IKEA UPPÅTVIND FAN KONTROLÜ -->
-  <section class="glass p-4 border-cyan-500/20 flex flex-col gap-3">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span>🌪️</span>
-        <h2 class="text-xs font-bold text-white mono">IKEA UPPÅTVIND HAVA ROBOTU</h2>
-      </div>
-      <span id="fanStatusBadge" class="text-[10px] mono text-slate-400">KAPALI</span>
-    </div>
-    <div class="grid grid-cols-2 gap-2">
-      <button onclick="setFan(0)" class="p-2.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 font-mono text-xs font-bold hover:bg-rose-500/25">
-        🛑 FANİ KAPAT (0)
-      </button>
-      <button onclick="setFan(3)" class="p-2.5 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 font-mono text-xs font-bold hover:bg-cyan-500/25">
-        🌪️ ÇALIŞTIR (3)
-      </button>
-    </div>
   </section>
 
   <script>
@@ -108,12 +40,14 @@
         else if (airIndex > 25) { airText = "Orta"; airColor = "text-amber-400"; }
         document.getElementById('valAir').innerHTML = `<span class="${airColor}">${airText}</span>`;
         
-        // Işık Seviyesi (0-3.3V arasını 0-100% parlaklığa çevir)
-        let lightPct = (data.light / 3.3) * 100;
+        // Işık Seviyesi (LDR Karanlıkta yüksek voltaj veriyor, 3.3V = Zifiri Karanlık)
+        let lightPct = ((3.3 - data.light) / 3.3) * 100;
+        if (lightPct < 0) lightPct = 0;
+        
         let lightText = "Karanlık";
-        if (lightPct > 80) lightText = "Çok Aydınlık";
-        else if (lightPct > 50) lightText = "Aydınlık";
-        else if (lightPct > 20) lightText = "Loş";
+        if (lightPct > 70) lightText = "Çok Aydınlık";
+        else if (lightPct > 40) lightText = "Aydınlık";
+        else if (lightPct > 15) lightText = "Loş";
         document.getElementById('valLight').innerHTML = `%${lightPct.toFixed(0)} <span class="text-sm text-slate-400">(${lightText})</span>`;
 
         // --- PRATİK YORUM MOTORU (GÜNLÜK HAYATÇI MANTIK) ---
