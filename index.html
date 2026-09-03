@@ -95,10 +95,26 @@
         document.getElementById('connectionStatus').className = "px-2.5 py-1 rounded-full text-[10px] mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
 
         document.getElementById('valTemp').innerHTML = `${data.temp.toFixed(1)}<span class="text-sm text-slate-400">°C</span>`;
-        document.getElementById('valHum').innerHTML = `${data.humidity.toFixed(1)}<span class="text-sm text-slate-400">%</span>`;
+        document.getElementById('valHum').innerHTML = `${data.humidity.toFixed(0)}<span class="text-sm text-slate-400">%</span>`;
         document.getElementById('valDew').innerText = `Çiy Noktası: ${data.dew_point ? data.dew_point.toFixed(1) : '--'}°C`;
-        document.getElementById('valAir').innerHTML = `${Math.round(data.air)}<span class="text-xs text-slate-400"> PPM</span>`;
-        document.getElementById('valLight').innerHTML = `${data.light.toFixed(1)}<span class="text-sm text-slate-400">V</span>`;
+        
+        // Hava Kalitesi (0-3.3V arasını 0-100 endeksine çevir)
+        // Varsayım: Voltaj arttıkça hava kirleniyor (MQ135 standart modül)
+        let airIndex = (data.air / 3.3) * 100;
+        let airText = "Temiz";
+        let airColor = "text-emerald-400";
+        if (airIndex > 60) { airText = "Tehlikeli"; airColor = "text-rose-500"; }
+        else if (airIndex > 40) { airText = "Kötü"; airColor = "text-rose-400"; }
+        else if (airIndex > 25) { airText = "Orta"; airColor = "text-amber-400"; }
+        document.getElementById('valAir').innerHTML = `<span class="${airColor}">${airText}</span>`;
+        
+        // Işık Seviyesi (0-3.3V arasını 0-100% parlaklığa çevir)
+        let lightPct = (data.light / 3.3) * 100;
+        let lightText = "Karanlık";
+        if (lightPct > 80) lightText = "Çok Aydınlık";
+        else if (lightPct > 50) lightText = "Aydınlık";
+        else if (lightPct > 20) lightText = "Loş";
+        document.getElementById('valLight').innerHTML = `%${lightPct.toFixed(0)} <span class="text-sm text-slate-400">(${lightText})</span>`;
 
         // --- PRATİK YORUM MOTORU (GÜNLÜK HAYATÇI MANTIK) ---
         let advices = [];
@@ -106,25 +122,25 @@
 
         // Sıcaklık Yorumu
         if (data.temp > 27) {
-          advices.push(`🔥 <b class='text-rose-400'>Oda oldukça sıcak (${data.temp.toFixed(1)}°C):</b> Çalışma verimin düşebilir. Klimalı odaya geçebilir veya camı açıp esinti alabilirsin.`);
+          advices.push(`🔥 <b class='text-rose-400'>Oda sıcak (${data.temp.toFixed(1)}°C):</b> Çalışma verimin düşebilir. Varsa klimayı aç veya camı arala.`);
         } else if (data.temp < 20) {
-          advices.push(`🧥 <b class='text-cyan-300'>Oda serinliyor (${data.temp.toFixed(1)}°C):</b> Üzerine ince bir hırka alabilirsin.`);
+          advices.push(`🧥 <b class='text-cyan-300'>Oda serin (${data.temp.toFixed(1)}°C):</b> Üşütmemek için üzerine bir şeyler alabilirsin.`);
         } else {
-          advices.push(`👍 <b class='text-emerald-400'>Sıcaklık ideal kıvamda:</b> Odaklanmak için gayet iyi bir sıcaklıkta.`);
+          advices.push(`👍 <b class='text-emerald-400'>Sıcaklık ideal:</b> Odaklanmak ve çalışmak için mükemmel ortam.`);
         }
 
         // Nem Yorumu
         if (data.humidity > 60) {
-          advices.push(`💧 <b class='text-amber-400'>Nem oranı yüksek (%${data.humidity.toFixed(0)}):</b> Odada rutubet hissi olabilir, kısa bir havalandırma iyi gelir.`);
+          advices.push(`💧 <b class='text-amber-400'>Nem biraz yüksek (%${data.humidity.toFixed(0)}):</b> Odada basık bir hava olabilir, biraz havalandırmak iyi gelir.`);
         } else if (data.humidity < 35) {
-          advices.push(`🌵 <b class='text-amber-400'>Hava epey kuru (%${data.humidity.toFixed(0)}):</b> Boğazının kurumaması için masaya bir bardak su al.`);
+          advices.push(`🌵 <b class='text-amber-400'>Hava epey kuru (%${data.humidity.toFixed(0)}):</b> Boğazının kurumaması için bol su içmeyi unutma.`);
         }
 
         // Hava Kalitesi & Fan Tavsiyesi
-        if (data.air > 1.5) {
-          advices.push(`⚠️ <b class='text-rose-400'>Hava ağırlaşmış (${data.air.toFixed(2)} V):</b> İçerideki oksijen azalmış olmalı. <b>IKEA UPPÅTVIND fanını 3. kademede açmanı</b> veya balkona çıkıp 5 dakika nefes almanı öneririm.`);
+        if (airIndex > 40) {
+          advices.push(`⚠️ <b class='text-rose-400'>Hava ağırlaşmış:</b> İçerideki oksijen azalmış. <b>IKEA UPPÅTVIND fanını açmanı</b> veya odayı havalandırmanı şiddetle öneririm.`);
         } else {
-          advices.push(`🍃 <b class='text-emerald-400'>Hava temiz:</b> Karbondioksit seviyesi gayet sağlıklı.`);
+          advices.push(`🍃 <b class='text-emerald-400'>Hava temiz:</b> İçerisi ferah, oksijen seviyesi gayet sağlıklı.`);
         }
 
         document.getElementById('practicalAdviceList').innerHTML = advices.map(a => `<div>${a}</div>`).join('');
